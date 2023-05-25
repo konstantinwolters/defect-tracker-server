@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.Location;
+import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.user.role.Role;
 import jakarta.persistence.*;
@@ -50,4 +51,8 @@ public class User {
         roles.remove(role);
         role.setUser(null);
     }
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "defect_id")
+    private Defect defect;
 }

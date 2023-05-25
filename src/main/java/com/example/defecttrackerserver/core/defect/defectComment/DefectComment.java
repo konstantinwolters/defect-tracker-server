@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,4 +26,7 @@ public class DefectComment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Defect defect;
 }
