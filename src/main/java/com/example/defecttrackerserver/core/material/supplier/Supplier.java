@@ -22,16 +22,16 @@ public class Supplier {
 
     @OneToMany(
             mappedBy = "supplier",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private List<Lot> lots = new ArrayList<>();
 
     public void addLot(Lot lot){
         lots.add(lot);
+        lot.setSupplier(this);
     }
 
     public void removeLot(Lot lot){
         lots.remove(lot);
-        lot.setMaterial(null);
+        lot.setSupplier(null);
     }
 }

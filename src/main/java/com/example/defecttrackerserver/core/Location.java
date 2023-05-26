@@ -25,8 +25,14 @@ public class Location {
             orphanRemoval = true)
     private List<User> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "location",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Defect> defects = new ArrayList<>();
+
     public void addUser(User user){
         users.add(user);
+        user.setLocation(this);
     }
 
     public void removeUser(User user){
@@ -34,8 +40,13 @@ public class Location {
         user.setLocation(null);
     }
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "defect_id")
-    private Defect defect;
+    public void addDefect(Defect defect){
+        defects.add(defect);
+        defect.setLocation(this);
+    }
 
+    public void removeDefect(Defect defect){
+        defects.remove(defect);
+        defect.setLocation(null);
+    }
 }

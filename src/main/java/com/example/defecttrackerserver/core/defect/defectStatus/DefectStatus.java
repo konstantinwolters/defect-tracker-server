@@ -19,12 +19,12 @@ public class DefectStatus {
     private String name;
 
     @OneToMany(mappedBy = "defectStatus",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private List<Defect> defects = new ArrayList<>();
 
     public void addDefect(Defect defect) {
         defects.add(defect);
+        defect.setDefectStatus(this);
     }
 
     public void removeDefect(Defect defect) {

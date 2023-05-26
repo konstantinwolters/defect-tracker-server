@@ -20,12 +20,12 @@ public class Material {
 
     @OneToMany(
             mappedBy = "material",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private List<Lot> lots = new ArrayList<>();
 
     public void addLot(Lot lot){
         lots.add(lot);
+        lot.setMaterial(this);
     }
 
     public void removeLot(Lot lot){

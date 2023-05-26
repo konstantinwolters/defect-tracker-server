@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -22,7 +25,8 @@ public class Lot {
     @ManyToOne(fetch = FetchType.LAZY)
     private Supplier supplier;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "defect_id")
-    private Defect defect;
+    @OneToMany(mappedBy = "lot",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Defect> defects = new ArrayList<>();
 }

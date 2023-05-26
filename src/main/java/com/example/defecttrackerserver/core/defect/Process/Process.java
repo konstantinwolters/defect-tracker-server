@@ -22,4 +22,13 @@ public class Process {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Defect> defects = new ArrayList<>();
+
+    public void addDefect(Defect defect) {
+        defects.add(defect);
+    }
+
+    public void removeDefect(Defect defect) {
+        defects.remove(defect);
+        defect.setDefectStatus(null);
+    }
 }
