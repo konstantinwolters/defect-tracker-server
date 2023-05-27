@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core;
+package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.user.User;

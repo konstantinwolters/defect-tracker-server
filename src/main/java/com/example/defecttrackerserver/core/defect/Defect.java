@@ -1,12 +1,12 @@
 package com.example.defecttrackerserver.core.defect;
 
-import com.example.defecttrackerserver.core.Action.Action;
-import com.example.defecttrackerserver.core.Location;
-import com.example.defecttrackerserver.core.defect.DefectType.DefectType;
-import com.example.defecttrackerserver.core.defect.Image.Image;
+import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.defectImage.defectImage;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
-import com.example.defecttrackerserver.core.defect.Process.Process;
+import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.material.lot.Lot;
 import com.example.defecttrackerserver.core.user.User;
 import jakarta.persistence.*;
@@ -48,7 +48,7 @@ public class Defect {
     @OneToMany(mappedBy = "defect",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
+    private List<defectImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "defect",
             cascade = CascadeType.ALL,
@@ -68,12 +68,12 @@ public class Defect {
          defectComment.setDefect(null);
      }
 
-     public void addImage(Image image) {
+     public void addDefectImage(defectImage image) {
          images.add(image);
          image.setDefect(this);
      }
 
-     public void deleteImage(Image image) {
+     public void deleteDefectImage(defectImage image) {
          images.remove(image);
          image.setDefect(null);
      }

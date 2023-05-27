@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DefectTrackerApiApplication {
+public class DefectTrackerServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DefectTrackerApiApplication.class, args);
+        SpringApplication.run(DefectTrackerServerApplication.class, args);
     }
 
 }

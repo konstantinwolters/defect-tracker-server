@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.Image;
+package com.example.defecttrackerserver.core.defect.defectImage;
 
 import com.example.defecttrackerserver.core.defect.Defect;
 import jakarta.persistence.*;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Image {
+public class defectImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

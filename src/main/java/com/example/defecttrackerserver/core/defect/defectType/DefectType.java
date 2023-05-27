@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.Process;
+package com.example.defecttrackerserver.core.defect.defectType;
 
 import com.example.defecttrackerserver.core.defect.Defect;
 import jakarta.persistence.*;
@@ -11,14 +11,14 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Process {
+public class DefectType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "process",
+    @OneToMany(mappedBy = "defectType",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Defect> defects = new ArrayList<>();
