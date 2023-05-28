@@ -20,7 +20,7 @@ public class Location {
     private String name;
 
     @OneToMany(
-            mappedBy = "user",
+            mappedBy = "location",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<User> users = new ArrayList<>();
