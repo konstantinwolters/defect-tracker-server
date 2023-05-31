@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ## misc ##
-com/example/defecttrackerserver/core/user/UserServiceImplTest.java
+/com/example/defecttrackerserver/core/user/UserServiceImplTest.java
