@@ -2,9 +2,7 @@ package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -19,5 +17,5 @@ public class UserDto  {
     private String mail;
     private String password;
     private Location location;
-    //private Set<Role> roles = user.getRoles();
+    private Set<Role> roles;
 }
