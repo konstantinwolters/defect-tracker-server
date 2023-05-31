@@ -66,6 +66,15 @@ public class UserServiceImplTest {
     }
 
     @Test
+    void getUser(){
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+
+        UserDto result = userService.getUser(1);
+
+        assertNotNull(result);
+    }
+    @Test
     void getUsers(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
