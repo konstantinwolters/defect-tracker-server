@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest2 {
+public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -65,6 +65,15 @@ public class UserServiceImplTest2 {
         verify(userRepository, times(1)).save(user);
     }
 
+    @Test
+    void getUser(){
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+
+        UserDto result = userService.getUser(1);
+
+        assertNotNull(result);
+    }
     @Test
     void getUsers(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
