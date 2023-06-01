@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.user.role;
 
 import com.example.defecttrackerserver.core.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,6 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<User> user = new HashSet<>();
 }

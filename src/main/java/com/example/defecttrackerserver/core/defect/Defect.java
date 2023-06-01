@@ -9,6 +9,7 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.material.lot.Lot;
 import com.example.defecttrackerserver.core.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,6 +57,7 @@ public class Defect {
     private List<Action> actions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private User createdBy;
 
     public void addDefectComment(DefectComment defectComment) {
