@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,13 +22,12 @@ public class Location {
 
     @OneToMany(
             mappedBy = "location",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "location",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private List<Defect> defects = new ArrayList<>();
 
     public void addUser(User user){

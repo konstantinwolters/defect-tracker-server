@@ -108,7 +108,9 @@ public class UserServiceImplTest {
     @Test
     void deleteUser(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+
         userService.deleteUser(1);
+
         verify(userRepository, times(1)).findById(anyInt());
         verify(userRepository, times(1)).delete(any(User.class));
     }
