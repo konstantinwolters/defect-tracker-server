@@ -27,7 +27,6 @@ public class UserCreationStartup implements ApplicationRunner {
         Location location = new Location();
         location.setName("Texas");
 
-
         User user = new User();
         user.setUsername("bill");
         user.setPassword(passwordEncoder.encode("12345"));
@@ -36,6 +35,5 @@ public class UserCreationStartup implements ApplicationRunner {
 
         location.addUser(user);
         locationRepository.save(location);
-
     }
 }
