@@ -2,10 +2,13 @@ package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.user.role.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +18,7 @@ public class UserController {
 
     @PostMapping("/users")
     public UserDto saveUser(@RequestBody UserDto user) {
-        return userService.saveUser(user);
+            return userService.saveUser(user);
     }
 
     @GetMapping("/users")

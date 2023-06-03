@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserCreationStartup implements ApplicationRunner {
 
-    private final UserRepository userRepository;
     private final LocationRepository locationRepository;
     private final PasswordEncoder passwordEncoder;
 
