@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.user;
 import com.example.defecttrackerserver.core.user.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,13 +20,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
+        //TODO: Assign a basic role to every new user
         User savedUser = userRepository.save(user);
 
         return modelMapper.map(savedUser, UserDto.class);
     }
 
     @Override
-    public UserDto getUser(Integer id) {
+    public UserDto getUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
 
@@ -40,9 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Integer id, UserDto userDto) {
-        User userToUpdate = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+    public UserDto updateUser(UserDto userDto) {
+        User userToUpdate = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userDto.getId()));
         userToUpdate.setUsername(userDto.getUsername());
         userToUpdate.setPassword(userDto.getPassword());
         userToUpdate.setMail(userDto.getMail());
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findByUsername(String username) {
+    public UserDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
 
