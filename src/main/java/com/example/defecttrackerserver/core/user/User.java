@@ -6,7 +6,9 @@ import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "users")
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User {
 
     @Id
@@ -36,27 +39,22 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonManagedReference
     private Location location;
 
     @OneToMany(
             mappedBy = "createdBy",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JsonManagedReference
     private List<DefectComment> defectComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "createdBy",
             cascade = CascadeType.PERSIST)
-    @JsonManagedReference
     private List<Defect> defects = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JsonManagedReference
     @JoinTable(
             name = "user_actions",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -67,7 +65,6 @@ public class User {
     @OneToMany(
             mappedBy = "createdBy",
             cascade = CascadeType.PERSIST)
-    @JsonManagedReference
     private List<Action> createdActions = new ArrayList<>();
 
     public void addRole(Role role){

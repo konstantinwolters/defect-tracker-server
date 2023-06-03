@@ -57,7 +57,6 @@ public class Defect {
     private List<Action> actions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     private User createdBy;
 
     public void addDefectComment(DefectComment defectComment) {

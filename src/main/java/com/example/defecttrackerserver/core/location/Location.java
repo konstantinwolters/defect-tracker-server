@@ -23,7 +23,6 @@ public class Location {
     @OneToMany(
             mappedBy = "location",
             cascade = CascadeType.PERSIST)
-    @JsonBackReference
     private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "location",

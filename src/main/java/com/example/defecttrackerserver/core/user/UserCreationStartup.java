@@ -22,7 +22,7 @@ public class UserCreationStartup implements ApplicationRunner {
     public void run(ApplicationArguments args) {
 
         Role role = new Role();
-        role.setName("ROLE_READ");
+        role.setName("ROLE_ADMIN");
 
         Location location = new Location();
         location.setName("Texas");

@@ -26,7 +26,6 @@ public class DefectComment {
     private LocalDateTime createdOn;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     private User createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
