@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.user.role.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +27,12 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public UserDto getUser(@PathVariable Integer id) {
-        return userService.getUser(id);
+        return userService.getUserById(id);
     }
 
-    @PutMapping("/users/{id}")
-    public UserDto updateUser(@PathVariable Integer id, @RequestBody UserDto user) {
-        return userService.updateUser(id, user);
+    @PutMapping("/users")
+    public UserDto updateUser(@RequestBody UserDto user) {
+        return userService.updateUser(user);
     }
 
     @DeleteMapping("/users/{id}")
@@ -43,7 +42,7 @@ public class UserController {
 
     @GetMapping("/users/search")
     public UserDto findByUsername(@RequestParam String username) {
-        return userService.findByUsername(username);
+        return userService.getUserByUsername(username);
     }
 
     @GetMapping("/users/{id}/roles")

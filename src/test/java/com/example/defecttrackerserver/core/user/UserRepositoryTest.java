@@ -27,7 +27,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void whenSavedUserWithDuplicateUsername_thenThrowException() {
+    public void shouldThrowExceptionWhenSavedUserWithDuplicateUsername() {
         user1.setUsername("testUser");
         user1.setMail("testUser@test.de");
         user1.setPassword("XXXXXXXXXXXX");
@@ -35,7 +35,7 @@ public class UserRepositoryTest {
 
         user2.setUsername("testUser");
         user2.setPassword("XXXXXXXXXXXX");
-        user2.setMail("testUser@test.de");
+        user2.setMail("testUser2@test.de");
 
         assertThrows(DataIntegrityViolationException.class, () -> {
             userRepository.saveAndFlush(user2);
@@ -43,20 +43,22 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void whenSavedUserWithNoUsername_thenThrowException() {
+    public void shouldThrowExceptionWhenSavedUserWithNoUsername() {
         assertThrows(DataIntegrityViolationException.class, () -> {
+            user1.setPassword("XXX");
+            user1.setMail("testUser@test.de");
             userRepository.saveAndFlush(user1);
         });
     }
 
     @Test
-    public void whenSavedUserWithDuplicateMail_thenThrowException() {
-        user1.setUsername("testUser");
+    public void shouldThrowExceptionWhenSavedUserWithDuplicateMail() {
+        user1.setUsername("testUser1");
         user1.setPassword("XXXXXXXXXXXX");
         user1.setMail("testUser@test.de");
         userRepository.saveAndFlush(user1);
 
-        user2.setUsername("testUser");
+        user2.setUsername("testUser2");
         user2.setPassword("XXXXXXXXXXXX");
         user2.setMail("testUser@test.de");
 
@@ -66,7 +68,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void whenSavedUserWithNoMail_thenThrowException() {
+    public void shouldThrowExceptionWhenSavedUserWithNoMail() {
         assertThrows(DataIntegrityViolationException.class, () -> {
             userRepository.saveAndFlush(user1);
         });

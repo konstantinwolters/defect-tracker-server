@@ -8,10 +8,10 @@ import java.util.Set;
 public interface UserService {
 
     UserDto saveUser(UserDto user);
-    UserDto getUser(Integer id);
+    UserDto getUserById(Integer id);
     List<UserDto> getUsers();
-    UserDto updateUser(Integer id, UserDto user);
+    UserDto updateUser(UserDto user);
     void deleteUser(Integer id);
-    UserDto findByUsername(String username);
+    UserDto getUserByUsername(String username);
     Set<Role> getRoles(Integer id);
 }

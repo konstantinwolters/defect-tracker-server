@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUser(Integer id) {
+    public UserDto getUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
 
@@ -42,9 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Integer id, UserDto userDto) {
-        User userToUpdate = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+    public UserDto updateUser(UserDto userDto) {
+        User userToUpdate = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userDto.getId()));
         userToUpdate.setUsername(userDto.getUsername());
         userToUpdate.setPassword(userDto.getPassword());
         userToUpdate.setMail(userDto.getMail());
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findByUsername(String username) {
+    public UserDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
 

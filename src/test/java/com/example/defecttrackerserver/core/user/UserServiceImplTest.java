@@ -50,7 +50,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void saveUser() {
+    void shouldSaveUser() {
         when(userRepository.save(user)).thenReturn(user);
         when(modelMapper.map(userDto, User.class)).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
@@ -66,16 +66,21 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getUser(){
+    void shouldReturnUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        UserDto result = userService.getUser(1);
+        UserDto result = userService.getUserById(1);
 
         assertNotNull(result);
+        assertEquals(user.getId(), result.getId());
+        assertEquals(user.getUsername(), result.getUsername());
+        assertEquals(user.getPassword(), result.getPassword());
+        assertEquals(user.getMail(), result.getMail());
+        verify(userRepository, times(1)).findById(anyInt());
     }
     @Test
-    void getUsers(){
+    void shouldReturnAllUsers(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
@@ -90,12 +95,12 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void updateUser(){
+    void shouldUpdateUser(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        UserDto result = userService.updateUser(1, userDto);
+        UserDto result = userService.updateUser( userDto);
 
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
@@ -106,7 +111,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void deleteUser(){
+    void shouldDeleteUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
 
         userService.deleteUser(1);
@@ -116,11 +121,11 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void findByUsername(){
+    void ShouldReturnUserByUsername(){
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        UserDto result = userService.findByUsername("test");
+        UserDto result = userService.getUserByUsername("test");
 
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
@@ -131,7 +136,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getRoles(){
+    void shouldReturnRolesFromUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
 
         Set<Role> result = userService.getRoles(1);
@@ -141,14 +146,14 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getUserWhenNoSuchElement(){
+    void ShouldThrowExceptionWhenUserIdNotFound(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> userService.getUser(1));
+        assertThrows(NoSuchElementException.class, () -> userService.getUserById(1));
     }
 
     @Test
-    void findByUsernameWhenNoSuchElement() {
+    void ShouldThrowExceptionWhenUsernameNotFound() {
         when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> userService.findByUsername("testuser"));
+        assertThrows(NoSuchElementException.class, () -> userService.getUserByUsername("testuser"));
     }
 }
