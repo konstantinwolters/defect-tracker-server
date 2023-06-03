@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
+        //TODO: Assign a basic role to every new user
         User savedUser = userRepository.save(user);
 
         return modelMapper.map(savedUser, UserDto.class);
