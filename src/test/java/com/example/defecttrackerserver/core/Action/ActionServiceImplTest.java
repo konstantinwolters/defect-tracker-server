@@ -56,4 +56,17 @@ public class ActionServiceImplTest {
         assertEquals(action.getDescription(), result.getDescription());
         verify(actionRepository, times(1)).save(action);
     }
+
+    @Test
+    void shouldReturnActionById() {
+        when(actionRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(action));
+        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+
+        ActionDto result = actionService.getActionById(1);
+
+        assertNotNull(result);
+        assertEquals(action.getId(), result.getId());
+        assertEquals(action.getDescription(), result.getDescription());
+    }
+
 }

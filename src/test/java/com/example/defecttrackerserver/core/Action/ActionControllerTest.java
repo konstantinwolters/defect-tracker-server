@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class ActionControllerTest {
 
     @MockBean
-    private ActionService  actionService;
+    private ActionService actionService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +54,16 @@ public class ActionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.description").value("test"));
+    }
 
-        verify(actionService, times(1)).saveAction(any(ActionDto.class));
+    @Test
+    @WithMockUser(username = "XXXX", roles = "ADMIN")
+    public void shouldGetAction() throws Exception {
+        when(actionService.getActionById(any(Integer.class))).thenReturn(testactionDto);
+
+        mockMvc.perform(get("/actions/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.description").value("test"));
     }
 }

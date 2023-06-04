@@ -22,12 +22,14 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
-    public Action getAction(Integer id) {
-        return null;
+    public ActionDto getActionById(Integer id) {
+        Action action = actionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Action not found"));
+        return modelMapper.map(action, ActionDto.class);
     }
 
     @Override
-    public List<Action> getAllActions() {
+    public List<ActionDto> getAllActions() {
         return null;
     }
 

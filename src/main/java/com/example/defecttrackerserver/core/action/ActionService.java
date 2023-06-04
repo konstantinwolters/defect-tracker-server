@@ -5,8 +5,8 @@ import java.util.List;
 public interface ActionService {
 
     ActionDto saveAction(ActionDto action);
-    Action getAction(Integer id);
-    List<Action> getAllActions();
+    ActionDto getActionById(Integer id);
+    List<ActionDto> getAllActions();
     List<ActionDto> getActionsByDefectId(Integer defectId);
     List<ActionDto> getActionsByUserCreatedId(Integer userId);
     List<ActionDto> getActionsByUserAssignedId(Integer userId);
