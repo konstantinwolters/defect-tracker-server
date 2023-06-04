@@ -1,10 +1,7 @@
-package com.example.defecttrackerserver.core.material.supplier;
+package com.example.defecttrackerserver.core.lot.material;
 
-import com.example.defecttrackerserver.core.material.lot.Lot;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.example.defecttrackerserver.core.lot.Lot;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,24 +11,26 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Supplier {
+public class Material {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
     @OneToMany(
-            mappedBy = "supplier",
+            mappedBy = "material",
             cascade = CascadeType.PERSIST)
     private List<Lot> lots = new ArrayList<>();
 
     public void addLot(Lot lot){
         lots.add(lot);
-        lot.setSupplier(this);
+        lot.setMaterial(this);
     }
 
     public void removeLot(Lot lot){
         lots.remove(lot);
-        lot.setSupplier(null);
+        lot.setMaterial(null);
     }
+
 }

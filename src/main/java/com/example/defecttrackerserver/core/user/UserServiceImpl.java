@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
         User user = modelMapper.map(userDto, User.class);
         //TODO: Assign a basic role to every new user
         User savedUser = userRepository.save(user);
-
         return modelMapper.map(savedUser, UserDto.class);
     }
 
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
         userToUpdate.setUsername(userDto.getUsername());
         userToUpdate.setPassword(userDto.getPassword());
         userToUpdate.setMail(userDto.getMail());
-        //userToUpdate.setRoles(userDto.getRoles());
+        userToUpdate.setRoles(userDto.getRoles());
         userToUpdate.setLocation(userDto.getLocation());
         userToUpdate.setFirstName(userDto.getFirstName());
         userToUpdate.setLastName(userDto.getLastName());

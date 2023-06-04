@@ -40,7 +40,7 @@ public class RoleControllerTest {
     public void shouldReturnRoleById() throws Exception {
         when(roleService.getRoleById(1)).thenReturn(role);
 
-        mockMvc.perform(get("/role/1"))
+        mockMvc.perform(get("/roles/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("ADMIN"));
@@ -57,6 +57,4 @@ public class RoleControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].name").value("ADMIN"));
     }
-
-
 }
