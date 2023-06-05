@@ -1,0 +1,21 @@
+package com.example.defecttrackerserver.core.action;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/actions")
+public class ActionController {
+    private final ActionService actionService;
+
+    @PostMapping()
+    public ActionDto saveAction(@RequestBody ActionDto actionDto) {
+        return actionService.saveAction(actionDto);
+    }
+
+    @GetMapping("/{id}")
+    public ActionDto getAction(@PathVariable Integer id) {
+        return actionService.getActionById(id);
+    }
+}

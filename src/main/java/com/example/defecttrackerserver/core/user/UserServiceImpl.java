@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.user.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,12 +19,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
+
+
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
         //TODO: Assign a basic role to every new user
         User savedUser = userRepository.save(user);
-
         return modelMapper.map(savedUser, UserDto.class);
     }
 

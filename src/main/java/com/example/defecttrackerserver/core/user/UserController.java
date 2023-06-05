@@ -11,43 +11,43 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/users")
+    @PostMapping()
     public UserDto saveUser(@RequestBody UserDto user) {
             return userService.saveUser(user);
     }
 
-    @GetMapping("/users")
+    @GetMapping()
     public List<UserDto> getUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public UserDto getUser(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/users")
+    @PutMapping()
     public UserDto updateUser(@RequestBody UserDto user) {
         return userService.updateUser(user);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/users/search")
+    @GetMapping("/search")
     public UserDto findByUsername(@RequestParam String username) {
         return userService.getUserByUsername(username);
     }
 
-    @GetMapping("/users/{id}/roles")
+    @GetMapping("/{id}/roles")
     public Set<Role> getRoles(@PathVariable Integer id) {
         return userService.getRoles(id);
     }
-
 }

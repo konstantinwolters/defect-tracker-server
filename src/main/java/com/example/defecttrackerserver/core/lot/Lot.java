@@ -1,8 +1,8 @@
-package com.example.defecttrackerserver.core.material.lot;
+package com.example.defecttrackerserver.core.lot;
 
 import com.example.defecttrackerserver.core.defect.Defect;
-import com.example.defecttrackerserver.core.material.Material;
-import com.example.defecttrackerserver.core.material.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
