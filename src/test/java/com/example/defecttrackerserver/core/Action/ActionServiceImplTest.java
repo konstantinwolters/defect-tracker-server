@@ -12,6 +12,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -59,7 +63,7 @@ public class ActionServiceImplTest {
 
     @Test
     void shouldReturnActionById() {
-        when(actionRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(action));
+        when(actionRepository.findById(1)).thenReturn(Optional.ofNullable(action));
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
 
         ActionDto result = actionService.getActionById(1);
@@ -69,4 +73,15 @@ public class ActionServiceImplTest {
         assertEquals(action.getDescription(), result.getDescription());
     }
 
+    @Test
+    void shouldReturnAllActions() {
+        when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
+        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+
+        List<ActionDto> result = actionService.getAllActions();
+
+        assertNotNull(result);
+        assertEquals(action.getId(), result.get(0).getId());
+        assertEquals(action.getDescription(), result.get(0).getDescription());
+    }
 }

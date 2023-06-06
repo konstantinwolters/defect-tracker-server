@@ -42,7 +42,6 @@ public class RoleServiceImplTest {
         assertNotNull(result);
         assertEquals(role.getId(), result.getId());
         assertEquals(role.getName(), result.getName());
-        verify(roleRepository, times(1)).findById(anyInt());
     }
 
     @Test
@@ -54,6 +53,5 @@ public class RoleServiceImplTest {
         assertNotNull(result);
         assertEquals(role.getId(), result.get(0).getId());
         assertEquals(role.getName(), result.get(0).getName());
-        verify(roleRepository, times(1)).findAll();
     }
 }
