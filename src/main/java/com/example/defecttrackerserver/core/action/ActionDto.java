@@ -21,7 +21,7 @@ public class ActionDto {
     private String description;
     private Boolean isCompleted;
     private LocalDate dueDate;
-    private Set<UserDto> assigned = new HashSet<>();
+    private Set<Integer> assigned = new HashSet<>();
     private Defect defect;
     private LocalDateTime createdOn;
     private UserDto createdBy;

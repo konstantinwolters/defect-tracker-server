@@ -30,7 +30,8 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public List<ActionDto> getAllActions() {
-        return null;
+        List<Action> actions = actionRepository.findAll();
+        return actions.stream().map(action -> modelMapper.map(action, ActionDto.class)).toList();
     }
 
     @Override

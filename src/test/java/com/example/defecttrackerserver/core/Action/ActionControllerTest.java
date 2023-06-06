@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -65,5 +67,16 @@ public class ActionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.description").value("test"));
+    }
+
+    @Test
+    @WithMockUser(username = "XXXX", roles = "ADMIN")
+    public void shouldGetAllActions() throws Exception {
+        when(actionService.getAllActions()).thenReturn(Arrays.asList(testactionDto));
+
+        mockMvc.perform(get("/actions"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].description").value("test"));
     }
 }

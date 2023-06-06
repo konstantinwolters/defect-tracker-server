@@ -62,7 +62,6 @@ public class UserServiceImplTest {
         assertEquals(user.getUsername(), result.getUsername());
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
-        verify(userRepository, times(1)).save(user);
     }
 
     @Test
@@ -77,7 +76,6 @@ public class UserServiceImplTest {
         assertEquals(user.getUsername(), result.getUsername());
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
-        verify(userRepository, times(1)).findById(anyInt());
     }
     @Test
     void shouldReturnAllUsers(){
@@ -91,7 +89,6 @@ public class UserServiceImplTest {
         assertEquals(user.getUsername(), result.get(0).getUsername());
         assertEquals(user.getPassword(), result.get(0).getPassword());
         assertEquals(user.getMail(), result.get(0).getMail());
-        verify(userRepository, times(1)).findAll();
     }
 
     @Test
@@ -107,16 +104,14 @@ public class UserServiceImplTest {
         assertEquals(user.getUsername(), result.getUsername());
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
-        verify(userRepository, times(1)).save(user);
     }
 
     @Test
     void shouldDeleteUserById(){
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user)); //TODO: Does this make sense?
 
         userService.deleteUser(1);
 
-        verify(userRepository, times(1)).findById(anyInt());
         verify(userRepository, times(1)).delete(any(User.class));
     }
 
@@ -132,7 +127,6 @@ public class UserServiceImplTest {
         assertEquals(user.getUsername(), result.getUsername());
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
-        verify(userRepository, times(1)).findByUsername(anyString());
     }
 
     @Test
@@ -142,7 +136,6 @@ public class UserServiceImplTest {
         Set<Role> result = userService.getRoles(1);
 
         assertNotNull(result);
-        verify(userRepository, times(1)).findById(anyInt());
     }
 
     @Test

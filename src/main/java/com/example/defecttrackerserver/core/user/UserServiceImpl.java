@@ -1,16 +1,15 @@
 package com.example.defecttrackerserver.core.user;
 
-import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +17,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-
-
 
     @Override
     public UserDto saveUser(UserDto userDto) {

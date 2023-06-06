@@ -71,7 +71,7 @@ public class User {
     @OneToMany(
             mappedBy = "createdBy",
             cascade = CascadeType.PERSIST)
-    private List<Action> createdActions = new ArrayList<>();
+    private Set<Action> createdActions = new HashSet<>();
 
     public void addRole(Role role){
         roles.add(role);
