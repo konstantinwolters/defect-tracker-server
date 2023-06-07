@@ -59,7 +59,7 @@ public class ActionControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "XXXX", roles = "ADMIN")
+    @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldGetAction() throws Exception {
         when(actionService.getActionById(any(Integer.class))).thenReturn(testactionDto);
 
@@ -70,11 +70,22 @@ public class ActionControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "XXXX", roles = "ADMIN")
+    @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldGetAllActions() throws Exception {
         when(actionService.getAllActions()).thenReturn(Arrays.asList(testactionDto));
 
         mockMvc.perform(get("/actions"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].description").value("test"));
+    }
+
+    @Test
+    @WithMockUser(username = "bill", roles = "ADMIN")
+    public void shouldReturnAllActionsById() throws Exception {
+        when(actionService.getAllActionsByDefectId(1)).thenReturn(Arrays.asList(testactionDto));
+
+        mockMvc.perform(get("/actions/by-defect/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].description").value("test"));

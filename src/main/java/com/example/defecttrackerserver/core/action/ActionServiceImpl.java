@@ -35,32 +35,33 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
-    public List<ActionDto> getActionsByDefectId(Integer defectId) {
+    public List<ActionDto> getAllActionsByDefectId(Integer defectId) {
+        List<Action> actions = actionRepository.findByDefect_Id(defectId);
+        return actions.stream().map(action -> modelMapper.map(action, ActionDto.class)).toList();
+    }
+
+    @Override
+    public List<ActionDto> getAllActionsByUserCreatedId(Integer userId) {
         return null;
     }
 
     @Override
-    public List<ActionDto> getActionsByUserCreatedId(Integer userId) {
+    public List<ActionDto> getAllActionsByUserAssignedId(Integer userId) {
         return null;
     }
 
     @Override
-    public List<ActionDto> getActionsByUserAssignedId(Integer userId) {
+    public List<ActionDto> getAllActionsByIsCompleted(Boolean isCompleted) {
         return null;
     }
 
     @Override
-    public List<ActionDto> getActionsByIsCompleted(Boolean isCompleted) {
+    public List<ActionDto> getAllActionsByDate(String date) {
         return null;
     }
 
     @Override
-    public List<ActionDto> getActionsByDate(String date) {
-        return null;
-    }
-
-    @Override
-    public List<ActionDto> getActionsByTimeFrame(String date) {
+    public List<ActionDto> getAllActionsByTimeFrame(String date) {
         return null;
     }
 

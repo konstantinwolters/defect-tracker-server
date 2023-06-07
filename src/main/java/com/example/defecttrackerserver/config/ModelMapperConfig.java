@@ -37,11 +37,11 @@ public class ModelMapperConfig {
                     mapper.using(ctx -> ((Set<Role>) ctx.getSource()).stream()
                                     .map(Role::getId)
                                     .collect(Collectors.toSet()))
-                            .map(User::getRoles, UserDto::setRoles);
+                                    .map(User::getRoles, UserDto::setRoles);
                     mapper.using(ctx -> ((Set<Action>) ctx.getSource()).stream()
                                     .map(Action::getId)
                                     .collect(Collectors.toSet()))
-                            .map(User::getCreatedActions, UserDto::setCreatedActions);
+                                    .map(User::getCreatedActions, UserDto::setCreatedActions);
                 });
     }
 
@@ -49,9 +49,13 @@ public class ModelMapperConfig {
         Converter<Set<Integer>, Set<Action>> actionsConverter = getActionsConverter();
         Converter<Set<Integer>, Set<Role>> rolesConverter = getRolesConverter();
 
-        modelMapper.typeMap(UserDto.class, User.class)
-                .addMappings(m -> m.using(rolesConverter).map(UserDto::getRoles, User::setRoles))
-                .addMappings(m -> m.using(actionsConverter).map(UserDto::getCreatedActions, User::setCreatedActions));
+        modelMapper.createTypeMap(UserDto.class, User.class)
+                .addMappings(
+                        mapper -> mapper.using(rolesConverter)
+                                .map(UserDto::getRoles, User::setRoles))
+                .addMappings(
+                        mapper -> mapper.using(actionsConverter)
+                                .map(UserDto::getCreatedActions, User::setCreatedActions));
     }
 
     private Converter<Set<Integer>, Set<Action>> getActionsConverter() {

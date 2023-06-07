@@ -7,12 +7,12 @@ public interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);
     List<ActionDto> getAllActions();
-    List<ActionDto> getActionsByDefectId(Integer defectId);
-    List<ActionDto> getActionsByUserCreatedId(Integer userId);
-    List<ActionDto> getActionsByUserAssignedId(Integer userId);
-    List<ActionDto> getActionsByIsCompleted(Boolean isCompleted);
-    List<ActionDto> getActionsByDate(String date);
-    List<ActionDto> getActionsByTimeFrame(String date);
+    List<ActionDto> getAllActionsByDefectId(Integer defectId);
+    List<ActionDto> getAllActionsByUserCreatedId(Integer userId);
+    List<ActionDto> getAllActionsByUserAssignedId(Integer userId);
+    List<ActionDto> getAllActionsByIsCompleted(Boolean isCompleted);
+    List<ActionDto> getAllActionsByDate(String date);
+    List<ActionDto> getAllActionsByTimeFrame(String date);
     ActionDto updateAction(ActionDto action);
     void deleteAction(Integer id);
 }

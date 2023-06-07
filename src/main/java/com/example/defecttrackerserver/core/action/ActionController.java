@@ -25,4 +25,9 @@ public class ActionController {
     public List<ActionDto> getAllActions() {
         return actionService.getAllActions();
     }
+
+    @GetMapping("/by-defect/{id}")
+    public List<ActionDto> getAllActionsByDefectId(@PathVariable Integer id) {
+        return actionService.getAllActionsByDefectId(id);
+    }
 }
