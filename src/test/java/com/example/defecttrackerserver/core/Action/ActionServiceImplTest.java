@@ -84,4 +84,16 @@ public class ActionServiceImplTest {
         assertEquals(action.getId(), result.get(0).getId());
         assertEquals(action.getDescription(), result.get(0).getDescription());
     }
+
+    @Test
+    void shouldReturnAllActionsByDefectId() {
+        when(actionRepository.findByDefect_Id(1)).thenReturn(Arrays.asList(action));
+        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+
+        List<ActionDto> result = actionService.getAllActionsByDefectId(1);
+
+        assertNotNull(result);
+        assertEquals(action.getId(), result.get(0).getId());
+        assertEquals(action.getDescription(), result.get(0).getDescription());
+    }
 }
