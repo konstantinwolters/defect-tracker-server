@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.Action;
+package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
 import com.example.defecttrackerserver.core.action.ActionController;

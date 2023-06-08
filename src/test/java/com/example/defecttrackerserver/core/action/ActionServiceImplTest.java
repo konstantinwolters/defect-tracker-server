@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.Action;
+package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;

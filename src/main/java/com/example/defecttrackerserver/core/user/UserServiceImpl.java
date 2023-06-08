@@ -20,9 +20,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final LocationRepository locationRepository;
-    private final ActionRepository actionRepository;
     private final ModelMapper modelMapper;
 
     @Override
