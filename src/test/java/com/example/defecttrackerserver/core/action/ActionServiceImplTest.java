@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.Action;
+package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
@@ -86,11 +86,11 @@ public class ActionServiceImplTest {
     }
 
     @Test
-    void shouldReturnAllActionsByDefectId() {
-        when(actionRepository.findByDefect_Id(1)).thenReturn(Arrays.asList(action));
+    void shouldReturnAllActionsByCreatedById() {
+        when(actionRepository.findByCreatedBy_Id(1)).thenReturn(Arrays.asList(action));
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
 
-        List<ActionDto> result = actionService.getAllActionsByDefectId(1);
+        List<ActionDto> result = actionService.getAllActionsByUserCreatedId(1);
 
         assertNotNull(result);
         assertEquals(action.getId(), result.get(0).getId());

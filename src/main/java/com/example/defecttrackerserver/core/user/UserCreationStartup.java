@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
@@ -20,6 +21,8 @@ public class UserCreationStartup implements ApplicationRunner {
 
     private final LocationRepository locationRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final ActionRepository actionRepository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -29,13 +32,7 @@ public class UserCreationStartup implements ApplicationRunner {
 
         Location location = new Location();
         location.setName("Texas");
-
-        Action action = new Action();
-        action.setDescription("Test Action");
-        action.setIsCompleted(false);
-        action.setDueDate(LocalDate.now());
-        action.setCreatedOn(LocalDateTime.now());
-
+        locationRepository.save(location);
 
         User user = new User();
         user.setUsername("bill");
@@ -43,9 +40,19 @@ public class UserCreationStartup implements ApplicationRunner {
         user.setMail("test@test.de");
         user.setLocation(location);
         user.addRole(role);
-        user.addCreatedAction(action);
+        user.setLocation(location);
 
-        location.addUser(user);
-        locationRepository.save(location);
+        Action action = new Action();
+        action.setDescription("Test Action");
+        action.setIsCompleted(false);
+        action.setDueDate(LocalDate.now());
+        action.setCreatedOn(LocalDateTime.now());
+        action.setCreatedBy(user);
+
+        user.addAssignedAction(action);
+        userRepository.save(user);
+
+
+
     }
 }

@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.Defect;
-import com.example.defecttrackerserver.core.user.User;
 import com.example.defecttrackerserver.core.user.UserDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -21,7 +20,7 @@ public class ActionDto {
     private String description;
     private Boolean isCompleted;
     private LocalDate dueDate;
-    private Set<Integer> assigned = new HashSet<>();
+    private Set<UserDto> assignedUsers = new HashSet<>();
     private Defect defect;
     private LocalDateTime createdOn;
     private UserDto createdBy;

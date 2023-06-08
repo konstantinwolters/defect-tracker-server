@@ -1,6 +1,8 @@
 package com.example.defecttrackerserver.core.user;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
@@ -20,6 +22,6 @@ public class UserDto  {
     private String mail;
     private String password;
     private Location location;
-    private Set<Integer> roles = new HashSet<>();
-    private Set<Integer> createdActions = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
+    private Set<Action> assignedActions = new HashSet<>();
 }
