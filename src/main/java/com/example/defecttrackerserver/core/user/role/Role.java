@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Role {
 
     @Id
@@ -24,7 +23,4 @@ public class Role {
 
     @Column(nullable = false)
     private String name;
-
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> user = new HashSet<>();
 }

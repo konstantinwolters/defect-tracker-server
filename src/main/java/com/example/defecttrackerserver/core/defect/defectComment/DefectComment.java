@@ -21,13 +21,10 @@ public class DefectComment {
     private String content;
     private boolean defectCreator;
 
-    @Column(nullable = false, updatable = false)
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdOn;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User createdBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Defect defect;
 }

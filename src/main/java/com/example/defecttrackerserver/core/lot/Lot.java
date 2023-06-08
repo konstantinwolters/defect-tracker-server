@@ -19,10 +19,10 @@ public class Lot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Material material;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Supplier supplier;
 
     @OneToMany(mappedBy = "lot",

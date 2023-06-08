@@ -14,7 +14,4 @@ public class defectImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String path;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Defect defect;
 }

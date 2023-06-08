@@ -25,57 +25,59 @@ public class Defect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "defect_status_id", nullable = false)
     private DefectStatus defectStatus;
 
-    @OneToMany(mappedBy = "defect",
-            cascade = CascadeType.ALL,
+    @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JoinColumn(name = "defect_id")
     private List<DefectComment> defectComments = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "lot_id", nullable = false)
     private Lot lot;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "process_id", nullable = false)
     private Process process;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "defect_type_id", nullable = false)
     private DefectType defectType;
 
-    @OneToMany(mappedBy = "defect",
-            cascade = CascadeType.ALL,
+    @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JoinColumn(name = "defect_id")
     private List<defectImage> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "defect",
-            cascade = CascadeType.ALL,
+    @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JoinColumn(name = "defect_id")
     private List<Action> actions = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
     public void addDefectComment(DefectComment defectComment) {
         defectComments.add(defectComment);
-        defectComment.setDefect(this);
     }
 
      public void deleteDefectComment(DefectComment defectComment) {
          defectComments.remove(defectComment);
-         defectComment.setDefect(null);
      }
 
      public void addDefectImage(defectImage image) {
          images.add(image);
-         image.setDefect(this);
      }
 
      public void deleteDefectImage(defectImage image) {
          images.remove(image);
-         image.setDefect(null);
      }
 
      public void addAction(Action action) {

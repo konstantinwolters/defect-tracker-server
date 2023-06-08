@@ -44,7 +44,7 @@ public class Action {
     @CreatedDate
     private LocalDateTime createdOn;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false)
     private User createdBy;
 }
