@@ -1,10 +1,14 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.user.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,43 +39,34 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
-    public List<ActionDto> getAllActionsByDefectId(Integer defectId) {
-        List<Action> actions = actionRepository.findByDefect_Id(defectId);
-        return actions.stream().map(action -> modelMapper.map(action, ActionDto.class)).toList();
-    }
-
-    @Override
     public List<ActionDto> getAllActionsByUserCreatedId(Integer userId) {
-        return null;
-    }
-
-    @Override
-    public List<ActionDto> getAllActionsByUserAssignedId(Integer userId) {
-        return null;
-    }
-
-    @Override
-    public List<ActionDto> getAllActionsByIsCompleted(Boolean isCompleted) {
-        return null;
-    }
-
-    @Override
-    public List<ActionDto> getAllActionsByDate(String date) {
-        return null;
-    }
-
-    @Override
-    public List<ActionDto> getAllActionsByTimeFrame(String date) {
-        return null;
+        List<Action> actions = actionRepository.findByCreatedBy_Id(userId);
+        return actions.stream()
+                .map(action -> modelMapper.map(action, ActionDto.class)).toList();
     }
 
     @Override
     public ActionDto updateAction(ActionDto actionDto) {
-        return null;
+        Action actionToUpdate = actionRepository.findById(actionDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));
+
+        actionToUpdate.setDescription(actionDto.getDescription());
+
+        Set<User> assignedUsers = actionDto.getAssignedUsers().stream()
+                .map(userDto -> modelMapper.map(userDto, User.class)).collect(Collectors.toSet());
+        actionToUpdate.setAssignedUsers(assignedUsers);
+
+        actionToUpdate.setCreatedBy(modelMapper.map(actionDto.getCreatedBy(), User.class));
+        actionToUpdate.setIsCompleted(actionDto.getIsCompleted());
+
+        Action updatedAction = actionRepository.save(actionToUpdate);
+        return modelMapper.map(updatedAction, ActionDto.class);
     }
 
     @Override
     public void deleteAction(Integer id) {
-
+        Action action = actionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Action not found"));
+        actionRepository.delete(action);
     }
 }

@@ -2,9 +2,7 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.user.User;
-import com.example.defecttrackerserver.core.user.UserDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,7 +32,7 @@ public class Action {
     private Boolean isCompleted;
 
     @ManyToMany(mappedBy = "assignedActions")
-    private Set<User> assigned = new HashSet<>();
+    private Set<User> assignedUsers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(nullable = false) //TODO: remove

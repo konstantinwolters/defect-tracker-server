@@ -63,11 +63,11 @@ public class User {
 
     public void addAssignedAction(Action action){
         assignedActions.add(action);
-        action.getAssigned().add(this);
+        action.getAssignedUsers().add(this);
     }
 
     public void removeAssignedAction(Action action){
         assignedActions.remove(action);
-        action.getAssigned().remove(this);
+        action.getAssignedUsers().remove(this);
     }
 }

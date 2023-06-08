@@ -22,12 +22,20 @@ public class ActionController {
     }
 
     @GetMapping()
-    public List<ActionDto> getAllActions() {
-        return actionService.getAllActions();
+    public List<ActionDto> getAllActions() { return actionService.getAllActions(); }
+
+    @GetMapping("/created-by/{id}")
+    public List<ActionDto> getAllActionsCreatedBy(@PathVariable Integer id) {
+        return actionService.getAllActionsByUserCreatedId(id);
     }
 
-    @GetMapping("/by-defect/{id}")
-    public List<ActionDto> getAllActionsByDefectId(@PathVariable Integer id) {
-        return actionService.getAllActionsByDefectId(id);
+    @PutMapping()
+    public ActionDto updateAction(@RequestBody ActionDto actionDto) {
+        return actionService.updateAction(actionDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAction(@PathVariable Integer id) {
+        actionService.deleteAction(id);
     }
 }
