@@ -1,13 +1,9 @@
 package com.example.defecttrackerserver.core.user;
 
-import com.example.defecttrackerserver.core.user.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
-
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,15 +35,5 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
-    }
-
-    @GetMapping("/search")
-    public UserDto findByUsername(@RequestParam String username) {
-        return userService.getUserByUsername(username);
-    }
-
-    @GetMapping("/{id}/roles")
-    public Set<Role> getRoles(@PathVariable Integer id) {
-        return userService.getRoles(id);
     }
 }

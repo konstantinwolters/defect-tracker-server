@@ -1,8 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
-import com.example.defecttrackerserver.core.defect.Defect;
 import com.example.defecttrackerserver.core.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

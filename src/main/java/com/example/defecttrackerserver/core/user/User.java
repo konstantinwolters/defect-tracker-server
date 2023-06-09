@@ -16,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "users")
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User {
 
     @Id

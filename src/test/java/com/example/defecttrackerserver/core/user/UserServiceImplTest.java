@@ -35,7 +35,6 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-
         userDto = new UserDto();
         userDto.setId(1);
         userDto.setUsername("test");
@@ -51,8 +50,7 @@ public class UserServiceImplTest {
 
     @Test
     void shouldSaveUser() {
-        when(userRepository.save(user)).thenReturn(user);
-        when(modelMapper.map(userDto, User.class)).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
         UserDto result = userService.saveUser(userDto);
