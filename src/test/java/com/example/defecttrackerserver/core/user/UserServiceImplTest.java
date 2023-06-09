@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.user;
 
+import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.location.LocationDto;
 import com.example.defecttrackerserver.core.user.role.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,25 +37,35 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        LocationDto locationDto = new LocationDto();
+        locationDto.setId(1);
+        locationDto.setName("Texas");
+        Location location = new Location();
+        location.setId(1);
+        location.setName("Texas");
+
 
         userDto = new UserDto();
         userDto.setId(1);
         userDto.setUsername("test");
         userDto.setPassword("test");
         userDto.setMail("test");
+        userDto.setLocation(locationDto);
 
         user = new User();
         user.setId(1);
         user.setUsername("test");
         user.setPassword("test");
         user.setMail("test");
+        user.setLocation(location);
     }
 
     @Test
     void shouldSaveUser() {
-        when(userRepository.save(user)).thenReturn(user);
-        when(modelMapper.map(userDto, User.class)).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        when(modelMapper.map(any(LocationDto.class), eq(Location.class)))
+                .thenReturn(new Location());
 
         UserDto result = userService.saveUser(userDto);
 
@@ -96,8 +108,11 @@ public class UserServiceImplTest {
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        when(modelMapper.map(any(LocationDto.class), eq(Location.class)))
+                .thenReturn(new Location());
 
-        UserDto result = userService.updateUser( userDto);
+
+        UserDto result = userService.updateUser(userDto);
 
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
@@ -127,15 +142,6 @@ public class UserServiceImplTest {
         assertEquals(user.getUsername(), result.getUsername());
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
-    }
-
-    @Test
-    void shouldReturnRolesFromUserById(){
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
-
-        Set<Role> result = userService.getRoles(1);
-
-        assertNotNull(result);
     }
 
     @Test

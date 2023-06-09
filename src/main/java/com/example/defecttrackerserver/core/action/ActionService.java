@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.action;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface ActionService {
