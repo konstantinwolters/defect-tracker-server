@@ -2,8 +2,6 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.DefectDto;
 import com.example.defecttrackerserver.core.user.UserDto;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 

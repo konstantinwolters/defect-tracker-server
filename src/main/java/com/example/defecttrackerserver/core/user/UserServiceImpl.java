@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.user;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.userException.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Integer id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto) {
         User userToUpdate = userRepository.findById(userDto.getId())
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userDto.getId()));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userDto.getId()));
         return customUserMapper(userDto, userToUpdate);
     }
 
@@ -68,14 +69,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {
         User userToDelete = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         userRepository.delete(userToDelete);
     }
 
     @Override
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
         return modelMapper.map(user, UserDto.class);
     }
 }
