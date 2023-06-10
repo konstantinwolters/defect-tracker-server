@@ -1,13 +1,11 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.user.role.Role;
-import com.example.defecttrackerserver.core.user.user.dto.UserCreationDto;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
-import com.example.defecttrackerserver.core.user.user.dto.UserUpdateDto;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
-import com.example.defecttrackerserver.core.user.user.userException.UserNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -20,30 +18,22 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final ActionRepository actionRepository;
     private final ModelMapper modelMapper;
 
     @Override
-    public UserDto saveUser(UserCreationDto userCreationDto) {
-        User newUser = new User();
-        UserUtils.checkNullValues(userCreationDto.getUsername(), userCreationDto.getMail(),
-                userCreationDto.getPassword(), userCreationDto.getRoles(), userCreationDto.getLocation());
+    public UserDto saveUser(UserDto userDto) {
+        UserUtils.checkNullValues(userDto.getUsername(), userDto.getMail(),
+                userDto.getPassword(), userDto.getRoles(), userDto.getLocation());
 
-        if(userRepository.findByUsername(userCreationDto.getUsername()).isPresent())
-            throw new UserExistsException("Username already exists: " + userCreationDto.getUsername());
+        if(userRepository.findByUsername(userDto.getUsername()).isPresent())
+            throw new UserExistsException("Username already exists: " + userDto.getUsername());
 
-        if(userRepository.findByMail(userCreationDto.getMail()).isPresent())
-            throw new UserExistsException("Mail already exists: " + userCreationDto.getMail());
+        if(userRepository.findByMail(userDto.getMail()).isPresent())
+            throw new UserExistsException("Mail already exists: " + userDto.getMail());
 
-        newUser.setUsername(userCreationDto.getUsername());
-        newUser.setFirstName(userCreationDto.getFirstName());
-        newUser.setLastName(userCreationDto.getLastName());
-        newUser.setMail(userCreationDto.getMail());
-        newUser.setPassword(userCreationDto.getPassword());
-        newUser.setRoles(userCreationDto.getRoles().stream()
-                .map(role -> modelMapper.map(role, Role.class))
-                .collect(Collectors.toSet()));
-
-        newUser.setLocation(modelMapper.map(userCreationDto.getLocation(), Location.class));
+        User newUser = modelMapper.map(userDto, User.class);
 
         User savedUser = userRepository.save(newUser);
         return modelMapper.map(savedUser, UserDto.class);
@@ -52,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Integer id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -64,35 +54,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(UserUpdateDto userUpdateDto) {
-        User userToUpdate = userRepository.findById(userUpdateDto.getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userUpdateDto.getId()));
+    public UserDto updateUser(UserDto userDto) {
+        User userToUpdate = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
 
-        UserUtils.checkNullValues(userUpdateDto.getUsername(), userUpdateDto.getMail(), userUpdateDto.getPassword(),
-                userUpdateDto.getRoles(), userUpdateDto.getLocation());
+        UserUtils.checkNullValues(userDto.getUsername(), userDto.getMail(), userDto.getPassword(),
+                userDto.getRoles(), userDto.getLocation());
 
-        if(userUpdateDto.getAssignedActions() == null)
-            throw new IllegalArgumentException("AssignedActions must not be null or empty");
+        if(userDto.getAssignedActions() == null)
+            throw new IllegalArgumentException("AssignedActions must not be null");
 
-        if(userRepository.findByUsername(userUpdateDto.getUsername()).isPresent())
+        if(userRepository.findByUsername(userDto.getUsername()).isPresent())
             throw new UserExistsException("Username already exists: " + userToUpdate.getUsername());
 
-        if(userRepository.findByMail(userUpdateDto.getMail()).isPresent())
+        if(userRepository.findByMail(userDto.getMail()).isPresent())
             throw new UserExistsException("Mail already exists: " + userToUpdate.getMail());
 
-        userToUpdate.setUsername(userUpdateDto.getUsername());
-        userToUpdate.setFirstName(userUpdateDto.getFirstName());
-        userToUpdate.setLastName(userUpdateDto.getLastName());
-        userToUpdate.setMail(userUpdateDto.getMail());
-        userToUpdate.setPassword(userUpdateDto.getPassword());
-        userToUpdate.setRoles(userUpdateDto.getRoles().stream()
-                .map(role -> modelMapper.map(role, Role.class))
+        userToUpdate.setUsername(userDto.getUsername());
+        userToUpdate.setFirstName(userDto.getFirstName());
+        userToUpdate.setLastName(userDto.getLastName());
+        userToUpdate.setMail(userDto.getMail());
+        userToUpdate.setPassword(userDto.getPassword());
+        userToUpdate.setRoles(userDto.getRoles().stream()
+                .map(role -> roleRepository.findById(role.getId())
+                        .orElseThrow(()-> new EntityNotFoundException("Role not found with id: " + role.getId())))
                 .collect(Collectors.toSet()));
 
-        userToUpdate.setLocation(modelMapper.map(userUpdateDto.getLocation(), Location.class));
+        userToUpdate.setLocation(modelMapper.map(userDto.getLocation(), Location.class));
 
-        userToUpdate.setAssignedActions(userUpdateDto.getAssignedActions().stream()
-                .map(action -> modelMapper.map(action, Action.class))
+        userToUpdate.setAssignedActions(userDto.getAssignedActions().stream()
+                .map(action -> actionRepository.findById(action.getId()).orElseThrow(
+                        () -> new EntityNotFoundException("Action not found with id: " + action.getId())
+                ))
                 .collect(Collectors.toSet()));
         User updatedUser = userRepository.save(userToUpdate);
         return modelMapper.map(updatedUser, UserDto.class);
@@ -101,14 +94,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {
         User userToDelete = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
         userRepository.delete(userToDelete);
     }
 
     @Override
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
         return modelMapper.map(user, UserDto.class);
     }
 }

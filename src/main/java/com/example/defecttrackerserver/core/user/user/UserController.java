@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.user.user.dto.UserCreationDto;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import com.example.defecttrackerserver.core.user.user.dto.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public UserDto saveUser(@RequestBody UserCreationDto userCreationDto) {
-            return userService.saveUser(userCreationDto);
+    public UserDto saveUser(@RequestBody UserDto userDto) {
+            return userService.saveUser(userDto);
     }
 
     @GetMapping()
@@ -31,8 +30,8 @@ public class UserController {
     }
 
     @PutMapping()
-    public UserDto updateUser(@RequestBody UserUpdateDto userUpdateDto) {
-        return userService.updateUser(userUpdateDto);
+    public UserDto updateUser(@RequestBody UserDto userDto) {
+        return userService.updateUser(userDto);
     }
 
     @DeleteMapping("/{id}")

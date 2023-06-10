@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class UserExceptionHandler {
 
-    @ExceptionHandler({UserNotFoundException.class, UserExistsException.class})
-    public ResponseEntity<Object> handleUserException(UserNotFoundException e) {
+    @ExceptionHandler({UserExistsException.class})
+    public ResponseEntity<Object> handleUserException(UserExistsException e) {
         ExceptionDetails exceptionDetails = new ExceptionDetails(
                 e.getMessage(),
                 e.getCause(),

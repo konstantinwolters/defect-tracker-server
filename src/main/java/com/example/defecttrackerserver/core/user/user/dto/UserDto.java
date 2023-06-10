@@ -15,12 +15,13 @@ import java.util.Set;
 @Setter
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class UserDto  {
-    private Integer id; // nicht für create
+    private Integer id;
     private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private String mail;
     private LocationDto location;
     private Set<RoleDto> roles = new HashSet<>();
-    private Set<ActionDto> assignedActions = new HashSet<>(); // eigentlich nicht für create
+    private Set<ActionDto> assignedActions = new HashSet<>();
 }
