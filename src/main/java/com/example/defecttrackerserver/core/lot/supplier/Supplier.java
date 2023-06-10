@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
-import com.example.defecttrackerserver.core.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

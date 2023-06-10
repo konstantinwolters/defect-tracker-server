@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.user.userException;
+package com.example.defecttrackerserver.core.user.user.userException;
 
 import lombok.Getter;
 

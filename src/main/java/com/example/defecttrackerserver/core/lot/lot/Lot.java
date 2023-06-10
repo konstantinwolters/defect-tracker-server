@@ -1,6 +1,6 @@
-package com.example.defecttrackerserver.core.lot;
+package com.example.defecttrackerserver.core.lot.lot;
 
-import com.example.defecttrackerserver.core.defect.Defect;
+import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import jakarta.persistence.*;

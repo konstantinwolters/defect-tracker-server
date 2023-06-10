@@ -1,20 +1,19 @@
-package com.example.defecttrackerserver.core.user.userException;
+package com.example.defecttrackerserver.exception;
 
-import com.example.defecttrackerserver.exception.ExceptionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class UserExceptionHandler {
+public class GeneralExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException e) {
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
         ExceptionDetails exceptionDetails = new ExceptionDetails(
                 e.getMessage(),
                 e.getCause(),
-                HttpStatus.NOT_FOUND
+                HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
     }

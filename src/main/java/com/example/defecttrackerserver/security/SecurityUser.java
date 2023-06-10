@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.security;
 
-import com.example.defecttrackerserver.core.user.User;
+import com.example.defecttrackerserver.core.user.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.user;
+package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.security.SecurityUser;
 import lombok.RequiredArgsConstructor;

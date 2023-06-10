@@ -2,7 +2,10 @@ package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationDto;
-import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
+import com.example.defecttrackerserver.core.user.user.UserServiceImpl;
+import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -94,7 +96,7 @@ public class UserServiceImplTest {
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        List<UserDto> result = userService.getUsers();
+        List<UserDto> result = userService.getAllUsers();
 
         assertNotNull(result);
         assertEquals(user.getId(), result.get(0).getId());

@@ -1,7 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.core.defect.Defect;
-import com.example.defecttrackerserver.core.user.User;
+import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;

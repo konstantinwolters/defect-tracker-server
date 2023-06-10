@@ -1,6 +1,9 @@
 package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
+import com.example.defecttrackerserver.core.user.user.UserController;
+import com.example.defecttrackerserver.core.user.user.UserService;
+import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +19,8 @@ import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 @Import(SecurityConfig.class)
@@ -70,7 +73,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldGetAllUsers() throws Exception {
-        when(userService.getUsers()).thenReturn(Arrays.asList(testuserDto));
+        when(userService.getAllUsers()).thenReturn(Arrays.asList(testuserDto));
 
         mockMvc.perform(get("/users")
                     .contentType(MediaType.APPLICATION_JSON))

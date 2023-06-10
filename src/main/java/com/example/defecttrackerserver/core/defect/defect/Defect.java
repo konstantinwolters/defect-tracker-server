@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect;
+package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
@@ -7,8 +7,8 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.lot.Lot;
-import com.example.defecttrackerserver.core.user.User;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

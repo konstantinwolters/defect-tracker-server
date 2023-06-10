@@ -1,9 +1,5 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionRepository;
-import com.example.defecttrackerserver.core.action.ActionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

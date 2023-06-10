@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.core.user.User;
+import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

@@ -1,10 +1,8 @@
-package com.example.defecttrackerserver.core.user;
+package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
