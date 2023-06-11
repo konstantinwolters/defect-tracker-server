@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,19 +22,14 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final ActionRepository actionRepository;
     private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
 
     @Override
     public UserDto saveUser(UserDto userDto) {
-        UserUtils.checkNullValues(userDto.getUsername(), userDto.getMail(),
-                userDto.getPassword(), userDto.getRoles(), userDto.getLocation());
+        userMapper.checkNullOrEmptyFields(userDto);
+        userMapper.checkDuplicateUserEntries(userDto);
 
-        if(userRepository.findByUsername(userDto.getUsername()).isPresent())
-            throw new UserExistsException("Username already exists: " + userDto.getUsername());
-
-        if(userRepository.findByMail(userDto.getMail()).isPresent())
-            throw new UserExistsException("Mail already exists: " + userDto.getMail());
-
-        User newUser = modelMapper.map(userDto, User.class);
+        User newUser = userMapper.map(userDto);
 
         User savedUser = userRepository.save(newUser);
         return modelMapper.map(savedUser, UserDto.class);
@@ -55,38 +51,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto) {
-        User userToUpdate = userRepository.findById(userDto.getId())
+        User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
 
-        UserUtils.checkNullValues(userDto.getUsername(), userDto.getMail(), userDto.getPassword(),
-                userDto.getRoles(), userDto.getLocation());
+        userMapper.checkNullOrEmptyFields(userDto);
+        userMapper.checkDuplicateUserEntries(userDto);
 
-        if(userDto.getAssignedActions() == null)
-            throw new IllegalArgumentException("AssignedActions must not be null");
+        User userToUpdate = userMapper.map(userDto);
+        userToUpdate.setId(user.getId());
 
-        if(userRepository.findByUsername(userDto.getUsername()).isPresent())
-            throw new UserExistsException("Username already exists: " + userToUpdate.getUsername());
-
-        if(userRepository.findByMail(userDto.getMail()).isPresent())
-            throw new UserExistsException("Mail already exists: " + userToUpdate.getMail());
-
-        userToUpdate.setUsername(userDto.getUsername());
-        userToUpdate.setFirstName(userDto.getFirstName());
-        userToUpdate.setLastName(userDto.getLastName());
-        userToUpdate.setMail(userDto.getMail());
-        userToUpdate.setPassword(userDto.getPassword());
-        userToUpdate.setRoles(userDto.getRoles().stream()
-                .map(role -> roleRepository.findById(role.getId())
-                        .orElseThrow(()-> new EntityNotFoundException("Role not found with id: " + role.getId())))
-                .collect(Collectors.toSet()));
-
-        userToUpdate.setLocation(modelMapper.map(userDto.getLocation(), Location.class));
-
-        userToUpdate.setAssignedActions(userDto.getAssignedActions().stream()
-                .map(action -> actionRepository.findById(action.getId()).orElseThrow(
-                        () -> new EntityNotFoundException("Action not found with id: " + action.getId())
-                ))
-                .collect(Collectors.toSet()));
         User updatedUser = userRepository.save(userToUpdate);
         return modelMapper.map(updatedUser, UserDto.class);
     }
