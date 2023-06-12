@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
-import com.example.defecttrackerserver.core.user.user.dto.UserUpdateDto;
 
 import java.util.List;
 

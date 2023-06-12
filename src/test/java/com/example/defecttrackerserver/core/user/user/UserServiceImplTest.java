@@ -1,11 +1,13 @@
-package com.example.defecttrackerserver.core.user;
+package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationDto;
 import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.UserServiceImpl;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +32,9 @@ public class UserServiceImplTest {
 
     @Mock
     private ModelMapper modelMapper;
+
+    @Mock
+    private UserMapper userMapper;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -66,8 +71,7 @@ public class UserServiceImplTest {
     void shouldSaveUser() {
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
-        when(modelMapper.map(any(LocationDto.class), eq(Location.class)))
-                .thenReturn(new Location());
+        when(userMapper.map(any(UserDto.class))).thenReturn(user);
 
         UserDto result = userService.saveUser(userDto);
 
@@ -110,9 +114,7 @@ public class UserServiceImplTest {
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
-        when(modelMapper.map(any(LocationDto.class), eq(Location.class)))
-                .thenReturn(new Location());
-
+        when(userMapper.map(any(UserDto.class))).thenReturn(user);
 
         UserDto result = userService.updateUser(userDto);
 
@@ -149,12 +151,12 @@ public class UserServiceImplTest {
     @Test
     void ShouldThrowExceptionWhenUserIdNotFound(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> userService.getUserById(1));
+        assertThrows(EntityNotFoundException.class, () -> userService.getUserById(1));
     }
 
     @Test
     void ShouldThrowExceptionWhenUsernameNotFound() {
         when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> userService.getUserByUsername("testuser"));
+        assertThrows(EntityNotFoundException.class, () -> userService.getUserByUsername("testuser"));
     }
 }

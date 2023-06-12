@@ -1,8 +1,8 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
-import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -77,11 +77,11 @@ public class UserMapper {
 
         if(existingUser.isPresent()){
             if(userRepository.findByUsername(userDto.getUsername()).isPresent()
-                    && !existingUser.get().getUsername().equals(userDto.getUsername()))
+                    && !existingUser.get().getId().equals(userDto.getId()))
                     throw new UserExistsException("Username already exists: " + userDto.getUsername());
 
             if(userRepository.findByMail(userDto.getMail()).isPresent()
-                    && !existingUser.get().getMail().equals(userDto.getMail()))
+                    && !existingUser.get().getId().equals(userDto.getId()))
                     throw new UserExistsException("Mail already exists: " + userDto.getMail());
         }else {
             if (userRepository.findByUsername(userDto.getUsername()).isPresent())
