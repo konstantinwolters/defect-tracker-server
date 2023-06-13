@@ -99,9 +99,11 @@ class UserMapperTest {
 
     @Test
     void shouldThrowExceptionWhenDuplicateUserEntriesOnSave() {
+        User duplicateUser = new User();
+        duplicateUser.setId(1);
 
         when(userRepository.findById(any())).thenReturn(Optional.empty());
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(new User()));
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(duplicateUser));
         assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
 
         when(userRepository.findByMail(any())).thenReturn(Optional.of(new User()));
