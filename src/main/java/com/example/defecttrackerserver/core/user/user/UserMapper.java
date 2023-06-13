@@ -23,7 +23,6 @@ public class UserMapper {
 
     public User map(UserDto userDto){
         User user = new User();
-        user.setId(null);
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
@@ -71,24 +70,27 @@ public class UserMapper {
             throw new IllegalArgumentException("Location must not be null");
     }
 
-    public void checkDuplicateUserEntries(UserDto userDto){
+    public void checkDuplicateUserEntries(UserDto userDto) {
 
         Optional<User> existingUser = userRepository.findById(userDto.getId());
-
+        //if user exists = update operation, otherwise = save operation
         if(existingUser.isPresent()){
-            if(userRepository.findByUsername(userDto.getUsername()).isPresent()
-                    && !existingUser.get().getId().equals(userDto.getId()))
-                    throw new UserExistsException("Username already exists: " + userDto.getUsername());
-
-            if(userRepository.findByMail(userDto.getMail()).isPresent()
-                    && !existingUser.get().getId().equals(userDto.getId()))
-                    throw new UserExistsException("Mail already exists: " + userDto.getMail());
+            checkForUsernameAndMailUsage(userDto, existingUser.get().getId());
         }else {
-            if (userRepository.findByUsername(userDto.getUsername()).isPresent())
-                throw new UserExistsException("Username already exists: " + userDto.getUsername());
+            checkForUsernameAndMailUsage(userDto, null);
+        }
+    }
 
-            if (userRepository.findByMail(userDto.getMail()).isPresent())
-                throw new UserExistsException("Mail already exists: " + userDto.getMail());
+    private void checkForUsernameAndMailUsage(UserDto userDto, Integer userId) {
+        Optional<User> existingUserByUsername = userRepository.findByUsername(userDto.getUsername());
+        Optional<User> existingUserByMail = userRepository.findByMail(userDto.getMail());
+
+        if(existingUserByUsername.isPresent() && !existingUserByUsername.get().getId().equals(userId)) {
+            throw new UserExistsException("Username already exists: " + userDto.getUsername());
+        }
+
+        if(existingUserByMail.isPresent() && !existingUserByMail.get().getId().equals(userId)) {
+            throw new UserExistsException("Mail already exists: " + userDto.getMail());
         }
     }
 

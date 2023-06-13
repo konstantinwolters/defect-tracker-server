@@ -18,6 +18,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
+        userDto.setId(null);
+
         userMapper.checkNullOrEmptyFields(userDto);
         userMapper.checkDuplicateUserEntries(userDto);
 
