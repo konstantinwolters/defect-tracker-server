@@ -72,12 +72,16 @@ public class UserMapper {
 
     public void checkDuplicateUserEntries(UserDto userDto) {
 
-        Optional<User> existingUser = userRepository.findById(userDto.getId());
-        //if user exists = update operation, otherwise = save operation
-        if(existingUser.isPresent()){
-            checkForUsernameAndMailUsage(userDto, existingUser.get().getId());
-        }else {
+        if(userDto.getId() == null) {
             checkForUsernameAndMailUsage(userDto, null);
+        }else {
+            Optional<User> existingUser = userRepository.findById(userDto.getId());
+            //if user exists = update operation, otherwise = save operation
+            if (existingUser.isPresent()) {
+                checkForUsernameAndMailUsage(userDto, existingUser.get().getId());
+            } else {
+                checkForUsernameAndMailUsage(userDto, null);
+            }
         }
     }
 
