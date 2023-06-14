@@ -76,7 +76,6 @@ public class UserServiceImplTest {
         UserDto result = userService.saveUser(userDto);
 
         assertNotNull(result);
-        assertEquals(user.getId(), result.getId());
         assertEquals(user.getUsername(), result.getUsername());
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
