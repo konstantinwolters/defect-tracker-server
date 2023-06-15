@@ -85,7 +85,7 @@ public class UserMapper {
         }
     }
 
-    private void checkForUsernameAndMailUsage(UserDto userDto, Integer userId) {
+    public void checkForUsernameAndMailUsage(UserDto userDto, Integer userId) {
         Optional<User> existingUserByUsername = userRepository.findByUsername(userDto.getUsername());
         Optional<User> existingUserByMail = userRepository.findByMail(userDto.getMail());
 
