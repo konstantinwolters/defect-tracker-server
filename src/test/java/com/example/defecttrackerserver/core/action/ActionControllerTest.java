@@ -15,9 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ActionController.class)
@@ -43,7 +43,7 @@ public class ActionControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldSaveUser() throws Exception {
+    public void shouldSaveAction() throws Exception {
         when(actionService.saveAction(any(ActionDto.class))).thenReturn(testactionDto);
 
         mockMvc.perform(post("/actions")
@@ -56,7 +56,7 @@ public class ActionControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAction() throws Exception {
+    public void shouldGetActionById() throws Exception {
         when(actionService.getActionById(any(Integer.class))).thenReturn(testactionDto);
 
         mockMvc.perform(get("/actions/1"))
@@ -76,4 +76,34 @@ public class ActionControllerTest {
                 .andExpect(jsonPath("$[0].description").value("test"));
     }
 
+    @Test
+    @WithMockUser(username = "bill", roles = "ADMIN")
+    public void shouldGetAllActionsByUserCreatedId() throws Exception{
+        when(actionService.getAllActionsByUserCreatedId(any(Integer.class))).thenReturn(Arrays.asList(testactionDto));
+
+        mockMvc.perform(get("/actions/created-by/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].description").value("test"));
+    }
+
+    @Test
+    @WithMockUser(username = "bill", roles = "ADMIN")
+    public void shouldUpdateAction() throws Exception {
+        when(actionService.updateAction(any(ActionDto.class))).thenReturn(testactionDto);
+        mockMvc.perform(put("/actions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(testactionDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.description").value("test"));
+    }
+
+    @Test
+    @WithMockUser(username = "bill", roles = "ADMIN")
+    public void shouldDeleteAction() throws Exception {
+        doNothing().when(actionService).deleteAction(any(Integer.class));
+        mockMvc.perform(delete("/actions/1"))
+                .andExpect(status().isOk());
+    }
 }

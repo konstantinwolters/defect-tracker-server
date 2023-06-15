@@ -17,6 +17,7 @@ import com.example.defecttrackerserver.core.user.user.userException.UserExistsEx
 
 import java.util.Optional;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -74,7 +75,6 @@ class UserMapperTest {
         when(roleRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Role()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
-        // Perform the mapping
         User user = userMapper.map(userDto);
 
         assertEquals(userDto.getUsername(), user.getUsername());
@@ -87,6 +87,55 @@ class UserMapperTest {
     }
 
     @Test
+    void shouldHandleNullRoles() {
+        userDto.setRoles(null);
+
+        when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Location()));
+        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
+
+        User user = userMapper.map(userDto);
+
+        assertNotNull(user.getRoles());
+        assertTrue(user.getRoles().isEmpty());
+    }
+
+    @Test
+    void shouldHandleAssignedActions() {
+        userDto.setAssignedActions(null);
+
+        when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Location()));
+        when(roleRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Role()));
+
+        User user = userMapper.map(userDto);
+
+        assertNotNull(user.getAssignedActions());
+        assertTrue(user.getAssignedActions().isEmpty());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenLocationNotFound() {
+        when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRoleNotFound() {
+        when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Location()));
+        when(roleRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto));
+    }
+    @Test
+    void shouldThrowExceptionWhenActionNotFound() {
+        when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Location()));
+        when(roleRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Role()));
+        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto));
+    }
+
+    @Test
     void shouldThrowExceptionWhenNullOrEmptyFields() {
         UserDto userDto = new UserDto();
         userDto.setUsername("");
@@ -94,6 +143,14 @@ class UserMapperTest {
 
         userDto.setUsername("Username");
         userDto.setMail(null);
+        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
+
+        userDto.setMail("XXXXXXXXXXXX");
+        userDto.setPassword("");
+        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
+
+        userDto.setPassword("XXXXXXXXXXXX");
+        userDto.setLocation(null);
         assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
     }
 
@@ -108,7 +165,6 @@ class UserMapperTest {
 
         when(userRepository.findByMail(any())).thenReturn(Optional.of(new User()));
         assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
-
     }
 
     @Test
@@ -119,7 +175,7 @@ class UserMapperTest {
         duplicateUser.setId(2);
 
         when(userRepository.findById(any())).thenReturn(Optional.of(existingUser));
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(duplicateUser));
+        when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
         when(userRepository.findByMail(any())).thenReturn(Optional.of(duplicateUser));
 
         assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
