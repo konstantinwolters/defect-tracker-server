@@ -56,7 +56,7 @@ public class ActionControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAction() throws Exception {
+    public void shouldGetActionById() throws Exception {
         when(actionService.getActionById(any(Integer.class))).thenReturn(testactionDto);
 
         mockMvc.perform(get("/actions/1"))

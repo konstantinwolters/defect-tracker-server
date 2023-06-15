@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -36,7 +39,10 @@ public class ActionServiceImplTest {
 
         actionDto = new ActionDto();
         actionDto.setId(1);
+        actionDto.setAssignedUsers(Set.of(new UserDto()));
         actionDto.setDescription("test");
+        actionDto.setCreatedBy(new UserDto());
+
 
         action = new Action();
         action.setId(1);
@@ -91,5 +97,31 @@ public class ActionServiceImplTest {
         assertNotNull(result);
         assertEquals(action.getId(), result.get(0).getId());
         assertEquals(action.getDescription(), result.get(0).getDescription());
+    }
+
+
+    @Test
+    void shouldUpdateAction() {
+        when(actionRepository.save(any(Action.class))).thenReturn(action);
+        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
+        when(modelMapper.map(any(UserDto.class), eq(User.class))).thenReturn(new User());
+        when(modelMapper.map(any(Action.class), eq(ActionDto.class))).thenReturn(actionDto);
+
+        ActionDto result = actionService.updateAction(actionDto);
+
+        assertNotNull(result);
+        assertEquals(action.getId(), result.getId());
+        assertEquals(action.getDescription(), result.getDescription());
+        verify(actionRepository, times(1)).save(action);
+
+    }
+
+    @Test
+    void shouldDeleteAction() {
+        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
+
+        actionService.deleteAction(1);
+
+        verify(actionRepository, times(1)).delete(action);
     }
 }
