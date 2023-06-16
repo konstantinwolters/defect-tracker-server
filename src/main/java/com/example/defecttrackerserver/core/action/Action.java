@@ -39,7 +39,6 @@ public class Action {
     private Defect defect;
 
     @Column(nullable = false, updatable = false)
-    @CreatedDate
     private LocalDateTime createdOn;
 
     @ManyToOne

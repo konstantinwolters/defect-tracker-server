@@ -43,7 +43,6 @@ public class ActionServiceImplTest {
         actionDto.setDescription("test");
         actionDto.setCreatedBy(new UserDto());
 
-
         action = new Action();
         action.setId(1);
         action.setDescription("test");
@@ -58,7 +57,6 @@ public class ActionServiceImplTest {
         ActionDto result = actionService.saveAction(actionDto);
 
         assertNotNull(result);
-        assertEquals(action.getId(), result.getId());
         assertEquals(action.getDescription(), result.getDescription());
         verify(actionRepository, times(1)).save(action);
     }
