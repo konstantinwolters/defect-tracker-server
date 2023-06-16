@@ -48,9 +48,9 @@ public class UserMapper {
             user.setAssignedActions(new HashSet<>());
         } else {
             user.setAssignedActions(userDto.getAssignedActions().stream()
-                    .map(actionDto -> actionRepository.findById(actionDto.getId())
+                    .map(actionId -> actionRepository.findById(actionId)
                             .orElseThrow(()-> new EntityNotFoundException("Action not found with id: "
-                                    + actionDto.getId())))
+                                    + actionId)))
                     .collect(Collectors.toSet()));
         }
         return user;

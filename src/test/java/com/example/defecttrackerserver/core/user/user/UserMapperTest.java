@@ -63,7 +63,7 @@ class UserMapperTest {
         userDto.getRoles().add(roleDto);
         ActionDto actionDto = new ActionDto();
         actionDto.setId(1);
-        userDto.getAssignedActions().add(actionDto);
+        userDto.getAssignedActions().add(1);
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
-import com.example.defecttrackerserver.core.defect.defectImage.defectImage;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
@@ -53,7 +53,7 @@ public class Defect {
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
-    private List<defectImage> images = new ArrayList<>();
+    private List<DefectImage> images = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
@@ -72,11 +72,11 @@ public class Defect {
          defectComments.remove(defectComment);
      }
 
-     public void addDefectImage(defectImage image) {
+     public void addDefectImage(DefectImage image) {
          images.add(image);
      }
 
-     public void deleteDefectImage(defectImage image) {
+     public void deleteDefectImage(DefectImage image) {
          images.remove(image);
      }
 

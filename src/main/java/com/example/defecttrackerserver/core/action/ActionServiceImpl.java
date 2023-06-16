@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,11 +17,15 @@ public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
     private final ModelMapper modelMapper;
+    private final ActionMapper actionMapper;
 
     @Override
     public ActionDto saveAction(ActionDto actionDto) {
-        Action action = modelMapper.map(actionDto, Action.class);
+        actionDto.setId(null);
+        actionMapper.checkNullOrEmptyFields(actionDto);
+        Action action = actionMapper.map(actionDto);
         action.setIsCompleted(false);
+        action.setCreatedOn(LocalDateTime.now());
         Action savedAction = actionRepository.save(action);
         return modelMapper.map(savedAction, ActionDto.class);
     }
@@ -28,7 +33,7 @@ public class ActionServiceImpl implements ActionService{
     @Override
     public ActionDto getActionById(Integer id) {
         Action action = actionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Action not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
         return modelMapper.map(action, ActionDto.class);
     }
 
