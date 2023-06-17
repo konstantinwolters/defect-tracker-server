@@ -22,7 +22,7 @@ public class SecurityUser implements UserDetails {
         return user.getPassword();
     }
 
-    public Integer getId() { return user.getId(); d}
+    public Integer getId() { return user.getId();}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
