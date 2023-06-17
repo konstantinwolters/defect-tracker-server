@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
+    @Transactional
     public ActionDto updateAction(ActionDto actionDto) {
         Action actionToUpdate = actionRepository.findById(actionDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));

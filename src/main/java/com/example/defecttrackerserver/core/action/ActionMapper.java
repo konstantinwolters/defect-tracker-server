@@ -2,10 +2,12 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
+import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,11 +29,13 @@ public class ActionMapper {
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
                         + action.getCreatedBy().getId())));
 
-        action.setAssignedUsers(actionDto.getAssignedUsers().stream()
-                .map(user -> userRepository.findById(user.getId())
-                           .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
-                            + user.getId())))
-                .collect(Collectors.toSet()));
+        Set<User> assignedUsers = actionDto.getAssignedUsers().stream()
+                .map(userDto -> userRepository.findById(userDto.getId())
+                        .orElseThrow(()-> new EntityNotFoundException("User not found with id: " + userDto.getId())))
+                .collect(Collectors.toSet());
+
+        action.setAssignedUsers(assignedUsers);
+        assignedUsers.forEach(user -> user.addAssignedAction(action));
 
         return action;
     }
