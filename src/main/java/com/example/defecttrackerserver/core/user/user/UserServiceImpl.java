@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
+        User user = new User();
         userDto.setId(null);
 
         userMapper.checkNullOrEmptyFields(userDto);
         userMapper.checkDuplicateUserEntries(userDto);
 
-        User newUser = userMapper.map(userDto);
+        User newUser = userMapper.map(userDto, user);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         User savedUser = userRepository.save(newUser);
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override // TODO: implement method security that only admins and the user themselves can update their own data
     @Transactional
+    @PreAuthorize("#userDto.id == principal.id OR hasRole('ROLE_ADMIN')")
     public UserDto updateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
@@ -59,7 +62,7 @@ public class UserServiceImpl implements UserService {
         userMapper.checkNullOrEmptyFields(userDto);
         userMapper.checkDuplicateUserEntries(userDto);
 
-        User userToUpdate = userMapper.map(userDto);
+        User userToUpdate = userMapper.map(userDto, user);
         userToUpdate.setId(user.getId());
 
         //check if user has chosen a new password, if yes -> encode

@@ -21,8 +21,7 @@ public class UserMapper {
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
 
-    public User map(UserDto userDto){
-        User user = new User();
+    public User map(UserDto userDto, User user){
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
@@ -97,5 +96,4 @@ public class UserMapper {
             throw new UserExistsException("Mail already exists: " + userDto.getMail());
         }
     }
-
 }

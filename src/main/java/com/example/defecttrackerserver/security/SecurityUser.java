@@ -22,6 +22,8 @@ public class SecurityUser implements UserDetails {
         return user.getPassword();
     }
 
+    public Integer getId() { return user.getId(); d}
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles()
@@ -48,5 +50,13 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "SecurityUser{" +
+                "id=" + user.getId() +
+                ", username='" + user.getUsername() + '\'' +
+                '}';
     }
 }
