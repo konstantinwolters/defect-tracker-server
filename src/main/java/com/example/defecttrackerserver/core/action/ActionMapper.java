@@ -1,18 +1,11 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
-import com.example.defecttrackerserver.core.location.LocationRepository;
-import com.example.defecttrackerserver.core.user.role.RoleRepository;
-import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
-import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component

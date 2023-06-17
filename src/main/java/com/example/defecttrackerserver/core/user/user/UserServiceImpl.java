@@ -4,6 +4,7 @@ import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto saveUser(UserDto userDto) {
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService {
         userMapper.checkDuplicateUserEntries(userDto);
 
         User newUser = userMapper.map(userDto);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         User savedUser = userRepository.save(newUser);
         return modelMapper.map(savedUser, UserDto.class);
@@ -43,16 +46,23 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-    @Override
+    @Override // TODO: implement method security that only admins and the user themselves can update their own data
     public UserDto updateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
+
+        if(userDto.getPassword() == null)
+            userDto.setPassword(user.getPassword());
 
         userMapper.checkNullOrEmptyFields(userDto);
         userMapper.checkDuplicateUserEntries(userDto);
 
         User userToUpdate = userMapper.map(userDto);
         userToUpdate.setId(user.getId());
+
+        //check if user has chosen a new password, if yes -> encode
+        if(!userToUpdate.getPassword().equals(user.getPassword()))
+            userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
 
         User updatedUser = userRepository.save(userToUpdate);
         return modelMapper.map(updatedUser, UserDto.class);

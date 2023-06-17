@@ -44,7 +44,7 @@ public class UserMapper {
                    .collect(Collectors.toSet()));
         }
 
-        if(userDto.getAssignedActions() == null || userDto.getAssignedActions().isEmpty()) {
+        if(userDto.getAssignedActions() == null ) {
             user.setAssignedActions(new HashSet<>());
         } else {
             user.setAssignedActions(userDto.getAssignedActions().stream()
