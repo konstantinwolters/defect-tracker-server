@@ -44,9 +44,6 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        LocationDto locationDto = new LocationDto();
-        locationDto.setId(1);
-        locationDto.setName("Texas");
         Location location = new Location();
         location.setId(1);
         location.setName("Texas");
@@ -57,7 +54,7 @@ public class UserServiceImplTest {
         userDto.setUsername("test");
         userDto.setPassword("test");
         userDto.setMail("test");
-        userDto.setLocation(locationDto);
+        userDto.setLocation("Texas");
 
         user = new User();
         user.setId(1);

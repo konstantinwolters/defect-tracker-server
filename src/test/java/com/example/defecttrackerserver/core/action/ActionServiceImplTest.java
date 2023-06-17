@@ -28,6 +28,9 @@ public class ActionServiceImplTest {
     @Mock
     private ModelMapper modelMapper;
 
+    @Mock
+    private ActionMapper actionMapper;
+
     @InjectMocks
     private ActionServiceImpl actionService;
 
@@ -49,9 +52,9 @@ public class ActionServiceImplTest {
     }
 
     @Test
-    void shouldSaveUser() {
+    void shouldSaveAction() {
         when(actionRepository.save(action)).thenReturn(action);
-        when(modelMapper.map(actionDto, Action.class)).thenReturn(action);
+        when(actionMapper.map(actionDto)).thenReturn(action);
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
 
         ActionDto result = actionService.saveAction(actionDto);

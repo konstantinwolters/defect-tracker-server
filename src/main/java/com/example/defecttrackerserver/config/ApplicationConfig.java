@@ -1,6 +1,8 @@
 package com.example.defecttrackerserver.config;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import org.modelmapper.AbstractConverter;
@@ -21,7 +23,9 @@ public class ApplicationConfig {
         modelMapper.typeMap(User.class, UserDto.class)
                 .addMappings( mapper -> {
                     mapper.skip(UserDto::setPassword);})
-                .addMappings(mapper -> mapper.using(actionToIdConverter).map(User::getAssignedActions, UserDto::setAssignedActions));
+                .addMappings(mapper -> mapper.using(actionToIdConverter).map(User::getAssignedActions, UserDto::setAssignedActions))
+                .addMappings(mapper -> mapper.using(LocationToStringConverter).map(User::getLocation, UserDto::setLocation))
+                .addMappings(mapper -> mapper.using(RoleToStringConverter).map(User::getRoles, UserDto::setRoles));
 
         return modelMapper;
     }
@@ -39,4 +43,28 @@ public class ApplicationConfig {
                     .collect(Collectors.toSet());
         }
     };
+
+    Converter<Location, String> LocationToStringConverter = new AbstractConverter<Location, String>() {
+        @Override
+        protected String convert(Location source) {
+            if (source == null) {
+                return null;
+            }
+            return source.getName();
+        }
+    };
+
+    Converter<Set<Role>, Set<String>> RoleToStringConverter = new AbstractConverter<Set<Role>, Set<String>>() {
+        @Override
+        protected Set<String> convert(Set<Role> source) {
+            if (source == null) {
+                return null;
+            }
+            return source.stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet());
+        }
+    };
+
+
 }
