@@ -39,7 +39,6 @@ public class ActionServiceImplTest {
 
     @BeforeEach
     void setUp() {
-
         actionDto = new ActionDto();
         actionDto.setId(1);
         actionDto.setAssignedUsers(Set.of(new UserDto()));
@@ -54,7 +53,7 @@ public class ActionServiceImplTest {
     @Test
     void shouldSaveAction() {
         when(actionRepository.save(action)).thenReturn(action);
-        when(actionMapper.map(actionDto)).thenReturn(action);
+        when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
 
         ActionDto result = actionService.saveAction(actionDto);
@@ -105,7 +104,7 @@ public class ActionServiceImplTest {
     void shouldUpdateAction() {
         when(actionRepository.save(any(Action.class))).thenReturn(action);
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
-        when(modelMapper.map(any(UserDto.class), eq(User.class))).thenReturn(new User());
+        when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
         when(modelMapper.map(any(Action.class), eq(ActionDto.class))).thenReturn(actionDto);
 
         ActionDto result = actionService.updateAction(actionDto);
@@ -114,7 +113,6 @@ public class ActionServiceImplTest {
         assertEquals(action.getId(), result.getId());
         assertEquals(action.getDescription(), result.getDescription());
         verify(actionRepository, times(1)).save(action);
-
     }
 
     @Test

@@ -5,7 +5,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserService {
 
     @Override // TODO: implement method security that only admins and the user themselves can update their own data
     @Transactional
-    @PreAuthorize("#userDto.id == principal.id OR hasRole('ROLE_ADMIN')")
     public UserDto updateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));

@@ -2,8 +2,18 @@ package com.example.defecttrackerserver.core.user;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
+import com.example.defecttrackerserver.core.defect.process.Process;
+import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -25,6 +35,11 @@ public class UserCreationStartup implements ApplicationRunner {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ActionRepository actionRepository;
+    private final DefectRepository defectRepository;
+    private final DefectStatusRepository defectStatusRepository;
+    private final DefectTypeRepository defectTypeRepository;
+    private final LotRepository lotRepository;
+    private final ProcessRepository processRepository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -51,10 +66,39 @@ public class UserCreationStartup implements ApplicationRunner {
         action.setCreatedOn(LocalDateTime.now());
         action.setCreatedBy(user);
 
-        user.addAssignedAction(action);
-        userRepository.save(user);
+        DefectStatus defectStatus = new DefectStatus();
+        defectStatus.setName("Test Status");
+        defectStatusRepository.save(defectStatus);
 
+        DefectType defectType = new DefectType();
+        defectType.setName("Test Type");
+        defectTypeRepository.save(defectType);
 
+        Lot lot = new Lot();
+        lotRepository.save(lot);
 
+        Process process = new Process();
+        process.setName("Test Process");
+        processRepository.save(process);
+
+        Defect defect = new Defect();
+        defect.setDefectStatus(defectStatus);
+        defect.setDefectType(defectType);
+        defect.setLot(lot);
+        defect.setLocation(location);
+        defect.setCreatedOn(LocalDateTime.now());
+        defect.setCreatedBy(user);
+        defect.setProcess(process);
+
+        User savedUser = userRepository.save(user);
+
+        Defect savedDefect = defectRepository.save(defect);
+        action.setDefect(defect);
+        actionRepository.save(action);
+
+        savedUser.addAssignedAction(action);
+        savedDefect.addAction(action);
+        userRepository.save(savedUser);
+        defectRepository.save(savedDefect);
     }
 }

@@ -1,13 +1,11 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.core.defect.defect.DefectDto;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -18,7 +16,7 @@ public class ActionDto {
     private Boolean isCompleted;
     private LocalDate dueDate;
     private Set<UserDto> assignedUsers;
-    private DefectDto defect;
+    private Integer defect;
     private LocalDateTime createdOn;
     private UserDto createdBy;
 }

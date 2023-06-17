@@ -111,7 +111,6 @@ class UserMapperTest {
         User user = new User();
         User mappedUser = userMapper.map(userDto, user);
 
-
         assertNotNull(mappedUser.getAssignedActions());
         assertTrue(mappedUser.getAssignedActions().isEmpty());
     }

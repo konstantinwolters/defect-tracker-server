@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
+
 @ControllerAdvice
 public class GeneralExceptionHandler {
 
@@ -25,6 +27,16 @@ public class GeneralExceptionHandler {
                 e.getMessage(),
                 e.getCause(),
                 HttpStatus.NOT_FOUND
+        );
+        return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
+        ExceptionDetails exceptionDetails = new ExceptionDetails(
+                e.getMessage(),
+                e.getCause(),
+                HttpStatus.FORBIDDEN
         );
         return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
     }
