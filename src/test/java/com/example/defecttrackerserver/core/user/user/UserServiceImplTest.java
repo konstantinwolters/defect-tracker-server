@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,9 @@ public class UserServiceImplTest {
     @Mock
     private UserMapper userMapper;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -44,9 +48,6 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        LocationDto locationDto = new LocationDto();
-        locationDto.setId(1);
-        locationDto.setName("Texas");
         Location location = new Location();
         location.setId(1);
         location.setName("Texas");
@@ -57,7 +58,7 @@ public class UserServiceImplTest {
         userDto.setUsername("test");
         userDto.setPassword("test");
         userDto.setMail("test");
-        userDto.setLocation(locationDto);
+        userDto.setLocation("Texas");
 
         user = new User();
         user.setId(1);
@@ -71,7 +72,8 @@ public class UserServiceImplTest {
     void shouldSaveUser() {
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
-        when(userMapper.map(any(UserDto.class))).thenReturn(user);
+        when(passwordEncoder.encode(any())).thenReturn("test");
+        when(userMapper.map(any(UserDto.class), any(User.class))).thenReturn(user);
 
         UserDto result = userService.saveUser(userDto);
 
@@ -113,7 +115,7 @@ public class UserServiceImplTest {
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
-        when(userMapper.map(any(UserDto.class))).thenReturn(user);
+        when(userMapper.map(any(UserDto.class), any(User.class))).thenReturn(user);
 
         UserDto result = userService.updateUser(userDto);
 

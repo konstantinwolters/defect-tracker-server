@@ -1,7 +1,5 @@
 package com.example.defecttrackerserver.core.user.user.dto;
 
-import com.example.defecttrackerserver.core.location.LocationDto;
-import com.example.defecttrackerserver.core.user.role.RoleDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +15,7 @@ public class UserDto  {
     private String firstName;
     private String lastName;
     private String mail;
-    private LocationDto location;
-    private Set<RoleDto> roles = new HashSet<>();
+    private String location;
+    private Set<String> roles = new HashSet<>();
     private Set<Integer> assignedActions = new HashSet<>();
 }

@@ -1,15 +1,13 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +19,13 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public ActionDto saveAction(ActionDto actionDto) {
+        Action action = new Action();
         actionDto.setId(null);
         actionMapper.checkNullOrEmptyFields(actionDto);
-        Action action = actionMapper.map(actionDto);
-        action.setIsCompleted(false);
-        action.setCreatedOn(LocalDateTime.now());
-        Action savedAction = actionRepository.save(action);
+        Action newAction = actionMapper.map(actionDto, action);
+        newAction.setIsCompleted(false);
+        newAction.setCreatedOn(LocalDateTime.now());
+        Action savedAction = actionRepository.save(newAction);
         return modelMapper.map(savedAction, ActionDto.class);
     }
 
@@ -51,20 +50,16 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
+    @Transactional
     public ActionDto updateAction(ActionDto actionDto) {
         Action actionToUpdate = actionRepository.findById(actionDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));
+        actionMapper.checkNullOrEmptyFields(actionDto);
 
-        actionToUpdate.setDescription(actionDto.getDescription());
-
-        Set<User> assignedUsers = actionDto.getAssignedUsers().stream()
-                .map(userDto -> modelMapper.map(userDto, User.class)).collect(Collectors.toSet());
-        actionToUpdate.setAssignedUsers(assignedUsers);
-
-        actionToUpdate.setCreatedBy(modelMapper.map(actionDto.getCreatedBy(), User.class));
         actionToUpdate.setIsCompleted(actionDto.getIsCompleted());
+        Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
 
-        Action updatedAction = actionRepository.save(actionToUpdate);
+        Action updatedAction = actionRepository.save(mappedAction);
         return modelMapper.map(updatedAction, ActionDto.class);
     }
 

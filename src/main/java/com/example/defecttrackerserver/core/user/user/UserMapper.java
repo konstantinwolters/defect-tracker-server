@@ -21,30 +21,29 @@ public class UserMapper {
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
 
-    public User map(UserDto userDto){
-        User user = new User();
+    public User map(UserDto userDto, User user){
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setMail(userDto.getMail());
 
-        user.setLocation(locationRepository.findById(
-                userDto.getLocation().getId())
-                .orElseThrow(()-> new EntityNotFoundException("Location not found with id: "
-                        + userDto.getLocation().getId())));
+        user.setLocation(locationRepository.findByName(
+                userDto.getLocation())
+                .orElseThrow(()-> new EntityNotFoundException("Location not found with name: "
+                        + userDto.getLocation())));
 
         if(userDto.getRoles() == null || userDto.getRoles().isEmpty()){
             user.setRoles(new HashSet<>());
         } else {
            user.setRoles(userDto.getRoles().stream()
-                   .map(roleDto -> roleRepository.findById(roleDto.getId())
-                           .orElseThrow(()-> new EntityNotFoundException("Role not found with id: "
-                                   + roleDto.getId())))
+                   .map(role -> roleRepository.findByName(role)
+                           .orElseThrow(()-> new EntityNotFoundException("Role not found with name: "
+                                   + role)))
                    .collect(Collectors.toSet()));
         }
 
-        if(userDto.getAssignedActions() == null || userDto.getAssignedActions().isEmpty()) {
+        if(userDto.getAssignedActions() == null ) {
             user.setAssignedActions(new HashSet<>());
         } else {
             user.setAssignedActions(userDto.getAssignedActions().stream()
@@ -97,5 +96,4 @@ public class UserMapper {
             throw new UserExistsException("Mail already exists: " + userDto.getMail());
         }
     }
-
 }
