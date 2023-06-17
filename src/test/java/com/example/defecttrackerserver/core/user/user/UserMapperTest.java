@@ -75,15 +75,16 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
-        User user = userMapper.map(userDto);
+        User user = new User();
+        User mappedUser = userMapper.map(userDto, user);
 
-        assertEquals(userDto.getUsername(), user.getUsername());
-        assertEquals(userDto.getPassword(), user.getPassword());
-        assertEquals(userDto.getMail(), user.getMail());
-        assertEquals(userDto.getFirstName(), user.getFirstName());
-        assertEquals(userDto.getLastName(), user.getLastName());
-        assertEquals(userDto.getRoles().size(), user.getRoles().size());
-        assertEquals(userDto.getAssignedActions().size(), user.getAssignedActions().size());
+        assertEquals(userDto.getUsername(), mappedUser.getUsername());
+        assertEquals(userDto.getPassword(), mappedUser.getPassword());
+        assertEquals(userDto.getMail(), mappedUser.getMail());
+        assertEquals(userDto.getFirstName(), mappedUser.getFirstName());
+        assertEquals(userDto.getLastName(), mappedUser.getLastName());
+        assertEquals(userDto.getRoles().size(), mappedUser.getRoles().size());
+        assertEquals(userDto.getAssignedActions().size(), mappedUser.getAssignedActions().size());
     }
 
     @Test
@@ -93,10 +94,11 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
-        User user = userMapper.map(userDto);
+        User user = new User();
+        User mappedUser = userMapper.map(userDto, user);
 
-        assertNotNull(user.getRoles());
-        assertTrue(user.getRoles().isEmpty());
+        assertNotNull(mappedUser.getRoles());
+        assertTrue(mappedUser.getRoles().isEmpty());
     }
 
     @Test
@@ -106,17 +108,20 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
 
-        User user = userMapper.map(userDto);
+        User user = new User();
+        User mappedUser = userMapper.map(userDto, user);
 
-        assertNotNull(user.getAssignedActions());
-        assertTrue(user.getAssignedActions().isEmpty());
+
+        assertNotNull(mappedUser.getAssignedActions());
+        assertTrue(mappedUser.getAssignedActions().isEmpty());
     }
 
     @Test
     void shouldThrowExceptionWhenLocationNotFound() {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto));
+        User user = new User();
+        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
     }
 
     @Test
@@ -124,7 +129,8 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto));
+        User user = new User();
+        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
     }
     @Test
     void shouldThrowExceptionWhenActionNotFound() {
@@ -132,7 +138,8 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto));
+        User user = new User();
+        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
     }
 
     @Test
