@@ -9,6 +9,8 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
     public DefectDto saveDefect(DefectDto defectDto) {
+        Defect defect = new Defect();
+
         return null;
     }
 

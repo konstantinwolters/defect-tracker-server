@@ -2,6 +2,8 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import lombok.Getter;
@@ -22,7 +24,7 @@ public class DefectDto {
     private String location;
     private String process;
     private String defectType;
-    private List<String> images = new ArrayList<>();
+    private List<DefectImageDto> images = new ArrayList<>();
     private List<ActionDto> actions = new ArrayList<>();
     private UserDto createdBy;
     private LocalDateTime createdOn;
