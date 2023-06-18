@@ -3,6 +3,10 @@ package com.example.defecttrackerserver.config;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.defect.defect.DefectDto;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -32,8 +36,14 @@ public class ApplicationConfig {
         modelMapper.typeMap(Action.class, ActionDto.class)
                 .addMappings( mapper -> mapper.using(DefectToIdConverter).map(Action::getDefect, ActionDto::setDefect));
 
+        modelMapper.typeMap(Defect.class, DefectDto.class)
+                .addMappings( mapper -> mapper.using(DefectStatusToStringConverter).map(Defect::getDefectStatus, DefectDto::setDefectStatus))
+                .addMappings( mapper -> mapper.using(ProcessToStringConverter).map(Defect::getProcess, DefectDto::setProcess))
+                .addMappings( mapper -> mapper.using(DefectTypeToStringConverter).map(Defect::getDefectType, DefectDto::setDefectType));
+
         return modelMapper;
     }
+
 
     Converter<Set<Action>, Set<Integer>> actionToIdConverter = new AbstractConverter<Set<Action>, Set<Integer>>() {
         @Override
@@ -68,5 +78,20 @@ public class ApplicationConfig {
     Converter<Defect, Integer> DefectToIdConverter = context -> {
         Defect source = context.getSource();
         return source == null ? null : source.getId();
+    };
+
+    Converter<DefectStatus, String> DefectStatusToStringConverter = context -> {
+        DefectStatus source = context.getSource();
+        return source == null ? null : source.getName();
+    };
+
+    Converter<Process, String> ProcessToStringConverter = context -> {
+        Process source = context.getSource();
+        return source == null ? null : source.getName();
+    };
+
+    Converter<DefectType, String> DefectTypeToStringConverter = context -> {
+        DefectType source = context.getSource();
+        return source == null ? null : source.getName();
     };
 }
