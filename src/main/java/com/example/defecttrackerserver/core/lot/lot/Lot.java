@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,6 +29,6 @@ public class Lot {
 
     @OneToMany(mappedBy = "lot",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<Defect> defects = new ArrayList<>();
+            orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Defect> defects = new HashSet<>();
 }

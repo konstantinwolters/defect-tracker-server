@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,5 +18,5 @@ public class LotDto {
     private Integer id;
     private Material material;
     private Supplier supplier;
-    private List<DefectDto> defects = new ArrayList<>();
+    private Set<Integer> defects = new HashSet<>();
 }
