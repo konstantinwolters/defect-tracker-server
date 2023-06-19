@@ -8,6 +8,8 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
@@ -17,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,9 +32,9 @@ public class ApplicationConfig {
         modelMapper.typeMap(User.class, UserDto.class)
                 .addMappings( mapper -> {
                     mapper.skip(UserDto::setPassword);})
-                .addMappings(mapper -> mapper.using(actionToIdConverter).map(User::getAssignedActions, UserDto::setAssignedActions))
+                .addMappings(mapper -> mapper.using(actionsToIdConverter).map(User::getAssignedActions, UserDto::setAssignedActions))
                 .addMappings(mapper -> mapper.using(LocationToStringConverter).map(User::getLocation, UserDto::setLocation))
-                .addMappings(mapper -> mapper.using(RoleToStringConverter).map(User::getRoles, UserDto::setRoles));
+                .addMappings(mapper -> mapper.using(RolesToStringConverter).map(User::getRoles, UserDto::setRoles));
 
         modelMapper.typeMap(Action.class, ActionDto.class)
                 .addMappings( mapper -> mapper.using(DefectToIdConverter).map(Action::getDefect, ActionDto::setDefect));
@@ -39,13 +42,17 @@ public class ApplicationConfig {
         modelMapper.typeMap(Defect.class, DefectDto.class)
                 .addMappings( mapper -> mapper.using(DefectStatusToStringConverter).map(Defect::getDefectStatus, DefectDto::setDefectStatus))
                 .addMappings( mapper -> mapper.using(ProcessToStringConverter).map(Defect::getProcess, DefectDto::setProcess))
-                .addMappings( mapper -> mapper.using(DefectTypeToStringConverter).map(Defect::getDefectType, DefectDto::setDefectType));
+                .addMappings( mapper -> mapper.using(DefectTypeToStringConverter).map(Defect::getDefectType, DefectDto::setDefectType))
+                .addMappings( mapper -> mapper.using(LocationToStringConverter).map(Defect::getLocation, DefectDto::setLocation));
+
+        modelMapper.typeMap(Lot.class, LotDto.class)
+                .addMappings( mapper -> mapper.using(DefectsToIdConverter).map(Lot::getDefects, LotDto::setDefects));
 
         return modelMapper;
     }
 
 
-    Converter<Set<Action>, Set<Integer>> actionToIdConverter = new AbstractConverter<Set<Action>, Set<Integer>>() {
+    Converter<Set<Action>, Set<Integer>> actionsToIdConverter = new AbstractConverter<Set<Action>, Set<Integer>>() {
         @Override
         protected Set<Integer> convert(Set<Action> source) {
             if (source == null) {
@@ -63,7 +70,7 @@ public class ApplicationConfig {
     };
 
 
-    Converter<Set<Role>, Set<String>> RoleToStringConverter = new AbstractConverter<Set<Role>, Set<String>>() {
+    Converter<Set<Role>, Set<String>> RolesToStringConverter = new AbstractConverter<Set<Role>, Set<String>>() {
         @Override
         protected Set<String> convert(Set<Role> source) {
             if (source == null) {
@@ -79,6 +86,19 @@ public class ApplicationConfig {
         Defect source = context.getSource();
         return source == null ? null : source.getId();
     };
+
+    Converter<Set<Defect>, Set<Integer>> DefectsToIdConverter = new AbstractConverter<Set<Defect>, Set<Integer>>() {
+        @Override
+        protected Set<Integer> convert(Set<Defect> source) {
+            if (source == null) {
+                return null;
+            }
+            return source.stream()
+                    .map(Defect::getId)
+                    .collect(Collectors.toSet());
+        }
+    };
+
 
     Converter<DefectStatus, String> DefectStatusToStringConverter = context -> {
         DefectStatus source = context.getSource();

@@ -27,13 +27,13 @@ public class DefectServiceImpl implements DefectService{
     }
 
     @Override
-    public DefectDto getDefect(Integer id) {
+    public DefectDto getDefectById(Integer id) {
         return null;
     }
 
     @Override
     public List<DefectDto> getAllDefects() {
-        return null;
+        return defectRepository.findAll().stream().map(defect -> modelMapper.map(defect, DefectDto.class)).toList();
     }
 
     @Override
