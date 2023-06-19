@@ -1,9 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
-import com.example.defecttrackerserver.core.action.ActionController;
-import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,6 @@
-package com.example.defecttrackerserver.core.action;
+package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.action.*;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ActionServiceImplTest {
+public class DefectServiceImplTest {
 
     @Mock
     private ActionRepository actionRepository;
@@ -85,19 +86,6 @@ public class ActionServiceImplTest {
         assertEquals(action.getId(), result.get(0).getId());
         assertEquals(action.getDescription(), result.get(0).getDescription());
     }
-
-    @Test
-    void shouldReturnAllActionsByCreatedById() {
-        when(actionRepository.findByCreatedBy_Id(1)).thenReturn(Arrays.asList(action));
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
-
-        List<ActionDto> result = actionService.getAllActionsByUserCreatedId(1);
-
-        assertNotNull(result);
-        assertEquals(action.getId(), result.get(0).getId());
-        assertEquals(action.getDescription(), result.get(0).getDescription());
-    }
-
 
     @Test
     void shouldUpdateAction() {
