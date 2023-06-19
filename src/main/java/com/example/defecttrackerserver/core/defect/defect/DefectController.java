@@ -17,7 +17,7 @@ public class DefectController {
     public DefectDto saveDefect(@RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}
 
     @GetMapping("/{id}")
-    public DefectDto getDefect(@PathVariable Integer id) { return defectService.getDefect(id);}
+    public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
 
     @GetMapping()
     public List<DefectDto> getAllDefects() { return defectService.getAllDefects();}
@@ -27,6 +27,4 @@ public class DefectController {
 
     @DeleteMapping("/{id}")
     public void deleteDefect(@PathVariable Integer id) { defectService.deleteDefect(id);}
-
-
 }

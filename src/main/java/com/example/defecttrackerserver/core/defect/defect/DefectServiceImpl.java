@@ -27,7 +27,7 @@ public class DefectServiceImpl implements DefectService{
     }
 
     @Override
-    public DefectDto getDefect(Integer id) {
+    public DefectDto getDefectById(Integer id) {
         return null;
     }
 

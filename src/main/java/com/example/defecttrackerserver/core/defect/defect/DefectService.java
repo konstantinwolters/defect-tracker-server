@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto);
-    DefectDto getDefect(Integer id);
+    DefectDto getDefectById(Integer id);
     List<DefectDto> getAllDefects();
     DefectDto updateDefect(DefectDto defectDto);
     void deleteDefect(Integer id);
