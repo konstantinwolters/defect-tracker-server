@@ -19,7 +19,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 

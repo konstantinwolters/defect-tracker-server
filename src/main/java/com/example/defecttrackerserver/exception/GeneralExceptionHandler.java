@@ -13,30 +13,24 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-        ExceptionDetails exceptionDetails = new ExceptionDetails(
-                e.getMessage(),
-                e.getCause(),
-                HttpStatus.BAD_REQUEST
-        );
-        return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
+        return createResponse(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
-        ExceptionDetails exceptionDetails = new ExceptionDetails(
-                e.getMessage(),
-                e.getCause(),
-                HttpStatus.NOT_FOUND
-        );
-        return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
+        return createResponse(e, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
+        return createResponse(e, HttpStatus.FORBIDDEN);
+    }
+
+    private ResponseEntity<Object> createResponse(Exception e, HttpStatus status) {
         ExceptionDetails exceptionDetails = new ExceptionDetails(
                 e.getMessage(),
                 e.getCause(),
-                HttpStatus.FORBIDDEN
+                status
         );
         return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
     }

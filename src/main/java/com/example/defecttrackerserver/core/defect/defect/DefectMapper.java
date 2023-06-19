@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;

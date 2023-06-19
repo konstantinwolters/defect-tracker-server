@@ -1,11 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.location.LocationDto;
-import com.example.defecttrackerserver.core.user.user.User;
-import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
-import com.example.defecttrackerserver.core.user.user.UserServiceImpl;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

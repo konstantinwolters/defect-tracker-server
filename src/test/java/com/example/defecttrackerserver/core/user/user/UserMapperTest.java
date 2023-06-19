@@ -1,8 +1,5 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
@@ -14,15 +11,18 @@ import com.example.defecttrackerserver.core.user.role.RoleDto;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
-
-import java.util.Optional;
-
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 class UserMapperTest {
 

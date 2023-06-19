@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
-import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.user.dto.UserDto;
