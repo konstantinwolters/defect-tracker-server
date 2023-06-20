@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class DefectMapper {
                 .map(defectComment -> defectCommentRepository.findById(defectComment.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Defect comment not found with id: "
                                 + defectComment.getId())))
-                .toList();
+                .collect(Collectors.toList());
         defect.setDefectComments(defectComments);
 
         defect.setLot(lotRepository.findById(defectDto.getLot().getId())
@@ -65,14 +66,14 @@ public class DefectMapper {
                 .map(defectImage -> defectImageRepository.findById(defectImage.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Defect image not found with id: "
                                 + defectImage.getId())))
-                .toList();
+                .collect(Collectors.toList());
         defect.setImages(defectImages);
 
         List<Action> actions = defectDto.getActions().stream()
                 .map(action -> actionRepository.findById(action.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Action not found with id: "
                                 + action.getId())))
-                .toList();
+                .collect(Collectors.toList());
         defect.setActions(actions);
         actions.forEach(action -> action.setDefect(defect));
 
