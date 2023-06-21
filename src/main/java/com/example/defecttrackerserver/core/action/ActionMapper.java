@@ -19,6 +19,7 @@ public class ActionMapper {
     public Action map(ActionDto actionDto, Action action){
         action.setDescription(actionDto.getDescription());
         action.setDueDate(actionDto.getDueDate());
+        action.setIsCompleted(actionDto.getIsCompleted());
 
         action.setDefect(defectRepository.findById(actionDto.getDefect())
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: "
@@ -26,7 +27,7 @@ public class ActionMapper {
 
         action.setCreatedBy(userRepository.findById(actionDto.getCreatedBy().getId())
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
-                        + action.getCreatedBy().getId())));
+                        + actionDto.getCreatedBy().getId())));
 
         Set<User> assignedUsers = actionDto.getAssignedUsers().stream()
                 .map(userDto -> userRepository.findById(userDto.getId())
@@ -41,7 +42,7 @@ public class ActionMapper {
 
     public void checkNullOrEmptyFields(ActionDto actionDto) {
         if(actionDto.getDueDate() == null)
-            throw new IllegalArgumentException("Username must not be null");
+            throw new IllegalArgumentException("Due date must not be null");
         if(actionDto.getDescription() == null || actionDto.getDescription().isEmpty())
             throw new IllegalArgumentException("Description must not be null or empty");
         if(actionDto.getAssignedUsers() == null || actionDto.getAssignedUsers().isEmpty())
