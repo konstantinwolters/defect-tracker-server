@@ -56,7 +56,6 @@ public class ActionServiceImpl implements ActionService{
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));
         actionMapper.checkNullOrEmptyFields(actionDto);
 
-        actionToUpdate.setIsCompleted(actionDto.getIsCompleted());
         Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
 
         Action updatedAction = actionRepository.save(mappedAction);

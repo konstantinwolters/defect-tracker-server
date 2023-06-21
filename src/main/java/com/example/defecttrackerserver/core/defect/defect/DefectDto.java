@@ -10,7 +10,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,13 +20,13 @@ public class DefectDto {
 
     private Integer id;
     private String defectStatus;
-    private List<DefectCommentDto> defectComments = new ArrayList<>();
+    private Set<DefectCommentDto> defectComments;
     private LotDto lot;
     private String location;
     private String process;
     private String defectType;
-    private List<DefectImageDto> images = new ArrayList<>();
-    private List<ActionDto> actions = new ArrayList<>();
+    private Set<DefectImageDto> images;
+    private Set<ActionDto> actions;
     private UserDto createdBy;
     private LocalDateTime createdOn;
 }
