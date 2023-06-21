@@ -15,7 +15,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,7 +36,7 @@ public class Defect {
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
-    private List<DefectComment> defectComments = new ArrayList<>();
+    private Set<DefectComment> defectComments = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "lot_id", nullable = false)
@@ -55,12 +57,12 @@ public class Defect {
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
-    private List<DefectImage> images = new ArrayList<>();
+    private Set<DefectImage> images = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
-    private List<Action> actions = new ArrayList<>();
+    private Set<Action> actions = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "created_by_id", nullable = false)
