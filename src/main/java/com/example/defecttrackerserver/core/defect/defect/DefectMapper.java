@@ -43,8 +43,9 @@ public class DefectMapper {
                 .map(defectComment -> defectCommentRepository.findById(defectComment.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Defect comment not found with id: "
                                 + defectComment.getId())))
-                .collect(Collectors.toList());
-        defect.setDefectComments(defectComments);
+                .toList();
+        defect.getDefectComments().clear();
+        defect.getDefectComments().addAll(defectComments);
 
         defect.setLot(lotRepository.findById(defectDto.getLot().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
@@ -66,15 +67,17 @@ public class DefectMapper {
                 .map(defectImage -> defectImageRepository.findById(defectImage.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Defect image not found with id: "
                                 + defectImage.getId())))
-                .collect(Collectors.toList());
-        defect.setImages(defectImages);
+                .toList();
+        defect.getImages().clear();
+        defect.getImages().addAll(defectImages);
 
         List<Action> actions = defectDto.getActions().stream()
                 .map(action -> actionRepository.findById(action.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Action not found with id: "
                                 + action.getId())))
-                .collect(Collectors.toList());
-        defect.setActions(actions);
+                .toList();
+        defect.getActions().clear();
+        defect.getActions().addAll(actions);
         actions.forEach(action -> action.setDefect(defect));
 
         defect.setCreatedBy(userRepository.findById(defectDto.getCreatedBy().getId())
