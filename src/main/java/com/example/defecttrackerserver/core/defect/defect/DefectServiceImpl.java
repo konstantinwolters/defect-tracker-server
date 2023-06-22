@@ -25,7 +25,7 @@ public class DefectServiceImpl implements DefectService{
 
         Defect newDefect = defectMapper.map(defectDto, defect);
         newDefect.setCreatedOn(LocalDateTime.now());
-        //TODO: Set Status?!
+        //TODO: Set Status?! Must first be fetched from DB
 
         return modelMapper.map(defectRepository.save(newDefect), DefectDto.class);
     }
