@@ -105,9 +105,6 @@ public class DefectMapper {
         if(defectDto.getDefectStatus() == null)
             throw new IllegalArgumentException("DefectStatus must not be null");
 
-        if(defectDto.getDefectComments() == null)
-            throw new IllegalArgumentException("DefectComment must nut be null");
-
         if(defectDto.getLot() == null)
             throw new IllegalArgumentException("Lot must not be null");
 
@@ -119,12 +116,6 @@ public class DefectMapper {
 
         if(defectDto.getDefectType() == null)
             throw new IllegalArgumentException("DefectType must not be null");
-
-        if(defectDto.getImages() == null)
-            throw new IllegalArgumentException("Images must not be null");
-
-        if(defectDto.getActions() == null)
-            throw new IllegalArgumentException("Actions must not be null");
 
         if(defectDto.getCreatedBy() == null)
             throw new IllegalArgumentException("CreatedBy must not be null");
