@@ -19,12 +19,12 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public ActionDto saveAction(ActionDto actionDto) {
-        Action action = new Action();
         actionDto.setId(null);
+        actionDto.setCreatedOn(LocalDateTime.now());
         actionMapper.checkNullOrEmptyFields(actionDto);
+        Action action = new Action();
         Action newAction = actionMapper.map(actionDto, action);
         newAction.setIsCompleted(false);
-        newAction.setCreatedOn(LocalDateTime.now());
         Action savedAction = actionRepository.save(newAction);
         return modelMapper.map(savedAction, ActionDto.class);
     }

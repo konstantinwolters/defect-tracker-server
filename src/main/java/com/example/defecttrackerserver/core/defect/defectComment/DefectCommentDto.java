@@ -12,7 +12,6 @@ public class DefectCommentDto {
 
     private Integer id;
     private String content;
-    private boolean defectCreator;
     private LocalDateTime createdOn;
     private UserDto createdBy;
 }

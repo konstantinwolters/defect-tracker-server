@@ -20,6 +20,7 @@ public class ActionMapper {
         action.setDescription(actionDto.getDescription());
         action.setDueDate(actionDto.getDueDate());
         action.setIsCompleted(actionDto.getIsCompleted());
+        action.setCreatedOn(actionDto.getCreatedOn());
 
         action.setDefect(defectRepository.findById(actionDto.getDefect())
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: "
@@ -43,6 +44,8 @@ public class ActionMapper {
     public void checkNullOrEmptyFields(ActionDto actionDto) {
         if(actionDto.getDueDate() == null)
             throw new IllegalArgumentException("Due date must not be null");
+        if(actionDto.getCreatedOn() == null)
+            throw new IllegalArgumentException("CreatedOn must not be null");
         if(actionDto.getDescription() == null || actionDto.getDescription().isEmpty())
             throw new IllegalArgumentException("Description must not be null or empty");
         if(actionDto.getAssignedUsers() == null || actionDto.getAssignedUsers().isEmpty())
