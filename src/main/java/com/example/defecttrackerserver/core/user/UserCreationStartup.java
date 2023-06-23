@@ -4,6 +4,7 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
@@ -81,8 +82,14 @@ public class UserCreationStartup implements ApplicationRunner {
         process.setName("Test Process");
         processRepository.save(process);
 
+        DefectComment defectComment = new DefectComment();
+        defectComment.setContent("Test Comment");
+        defectComment.setCreatedOn(LocalDateTime.now());
+        defectComment.setCreatedBy(user);
+
         Defect defect = new Defect();
         defect.setDefectStatus(defectStatus);
+        defect.addDefectComment(defectComment);
         defect.setDefectType(defectType);
         defect.setLot(lot);
         defect.setLocation(location);

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface DefectCommentService {
     DefectCommentDto getDefectCommentById(Integer id);
-    DefectCommentDto saveDefectComment(Integer defectId, DefectCommentDto defectComment);
+    DefectCommentDto addDefectCommentToDefect(Integer defectId, DefectCommentDto defectComment);
     DefectCommentDto updateDefectComment(DefectCommentDto defectComment);
     void deleteDefectComment(Integer defectId, Integer defectCommentId);
 }

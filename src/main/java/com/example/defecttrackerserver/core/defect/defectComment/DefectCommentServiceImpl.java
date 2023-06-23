@@ -30,7 +30,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
 
     @Override
     @Transactional
-    public DefectCommentDto saveDefectComment(Integer defectId, DefectCommentDto defectCommentDto) {
+    public DefectCommentDto addDefectCommentToDefect(Integer defectId, DefectCommentDto defectCommentDto) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
 
@@ -60,6 +60,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
     }
 
     @Override
+    @Transactional
     public void deleteDefectComment(Integer defectId, Integer defectCommentId) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
@@ -68,5 +69,6 @@ public class DefectCommentServiceImpl implements DefectCommentService {
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: " + defectCommentId));
 
         defect.deleteDefectComment(defectComment);
+        defectRepository.save(defect);
     }
 }
