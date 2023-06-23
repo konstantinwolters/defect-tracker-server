@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ class ActionMapperTest {
         actionDto.setDescription("testDescription");
         actionDto.setDueDate(LocalDate.of(2023,1,1));
         actionDto.setIsCompleted(true);
+        actionDto.setCreatedOn(LocalDateTime.now());
 
         userDto = new UserDto();
         userDto.setId(1);
@@ -71,6 +73,7 @@ class ActionMapperTest {
 
         assertEquals(actionDto.getDescription(), mappedAction.getDescription());
         assertEquals(actionDto.getIsCompleted(), mappedAction.getIsCompleted());
+        assertEquals(actionDto.getCreatedOn(), mappedAction.getCreatedOn());
         assertEquals(actionDto.getDueDate(), mappedAction.getDueDate());
         assertEquals(actionDto.getCreatedBy().getId(), (mappedAction.getCreatedBy().getId()));
         assertEquals(actionDto.getAssignedUsers().size(), mappedAction.getAssignedUsers().size());

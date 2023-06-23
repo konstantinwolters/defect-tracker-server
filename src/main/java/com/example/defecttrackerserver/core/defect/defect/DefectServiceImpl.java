@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,10 @@ public class DefectServiceImpl implements DefectService{
     public DefectDto saveDefect(DefectDto defectDto) {
         Defect defect = new Defect();
         defectDto.setId(null);
+        defectDto.setCreatedOn(LocalDateTime.now());
         defectMapper.checkNullOrEmptyFields(defectDto);
 
         Defect newDefect = defectMapper.map(defectDto, defect);
-        newDefect.setCreatedOn(LocalDateTime.now());
         //TODO: Set Status?! Must first be fetched from DB
 
         return modelMapper.map(defectRepository.save(newDefect), DefectDto.class);
@@ -43,6 +44,7 @@ public class DefectServiceImpl implements DefectService{
     }
 
     @Override
+    @Transactional
     public DefectDto updateDefect(DefectDto defectDto) {
         Defect defectToUpdate = defectRepository.findById(defectDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectDto.getId()));

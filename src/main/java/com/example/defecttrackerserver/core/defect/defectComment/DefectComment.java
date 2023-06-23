@@ -17,7 +17,6 @@ public class DefectComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String content;
-    private boolean defectCreator;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
