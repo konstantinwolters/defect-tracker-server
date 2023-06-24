@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

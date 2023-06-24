@@ -43,7 +43,7 @@ public class DefectControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldSaveAction() throws Exception {
+    public void shouldSaveDefect() throws Exception {
         when(defectService.saveDefect(any(DefectDto.class))).thenReturn(testDefectDto);
 
         mockMvc.perform(post("/defects")
@@ -56,7 +56,7 @@ public class DefectControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetActionById() throws Exception {
+    public void shouldGetDefectById() throws Exception {
         when(defectService.getDefectById(any(Integer.class))).thenReturn(testDefectDto);
 
         mockMvc.perform(get("/defects/1"))
@@ -67,7 +67,7 @@ public class DefectControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllActions() throws Exception {
+    public void shouldGetAllDefects() throws Exception {
         when(defectService.getAllDefects()).thenReturn(Arrays.asList(testDefectDto));
 
         mockMvc.perform(get("/defects"))
@@ -79,7 +79,7 @@ public class DefectControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldUpdateAction() throws Exception {
+    public void shouldUpdateDefect() throws Exception {
         when(defectService.updateDefect(any(DefectDto.class))).thenReturn(testDefectDto);
         mockMvc.perform(put("/defects")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,7 +91,7 @@ public class DefectControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldDeleteAction() throws Exception {
+    public void shouldDeleteDefect() throws Exception {
         doNothing().when(defectService).deleteDefect(any(Integer.class));
         mockMvc.perform(delete("/defects/1"))
                 .andExpect(status().isOk());

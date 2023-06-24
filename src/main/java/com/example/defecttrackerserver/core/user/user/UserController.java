@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

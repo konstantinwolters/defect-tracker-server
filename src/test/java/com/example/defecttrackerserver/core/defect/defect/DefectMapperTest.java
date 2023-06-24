@@ -22,7 +22,7 @@ import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 

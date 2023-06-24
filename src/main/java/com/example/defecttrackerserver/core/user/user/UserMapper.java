@@ -3,7 +3,6 @@ package com.example.defecttrackerserver.core.user.user;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

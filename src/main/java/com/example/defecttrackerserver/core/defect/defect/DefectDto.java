@@ -4,14 +4,11 @@ import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter

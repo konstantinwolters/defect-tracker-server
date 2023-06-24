@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

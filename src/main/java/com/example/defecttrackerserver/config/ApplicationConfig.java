@@ -12,7 +12,7 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
