@@ -36,6 +36,8 @@ public class DefectMapper {
 
 
     public Defect map (DefectDto defectDto, Defect defect){
+        checkNullOrEmptyFields(defectDto);
+
         defect.setCreatedOn(defectDto.getCreatedOn());
         defect.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "

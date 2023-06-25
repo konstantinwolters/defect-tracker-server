@@ -88,7 +88,7 @@ class ActionMapperTest {
 
     @Test
     void shouldThrowExceptionWhenUserNotFound() {
-                when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Defect()));
+        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Defect()));
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> actionMapper.map(actionDto, new Action()));

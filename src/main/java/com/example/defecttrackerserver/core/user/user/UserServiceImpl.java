@@ -23,9 +23,6 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         userDto.setId(null);
 
-        userMapper.checkNullOrEmptyFields(userDto);
-        userMapper.checkDuplicateUserEntries(userDto);
-
         User newUser = userMapper.map(userDto, user);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
@@ -56,13 +53,10 @@ public class UserServiceImpl implements UserService {
         if(userDto.getPassword() == null)
             userDto.setPassword(user.getPassword());
 
-        userMapper.checkNullOrEmptyFields(userDto);
-        userMapper.checkDuplicateUserEntries(userDto);
-
         User userToUpdate = userMapper.map(userDto, user);
         userToUpdate.setId(user.getId());
 
-        //check if user has chosen a new password, if yes -> encode
+        //if user has chosen a new password, encode
         if(!userToUpdate.getPassword().equals(user.getPassword()))
             userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
 

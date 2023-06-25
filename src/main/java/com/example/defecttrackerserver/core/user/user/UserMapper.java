@@ -21,6 +21,9 @@ public class UserMapper {
     private final UserRepository userRepository;
 
     public User map(UserDto userDto, User user){
+        checkNullOrEmptyFields(userDto);
+        checkDuplicateUserEntries(userDto);
+
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
