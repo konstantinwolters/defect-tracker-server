@@ -11,6 +11,8 @@ public class DefectCommentMapper {
     private final UserRepository userRepository;
 
     public DefectComment map(DefectCommentDto defectCommentDto, DefectComment defectComment){
+        checkNullOrEmptyFields(defectCommentDto);
+
         defectComment.setContent(defectCommentDto.getContent());
         defectComment.setCreatedOn(defectCommentDto.getCreatedOn());
 

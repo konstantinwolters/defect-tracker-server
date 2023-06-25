@@ -20,21 +20,12 @@ public class DefectCommentServiceImpl implements DefectCommentService {
     private final ModelMapper modelMapper;
 
     @Override
-    public DefectCommentDto getDefectCommentById(Integer id) {
-        DefectComment defectComment = defectCommentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: " + id));
-
-        return modelMapper.map(defectComment, DefectCommentDto.class);
-    }
-
-    @Override
     @Transactional
     public DefectCommentDto addDefectCommentToDefect(Integer defectId, DefectCommentDto defectCommentDto) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
 
         defectCommentDto.setCreatedOn(LocalDateTime.now());
-        defectCommentMapper.checkNullOrEmptyFields(defectCommentDto);
 
         DefectComment defectComment = new DefectComment();
         DefectComment newDefectComment = defectCommentMapper.map(defectCommentDto, defectComment);
@@ -42,6 +33,14 @@ public class DefectCommentServiceImpl implements DefectCommentService {
         defectRepository.save(defect);
 
         return modelMapper.map(newDefectComment, DefectCommentDto.class);
+    }
+
+    @Override
+    public DefectCommentDto getDefectCommentById(Integer id) {
+        DefectComment defectComment = defectCommentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: " + id));
+
+        return modelMapper.map(defectComment, DefectCommentDto.class);
     }
 
     @Override
