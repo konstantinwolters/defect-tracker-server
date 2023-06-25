@@ -17,6 +17,8 @@ public class ActionMapper {
     private final DefectRepository defectRepository;
 
     public Action map(ActionDto actionDto, Action action){
+        checkNullOrEmptyFields(actionDto);
+
         action.setDescription(actionDto.getDescription());
         action.setDueDate(actionDto.getDueDate());
         action.setIsCompleted(actionDto.getIsCompleted());

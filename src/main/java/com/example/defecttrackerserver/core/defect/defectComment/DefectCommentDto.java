@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 

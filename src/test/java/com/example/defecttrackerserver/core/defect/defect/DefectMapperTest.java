@@ -22,7 +22,7 @@ import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
-import com.example.defecttrackerserver.core.user.user.dto.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
@@ -224,7 +222,7 @@ class DefectMapperTest {
     void shouldThrowExceptionWhenDefectStatusNotFound() {
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -232,7 +230,7 @@ class DefectMapperTest {
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -241,7 +239,7 @@ class DefectMapperTest {
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
         when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -251,7 +249,7 @@ class DefectMapperTest {
         when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -262,7 +260,7 @@ class DefectMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -274,7 +272,7 @@ class DefectMapperTest {
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
         when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -287,7 +285,7 @@ class DefectMapperTest {
         when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
         when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -301,7 +299,7 @@ class DefectMapperTest {
         when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectImage()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -316,7 +314,7 @@ class DefectMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(new DefectDto(), new Defect()));
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test

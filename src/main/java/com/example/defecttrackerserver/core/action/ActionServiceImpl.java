@@ -21,7 +21,6 @@ public class ActionServiceImpl implements ActionService{
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
         actionDto.setCreatedOn(LocalDateTime.now());
-        actionMapper.checkNullOrEmptyFields(actionDto);
         Action action = new Action();
         Action newAction = actionMapper.map(actionDto, action);
         newAction.setIsCompleted(false);
@@ -54,7 +53,6 @@ public class ActionServiceImpl implements ActionService{
     public ActionDto updateAction(ActionDto actionDto) {
         Action actionToUpdate = actionRepository.findById(actionDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));
-        actionMapper.checkNullOrEmptyFields(actionDto);
 
         Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
 

@@ -23,7 +23,6 @@ public class DefectServiceImpl implements DefectService{
         Defect defect = new Defect();
         defectDto.setId(null);
         defectDto.setCreatedOn(LocalDateTime.now());
-        defectMapper.checkNullOrEmptyFields(defectDto);
 
         Defect newDefect = defectMapper.map(defectDto, defect);
         //TODO: Set Status?! Must first be fetched from DB
@@ -48,7 +47,6 @@ public class DefectServiceImpl implements DefectService{
     public DefectDto updateDefect(DefectDto defectDto) {
         Defect defectToUpdate = defectRepository.findById(defectDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectDto.getId()));
-        defectMapper.checkNullOrEmptyFields(defectDto);
 
         defectToUpdate.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect Status not found with name: "

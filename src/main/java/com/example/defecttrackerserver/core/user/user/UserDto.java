@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.user.user.dto;
+package com.example.defecttrackerserver.core.user.user;
 
 import lombok.Getter;
 import lombok.Setter;

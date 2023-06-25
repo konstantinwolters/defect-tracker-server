@@ -1,6 +1,9 @@
-package com.example.defecttrackerserver.core.defect.defect;
+package com.example.defecttrackerserver.core.defect.defectComment;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
+import com.example.defecttrackerserver.core.defect.defect.DefectController;
+import com.example.defecttrackerserver.core.defect.defect.DefectDto;
+import com.example.defecttrackerserver.core.defect.defect.DefectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,12 +23,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(DefectController.class)
+@WebMvcTest(DefectCommentController.class)
 @Import(SecurityConfig.class)
-public class DefectControllerTest {
+public class DefectCommentControllerTest {
 
     @MockBean
-    private DefectService defectService;
+    private DefectCommentService defectCommentService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,67 +36,57 @@ public class DefectControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private DefectDto testDefectDto;
+    private DefectCommentDto testDefectCommentDto;
 
     @BeforeEach
     public void setUp() {
-        testDefectDto = new DefectDto();
-        testDefectDto.setLocation("Texas");
+        testDefectCommentDto = new DefectCommentDto();
+        testDefectCommentDto.setContent("test");
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldSaveDefect() throws Exception {
-        when(defectService.saveDefect(any(DefectDto.class))).thenReturn(testDefectDto);
+    public void shouldAddDefectCommentToDefect() throws Exception {
+        when(defectCommentService.addDefectCommentToDefect(any(Integer.class), any(DefectCommentDto.class)))
+                .thenReturn(testDefectCommentDto);
 
-        mockMvc.perform(post("/defects")
+        mockMvc.perform(post("/defects/1/comments")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testDefectDto)))
+                        .content(objectMapper.writeValueAsString(testDefectCommentDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.location").value("Texas"));
+                .andExpect(jsonPath("$.content").value("test"));
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetDefectById() throws Exception {
-        when(defectService.getDefectById(any(Integer.class))).thenReturn(testDefectDto);
+    public void shouldGetDefectCommentById() throws Exception {
+        when(defectCommentService.getDefectCommentById(any(Integer.class))).thenReturn(testDefectCommentDto);
 
-        mockMvc.perform(get("/defects/1"))
+        mockMvc.perform(get("/defects/comments/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.location").value("Texas"));
+                .andExpect(jsonPath("$.content").value("test"));
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllDefects() throws Exception {
-        when(defectService.getAllDefects()).thenReturn(Arrays.asList(testDefectDto));
-
-        mockMvc.perform(get("/defects"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].location").value("Texas"));
-    }
-
-
-    @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldUpdateDefect() throws Exception {
-        when(defectService.updateDefect(any(DefectDto.class))).thenReturn(testDefectDto);
-        mockMvc.perform(put("/defects")
+    public void shouldUpdateDefectComment() throws Exception {
+        when(defectCommentService.updateDefectComment(any(DefectCommentDto.class))).thenReturn(testDefectCommentDto);
+        mockMvc.perform(put("/defects/comments")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testDefectDto)))
+                .content(objectMapper.writeValueAsString(testDefectCommentDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.location").value("Texas"));
+                .andExpect(jsonPath("$.content").value("test"));
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldDeleteDefect() throws Exception {
-        doNothing().when(defectService).deleteDefect(any(Integer.class));
-        mockMvc.perform(delete("/defects/1"))
+    public void shouldDeleteDefectComment() throws Exception {
+
+        doNothing().when(defectCommentService).deleteDefectComment(any(Integer.class), any(Integer.class));
+        mockMvc.perform(delete("/defects/1/comments/1"))
                 .andExpect(status().isOk());
     }
 }

@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +36,8 @@ public class DefectMapper {
 
 
     public Defect map (DefectDto defectDto, Defect defect){
+        checkNullOrEmptyFields(defectDto);
+
         defect.setCreatedOn(defectDto.getCreatedOn());
         defect.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "
