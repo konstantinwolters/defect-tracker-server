@@ -15,14 +15,14 @@ import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
+import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
-import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.user.User;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
