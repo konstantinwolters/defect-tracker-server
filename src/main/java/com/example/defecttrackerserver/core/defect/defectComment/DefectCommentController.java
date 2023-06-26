@@ -10,15 +10,15 @@ public class DefectCommentController {
 
     private final DefectCommentService defectCommentService;
 
+    @PostMapping("/{id}/comments")
+    public DefectCommentDto addDefectCommentToDefect(@PathVariable Integer id,
+                                                     @RequestBody DefectCommentDto defectCommentDto) {
+        return defectCommentService.addDefectCommentToDefect(id, defectCommentDto);
+    }
+
     @GetMapping("/comments/{id}")
     public DefectCommentDto getDefectCommentById(@PathVariable Integer id) {
         return defectCommentService.getDefectCommentById(id);
-    }
-
-    @PostMapping("/{id}/comments")
-    public DefectCommentDto addDefectCommentToDefect(@PathVariable Integer id,
-                                               @RequestBody DefectCommentDto defectCommentDto) {
-        return defectCommentService.addDefectCommentToDefect(id, defectCommentDto);
     }
 
     @PutMapping("/comments")

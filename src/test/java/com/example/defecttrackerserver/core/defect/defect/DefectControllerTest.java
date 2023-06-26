@@ -76,7 +76,6 @@ public class DefectControllerTest {
                 .andExpect(jsonPath("$[0].location").value("Texas"));
     }
 
-
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateDefect() throws Exception {

@@ -51,7 +51,7 @@ public class DefectServiceImplTest {
     }
 
     @Test
-    void shouldSaveAction() {
+    void shouldSaveDefect() {
         when(actionRepository.save(action)).thenReturn(action);
         when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
@@ -64,7 +64,7 @@ public class DefectServiceImplTest {
     }
 
     @Test
-    void shouldReturnActionById() {
+    void shouldReturnDefectById() {
         when(actionRepository.findById(1)).thenReturn(Optional.ofNullable(action));
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
 
@@ -76,7 +76,7 @@ public class DefectServiceImplTest {
     }
 
     @Test
-    void shouldReturnAllActions() {
+    void shouldReturnAllDefects() {
         when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
         when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
 
@@ -88,7 +88,7 @@ public class DefectServiceImplTest {
     }
 
     @Test
-    void shouldUpdateAction() {
+    void shouldUpdateDefect() {
         when(actionRepository.save(any(Action.class))).thenReturn(action);
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
         when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
@@ -103,7 +103,7 @@ public class DefectServiceImplTest {
     }
 
     @Test
-    void shouldDeleteAction() {
+    void shouldDeleteDefect() {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
 
         actionService.deleteAction(1);
