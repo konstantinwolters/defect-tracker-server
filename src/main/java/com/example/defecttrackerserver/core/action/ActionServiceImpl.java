@@ -66,6 +66,4 @@ public class ActionServiceImpl implements ActionService{
                 .orElseThrow(() -> new RuntimeException("Action not found"));
         actionRepository.delete(action);
     }
-
-
 }
