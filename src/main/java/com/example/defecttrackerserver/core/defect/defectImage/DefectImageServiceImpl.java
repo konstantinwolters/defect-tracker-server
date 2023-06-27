@@ -26,9 +26,9 @@ public class DefectImageServiceImpl implements DefectImageService{
         DefectImage defectImage = new DefectImage();
         defectImage.setPath(defectImageDto.getPath());
         defect.addDefectImage(defectImage);
-        Defect savedDefect = defectRepository.save(defect);
+        defectRepository.save(defect);
 
-        return modelMapper.map(savedDefect, DefectImageDto.class);
+        return modelMapper.map(defectImage, DefectImageDto.class);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DefectImageServiceImpl implements DefectImageService{
     }
 
     @Override
-    public void deleteDefectImageById(Integer defectId, Integer defectImageId) {
+    public void deleteDefectImageFromDefect(Integer defectId, Integer defectImageId) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
 
@@ -63,6 +63,6 @@ public class DefectImageServiceImpl implements DefectImageService{
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: " + defectImageId));
 
         defect.deleteDefectImage(defectImage);
-        defectImageRepository.delete(defectImage);
+        defectRepository.save(defect);
     }
 }

@@ -17,20 +17,5 @@ public class DefectStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
-    @OneToMany(mappedBy = "defectStatus",
-            cascade = CascadeType.PERSIST)
-    private List<Defect> defects = new ArrayList<>();
-
-    public void addDefect(Defect defect) {
-        defects.add(defect);
-        defect.setDefectStatus(this);
-    }
-
-    public void removeDefect(Defect defect) {
-        defects.remove(defect);
-        defect.setDefectStatus(null);
-    }
-
 }
 

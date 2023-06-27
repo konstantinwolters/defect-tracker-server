@@ -10,10 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class DefectStatusDto {
-
     private Integer id;
     private String name;
-    private List<DefectDto> defects = new ArrayList<>();
-
 }
 
