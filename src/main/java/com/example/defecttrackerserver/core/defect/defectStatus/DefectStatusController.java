@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/defectStatus")
+@RequestMapping("/defectstatus")
 public class DefectStatusController {
     private final DefectStatusService defectStatusService;
 
