@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +36,11 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     }
 
     @Override
-    public Set<DefectStatusDto> getAllDefectStatus() {
+    public List<DefectStatusDto> getAllDefectStatus() {
         return defectStatusRepository.findAll()
                 .stream()
                 .map(defectStatus -> modelMapper.map(defectStatus, DefectStatusDto.class))
-                .collect(java.util.stream.Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
