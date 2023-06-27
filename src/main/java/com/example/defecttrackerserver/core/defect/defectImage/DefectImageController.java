@@ -14,9 +14,9 @@ public class DefectImageController {
         return defectImageService.saveDefectImageToDefect(defectId, defectImageDto);
     }
 
-    @GetMapping("/images")
-    public DefectImageDto getImageById(@RequestParam Integer imageId) {
-        return defectImageService.getDefectImageById(imageId);
+    @GetMapping("/images/{id}")
+    public DefectImageDto getImageById(@PathVariable Integer id) {
+        return defectImageService.getDefectImageById(id);
     }
 
     @PutMapping("/images")

@@ -54,7 +54,6 @@ public class DefectStatusServiceImplTest {
         verify(defectStatusRepository, times(1)).save(any(DefectStatus.class));
     }
 
-
     @Test
     void shouldReturnDefectStatusById() {
         when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
@@ -101,7 +100,6 @@ public class DefectStatusServiceImplTest {
 
         verify(defectStatusRepository, times(1)).deleteById(1);;
     }
-
 
     @Test
     void shouldThrowExceptionWhenDefectStatusNotFound(){

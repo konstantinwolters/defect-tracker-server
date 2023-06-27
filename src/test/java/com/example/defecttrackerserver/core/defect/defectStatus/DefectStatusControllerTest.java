@@ -78,7 +78,7 @@ public class DefectStatusControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldUpdateDefectComment() throws Exception {
+    public void shouldUpdateDefectStatus() throws Exception {
         when(defectStatusService.updateDefectStatus(any(DefectStatusDto.class))).thenReturn(testDefectStatusDto);
         mockMvc.perform(put("/defectstatus")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +90,7 @@ public class DefectStatusControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldDeleteDefectComment() throws Exception {
+    public void shouldDeleteDefectStatus() throws Exception {
         doNothing().when(defectStatusService).deleteDefectStatus(any(Integer.class));
         mockMvc.perform(delete("/defectstatus/1"))
                 .andExpect(status().isOk());
