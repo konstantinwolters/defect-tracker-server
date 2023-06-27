@@ -1,0 +1,112 @@
+package com.example.defecttrackerserver.core.defect.defectStatus;
+
+import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+public class DefectStatusServiceImplTest {
+
+    @Mock
+    private DefectStatusRepository defectStatusRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
+
+    @InjectMocks
+    private DefectStatusServiceImpl defectStatusService;
+
+    private DefectStatusDto defectStatusDto;
+    private DefectStatus defectStatus;
+
+    @BeforeEach
+    void setUp() {
+        defectStatusDto = new DefectStatusDto();
+        defectStatusDto.setId(1);
+        defectStatusDto.setName("testName");
+
+        defectStatus = new DefectStatus();
+        defectStatus.setId(1);
+        defectStatus.setName("testName");
+    }
+
+    @Test
+    void shouldSaveDefectStatus() {
+        when(defectStatusRepository.save(any(DefectStatus.class))).thenReturn(defectStatus);
+        when(modelMapper.map(any(DefectStatus.class), eq(DefectStatusDto.class))).thenReturn(defectStatusDto);
+
+        DefectStatusDto result = defectStatusService.saveDefectStatus(defectStatusDto);
+
+        assertNotNull(result);
+        assertEquals(defectStatus.getName(), result.getName());
+        verify(defectStatusRepository, times(1)).save(any(DefectStatus.class));
+    }
+
+
+    @Test
+    void shouldReturnDefectStatusById() {
+        when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
+        when(modelMapper.map(defectStatus, DefectStatusDto.class)).thenReturn(defectStatusDto);
+
+        DefectStatusDto result = defectStatusService.getDefectStatusById(1);
+
+        assertNotNull(result);
+        assertEquals(defectStatus.getId(), result.getId());
+        assertEquals(defectStatus.getName(), result.getName());
+    }
+
+    @Test
+    void shouldReturnAllDefectStatus(){
+        when(defectStatusRepository.findAll()).thenReturn(Arrays.asList(defectStatus));
+        when(modelMapper.map(defectStatus, DefectStatusDto.class)).thenReturn(defectStatusDto);
+
+        List<DefectStatusDto> result = defectStatusService.getAllDefectStatus();
+
+        assertNotNull(result);
+        assertEquals(defectStatus.getId(), result.get(0).getId());
+        assertEquals(defectStatus.getName(), result.get(0).getName());
+    }
+
+    @Test
+    void shouldUpdateDefectStatus() {
+        when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
+        when(defectStatusRepository.save(any(DefectStatus.class))).thenReturn(defectStatus);
+        when(modelMapper.map(any(DefectStatus.class), eq(DefectStatusDto.class))).thenReturn(defectStatusDto);
+
+        DefectStatusDto result = defectStatusService.updateDefectStatus(defectStatusDto);
+
+        assertNotNull(result);
+        assertEquals(defectStatus.getId(), result.getId());
+        assertEquals(defectStatus.getName(), result.getName());
+        verify(defectStatusRepository, times(1)).save(defectStatus);
+    }
+
+    @Test
+    void shouldDeleteAction() {
+        when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
+
+        defectStatusService.deleteDefectStatus(1);
+
+        verify(defectStatusRepository, times(1)).deleteById(1);;
+    }
+
+
+    @Test
+    void shouldThrowExceptionWhenDefectStatusNotFound(){
+        when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> defectStatusService.deleteDefectStatus(1));
+    }
+}

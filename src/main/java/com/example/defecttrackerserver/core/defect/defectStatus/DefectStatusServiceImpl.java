@@ -21,7 +21,7 @@ public class DefectStatusServiceImpl implements DefectStatusService{
             throw new IllegalArgumentException("DefectStatus name must not be null");
 
         DefectStatus defectStatus = new DefectStatus();
-        defectStatus.setName(defectStatus.getName());
+        defectStatus.setName(defectStatusDto.getName());
 
         DefectStatus savedDefectStatus = defectStatusRepository.save(defectStatus);
 
