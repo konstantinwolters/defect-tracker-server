@@ -97,8 +97,7 @@ public class DefectCommentServiceImplTest {
     }
 
     @Test
-    void shouldDeleteAction() {
-
+    void shouldDeleteDefectComment() {
         Defect defectSpy = spy(new Defect());
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectSpy));
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectComment));
@@ -109,7 +108,6 @@ public class DefectCommentServiceImplTest {
         verify(defectRepository, times(1)).save(defectSpy);
         assertFalse(defectSpy.getDefectComments().contains(defectComment));
     }
-
 
     @Test
     void shouldThrowExceptionWhenDefectNotFound(){

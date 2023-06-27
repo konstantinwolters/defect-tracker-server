@@ -1,9 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusController;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -83,7 +78,7 @@ public class DefectImageControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldDeleteDefectImage() throws Exception {
-        doNothing().when(defectImageService).deleteDefectImageById(any(Integer.class), any(Integer.class));
+        doNothing().when(defectImageService).deleteDefectImageFromDefect(any(Integer.class), any(Integer.class));
         mockMvc.perform(delete("/defects/1/images/1"))
                 .andExpect(status().isOk());
     }

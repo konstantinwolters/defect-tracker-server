@@ -26,6 +26,6 @@ public class DefectImageController {
 
     @DeleteMapping("/{defectId}/images/{imageId}")
     public void deleteImage(@PathVariable Integer defectId, @PathVariable Integer imageId) {
-        defectImageService.deleteDefectImageById(defectId, imageId);
+        defectImageService.deleteDefectImageFromDefect(defectId, imageId);
     }
 }
