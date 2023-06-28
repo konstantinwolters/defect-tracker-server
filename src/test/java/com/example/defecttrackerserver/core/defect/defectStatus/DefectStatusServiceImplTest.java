@@ -93,7 +93,7 @@ public class DefectStatusServiceImplTest {
     }
 
     @Test
-    void shouldDeleteAction() {
+    void shouldDeleteDefectStatus() {
         when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
 
         defectStatusService.deleteDefectStatus(1);
