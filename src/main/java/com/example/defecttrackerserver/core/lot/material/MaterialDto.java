@@ -8,13 +8,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
-public class Material {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MaterialDto {
     private Integer id;
     private String name;
 }

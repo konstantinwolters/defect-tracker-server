@@ -10,4 +10,6 @@ public class DefectTrackerServerApplication {
         SpringApplication.run(DefectTrackerServerApplication.class, args);
     }
 
+    //TODO: Check if all bidirectional relationships are set up correctly. Meaning that on creation or changes both sides are updated accordingly
+
 }
