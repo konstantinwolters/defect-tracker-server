@@ -22,17 +22,17 @@ public class ProcessController {
     }
 
     @GetMapping
-    public List<ProcessDto> getAllDefectTypes() {
+    public List<ProcessDto> getAllProcesses() {
         return processService.getAllProcesses();
     }
 
     @PutMapping
-    public ProcessDto updateDefectType(@RequestBody ProcessDto processDto) {
+    public ProcessDto updateProcess(@RequestBody ProcessDto processDto) {
         return processService.updateProcess(processDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDefectType(@PathVariable Integer id) {
+    public void deleteProcess(@PathVariable Integer id) {
         processService.deleteProcess(id);
     }
 }

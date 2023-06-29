@@ -7,32 +7,32 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/location")
+@RequestMapping("/locations")
 public class LocationController {
     private final LocationService locationService;
 
     @PostMapping
-    public LocationDto saveProcess(@RequestBody LocationDto locationDto) {
+    public LocationDto saveLocation(@RequestBody LocationDto locationDto) {
         return locationService.saveLocation(locationDto);
     }
 
     @GetMapping("/{id}")
-    public LocationDto getProcess(@PathVariable Integer id) {
+    public LocationDto getLocation(@PathVariable Integer id) {
         return locationService.getLocationById(id);
     }
 
     @GetMapping
-    public List<LocationDto> getAllDefectTypes() {
+    public List<LocationDto> getAllLocation() {
         return locationService.getAllLocations();
     }
 
     @PutMapping
-    public LocationDto updateDefectType(@RequestBody LocationDto locationDto) {
+    public LocationDto updateLocation(@RequestBody LocationDto locationDto) {
         return locationService.updateLocation(locationDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDefectType(@PathVariable Integer id) {
+    public void deleteLocation(@PathVariable Integer id) {
         locationService.deleteLocation(id);
     }
 }

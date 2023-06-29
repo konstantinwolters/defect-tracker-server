@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.process;
+package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +20,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(ProcessController.class)
+@WebMvcTest(LocationController.class)
 @Import(SecurityConfig.class)
-public class ProcessControllerTest {
+public class LocationControllerTest {
 
     @MockBean
-    private ProcessServiceImpl processService;
+    private LocationServiceImpl locationService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,22 +33,22 @@ public class ProcessControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private ProcessDto testProcessDto;
+    private LocationDto testLocationDto;
 
     @BeforeEach
     public void setUp() {
-        testProcessDto = new ProcessDto();
-        testProcessDto.setName("testName");
+        testLocationDto = new LocationDto();
+        testLocationDto.setName("testName");
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldSaveProcess() throws Exception {
-        when(processService.saveProcess(any(ProcessDto.class))).thenReturn(testProcessDto);
+    public void shouldSaveLocation() throws Exception {
+        when(locationService.saveLocation(any(LocationDto.class))).thenReturn(testLocationDto);
 
-        mockMvc.perform(post("/processes")
+        mockMvc.perform(post("/locations")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testProcessDto)))
+                        .content(objectMapper.writeValueAsString(testLocationDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("testName"));
@@ -56,10 +56,10 @@ public class ProcessControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetProcessById() throws Exception {
-        when(processService.getProcessById(any(Integer.class))).thenReturn(testProcessDto);
+    public void shouldGetLocationById() throws Exception {
+        when(locationService.getLocationById(any(Integer.class))).thenReturn(testLocationDto);
 
-        mockMvc.perform(get("/processes/1"))
+        mockMvc.perform(get("/locations/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("testName"));
@@ -67,10 +67,10 @@ public class ProcessControllerTest {
 
     @Test
     @WithMockUser(username = "XXXX", roles = "ADMIN")
-    public void shouldGetAllProcesses() throws Exception {
-        when(processService.getAllProcesses()).thenReturn(Arrays.asList(testProcessDto));
+    public void shouldGetAllLocations() throws Exception {
+        when(locationService.getAllLocations()).thenReturn(Arrays.asList(testLocationDto));
 
-        mockMvc.perform(get("/processes"))
+        mockMvc.perform(get("/locations"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].name").value("testName"));
@@ -78,11 +78,11 @@ public class ProcessControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldUpdateProcess() throws Exception {
-        when(processService.updateProcess(any(ProcessDto.class))).thenReturn(testProcessDto);
-        mockMvc.perform(put("/processes")
+    public void shouldUpdateLocation() throws Exception {
+        when(locationService.updateLocation(any(LocationDto.class))).thenReturn(testLocationDto);
+        mockMvc.perform(put("/locations")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testProcessDto)))
+                .content(objectMapper.writeValueAsString(testLocationDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("testName"));
@@ -90,9 +90,9 @@ public class ProcessControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldDeleteProcess() throws Exception {
-        doNothing().when(processService).deleteProcess(any(Integer.class));
-        mockMvc.perform(delete("/processes/1"))
+    public void shouldDeleteLocation() throws Exception {
+        doNothing().when(locationService).deleteLocation(any(Integer.class));
+        mockMvc.perform(delete("/locations/1"))
                 .andExpect(status().isOk());
     }
 }
