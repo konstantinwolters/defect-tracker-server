@@ -10,6 +10,7 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepo
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -55,9 +56,12 @@ public class DefectMapper {
             defect.getDefectComments().addAll(defectComments);
         }
 
-        defect.setLot(lotRepository.findById(defectDto.getLot().getId())
+        Lot lot = lotRepository.findById(defectDto.getLot().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
-                        + defectDto.getLot().getId())));
+                        + defectDto.getLot().getId()));
+        defect.setLot(lot);
+        lot.addDefect(defect);
+        lotRepository.save(lot);
 
         defect.setLocation(locationRepository.findByName(defectDto.getLocation())
                 .orElseThrow(() -> new EntityNotFoundException("Location not found with id: "

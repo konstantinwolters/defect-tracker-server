@@ -26,7 +26,15 @@ public class Lot {
     private Supplier supplier;
 
     @OneToMany(mappedBy = "lot",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Defect> defects = new HashSet<>();
+
+    public void addDefect(Defect defect) {
+        defects.add(defect);
+    }
+
+    public void removeDefect(Defect defect) {
+        defects.remove(defect);
+    }
 }

@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
             userDto.setPassword(user.getPassword());
 
         User userToUpdate = userMapper.map(userDto, user);
-        userToUpdate.setId(user.getId());
 
         //if user has chosen a new password, encode
         if(!userToUpdate.getPassword().equals(user.getPassword()))
