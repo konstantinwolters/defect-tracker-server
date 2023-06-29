@@ -72,7 +72,7 @@ public class DefectMapper {
                         + defectDto.getDefectType())));
 
         if(defectDto.getImages() == null){
-            defect.setImages(new HashSet<>());
+            defect.setImages(new HashSet<>());//TODO: is this really necessary? Defect class already as HashSet
         }else{
             Set<DefectImage> defectImages = defectDto.getImages().stream()
                     .map(defectImage -> defectImageRepository.findById(defectImage.getId())
