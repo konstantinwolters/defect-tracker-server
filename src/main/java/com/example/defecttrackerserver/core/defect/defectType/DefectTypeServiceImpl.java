@@ -61,9 +61,9 @@ public class DefectTypeServiceImpl implements DefectTypeService {
 
     @Override
     public void deleteDefectType(Integer id) {
-        defectTypeRepository.findById(id)
+        DefectType defectType = defectTypeRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: " + id));
 
-        defectTypeRepository.deleteById(id);
+        defectTypeRepository.delete(defectType);
     }
 }

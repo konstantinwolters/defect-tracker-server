@@ -98,7 +98,7 @@ public class DefectTypeServiceImplTest {
 
         defectTypeService.deleteDefectType(1);
 
-        verify(defectTypeRepository, times(1)).deleteById(1);;
+        verify(defectTypeRepository, times(1)).delete(defectType);
     }
 
     @Test

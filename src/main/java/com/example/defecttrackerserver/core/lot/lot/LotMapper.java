@@ -42,7 +42,7 @@ public class LotMapper {
         return lot;
     }
 
-    private void checkNullOrEmptyFields(LotDto lotDto) {
+    public void checkNullOrEmptyFields(LotDto lotDto) {
         if(lotDto.getMaterial() == null)
             throw new IllegalArgumentException("Name cannot be null");
 

@@ -9,9 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/defects")
 public class DefectController {
-
     private final DefectService defectService;
-
 
     @PostMapping()
     public DefectDto saveDefect(@RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}

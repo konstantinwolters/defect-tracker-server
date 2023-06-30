@@ -1,7 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
-import com.example.defecttrackerserver.core.action.*;
-import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,91 +22,89 @@ import static org.mockito.Mockito.*;
 public class DefectServiceImplTest {
 
     @Mock
-    private ActionRepository actionRepository;
+    private DefectRepository defectRepository;
+
+    @Mock
+    private DefectStatusRepository defectStatusRepository;
 
     @Mock
     private ModelMapper modelMapper;
 
     @Mock
-    private ActionMapper actionMapper;
+    private DefectMapper defectMapper;
 
     @InjectMocks
-    private ActionServiceImpl actionService;
+    private DefectServiceImpl defectService;
 
-    private ActionDto actionDto;
-    private Action action;
+    private DefectDto defectDto;
+    private Defect defect;
 
     @BeforeEach
     void setUp() {
-        actionDto = new ActionDto();
-        actionDto.setId(1);
-        actionDto.setAssignedUsers(Set.of(new UserDto()));
-        actionDto.setDescription("test");
-        actionDto.setCreatedBy(new UserDto());
+        defectDto = new DefectDto();
+        defectDto.setId(1);
+        defectDto.setDefectStatus("testStatus");
 
-        action = new Action();
-        action.setId(1);
-        action.setDescription("test");
+        defect = new Defect();
+        defect.setId(1);
     }
 
     @Test
     void shouldSaveDefect() {
-        when(actionRepository.save(action)).thenReturn(action);
-        when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(defectRepository.save(defect)).thenReturn(defect);
+        when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
+        when(modelMapper.map(defect, DefectDto.class)).thenReturn(defectDto);
 
-        ActionDto result = actionService.saveAction(actionDto);
+        DefectDto result = defectService.saveDefect(defectDto);
 
         assertNotNull(result);
-        assertEquals(action.getDescription(), result.getDescription());
-        verify(actionRepository, times(1)).save(action);
+        verify(defectRepository, times(1)).save(defect);
     }
 
     @Test
     void shouldReturnDefectById() {
-        when(actionRepository.findById(1)).thenReturn(Optional.ofNullable(action));
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(defectRepository.findById(1)).thenReturn(Optional.ofNullable(defect));
+        when(modelMapper.map(defect, DefectDto.class)).thenReturn(defectDto);
 
-        ActionDto result = actionService.getActionById(1);
+        DefectDto result = defectService.getDefectById(1);
 
         assertNotNull(result);
-        assertEquals(action.getId(), result.getId());
-        assertEquals(action.getDescription(), result.getDescription());
+        assertEquals(defect.getId(), result.getId());
+        assertEquals(defect.getId(), result.getId());
     }
 
     @Test
     void shouldReturnAllDefects() {
-        when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(defectRepository.findAll()).thenReturn(Arrays.asList(defect));
+        when(modelMapper.map(defect, DefectDto.class)).thenReturn(defectDto);
 
-        List<ActionDto> result = actionService.getAllActions();
+        List<DefectDto> result = defectService.getAllDefects();
 
         assertNotNull(result);
-        assertEquals(action.getId(), result.get(0).getId());
-        assertEquals(action.getDescription(), result.get(0).getDescription());
+        assertEquals(defect.getId(), result.get(0).getId());
     }
 
     @Test
     void shouldUpdateDefect() {
-        when(actionRepository.save(any(Action.class))).thenReturn(action);
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
-        when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
-        when(modelMapper.map(any(Action.class), eq(ActionDto.class))).thenReturn(actionDto);
+        when(defectRepository.save(any(Defect.class))).thenReturn(defect);
+        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
+        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
+        when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
+        when(modelMapper.map(any(Defect.class), eq(DefectDto.class))).thenReturn(defectDto);
 
-        ActionDto result = actionService.updateAction(actionDto);
+        DefectDto result = defectService.updateDefect(defectDto);
 
         assertNotNull(result);
-        assertEquals(action.getId(), result.getId());
-        assertEquals(action.getDescription(), result.getDescription());
-        verify(actionRepository, times(1)).save(action);
+        assertEquals(defect.getId(), result.getId());
+        verify(defectRepository, times(1)).save(defect);
     }
 
     @Test
     void shouldDeleteDefect() {
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
+        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
 
-        actionService.deleteAction(1);
+        defectService.deleteDefect(1);
 
-        verify(actionRepository, times(1)).delete(action);
+        verify(defectRepository, times(1)).delete(defect);
     }
 }
