@@ -61,9 +61,9 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public void deleteProcess(Integer id) {
-        processRepository.findById(id)
+        Process process = processRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Process not found with id: " + id));
 
-        processRepository.deleteById(id);
+        processRepository.delete(process);
     }
 }

@@ -62,9 +62,9 @@ public class DefectStatusServiceImpl implements DefectStatusService{
 
     @Override
     public void deleteDefectStatus(Integer id) {
-        defectStatusRepository.findById(id)
+        DefectStatus defectStatus = defectStatusRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: " + id));
 
-        defectStatusRepository.deleteById(id);
+        defectStatusRepository.delete(defectStatus);
     }
 }

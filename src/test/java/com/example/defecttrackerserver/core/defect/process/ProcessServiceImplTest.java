@@ -102,7 +102,7 @@ public class ProcessServiceImplTest {
 
         processService.deleteProcess(1);
 
-        verify(processRepository, times(1)).deleteById(1);;
+        verify(processRepository, times(1)).delete(process);
     }
 
     @Test
