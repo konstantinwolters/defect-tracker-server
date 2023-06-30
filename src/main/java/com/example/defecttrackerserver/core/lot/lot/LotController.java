@@ -16,8 +16,8 @@ public class LotController {
         return lotService.saveLot(lotDto);
     }
 
-    @GetMapping
-    public LotDto getLotById(@RequestParam Integer id) {
+    @GetMapping("/{id}")
+    public LotDto getLotById(@PathVariable Integer id) {
         return lotService.getLotById(id);
     }
 
@@ -31,8 +31,8 @@ public class LotController {
         return lotService.updateLot(lotDto);
     }
 
-    @DeleteMapping
-    public void deleteLot(@RequestParam Integer id) {
+    @DeleteMapping("/{id}")
+    public void deleteLot(@PathVariable Integer id) {
         lotService.deleteLot(id);
     }
 }
