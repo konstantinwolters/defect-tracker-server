@@ -34,7 +34,6 @@ public class Action {
     private Set<User> assignedUsers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
     private Defect defect;
 
     @Column(nullable = false, updatable = false)

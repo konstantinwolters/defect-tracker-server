@@ -90,7 +90,8 @@ public class Defect {
      }
 
      public void deleteAction(Action action) {
-         actions.remove(action);
-         action.setDefect(null);
+        action.getAssignedUsers().forEach(user -> user.removeAssignedAction(action));
+        actions.remove(action);
+        action.setDefect(null);
      }
 }

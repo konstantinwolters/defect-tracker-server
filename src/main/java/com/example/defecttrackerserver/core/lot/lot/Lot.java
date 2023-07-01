@@ -32,9 +32,11 @@ public class Lot {
 
     public void addDefect(Defect defect) {
         defects.add(defect);
+        defect.setLot(this);
     }
 
     public void removeDefect(Defect defect) {
         defects.remove(defect);
+        defect.setLot(null);
     }
 }

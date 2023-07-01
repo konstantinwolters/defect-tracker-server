@@ -36,9 +36,8 @@ public class LotMapper {
                                     + defectId)))
                     .collect(Collectors.toSet());
             lot.getDefects().clear();
-            lot.getDefects().addAll(defects);
+            defects.forEach(lot::addDefect);
         }
-
         return lot;
     }
 
