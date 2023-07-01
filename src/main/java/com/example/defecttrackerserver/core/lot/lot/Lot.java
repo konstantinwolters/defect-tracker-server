@@ -21,6 +21,8 @@ public class Lot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String lotNumber;
+
     @ManyToOne
     private Material material;
 

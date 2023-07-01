@@ -87,6 +87,7 @@ public class UserCreationStartup implements ApplicationRunner {
         processRepository.save(process);
 
         Lot lot = new Lot();
+        lot.setLotNumber("x0815x");
 
         Material material  = new Material();
         material.setName("Chocolate");

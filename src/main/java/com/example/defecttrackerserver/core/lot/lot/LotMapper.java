@@ -20,6 +20,7 @@ public class LotMapper {
 
     public Lot map(LotDto lotDto, Lot lot){
         checkNullOrEmptyFields(lotDto);
+        lot.setLotNumber(lotDto.getLotNumber());
 
         lot.setMaterial(materialRepository.findById(lotDto.getMaterial().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Material not found with id: "
@@ -42,8 +43,11 @@ public class LotMapper {
     }
 
     public void checkNullOrEmptyFields(LotDto lotDto) {
+        if(lotDto.getLotNumber() == null)
+            throw new IllegalArgumentException("Lot number cannot be null");
+
         if(lotDto.getMaterial() == null)
-            throw new IllegalArgumentException("Name cannot be null");
+            throw new IllegalArgumentException("Material cannot be null");
 
         if(lotDto.getSupplier() == null)
             throw new IllegalArgumentException("Supplier cannot be null");

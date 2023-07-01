@@ -11,6 +11,7 @@ import java.util.Set;
 @Setter
 public class LotDto {
     private Integer id;
+    private String lotNumber;
     private MaterialDto material;
     private SupplierDto supplier;
     private Set<Integer> defects;
