@@ -1,6 +1,8 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +22,7 @@ public class DefectServiceImpl implements DefectService{
     private final DefectMapper defectMapper;
 
     @Override
+    @Transactional
     public DefectDto saveDefect(DefectDto defectDto) {
         Defect defect = new Defect();
         defectDto.setId(null);
@@ -58,9 +62,18 @@ public class DefectServiceImpl implements DefectService{
     }
 
     @Override
+    @Transactional
     public void deleteDefect(Integer id) {
         Defect defectToDelete = defectRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
+
+        Lot lot = defectToDelete.getLot();
+        lot.removeDefect(defectToDelete);
+
+        for (Action action : new ArrayList<>(defectToDelete.getActions())) {
+            defectToDelete.deleteAction(action);
+        }
+
         defectRepository.delete(defectToDelete);
     }
 }

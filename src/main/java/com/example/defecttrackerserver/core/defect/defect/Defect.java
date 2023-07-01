@@ -68,9 +68,7 @@ public class Defect {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
-    public void addDefectComment(DefectComment defectComment) {
-        defectComments.add(defectComment);
-    }
+    public void addDefectComment(DefectComment defectComment) { defectComments.add(defectComment); }
 
      public void deleteDefectComment(DefectComment defectComment) {
          defectComments.remove(defectComment);
@@ -90,7 +88,8 @@ public class Defect {
      }
 
      public void deleteAction(Action action) {
-         actions.remove(action);
-         action.setDefect(null);
+        action.getAssignedUsers().forEach(user -> user.removeAssignedAction(action));
+        actions.remove(action);
+        action.setDefect(null);
      }
 }

@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.defect.defect.Defect;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -61,9 +62,14 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
+    @Transactional
     public void deleteAction(Integer id) {
         Action action = actionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Action not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
+
+        Defect defect = action.getDefect();
+        defect.deleteAction(action);
+
         actionRepository.delete(action);
     }
 }

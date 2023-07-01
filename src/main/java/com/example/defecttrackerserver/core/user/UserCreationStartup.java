@@ -15,6 +15,10 @@ import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -41,6 +45,8 @@ public class UserCreationStartup implements ApplicationRunner {
     private final DefectTypeRepository defectTypeRepository;
     private final LotRepository lotRepository;
     private final ProcessRepository processRepository;
+    private final MaterialRepository materialRepository;
+    private final SupplierRepository supplierRepository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -75,12 +81,23 @@ public class UserCreationStartup implements ApplicationRunner {
         defectType.setName("Test Type");
         defectTypeRepository.save(defectType);
 
-        Lot lot = new Lot();
-        lotRepository.save(lot);
 
         Process process = new Process();
         process.setName("Test Process");
         processRepository.save(process);
+
+        Lot lot = new Lot();
+        lot.setLotNumber("x0815x");
+
+        Material material  = new Material();
+        material.setName("Chocolate");
+        lot.setMaterial(materialRepository.save(material));
+
+        Supplier supplier = new Supplier();
+        supplier.setName("Lekkerland");
+        lot.setSupplier(supplierRepository.save(supplier));
+
+        lotRepository.save(lot);
 
         DefectComment defectComment = new DefectComment();
         defectComment.setContent("Test Comment");

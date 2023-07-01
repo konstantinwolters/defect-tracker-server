@@ -45,6 +45,7 @@ class LotMapperTest {
 
         lotDto = new LotDto();
         lotDto.setId(1);
+        lotDto.setLotNumber("lotNumber");
 
         MaterialDto materialDto = new MaterialDto();
         materialDto.setId(1);

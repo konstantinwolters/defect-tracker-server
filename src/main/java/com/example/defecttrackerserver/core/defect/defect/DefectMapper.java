@@ -61,7 +61,6 @@ public class DefectMapper {
                         + defectDto.getLot().getId()));
         defect.setLot(lot);
         lot.addDefect(defect);
-        lotRepository.save(lot);
 
         defect.setLocation(locationRepository.findByName(defectDto.getLocation())
                 .orElseThrow(() -> new EntityNotFoundException("Location not found with id: "

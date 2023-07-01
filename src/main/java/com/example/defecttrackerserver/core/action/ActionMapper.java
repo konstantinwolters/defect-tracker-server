@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -24,9 +25,10 @@ public class ActionMapper {
         action.setIsCompleted(actionDto.getIsCompleted());
         action.setCreatedOn(actionDto.getCreatedOn());
 
-        action.setDefect(defectRepository.findById(actionDto.getDefect())
+        Defect defect = defectRepository.findById(actionDto.getDefect())
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: "
-                        + actionDto.getDefect())));
+                        + actionDto.getDefect()));
+        defect.addAction(action);
 
         action.setCreatedBy(userRepository.findById(actionDto.getCreatedBy().getId())
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
