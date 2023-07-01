@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,7 @@ public class ActionServiceImplTest {
 
         action = new Action();
         action.setId(1);
+        action.setDefect(new Defect());
         action.setDescription("test");
     }
 

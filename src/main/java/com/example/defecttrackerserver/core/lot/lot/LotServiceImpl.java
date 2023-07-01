@@ -19,6 +19,7 @@ public class LotServiceImpl implements LotService{
     private final LotRepository lotRepository;
     private final LotMapper lotMapper;
     private final ModelMapper modelMapper;
+
     @Override
     public LotDto saveLot(LotDto lotDto) {
         if(lotRepository.findByLotNumber(lotDto.getLotNumber()).isPresent())
