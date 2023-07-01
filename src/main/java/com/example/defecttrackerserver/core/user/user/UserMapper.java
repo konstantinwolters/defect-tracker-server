@@ -35,9 +35,7 @@ public class UserMapper {
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with name: "
                         + userDto.getLocation())));
 
-        if(userDto.getRoles() == null || userDto.getRoles().isEmpty()){
-            user.setRoles(new HashSet<>());
-        } else {
+        if(userDto.getRoles() != null){
            user.setRoles(userDto.getRoles().stream()
                    .map(role -> roleRepository.findByName(role)
                            .orElseThrow(()-> new EntityNotFoundException("Role not found with name: "
@@ -45,9 +43,7 @@ public class UserMapper {
                    .collect(Collectors.toSet()));
         }
 
-        if(userDto.getAssignedActions() == null ) {
-            user.setAssignedActions(new HashSet<>());
-        } else {
+        if(userDto.getAssignedActions() != null ) {
             user.setAssignedActions(userDto.getAssignedActions().stream()
                     .map(actionId -> actionRepository.findById(actionId)
                             .orElseThrow(()-> new EntityNotFoundException("Action not found with id: "

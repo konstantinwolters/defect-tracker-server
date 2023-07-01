@@ -44,9 +44,7 @@ public class DefectMapper {
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "
                 + defectDto.getDefectStatus())));
 
-        if(defectDto.getDefectComments() == null){
-            defect.setDefectComments(new HashSet<>());
-        }else {
+        if(defectDto.getDefectComments() != null){
             Set<DefectComment> defectComments = defectDto.getDefectComments().stream()
                     .map(defectComment -> defectCommentRepository.findById(defectComment.getId())
                             .orElseThrow(() -> new EntityNotFoundException("Defect comment not found with id: "
@@ -59,7 +57,6 @@ public class DefectMapper {
         Lot lot = lotRepository.findById(defectDto.getLot().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
                         + defectDto.getLot().getId()));
-        defect.setLot(lot);
         lot.addDefect(defect);
 
         defect.setLocation(locationRepository.findByName(defectDto.getLocation())
@@ -74,9 +71,7 @@ public class DefectMapper {
                 .orElseThrow(() -> new EntityNotFoundException("Defect type not found with id: "
                         + defectDto.getDefectType())));
 
-        if(defectDto.getImages() == null){
-            defect.setImages(new HashSet<>());//TODO: is this really necessary? Defect class already as HashSet
-        }else{
+        if(defectDto.getImages() != null){
             Set<DefectImage> defectImages = defectDto.getImages().stream()
                     .map(defectImage -> defectImageRepository.findById(defectImage.getId())
                             .orElseThrow(() -> new EntityNotFoundException("Defect image not found with id: "
@@ -86,9 +81,7 @@ public class DefectMapper {
             defect.getImages().addAll(defectImages);
         }
 
-        if(defectDto.getActions() == null){
-            defect.setActions(new HashSet<>());
-        }else{
+        if(defectDto.getActions() != null){
             Set<Action> actions = defectDto.getActions().stream()
                     .map(action -> actionRepository.findById(action.getId())
                             .orElseThrow(() -> new EntityNotFoundException("Action not found with id: "

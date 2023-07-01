@@ -16,6 +16,6 @@ public class UserDto  {
     private String lastName;
     private String mail;
     private String location;
-    private Set<String> roles = new HashSet<>();
-    private Set<Integer> assignedActions = new HashSet<>();
+    private Set<String> roles;
+    private Set<Integer> assignedActions;
 }

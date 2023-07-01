@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
@@ -59,10 +60,10 @@ class UserMapperTest {
         userDto.setLocation("Texas");
         RoleDto roleDto = new RoleDto();
         roleDto.setId(1);
-        userDto.getRoles().add("ROLE_ADMIN");
+        userDto.setRoles(Set.of("ROLE_ADMIN"));
         ActionDto actionDto = new ActionDto();
         actionDto.setId(1);
-        userDto.getAssignedActions().add(1);
+        userDto.setAssignedActions(Set.of(1));
     }
 
     @Test
