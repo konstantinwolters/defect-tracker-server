@@ -22,6 +22,7 @@ public class DefectServiceImpl implements DefectService{
     private final DefectMapper defectMapper;
 
     @Override
+    @Transactional
     public DefectDto saveDefect(DefectDto defectDto) {
         Defect defect = new Defect();
         defectDto.setId(null);

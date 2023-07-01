@@ -1,10 +1,13 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.defect.defect.Defect;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,6 +50,10 @@ public class LotServiceImpl implements LotService{
     public void deleteLot(Integer id) {
         Lot lot = lotRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
+
+        for (Defect defect : new ArrayList<>(lot.getDefects())) {
+            lot.removeDefect(defect);
+        }
 
         lotRepository.delete(lot);
     }

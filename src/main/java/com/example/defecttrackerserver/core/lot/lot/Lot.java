@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
@@ -7,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +38,10 @@ public class Lot {
     }
 
     public void removeDefect(Defect defect) {
+        for (Action action : new ArrayList<>(defect.getActions())) {
+            defect.deleteAction(action);
+        }
+        
         defects.remove(defect);
         defect.setLot(null);
     }
