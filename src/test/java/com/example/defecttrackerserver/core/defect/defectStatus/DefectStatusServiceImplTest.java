@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class DefectStatusServiceImplTest {
     private DefectStatusRepository defectStatusRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private DefectStatusMapper defectStatusMapper;
 
     @InjectMocks
     private DefectStatusServiceImpl defectStatusService;
@@ -45,7 +44,7 @@ public class DefectStatusServiceImplTest {
     @Test
     void shouldSaveDefectStatus() {
         when(defectStatusRepository.save(any(DefectStatus.class))).thenReturn(defectStatus);
-        when(modelMapper.map(any(DefectStatus.class), eq(DefectStatusDto.class))).thenReturn(defectStatusDto);
+        when(defectStatusMapper.mapToDto(any(DefectStatus.class))).thenReturn(defectStatusDto);
 
         DefectStatusDto result = defectStatusService.saveDefectStatus(defectStatusDto);
 
@@ -57,7 +56,7 @@ public class DefectStatusServiceImplTest {
     @Test
     void shouldReturnDefectStatusById() {
         when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
-        when(modelMapper.map(defectStatus, DefectStatusDto.class)).thenReturn(defectStatusDto);
+        when(defectStatusMapper.mapToDto(defectStatus)).thenReturn(defectStatusDto);
 
         DefectStatusDto result = defectStatusService.getDefectStatusById(1);
 
@@ -69,7 +68,7 @@ public class DefectStatusServiceImplTest {
     @Test
     void shouldReturnAllDefectStatus(){
         when(defectStatusRepository.findAll()).thenReturn(Arrays.asList(defectStatus));
-        when(modelMapper.map(defectStatus, DefectStatusDto.class)).thenReturn(defectStatusDto);
+        when(defectStatusMapper.mapToDto(defectStatus)).thenReturn(defectStatusDto);
 
         List<DefectStatusDto> result = defectStatusService.getAllDefectStatus();
 
@@ -82,7 +81,7 @@ public class DefectStatusServiceImplTest {
     void shouldUpdateDefectStatus() {
         when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
         when(defectStatusRepository.save(any(DefectStatus.class))).thenReturn(defectStatus);
-        when(modelMapper.map(any(DefectStatus.class), eq(DefectStatusDto.class))).thenReturn(defectStatusDto);
+        when(defectStatusMapper.mapToDto(any(DefectStatus.class))).thenReturn(defectStatusDto);
 
         DefectStatusDto result = defectStatusService.updateDefectStatus(defectStatusDto);
 
