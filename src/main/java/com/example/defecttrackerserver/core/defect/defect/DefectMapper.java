@@ -61,9 +61,9 @@ public class DefectMapper {
             defect.getDefectComments().addAll(defectComments);
         }
 
-        Lot lot = lotRepository.findById(defectDto.getLot().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
-                        + defectDto.getLot().getId()));
+        Lot lot = lotRepository.findByLotNumber(defectDto.getLot())
+                .orElseThrow(() -> new EntityNotFoundException("Lot not found with number: "
+                        + defectDto.getLot()));
         lot.addDefect(defect);
 
         defect.setLocation(locationRepository.findByName(defectDto.getLocation())
@@ -113,11 +113,7 @@ public class DefectMapper {
         defectDto.setDefectComments(defect.getDefectComments().stream()
                 .map(defectCommentMapper::mapToDto)
                 .collect(Collectors.toSet()));
-        defectDto.setLot(
-                lotMapper.mapToDto(lotRepository.findById(defect.getLot().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
-                        + defect.getLot().getId())))
-        );
+        defectDto.setLot(defect.getLot().getLotNumber());
         defectDto.setLocation(defect.getLocation().getName());
         defectDto.setProcess(defect.getProcess().getName());
         defectDto.setDefectType(defect.getDefectType().getName());
