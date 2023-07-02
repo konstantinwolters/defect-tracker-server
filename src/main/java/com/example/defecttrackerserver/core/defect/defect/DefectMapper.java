@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class DefectMapper {
-
     private final DefectStatusRepository defectStatusRepository;
     private final DefectCommentRepository defectCommentRepository;
     private final LotRepository lotRepository;
@@ -34,7 +33,6 @@ public class DefectMapper {
     private final DefectImageRepository defectImageRepository;
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
-
 
     public Defect map (DefectDto defectDto, Defect defect){
         checkNullOrEmptyFields(defectDto);

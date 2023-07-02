@@ -76,7 +76,7 @@ class UserMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
         User user = new User();
-        User mappedUser = userMapper.map(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, user);
 
         assertEquals(userDto.getUsername(), mappedUser.getUsername());
         assertEquals(userDto.getPassword(), mappedUser.getPassword());
@@ -95,7 +95,7 @@ class UserMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
         User user = new User();
-        User mappedUser = userMapper.map(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, user);
 
         assertNotNull(mappedUser.getRoles());
         assertTrue(mappedUser.getRoles().isEmpty());
@@ -109,7 +109,7 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
 
         User user = new User();
-        User mappedUser = userMapper.map(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, user);
 
         assertNotNull(mappedUser.getAssignedActions());
         assertTrue(mappedUser.getAssignedActions().isEmpty());
@@ -120,7 +120,7 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
         User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
     }
 
     @Test
@@ -129,7 +129,7 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
         User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
     }
     @Test
     void shouldThrowExceptionWhenActionNotFound() {
@@ -138,7 +138,7 @@ class UserMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
     }
 
     @Test

@@ -3,6 +3,8 @@ package com.example.defecttrackerserver.core.user.user;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
+import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class UserMapper {
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
 
-    public User map(UserDto userDto, User user){
+    public User mapToEntity(UserDto userDto, User user){
         checkNullOrEmptyFields(userDto);
         checkDuplicateUserEntries(userDto);
 
@@ -51,6 +53,28 @@ public class UserMapper {
                     .collect(Collectors.toSet()));
         }
         return user;
+    }
+
+    public UserDto mapToDto(User user){
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setUsername(user.getUsername());
+        userDto.setPassword(null);
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setMail(user.getMail());
+        userDto.setLocation(user.getLocation().getName());
+        if(user.getRoles() != null) {
+            userDto.setRoles(new HashSet<>(user.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet())));
+        }
+        if(user.getAssignedActions() != null) {
+            userDto.setAssignedActions(new HashSet<>(user.getAssignedActions().stream()
+                    .map(Action::getId)
+                    .collect(Collectors.toSet())));
+        }
+        return userDto;
     }
 
     public void checkNullOrEmptyFields(UserDto userDto) {

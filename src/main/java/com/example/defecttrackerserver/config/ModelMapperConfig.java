@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Configuration
-public class ApplicationConfig {
+public class ModelMapperConfig {
 
     @Bean
     public ModelMapper modelMapper() {
@@ -31,9 +31,9 @@ public class ApplicationConfig {
         modelMapper.typeMap(User.class, UserDto.class)
                 .addMappings( mapper -> {
                     mapper.skip(UserDto::setPassword);})
-                .addMappings(mapper -> mapper.using(actionsToIdConverter).map(User::getAssignedActions, UserDto::setAssignedActions))
-                .addMappings(mapper -> mapper.using(LocationToStringConverter).map(User::getLocation, UserDto::setLocation))
-                .addMappings(mapper -> mapper.using(RolesToStringConverter).map(User::getRoles, UserDto::setRoles));
+                .addMappings( mapper -> mapper.using(actionsToIdConverter).map(User::getAssignedActions, UserDto::setAssignedActions))
+                .addMappings( mapper -> mapper.using(LocationToStringConverter).map(User::getLocation, UserDto::setLocation))
+                .addMappings( mapper -> mapper.using(RolesToStringConverter).map(User::getRoles, UserDto::setRoles));
 
         modelMapper.typeMap(Action.class, ActionDto.class)
                 .addMappings( mapper -> mapper.using(DefectToIdConverter).map(Action::getDefect, ActionDto::setDefect));
@@ -49,7 +49,6 @@ public class ApplicationConfig {
 
         return modelMapper;
     }
-
 
     Converter<Set<Action>, Set<Integer>> actionsToIdConverter = new AbstractConverter<Set<Action>, Set<Integer>>() {
         @Override
@@ -67,7 +66,6 @@ public class ApplicationConfig {
         Location source = context.getSource();
         return source == null ? null : source.getName();
     };
-
 
     Converter<Set<Role>, Set<String>> RolesToStringConverter = new AbstractConverter<Set<Role>, Set<String>>() {
         @Override
@@ -97,7 +95,6 @@ public class ApplicationConfig {
                     .collect(Collectors.toSet());
         }
     };
-
 
     Converter<DefectStatus, String> DefectStatusToStringConverter = context -> {
         DefectStatus source = context.getSource();

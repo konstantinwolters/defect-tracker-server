@@ -14,7 +14,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -23,24 +22,24 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         userDto.setId(null);
 
-        User newUser = userMapper.map(userDto, user);
+        User newUser = userMapper.mapToEntity(userDto, user);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         User savedUser = userRepository.save(newUser);
-        return modelMapper.map(savedUser, UserDto.class);
+        return userMapper.mapToDto(savedUser);
     }
 
     @Override
     public UserDto getUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        return modelMapper.map(user, UserDto.class);
+        return userMapper.mapToDto(user);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userMapper::mapToDto)
                 .toList();
     }
 
@@ -53,14 +52,14 @@ public class UserServiceImpl implements UserService {
         if(userDto.getPassword() == null)
             userDto.setPassword(user.getPassword());
 
-        User userToUpdate = userMapper.map(userDto, user);
+        User userToUpdate = userMapper.mapToEntity(userDto, user);
 
         //if user has chosen a new password, encode
         if(!userToUpdate.getPassword().equals(user.getPassword()))
             userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
 
         User updatedUser = userRepository.save(userToUpdate);
-        return modelMapper.map(updatedUser, UserDto.class);
+        return userMapper.mapToDto(updatedUser);
     }
 
     @Override
@@ -74,6 +73,6 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
-        return modelMapper.map(user, UserDto.class);
+        return userMapper.mapToDto(user);
     }
 }

@@ -64,9 +64,9 @@ public class UserServiceImplTest {
     @Test
     void shouldSaveUser() {
         when(userRepository.save(any(User.class))).thenReturn(user);
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(passwordEncoder.encode(any())).thenReturn("test");
-        when(userMapper.map(any(UserDto.class), any(User.class))).thenReturn(user);
+        when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
 
         UserDto result = userService.saveUser(userDto);
 
@@ -79,7 +79,7 @@ public class UserServiceImplTest {
     @Test
     void shouldReturnUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        when(userMapper.mapToDto(user)).thenReturn(userDto);
 
         UserDto result = userService.getUserById(1);
 
@@ -92,7 +92,7 @@ public class UserServiceImplTest {
     @Test
     void shouldReturnAllUsers(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        when(userMapper.mapToDto(user)).thenReturn(userDto);
 
         List<UserDto> result = userService.getAllUsers();
 
@@ -107,8 +107,8 @@ public class UserServiceImplTest {
     void shouldUpdateUser(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
-        when(userMapper.map(any(UserDto.class), any(User.class))).thenReturn(user);
+        when(userMapper.mapToDto(user)).thenReturn(userDto);
+        when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
 
         UserDto result = userService.updateUser(userDto);
 
@@ -131,7 +131,7 @@ public class UserServiceImplTest {
     @Test
     void ShouldReturnUserByUsername(){
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        when(userMapper.mapToDto(user)).thenReturn(userDto);
 
         UserDto result = userService.getUserByUsername("test");
 
