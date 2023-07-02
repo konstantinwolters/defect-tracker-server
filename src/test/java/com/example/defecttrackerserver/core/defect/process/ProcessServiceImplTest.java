@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ProcessServiceImplTest {
     private ProcessRepository processRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private ProcessMapper processMapper;
 
     @InjectMocks
     private ProcessServiceImpl processService;
@@ -45,7 +44,7 @@ public class ProcessServiceImplTest {
     @Test
     void shouldSaveProcess() {
         when(processRepository.save(any(Process.class))).thenReturn(process);
-        when(modelMapper.map(any(Process.class), eq(ProcessDto.class))).thenReturn(processDto);
+        when(processMapper.mapToDto(any(Process.class))).thenReturn(processDto);
 
         ProcessDto result = processService.saveProcess(processDto);
 
@@ -57,7 +56,7 @@ public class ProcessServiceImplTest {
     @Test
     void shouldReturnProcessById() {
         when(processRepository.findById(any(Integer.class))).thenReturn(Optional.of(process));
-        when(modelMapper.map(process, ProcessDto.class)).thenReturn(processDto);
+        when(processMapper.mapToDto(process)).thenReturn(processDto);
 
         ProcessDto result = processService.getProcessById(1);
 
@@ -69,7 +68,7 @@ public class ProcessServiceImplTest {
     @Test
     void shouldReturnAllProcesses(){
         when(processRepository.findAll()).thenReturn(Arrays.asList(process));
-        when(modelMapper.map(process, ProcessDto.class)).thenReturn(processDto);
+        when(processMapper.mapToDto(process)).thenReturn(processDto);
 
         List<ProcessDto> result = processService.getAllProcesses();
 
@@ -82,7 +81,7 @@ public class ProcessServiceImplTest {
     void shouldUpdateProcess() {
         when(processRepository.findById(any(Integer.class))).thenReturn(Optional.of(process));
         when(processRepository.save(any(Process.class))).thenReturn(process);
-        when(modelMapper.map(any(Process.class), eq(ProcessDto.class))).thenReturn(processDto);
+        when(processMapper.mapToDto(any(Process.class))).thenReturn(processDto);
 
         ProcessDto result = processService.updateProcess(processDto);
 
