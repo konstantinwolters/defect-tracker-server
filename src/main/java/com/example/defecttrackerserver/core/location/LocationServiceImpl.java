@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.location;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository  locationRepository;
-    private final ModelMapper modelMapper;
+    private final LocationMapper locationMapper;
 
     @Override
     public LocationDto saveLocation(LocationDto locationDto) {
@@ -24,13 +23,13 @@ public class LocationServiceImpl implements LocationService {
 
         Location savedLocation = locationRepository.save(location);
 
-        return modelMapper.map(savedLocation, LocationDto.class);
+        return locationMapper.mapToDto(savedLocation);
     }
 
     @Override
     public LocationDto getLocationById(Integer id) {
         return locationRepository.findById(id)
-                .map(location -> modelMapper.map(location, LocationDto.class))
+                .map(locationMapper::mapToDto)
                 .orElseThrow(() -> new IllegalArgumentException("Location not found with id: " + id));
     }
 
@@ -38,7 +37,7 @@ public class LocationServiceImpl implements LocationService {
     public List<LocationDto> getAllLocations() {
         return locationRepository.findAll()
                 .stream()
-                .map(location -> modelMapper.map(location, LocationDto.class))
+                .map(locationMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +55,7 @@ public class LocationServiceImpl implements LocationService {
         location.setName(locationDto.getName());
         Location savedLocation = locationRepository.save(location);
 
-        return modelMapper.map(savedLocation, LocationDto.class);
+        return locationMapper.mapToDto(savedLocation);
     }
 
     @Override
