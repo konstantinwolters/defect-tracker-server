@@ -42,6 +42,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
     }
 
     @Override
+    @Transactional
     public DefectCommentDto updateDefectComment(DefectCommentDto defectComment) {
         DefectComment defectCommentToUpdate = defectCommentRepository.findById(defectComment.getId())
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: "

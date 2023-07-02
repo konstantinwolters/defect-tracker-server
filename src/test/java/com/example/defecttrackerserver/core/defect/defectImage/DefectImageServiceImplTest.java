@@ -26,7 +26,7 @@ public class DefectImageServiceImplTest {
     private DefectRepository defectRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private DefectImageMapper defectImageMapper;
 
     @InjectMocks
     private DefectImageServiceImpl defectImageService;
@@ -53,7 +53,7 @@ public class DefectImageServiceImplTest {
     @Test
     void shouldAddDefectImageToDefect() {
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
-        when(modelMapper.map(any(DefectImage.class), eq(DefectImageDto.class))).thenReturn(defectImageDto);
+        when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
 
         DefectImageDto result = defectImageService.saveDefectImageToDefect(1, defectImageDto);
 
@@ -66,7 +66,7 @@ public class DefectImageServiceImplTest {
     @Test
     void shouldReturnDefectImageById() {
         when(defectImageRepository.findById(1)).thenReturn(Optional.ofNullable(defectImage));
-        when(modelMapper.map(defectImage, DefectImageDto.class)).thenReturn(defectImageDto);
+        when(defectImageMapper.mapToDto(defectImage)).thenReturn(defectImageDto);
 
         DefectImageDto result = defectImageService.getDefectImageById(1);
 
@@ -79,7 +79,7 @@ public class DefectImageServiceImplTest {
     void shouldUpdateDefectImage() {
         when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectImage));
         when(defectImageRepository.save(any(DefectImage.class))).thenReturn(defectImage);
-        when(modelMapper.map(any(DefectImage.class), eq(DefectImageDto.class))).thenReturn(defectImageDto);
+        when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
 
         DefectImageDto result = defectImageService.updateDefectImage(defectImageDto);
 
