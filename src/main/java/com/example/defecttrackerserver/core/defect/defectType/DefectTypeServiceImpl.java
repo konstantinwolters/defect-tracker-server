@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefectTypeServiceImpl implements DefectTypeService {
     private final DefectTypeRepository defectTypeRepository;
-    private final ModelMapper modelMapper;
+    private final DefectTypeMapper defectTypeMapper;
 
     @Override
     public DefectTypeDto saveDefectType(DefectTypeDto defectTypeDto) {
@@ -24,13 +24,13 @@ public class DefectTypeServiceImpl implements DefectTypeService {
 
         DefectType savedDefectType = defectTypeRepository.save(defectType);
 
-        return modelMapper.map(savedDefectType, DefectTypeDto.class);
+        return defectTypeMapper.mapToDto(savedDefectType);
     }
 
     @Override
     public DefectTypeDto getDefectTypeById(Integer id) {
         return defectTypeRepository.findById(id)
-                .map(defectType -> modelMapper.map(defectType, DefectTypeDto.class))
+                .map(defectTypeMapper::mapToDto)
                 .orElseThrow(() -> new IllegalArgumentException("DefectType not found with id: " + id));
     }
 
@@ -38,7 +38,7 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     public List<DefectTypeDto> getAllDefectTypes() {
         return defectTypeRepository.findAll()
                 .stream()
-                .map(defectType -> modelMapper.map(defectType, DefectTypeDto.class))
+                .map(defectTypeMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +56,7 @@ public class DefectTypeServiceImpl implements DefectTypeService {
         defectType.setName(defectTypeDto.getName());
         DefectType saveDefectType = defectTypeRepository.save(defectType);
 
-        return modelMapper.map(saveDefectType, DefectTypeDto.class);
+        return defectTypeMapper.mapToDto(saveDefectType);
     }
 
     @Override

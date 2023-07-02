@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.defect.process;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProcessServiceImpl implements ProcessService {
     private final ProcessRepository processRepository;
-    private final ModelMapper modelMapper;
+    private final ProcessMapper processMapper;
 
     @Override
     public ProcessDto saveProcess(ProcessDto processDto) {
@@ -24,13 +23,13 @@ public class ProcessServiceImpl implements ProcessService {
 
         Process savedProcess = processRepository.save(process);
 
-        return modelMapper.map(savedProcess, ProcessDto.class);
+        return processMapper.mapToDto(savedProcess);
     }
 
     @Override
     public ProcessDto getProcessById(Integer id) {
         return processRepository.findById(id)
-                .map(process -> modelMapper.map(process, ProcessDto.class))
+                .map(processMapper::mapToDto)
                 .orElseThrow(() -> new IllegalArgumentException("Process not found with id: " + id));
     }
 
@@ -38,7 +37,7 @@ public class ProcessServiceImpl implements ProcessService {
     public List<ProcessDto> getAllProcesses() {
         return processRepository.findAll()
                 .stream()
-                .map(process -> modelMapper.map(process, ProcessDto.class))
+                .map(processMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +55,7 @@ public class ProcessServiceImpl implements ProcessService {
         process.setName(processDto.getName());
         Process savedProcess = processRepository.save(process);
 
-        return modelMapper.map(savedProcess, ProcessDto.class);
+        return processMapper.mapToDto(savedProcess);
     }
 
     @Override

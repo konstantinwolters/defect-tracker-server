@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
@@ -59,10 +60,10 @@ class UserMapperTest {
         userDto.setLocation("Texas");
         RoleDto roleDto = new RoleDto();
         roleDto.setId(1);
-        userDto.getRoles().add("ROLE_ADMIN");
+        userDto.setRoles(Set.of("ROLE_ADMIN"));
         ActionDto actionDto = new ActionDto();
         actionDto.setId(1);
-        userDto.getAssignedActions().add(1);
+        userDto.setAssignedActions(Set.of(1));
     }
 
     @Test
@@ -75,7 +76,7 @@ class UserMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
         User user = new User();
-        User mappedUser = userMapper.map(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, user);
 
         assertEquals(userDto.getUsername(), mappedUser.getUsername());
         assertEquals(userDto.getPassword(), mappedUser.getPassword());
@@ -94,7 +95,7 @@ class UserMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
         User user = new User();
-        User mappedUser = userMapper.map(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, user);
 
         assertNotNull(mappedUser.getRoles());
         assertTrue(mappedUser.getRoles().isEmpty());
@@ -108,7 +109,7 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
 
         User user = new User();
-        User mappedUser = userMapper.map(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, user);
 
         assertNotNull(mappedUser.getAssignedActions());
         assertTrue(mappedUser.getAssignedActions().isEmpty());
@@ -119,7 +120,7 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
         User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
     }
 
     @Test
@@ -128,7 +129,7 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
         User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
     }
     @Test
     void shouldThrowExceptionWhenActionNotFound() {
@@ -137,7 +138,7 @@ class UserMapperTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.map(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
     }
 
     @Test

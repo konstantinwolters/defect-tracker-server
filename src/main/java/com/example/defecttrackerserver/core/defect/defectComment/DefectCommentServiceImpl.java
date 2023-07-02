@@ -17,7 +17,6 @@ public class DefectCommentServiceImpl implements DefectCommentService {
     private final DefectCommentRepository defectCommentRepository;
     private final DefectRepository defectRepository;
     private final DefectCommentMapper defectCommentMapper;
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -30,9 +29,8 @@ public class DefectCommentServiceImpl implements DefectCommentService {
         DefectComment defectComment = new DefectComment();
         DefectComment newDefectComment = defectCommentMapper.map(defectCommentDto, defectComment);
         defect.addDefectComment(newDefectComment);
-        defectRepository.save(defect);
 
-        return modelMapper.map(newDefectComment, DefectCommentDto.class);
+        return defectCommentMapper.mapToDto(newDefectComment);
     }
 
     @Override
@@ -40,10 +38,11 @@ public class DefectCommentServiceImpl implements DefectCommentService {
         DefectComment defectComment = defectCommentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: " + id));
 
-        return modelMapper.map(defectComment, DefectCommentDto.class);
+        return defectCommentMapper.mapToDto(defectComment);
     }
 
     @Override
+    @Transactional
     public DefectCommentDto updateDefectComment(DefectCommentDto defectComment) {
         DefectComment defectCommentToUpdate = defectCommentRepository.findById(defectComment.getId())
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: "
@@ -54,7 +53,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
         DefectComment mappedDefectComment = defectCommentMapper.map(defectComment, defectCommentToUpdate);
         DefectComment updatedDefectComment = defectCommentRepository.save(mappedDefectComment);
 
-        return modelMapper.map(updatedDefectComment, DefectCommentDto.class);
+        return defectCommentMapper.mapToDto(updatedDefectComment);
     }
 
     @Override
@@ -67,6 +66,5 @@ public class DefectCommentServiceImpl implements DefectCommentService {
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: " + defectCommentId));
 
         defect.deleteDefectComment(defectComment);
-        defectRepository.save(defect);
     }
 }

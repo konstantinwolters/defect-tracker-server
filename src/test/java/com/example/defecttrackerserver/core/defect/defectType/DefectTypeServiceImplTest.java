@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class DefectTypeServiceImplTest {
     private DefectTypeRepository defectTypeRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private DefectTypeMapper defectTypeMapper;
 
     @InjectMocks
     private DefectTypeServiceImpl defectTypeService;
@@ -45,7 +44,7 @@ public class DefectTypeServiceImplTest {
     @Test
     void shouldSaveDefectType() {
         when(defectTypeRepository.save(any(DefectType.class))).thenReturn(defectType);
-        when(modelMapper.map(any(DefectType.class), eq(DefectTypeDto.class))).thenReturn(defectTypeDto);
+        when(defectTypeMapper.mapToDto(any(DefectType.class))).thenReturn(defectTypeDto);
 
         DefectTypeDto result = defectTypeService.saveDefectType(defectTypeDto);
 
@@ -57,7 +56,7 @@ public class DefectTypeServiceImplTest {
     @Test
     void shouldReturnDefectTypeById() {
         when(defectTypeRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectType));
-        when(modelMapper.map(defectType, DefectTypeDto.class)).thenReturn(defectTypeDto);
+        when(defectTypeMapper.mapToDto(defectType)).thenReturn(defectTypeDto);
 
         DefectTypeDto result = defectTypeService.getDefectTypeById(1);
 
@@ -69,7 +68,7 @@ public class DefectTypeServiceImplTest {
     @Test
     void shouldReturnAllDefectType(){
         when(defectTypeRepository.findAll()).thenReturn(Arrays.asList(defectType));
-        when(modelMapper.map(defectType, DefectTypeDto.class)).thenReturn(defectTypeDto);
+        when(defectTypeMapper.mapToDto(defectType)).thenReturn(defectTypeDto);
 
         List<DefectTypeDto> result = defectTypeService.getAllDefectTypes();
 
@@ -82,7 +81,7 @@ public class DefectTypeServiceImplTest {
     void shouldUpdateDefectType() {
         when(defectTypeRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectType));
         when(defectTypeRepository.save(any(DefectType.class))).thenReturn(defectType);
-        when(modelMapper.map(any(DefectType.class), eq(DefectTypeDto.class))).thenReturn(defectTypeDto);
+        when(defectTypeMapper.mapToDto(any(DefectType.class))).thenReturn(defectTypeDto);
 
         DefectTypeDto result = defectTypeService.updateDefectType(defectTypeDto);
 

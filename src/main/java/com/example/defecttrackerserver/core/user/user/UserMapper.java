@@ -1,7 +1,9 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
+import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +22,7 @@ public class UserMapper {
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
 
-    public User map(UserDto userDto, User user){
+    public User mapToEntity(UserDto userDto, User user){
         checkNullOrEmptyFields(userDto);
         checkDuplicateUserEntries(userDto);
 
@@ -35,9 +37,7 @@ public class UserMapper {
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with name: "
                         + userDto.getLocation())));
 
-        if(userDto.getRoles() == null || userDto.getRoles().isEmpty()){
-            user.setRoles(new HashSet<>());
-        } else {
+        if(userDto.getRoles() != null){
            user.setRoles(userDto.getRoles().stream()
                    .map(role -> roleRepository.findByName(role)
                            .orElseThrow(()-> new EntityNotFoundException("Role not found with name: "
@@ -45,9 +45,7 @@ public class UserMapper {
                    .collect(Collectors.toSet()));
         }
 
-        if(userDto.getAssignedActions() == null ) {
-            user.setAssignedActions(new HashSet<>());
-        } else {
+        if(userDto.getAssignedActions() != null ) {
             user.setAssignedActions(userDto.getAssignedActions().stream()
                     .map(actionId -> actionRepository.findById(actionId)
                             .orElseThrow(()-> new EntityNotFoundException("Action not found with id: "
@@ -55,6 +53,28 @@ public class UserMapper {
                     .collect(Collectors.toSet()));
         }
         return user;
+    }
+
+    public UserDto mapToDto(User user){
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setUsername(user.getUsername());
+        userDto.setPassword(null);
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setMail(user.getMail());
+        userDto.setLocation(user.getLocation().getName());
+        if(user.getRoles() != null) {
+            userDto.setRoles(new HashSet<>(user.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet())));
+        }
+        if(user.getAssignedActions() != null) {
+            userDto.setAssignedActions(new HashSet<>(user.getAssignedActions().stream()
+                    .map(Action::getId)
+                    .collect(Collectors.toSet())));
+        }
+        return userDto;
     }
 
     public void checkNullOrEmptyFields(UserDto userDto) {

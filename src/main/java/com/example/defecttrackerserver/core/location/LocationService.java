@@ -1,7 +1,5 @@
 package com.example.defecttrackerserver.core.location;
 
-import com.example.defecttrackerserver.core.defect.process.ProcessDto;
-
 import java.util.List;
 
 public interface LocationService {

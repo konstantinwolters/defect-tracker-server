@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class LocationServiceImplTest {
     private LocationRepository locationRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private LocationMapper locationMapper;
 
     @InjectMocks
     private LocationServiceImpl locationService;
@@ -45,7 +44,7 @@ public class LocationServiceImplTest {
     @Test
     void shouldSaveLocation() {
         when(locationRepository.save(any(Location.class))).thenReturn(location);
-        when(modelMapper.map(any(Location.class), eq(LocationDto.class))).thenReturn(locationDto);
+        when(locationMapper.mapToDto(any(Location.class))).thenReturn(locationDto);
 
         LocationDto result = locationService.saveLocation(locationDto);
 
@@ -57,7 +56,7 @@ public class LocationServiceImplTest {
     @Test
     void shouldReturnLocationById() {
         when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(location));
-        when(modelMapper.map(location, LocationDto.class)).thenReturn(locationDto);
+        when(locationMapper.mapToDto(location)).thenReturn(locationDto);
 
         LocationDto result = locationService.getLocationById(1);
 
@@ -69,7 +68,7 @@ public class LocationServiceImplTest {
     @Test
     void shouldReturnAllLocations(){
         when(locationRepository.findAll()).thenReturn(Arrays.asList(location));
-        when(modelMapper.map(location, LocationDto.class)).thenReturn(locationDto);
+        when(locationMapper.mapToDto(location)).thenReturn(locationDto);
 
         List<LocationDto> result = locationService.getAllLocations();
 
@@ -82,7 +81,7 @@ public class LocationServiceImplTest {
     void shouldUpdateLocation() {
         when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(location));
         when(locationRepository.save(any(Location.class))).thenReturn(location);
-        when(modelMapper.map(any(Location.class), eq(LocationDto.class))).thenReturn(locationDto);
+        when(locationMapper.mapToDto(any(Location.class))).thenReturn(locationDto);
 
         LocationDto result = locationService.updateLocation(locationDto);
 
@@ -98,7 +97,7 @@ public class LocationServiceImplTest {
 
         locationService.deleteLocation(1);
 
-        verify(locationRepository, times(1)).deleteById(1);;
+        verify(locationRepository, times(1)).deleteById(1);
     }
 
     @Test

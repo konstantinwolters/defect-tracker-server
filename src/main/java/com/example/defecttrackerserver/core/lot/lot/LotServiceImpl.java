@@ -1,12 +1,10 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
-import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.lot.lot.lotException.LotExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +16,6 @@ import java.util.Optional;
 public class LotServiceImpl implements LotService{
     private final LotRepository lotRepository;
     private final LotMapper lotMapper;
-    private final ModelMapper modelMapper;
 
     @Override
     public LotDto saveLot(LotDto lotDto) {
@@ -28,7 +25,7 @@ public class LotServiceImpl implements LotService{
         @SuppressWarnings("ConstantConditions")
         Lot newLot = lotMapper.map(lotDto, new Lot());
 
-        return modelMapper.map(lotRepository.save(newLot), LotDto.class);
+        return lotMapper.mapToDto(lotRepository.save(newLot));
     }
 
     @Override
@@ -36,12 +33,12 @@ public class LotServiceImpl implements LotService{
         Lot lot = lotRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
 
-        return modelMapper.map(lot, LotDto.class);
+        return lotMapper.mapToDto(lot);
     }
 
     @Override
     public List<LotDto> getAllLots() {
-        return lotRepository.findAll().stream().map(lot -> modelMapper.map(lot, LotDto.class)).toList();
+        return lotRepository.findAll().stream().map(lotMapper::mapToDto).toList();
     }
 
     @Override
@@ -55,7 +52,7 @@ public class LotServiceImpl implements LotService{
 
         Lot mappedLot = lotMapper.map(lotDto, lot);
 
-        return modelMapper.map(lotRepository.save(mappedLot), LotDto.class);
+        return lotMapper.mapToDto(lotRepository.save(mappedLot));
     }
 
     @Override

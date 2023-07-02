@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class SupplierServiceImplTest {
     private SupplierRepository supplierRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private SupplierMapper supplierMapper;
 
     @InjectMocks
     private SupplierServiceImpl supplierService;
@@ -45,7 +44,7 @@ public class SupplierServiceImplTest {
     @Test
     void shouldSaveSupplier() {
         when(supplierRepository.save(any(Supplier.class))).thenReturn(supplier);
-        when(modelMapper.map(any(Supplier.class), eq(SupplierDto.class))).thenReturn(supperDto);
+        when(supplierMapper.mapToDto(any(Supplier.class))).thenReturn(supperDto);
 
         SupplierDto result = supplierService.saveSupplier(supperDto);
 
@@ -57,7 +56,7 @@ public class SupplierServiceImplTest {
     @Test
     void shouldReturnSupplierById() {
         when(supplierRepository.findById(any(Integer.class))).thenReturn(Optional.of(supplier));
-        when(modelMapper.map(supplier, SupplierDto.class)).thenReturn(supperDto);
+        when(supplierMapper.mapToDto(supplier)).thenReturn(supperDto);
 
         SupplierDto result = supplierService.getSupplierById(1);
 
@@ -69,7 +68,7 @@ public class SupplierServiceImplTest {
     @Test
     void shouldReturnAllSuppliers(){
         when(supplierRepository.findAll()).thenReturn(Arrays.asList(supplier));
-        when(modelMapper.map(supplier, SupplierDto.class)).thenReturn(supperDto);
+        when(supplierMapper.mapToDto(supplier)).thenReturn(supperDto);
 
         List<SupplierDto> result = supplierService.getAllSuppliers();
 
@@ -82,7 +81,7 @@ public class SupplierServiceImplTest {
     void shouldUpdateSupplier() {
         when(supplierRepository.findById(any(Integer.class))).thenReturn(Optional.of(supplier));
         when(supplierRepository.save(any(Supplier.class))).thenReturn(supplier);
-        when(modelMapper.map(any(Supplier.class), eq(SupplierDto.class))).thenReturn(supperDto);
+        when(supplierMapper.mapToDto(any(Supplier.class))).thenReturn(supperDto);
 
         SupplierDto result = supplierService.updateSupplier(supperDto);
 

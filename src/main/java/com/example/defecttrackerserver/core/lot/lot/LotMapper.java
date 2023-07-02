@@ -2,7 +2,9 @@ package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ public class LotMapper {
     private final DefectRepository defectRepository;
     private final MaterialRepository materialRepository;
     private final SupplierRepository supplierRepository;
+    private final MaterialMapper materialMapper;
+    private final SupplierMapper supplierMapper;
 
     public Lot map(LotDto lotDto, Lot lot){
         checkNullOrEmptyFields(lotDto);
@@ -40,6 +44,17 @@ public class LotMapper {
             defects.forEach(lot::addDefect);
         }
         return lot;
+    }
+
+    public LotDto mapToDto(Lot lot){
+        LotDto lotDto = new LotDto();
+        lotDto.setLotNumber(lot.getLotNumber());
+        lotDto.setMaterial(materialMapper.mapToDto(lot.getMaterial()));
+        lotDto.setSupplier(supplierMapper.mapToDto(lot.getSupplier()));
+        lotDto.setDefects(lot.getDefects().stream()
+                .map(Defect::getId)
+                .collect(Collectors.toSet()));
+        return lotDto;
     }
 
     public void checkNullOrEmptyFields(LotDto lotDto) {

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,9 +26,6 @@ public class DefectServiceImplTest {
 
     @Mock
     private DefectStatusRepository defectStatusRepository;
-
-    @Mock
-    private ModelMapper modelMapper;
 
     @Mock
     private DefectMapper defectMapper;
@@ -55,7 +51,7 @@ public class DefectServiceImplTest {
     void shouldSaveDefect() {
         when(defectRepository.save(defect)).thenReturn(defect);
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
-        when(modelMapper.map(defect, DefectDto.class)).thenReturn(defectDto);
+        when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
         DefectDto result = defectService.saveDefect(defectDto);
 
@@ -66,7 +62,7 @@ public class DefectServiceImplTest {
     @Test
     void shouldReturnDefectById() {
         when(defectRepository.findById(1)).thenReturn(Optional.ofNullable(defect));
-        when(modelMapper.map(defect, DefectDto.class)).thenReturn(defectDto);
+        when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
         DefectDto result = defectService.getDefectById(1);
 
@@ -78,7 +74,7 @@ public class DefectServiceImplTest {
     @Test
     void shouldReturnAllDefects() {
         when(defectRepository.findAll()).thenReturn(Arrays.asList(defect));
-        when(modelMapper.map(defect, DefectDto.class)).thenReturn(defectDto);
+        when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
         List<DefectDto> result = defectService.getAllDefects();
 
@@ -92,7 +88,7 @@ public class DefectServiceImplTest {
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
-        when(modelMapper.map(any(Defect.class), eq(DefectDto.class))).thenReturn(defectDto);
+        when(defectMapper.mapToDto(any(Defect.class))).thenReturn(defectDto);
 
         DefectDto result = defectService.updateDefect(defectDto);
 

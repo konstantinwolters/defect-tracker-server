@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.defect.defectImage;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class DefectImageServiceImpl implements DefectImageService{
     private final DefectRepository defectRepository;
     private final DefectImageRepository defectImageRepository;
-    private final ModelMapper modelMapper;
+    private final DefectImageMapper defectImageMapper;
 
     @Override
     public DefectImageDto saveDefectImageToDefect(Integer defectId, DefectImageDto defectImageDto) {
@@ -28,17 +29,18 @@ public class DefectImageServiceImpl implements DefectImageService{
         defect.addDefectImage(defectImage);
         defectRepository.save(defect);
 
-        return modelMapper.map(defectImage, DefectImageDto.class);
+        return defectImageMapper.mapToDto(defectImage);
     }
 
     @Override
     public DefectImageDto getDefectImageById(Integer id) {
         DefectImage defectImage =  defectImageRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: " + id));
-        return modelMapper.map(defectImage, DefectImageDto.class);
+        return defectImageMapper.mapToDto(defectImage);
     }
 
     @Override
+    @Transactional
     public DefectImageDto updateDefectImage(DefectImageDto defectImageDto) {
         DefectImage defectImage =  defectImageRepository.findById(defectImageDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: "
@@ -51,7 +53,7 @@ public class DefectImageServiceImpl implements DefectImageService{
         defectImage.setPath(defectImageDto.getPath());
         DefectImage savedDefectImage = defectImageRepository.save(defectImage);
 
-        return modelMapper.map(savedDefectImage, DefectImageDto.class);
+        return defectImageMapper.mapToDto(savedDefectImage);
     }
 
     @Override

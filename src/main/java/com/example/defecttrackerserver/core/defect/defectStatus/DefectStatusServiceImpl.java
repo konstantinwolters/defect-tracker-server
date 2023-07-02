@@ -6,14 +6,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DefectStatusServiceImpl implements DefectStatusService{
     private final DefectStatusRepository defectStatusRepository;
-    private final ModelMapper modelMapper;
+    private final DefectStatusMapper defectStatusMapper;
 
     @Override
     public DefectStatusDto saveDefectStatus(DefectStatusDto defectStatusDto) {
@@ -25,13 +24,13 @@ public class DefectStatusServiceImpl implements DefectStatusService{
 
         DefectStatus savedDefectStatus = defectStatusRepository.save(defectStatus);
 
-        return modelMapper.map(savedDefectStatus, DefectStatusDto.class);
+        return defectStatusMapper.mapToDto(savedDefectStatus);
     }
 
     @Override
     public DefectStatusDto getDefectStatusById(Integer id) {
         return defectStatusRepository.findById(id)
-                .map(defectStatus -> modelMapper.map(defectStatus, DefectStatusDto.class))
+                .map(defectStatusMapper::mapToDto)
                 .orElseThrow(() -> new IllegalArgumentException("DefectStatus not found with id: " + id));
     }
 
@@ -39,7 +38,7 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     public List<DefectStatusDto> getAllDefectStatus() {
         return defectStatusRepository.findAll()
                 .stream()
-                .map(defectStatus -> modelMapper.map(defectStatus, DefectStatusDto.class))
+                .map(defectStatusMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -57,7 +56,7 @@ public class DefectStatusServiceImpl implements DefectStatusService{
         defectStatus.setName(defectStatusDto.getName());
         DefectStatus savedDefectStatus = defectStatusRepository.save(defectStatus);
 
-        return modelMapper.map(savedDefectStatus, DefectStatusDto.class);
+        return defectStatusMapper.mapToDto(savedDefectStatus);
     }
 
     @Override
