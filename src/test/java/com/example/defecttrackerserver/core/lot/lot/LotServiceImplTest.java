@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,9 +20,6 @@ public class LotServiceImplTest {
 
     @Mock
     private LotRepository lotRepository;
-
-    @Mock
-    private ModelMapper modelMapper;
 
     @Mock
     private LotMapper lotMapper;
@@ -47,7 +43,7 @@ public class LotServiceImplTest {
     void shouldSaveLot() {
         when(lotRepository.save(any(Lot.class))).thenReturn(lot);
         when(lotMapper.map(any(LotDto.class), any(Lot.class))).thenReturn(lot);
-        when(modelMapper.map(any(Lot.class), eq(LotDto.class))).thenReturn(lotDto);
+        when(lotMapper.mapToDto(any(Lot.class))).thenReturn(lotDto);
 
         LotDto result = lotService.saveLot(lotDto);
 
@@ -59,7 +55,7 @@ public class LotServiceImplTest {
     @Test
     void shouldReturnLotById() {
         when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(lot));
-        when(modelMapper.map(lot, LotDto.class)).thenReturn(lotDto);
+        when(lotMapper.mapToDto(lot)).thenReturn(lotDto);
 
         LotDto result = lotService.getLotById(1);
 
@@ -70,7 +66,7 @@ public class LotServiceImplTest {
     @Test
     void shouldReturnAllLots(){
         when(lotRepository.findAll()).thenReturn(Arrays.asList(lot));
-        when(modelMapper.map(lot, LotDto.class)).thenReturn(lotDto);
+        when(lotMapper.mapToDto(lot)).thenReturn(lotDto);
 
         List<LotDto> result = lotService.getAllLots();
 
@@ -84,7 +80,7 @@ public class LotServiceImplTest {
         when(lotRepository.save(any(Lot.class))).thenReturn(lot);
         when(lotMapper.map(any(LotDto.class), any(Lot.class))).thenReturn(lot);
 
-        when(modelMapper.map(any(Lot.class), eq(LotDto.class))).thenReturn(lotDto);
+        when(lotMapper.mapToDto(any(Lot.class))).thenReturn(lotDto);
 
         LotDto result = lotService.updateLot(lotDto);
 
@@ -99,7 +95,7 @@ public class LotServiceImplTest {
 
         lotService.deleteLot(1);
 
-        verify(lotRepository, times(1)).delete(lot);;
+        verify(lotRepository, times(1)).delete(lot);
     }
 
     @Test
