@@ -26,9 +26,6 @@ public class ActionServiceImplTest {
     private ActionRepository actionRepository;
 
     @Mock
-    private ModelMapper modelMapper;
-
-    @Mock
     private ActionMapper actionMapper;
 
     @InjectMocks
@@ -55,7 +52,7 @@ public class ActionServiceImplTest {
     void shouldSaveAction() {
         when(actionRepository.save(action)).thenReturn(action);
         when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
         ActionDto result = actionService.saveAction(actionDto);
 
@@ -67,7 +64,7 @@ public class ActionServiceImplTest {
     @Test
     void shouldReturnActionById() {
         when(actionRepository.findById(1)).thenReturn(Optional.ofNullable(action));
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
         ActionDto result = actionService.getActionById(1);
 
@@ -79,7 +76,7 @@ public class ActionServiceImplTest {
     @Test
     void shouldReturnAllActions() {
         when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
         List<ActionDto> result = actionService.getAllActions();
 
@@ -91,7 +88,7 @@ public class ActionServiceImplTest {
     @Test
     void shouldReturnAllActionsByCreatedById() {
         when(actionRepository.findByCreatedBy_Id(1)).thenReturn(Arrays.asList(action));
-        when(modelMapper.map(action, ActionDto.class)).thenReturn(actionDto);
+        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
         List<ActionDto> result = actionService.getAllActionsByUserCreatedId(1);
 
@@ -106,7 +103,7 @@ public class ActionServiceImplTest {
         when(actionRepository.save(any(Action.class))).thenReturn(action);
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
         when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
-        when(modelMapper.map(any(Action.class), eq(ActionDto.class))).thenReturn(actionDto);
+        when(actionMapper.mapToDto(any(Action.class))).thenReturn(actionDto);
 
         ActionDto result = actionService.updateAction(actionDto);
 

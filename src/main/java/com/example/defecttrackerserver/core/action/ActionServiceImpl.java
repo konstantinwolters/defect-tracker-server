@@ -4,7 +4,6 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import java.util.List;
 public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
-    private final ModelMapper modelMapper;
     private final ActionMapper actionMapper;
 
     @Override
@@ -26,27 +24,27 @@ public class ActionServiceImpl implements ActionService{
         Action newAction = actionMapper.map(actionDto, action);
         newAction.setIsCompleted(false);
         Action savedAction = actionRepository.save(newAction);
-        return modelMapper.map(savedAction, ActionDto.class);
+        return actionMapper.mapToDto(savedAction);
     }
 
     @Override
     public ActionDto getActionById(Integer id) {
         Action action = actionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
-        return modelMapper.map(action, ActionDto.class);
+        return actionMapper.mapToDto(action);
     }
 
     @Override
     public List<ActionDto> getAllActions() {
         List<Action> actions = actionRepository.findAll();
-        return actions.stream().map(action -> modelMapper.map(action, ActionDto.class)).toList();
+        return actions.stream().map(actionMapper::mapToDto).toList();
     }
 
     @Override
     public List<ActionDto> getAllActionsByUserCreatedId(Integer userId) {
         List<Action> actions = actionRepository.findByCreatedBy_Id(userId);
         return actions.stream()
-                .map(action -> modelMapper.map(action, ActionDto.class)).toList();
+                .map(actionMapper::mapToDto).toList();
     }
 
     @Override
@@ -58,7 +56,7 @@ public class ActionServiceImpl implements ActionService{
         Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
 
         Action updatedAction = actionRepository.save(mappedAction);
-        return modelMapper.map(updatedAction, ActionDto.class);
+        return actionMapper.mapToDto(updatedAction);
     }
 
     @Override

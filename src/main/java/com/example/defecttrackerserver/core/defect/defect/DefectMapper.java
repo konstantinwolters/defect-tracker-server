@@ -1,10 +1,13 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentMapper;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImageMapper;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
@@ -19,7 +22,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,9 @@ public class DefectMapper {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final LotMapper lotMapper;
+    private final DefectCommentMapper defectCommentMapper;
+    private final DefectImageMapper defectImageMapper;
+    private final ActionMapper actionMapper;
 
     public Defect map (DefectDto defectDto, Defect defect){
         checkNullOrEmptyFields(defectDto);
@@ -105,6 +110,9 @@ public class DefectMapper {
         defectDto.setId(defect.getId());
         defectDto.setCreatedOn(defect.getCreatedOn());
         defectDto.setDefectStatus(defect.getDefectStatus().getName());
+        defectDto.setDefectComments(defect.getDefectComments().stream()
+                .map(defectCommentMapper::mapToDto)
+                .collect(Collectors.toSet()));
         defectDto.setLot(
                 lotMapper.mapToDto(lotRepository.findById(defect.getLot().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
@@ -113,6 +121,12 @@ public class DefectMapper {
         defectDto.setLocation(defect.getLocation().getName());
         defectDto.setProcess(defect.getProcess().getName());
         defectDto.setDefectType(defect.getDefectType().getName());
+        defectDto.setImages(defect.getImages().stream()
+                .map(defectImageMapper::mapToDto)
+                .collect(Collectors.toSet()));
+        defectDto.setActions(defect.getActions().stream()
+                .map(actionMapper::mapToDto)
+                .collect(Collectors.toSet()));
         defectDto.setCreatedBy(
                 userMapper.mapToDto(userRepository.findById(defect.getCreatedBy().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
