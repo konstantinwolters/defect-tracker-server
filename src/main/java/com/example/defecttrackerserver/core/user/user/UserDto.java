@@ -3,7 +3,6 @@ package com.example.defecttrackerserver.core.user.user;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter

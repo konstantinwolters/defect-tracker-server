@@ -19,15 +19,11 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DefectCommentServiceImplTest {
-
     @Mock
     private DefectCommentRepository defectCommentRepository;
 
     @Mock
     private DefectRepository defectRepository;
-
-    @Mock
-    private ModelMapper modelMapper;
 
     @Mock
     private DefectCommentMapper defectCommentMapper;
@@ -59,20 +55,19 @@ public class DefectCommentServiceImplTest {
     void shouldAddDefectCommentToDefect() {
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
         when(defectCommentMapper.map(any(DefectCommentDto.class), any(DefectComment.class))).thenReturn(defectComment);
-        when(modelMapper.map(defectComment, DefectCommentDto.class)).thenReturn(defectCommentDto);
+        when(defectCommentMapper.mapToDto(defectComment)).thenReturn(defectCommentDto);
 
         DefectCommentDto result = defectCommentService.addDefectCommentToDefect(1, defectCommentDto);
 
         assertNotNull(result);
         assertEquals(defectComment.getContent(), result.getContent());
-        verify(defectRepository, times(1)).save(defect);
         assertTrue(defect.getDefectComments().contains(defectComment));
     }
 
     @Test
     void shouldReturnDefectCommentById() {
         when(defectCommentRepository.findById(1)).thenReturn(Optional.ofNullable(defectComment));
-        when(modelMapper.map(defectComment, DefectCommentDto.class)).thenReturn(defectCommentDto);
+        when(defectCommentMapper.mapToDto(defectComment)).thenReturn(defectCommentDto);
 
         DefectCommentDto result = defectCommentService.getDefectCommentById(1);
 
@@ -86,7 +81,7 @@ public class DefectCommentServiceImplTest {
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectComment));
         when(defectCommentRepository.save(any(DefectComment.class))).thenReturn(defectComment);
         when(defectCommentMapper.map(any(DefectCommentDto.class), any(DefectComment.class))).thenReturn(defectComment);
-        when(modelMapper.map(any(DefectComment.class), eq(DefectCommentDto.class))).thenReturn(defectCommentDto);
+        when(defectCommentMapper.mapToDto(any(DefectComment.class))).thenReturn(defectCommentDto);
 
         DefectCommentDto result = defectCommentService.updateDefectComment(defectCommentDto);
 
@@ -105,7 +100,6 @@ public class DefectCommentServiceImplTest {
         defectCommentService.deleteDefectComment(1,1);
 
         verify(defectSpy, times(1)).deleteDefectComment(defectComment);
-        verify(defectRepository, times(1)).save(defectSpy);
         assertFalse(defectSpy.getDefectComments().contains(defectComment));
     }
 

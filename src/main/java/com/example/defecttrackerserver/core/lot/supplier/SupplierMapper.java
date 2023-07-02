@@ -1,7 +1,5 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
-import com.example.defecttrackerserver.core.lot.material.Material;
-import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import org.springframework.stereotype.Component;
 
 @Component

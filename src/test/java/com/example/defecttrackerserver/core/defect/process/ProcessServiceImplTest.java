@@ -1,9 +1,5 @@
 package com.example.defecttrackerserver.core.defect.process;
 
-import com.example.defecttrackerserver.core.defect.defectType.DefectType;
-import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
-import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
-import com.example.defecttrackerserver.core.defect.defectType.DefectTypeServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

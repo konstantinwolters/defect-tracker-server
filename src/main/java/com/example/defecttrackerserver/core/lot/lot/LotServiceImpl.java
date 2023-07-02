@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
-import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.lot.lot.lotException.LotExistsException;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,7 +1,5 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
-import com.example.defecttrackerserver.core.location.LocationDto;
-
 import java.util.List;
 
 public interface LotService {
