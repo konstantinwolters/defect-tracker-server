@@ -11,7 +11,9 @@ import com.example.defecttrackerserver.core.defect.defectType.DefectTypeReposito
 import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotMapper;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,8 @@ public class DefectMapper {
     private final DefectImageRepository defectImageRepository;
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final LotMapper lotMapper;
 
     public Defect map (DefectDto defectDto, Defect defect){
         checkNullOrEmptyFields(defectDto);
@@ -93,8 +97,28 @@ public class DefectMapper {
         defect.setCreatedBy(userRepository.findById(defectDto.getCreatedBy().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
                         + defectDto.getCreatedBy().getId())));
-
         return defect;
+    }
+
+    public DefectDto mapToDto(Defect defect){
+        DefectDto defectDto = new DefectDto();
+        defectDto.setId(defect.getId());
+        defectDto.setCreatedOn(defect.getCreatedOn());
+        defectDto.setDefectStatus(defect.getDefectStatus().getName());
+        defectDto.setLot(
+                lotMapper.mapToDto(lotRepository.findById(defect.getLot().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Lot not found with id: "
+                        + defect.getLot().getId())))
+        );
+        defectDto.setLocation(defect.getLocation().getName());
+        defectDto.setProcess(defect.getProcess().getName());
+        defectDto.setDefectType(defect.getDefectType().getName());
+        defectDto.setCreatedBy(
+                userMapper.mapToDto(userRepository.findById(defect.getCreatedBy().getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
+                        + defect.getCreatedBy().getId())))
+        );
+        return defectDto;
     }
 
     public void checkNullOrEmptyFields(DefectDto defectDto) {

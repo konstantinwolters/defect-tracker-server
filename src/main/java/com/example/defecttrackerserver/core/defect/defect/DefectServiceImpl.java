@@ -18,7 +18,6 @@ import java.util.List;
 public class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
-    private final ModelMapper modelMapper;
     private final DefectMapper defectMapper;
 
     @Override
@@ -31,19 +30,19 @@ public class DefectServiceImpl implements DefectService{
         Defect newDefect = defectMapper.map(defectDto, defect);
         //TODO: Set Status?! Must first be fetched from DB
 
-        return modelMapper.map(defectRepository.save(newDefect), DefectDto.class);
+        return defectMapper.mapToDto(defectRepository.save(newDefect));
     }
 
     @Override
     public DefectDto getDefectById(Integer id) {
         Defect defect = defectRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
-        return modelMapper.map(defect, DefectDto.class);
+        return defectMapper.mapToDto(defect);
     }
 
     @Override
     public List<DefectDto> getAllDefects() {
-        return defectRepository.findAll().stream().map(defect -> modelMapper.map(defect, DefectDto.class)).toList();
+        return defectRepository.findAll().stream().map(defectMapper::mapToDto).toList();
     }
 
     @Override
@@ -58,7 +57,7 @@ public class DefectServiceImpl implements DefectService{
         Defect mappedDefect = defectMapper.map(defectDto, defectToUpdate);
 
         Defect updatedDefect = defectRepository.save(mappedDefect);
-        return modelMapper.map(updatedDefect, DefectDto.class);
+        return defectMapper.mapToDto(updatedDefect);
     }
 
     @Override
@@ -73,7 +72,6 @@ public class DefectServiceImpl implements DefectService{
         for (Action action : new ArrayList<>(defectToDelete.getActions())) {
             defectToDelete.deleteAction(action);
         }
-
         defectRepository.delete(defectToDelete);
     }
 }
