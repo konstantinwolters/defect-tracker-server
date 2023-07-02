@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class MaterialServiceImplTest {
     private MaterialRepository materialRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private MaterialMapper materialMapper;
 
     @InjectMocks
     private MaterialServiceImpl materialService;
@@ -45,7 +44,7 @@ public class MaterialServiceImplTest {
     @Test
     void shouldSaveMaterial() {
         when(materialRepository.save(any(Material.class))).thenReturn(material);
-        when(modelMapper.map(any(Material.class), eq(MaterialDto.class))).thenReturn(materialDto);
+        when(materialMapper.mapToDto(any(Material.class))).thenReturn(materialDto);
 
         MaterialDto result = materialService.saveMaterial(materialDto);
 
@@ -57,7 +56,7 @@ public class MaterialServiceImplTest {
     @Test
     void shouldReturnMaterialById() {
         when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.of(material));
-        when(modelMapper.map(material, MaterialDto.class)).thenReturn(materialDto);
+        when(materialMapper.mapToDto(material)).thenReturn(materialDto);
 
         MaterialDto result = materialService.getMaterialById(1);
 
@@ -69,7 +68,7 @@ public class MaterialServiceImplTest {
     @Test
     void shouldReturnAllMaterials(){
         when(materialRepository.findAll()).thenReturn(Arrays.asList(material));
-        when(modelMapper.map(material, MaterialDto.class)).thenReturn(materialDto);
+        when(materialMapper.mapToDto(material)).thenReturn(materialDto);
 
         List<MaterialDto> result = materialService.getAllMaterials();
 
@@ -82,7 +81,7 @@ public class MaterialServiceImplTest {
     void shouldUpdateMaterial() {
         when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.of(material));
         when(materialRepository.save(any(Material.class))).thenReturn(material);
-        when(modelMapper.map(any(Material.class), eq(MaterialDto.class))).thenReturn(materialDto);
+        when(materialMapper.mapToDto(any(Material.class))).thenReturn(materialDto);
 
         MaterialDto result = materialService.updateMaterial(materialDto);
 

@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.lot.supplier;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {
     private final SupplierRepository supplierRepository;
-    private final ModelMapper modelMapper;
+    private final SupplierMapper supplierMapper;
 
     @Override
     public SupplierDto saveSupplier(SupplierDto materialDto) {
@@ -24,13 +23,13 @@ public class SupplierServiceImpl implements SupplierService {
 
         Supplier savedMaterial = supplierRepository.save(supplier);
 
-        return modelMapper.map(savedMaterial, SupplierDto.class);
+        return supplierMapper.mapToDto(savedMaterial);
     }
 
     @Override
     public SupplierDto getSupplierById(Integer id) {
         return supplierRepository.findById(id)
-                .map(supplier -> modelMapper.map(supplier, SupplierDto.class))
+                .map(supplierMapper::mapToDto)
                 .orElseThrow(() -> new IllegalArgumentException("Supplier not found with id: " + id));
     }
 
@@ -38,7 +37,7 @@ public class SupplierServiceImpl implements SupplierService {
     public List<SupplierDto> getAllSuppliers() {
         return supplierRepository.findAll()
                 .stream()
-                .map(supplier -> modelMapper.map(supplier, SupplierDto.class))
+                .map(supplierMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +55,7 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setName(materialDto.getName());
         Supplier savedMaterial = supplierRepository.save(supplier);
 
-        return modelMapper.map(savedMaterial, SupplierDto.class);
+        return supplierMapper.mapToDto(savedMaterial);
     }
 
     @Override

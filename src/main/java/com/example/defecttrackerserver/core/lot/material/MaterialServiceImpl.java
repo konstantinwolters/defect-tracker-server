@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.lot.material;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MaterialServiceImpl implements MaterialService {
     private final MaterialRepository materialRepository;
-    private final ModelMapper modelMapper;
+    private final MaterialMapper materialMapper;
 
     @Override
     public MaterialDto saveMaterial(MaterialDto materialDto) {
@@ -24,13 +23,13 @@ public class MaterialServiceImpl implements MaterialService {
 
         Material savedMaterial = materialRepository.save(material);
 
-        return modelMapper.map(savedMaterial, MaterialDto.class);
+        return materialMapper.mapToDto(savedMaterial);
     }
 
     @Override
     public MaterialDto getMaterialById(Integer id) {
         return materialRepository.findById(id)
-                .map(material -> modelMapper.map(material, MaterialDto.class))
+                .map(materialMapper::mapToDto)
                 .orElseThrow(() -> new IllegalArgumentException("Material not found with id: " + id));
     }
 
@@ -38,7 +37,7 @@ public class MaterialServiceImpl implements MaterialService {
     public List<MaterialDto> getAllMaterials() {
         return materialRepository.findAll()
                 .stream()
-                .map(material -> modelMapper.map(material, MaterialDto.class))
+                .map(materialMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +55,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setName(materialDto.getName());
         Material savedMaterial = materialRepository.save(material);
 
-        return modelMapper.map(savedMaterial, MaterialDto.class);
+        return materialMapper.mapToDto(savedMaterial);
     }
 
     @Override
