@@ -18,7 +18,7 @@ public class DefectDto {
     private Integer id;
     private String defectStatus;
     private Set<DefectCommentDto> defectComments;
-    private LotDto lot;
+    private String lot;
     private String location;
     private String process;
     private String defectType;

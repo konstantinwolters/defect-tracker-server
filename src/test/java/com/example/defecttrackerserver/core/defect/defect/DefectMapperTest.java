@@ -18,7 +18,6 @@ import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserDto;
@@ -47,7 +46,7 @@ class DefectMapperTest {
     private DefectStatusRepository defectStatusRepository;
 
     @Mock
-    private DefectCommentRepository  defectCommentRepository;
+    private DefectCommentRepository defectCommentRepository;
 
     @Mock
     private LotRepository lotRepository;
@@ -78,7 +77,6 @@ class DefectMapperTest {
     DefectCommentDto defectCommentDto;
     DefectImageDto defectImageDto;
     ActionDto actionDto;
-    LotDto lotDto;
 
     @BeforeEach
     public void init() {
@@ -92,9 +90,7 @@ class DefectMapperTest {
         defectCommentDto.setId(1);
         defectDto.setDefectComments(Set.of(defectCommentDto));
 
-        lotDto = new LotDto();
-        lotDto.setId(1);
-        defectDto.setLot(lotDto);
+        defectDto.setLot("testLot");
         defectDto.setLocation("testCity");
         defectDto.setProcess("testProcess");
         defectDto.setDefectType("testType");
@@ -115,11 +111,12 @@ class DefectMapperTest {
 
     @Test
     void shouldReturnMappedDefect() {
-        DefectStatus  defectStatus = new DefectStatus();
+        DefectStatus defectStatus = new DefectStatus();
         defectStatus.setName("testStatus");
 
         Lot lot = new Lot();
         lot.setId(1);
+        lot.setLotNumber("testLot");
 
         Location location = new Location();
         location.setName("testCity");
@@ -135,7 +132,7 @@ class DefectMapperTest {
 
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(defectStatus));
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(lot));
+        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(lot));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(location));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(process));
         when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(defectType));
@@ -148,7 +145,7 @@ class DefectMapperTest {
 
         assertEquals(defectDto.getDefectStatus(), mappedDefect.getDefectStatus().getName());
         assertEquals(defectDto.getDefectComments().size(), mappedDefect.getDefectComments().size());
-        assertEquals(defectDto.getLot().getId(), mappedDefect.getLot().getId());
+        assertEquals(defectDto.getLot(), mappedDefect.getLot().getLotNumber());
         assertEquals(defectDto.getLocation(), mappedDefect.getLocation().getName());
         assertEquals(defectDto.getProcess(), mappedDefect.getProcess().getName());
         assertEquals(defectDto.getDefectType(), mappedDefect.getDefectType().getName());
@@ -163,7 +160,7 @@ class DefectMapperTest {
 
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
+        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
         when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
@@ -183,7 +180,7 @@ class DefectMapperTest {
 
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
+        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
         when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
@@ -202,7 +199,7 @@ class DefectMapperTest {
         defectDto.setActions(null);
 
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
+        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
         when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
@@ -325,7 +322,7 @@ class DefectMapperTest {
         defectDto.setLot(null);
         assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
 
-        defectDto.setLot(new LotDto());
+        defectDto.setLot("testLot");
         defectDto.setLocation(null);
         assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
 
