@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,6 +16,10 @@ public class SecurityService {
 
         if (authentication == null || !authentication.isAuthenticated()) {
             return null;
+        }
+
+        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+            return userDetails.getUsername();
         }
         return authentication.getName();
     }
