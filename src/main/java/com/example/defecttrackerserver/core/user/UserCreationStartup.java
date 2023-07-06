@@ -20,6 +20,7 @@ import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,12 +48,17 @@ public class UserCreationStartup implements ApplicationRunner {
     private final ProcessRepository processRepository;
     private final MaterialRepository materialRepository;
     private final SupplierRepository supplierRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public void run(ApplicationArguments args) {
 
         Role role = new Role();
         role.setName("ROLE_ADMIN");
+
+        Role roleUser = new Role();
+        roleUser.setName("ROLE_USER");
+        roleRepository.save(roleUser);
 
         Location location = new Location();
         location.setName("Texas");

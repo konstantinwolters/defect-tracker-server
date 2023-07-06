@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -44,8 +45,11 @@ public class DefectServiceImpl implements DefectService{
         return defectRepository.findAll().stream().map(defectMapper::mapToDto).toList();
     }
 
+
+
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectDto updateDefect(DefectDto defectDto) {
         Defect defectToUpdate = defectRepository.findById(defectDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectDto.getId()));
@@ -61,6 +65,7 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefect(Integer id) {
         Defect defectToDelete = defectRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
