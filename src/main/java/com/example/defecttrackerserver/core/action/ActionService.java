@@ -8,6 +8,7 @@ public interface ActionService {
     ActionDto getActionById(Integer id);
     List<ActionDto> getAllActions();
     List<ActionDto> getAllActionsByUserCreatedId(Integer userId);
+    void closeAction(Integer actionId, Boolean isCompleted);
     ActionDto updateAction(ActionDto action);
     void deleteAction(Integer id);
 }

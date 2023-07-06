@@ -1,6 +1,8 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
     private final ActionMapper actionMapper;
+    private SecurityService securityService;
 
     @Override
     public ActionDto saveAction(ActionDto actionDto) {
@@ -45,6 +48,21 @@ public class ActionServiceImpl implements ActionService{
         List<Action> actions = actionRepository.findByCreatedBy_Id(userId);
         return actions.stream()
                 .map(actionMapper::mapToDto).toList();
+    }
+
+    @Override
+    @Transactional
+    public void closeAction(Integer actionId, Boolean isCompleted){
+        Action actionToUpdate = actionRepository.findById(actionId)
+                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
+
+        boolean isAuthorized = actionToUpdate.getAssignedUsers()
+                .stream().anyMatch(user -> user.getUsername().equals(securityService.getUsername()));
+
+        if(!isAuthorized){
+            throw new UnauthorizedAccessException("Unauthorized access.");
+        }
+        actionToUpdate.setIsCompleted(isCompleted);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public class ActionController {
     @GetMapping("/created-by/{id}")
     public List<ActionDto> getAllActionsCreatedBy(@PathVariable Integer id) {
         return actionService.getAllActionsByUserCreatedId(id);
+    }
+
+    @PutMapping("/{id}")
+    public void closeAction(@PathVariable Integer id, @RequestParam Boolean isCompleted) {
+        actionService.closeAction(id, isCompleted);
     }
 
     @PutMapping()

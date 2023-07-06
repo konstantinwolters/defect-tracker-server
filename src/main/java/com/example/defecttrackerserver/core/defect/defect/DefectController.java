@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class DefectController {
     private final DefectService defectService;
 
     @PostMapping()
+
     public DefectDto saveDefect(@RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}
 
     @GetMapping("/{id}")
