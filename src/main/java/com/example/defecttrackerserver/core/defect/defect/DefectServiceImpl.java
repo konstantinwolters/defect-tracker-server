@@ -6,10 +6,13 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,54 @@ public class DefectServiceImpl implements DefectService{
         return defectRepository.findAll().stream().map(defectMapper::mapToDto).toList();
     }
 
+   public List<DefectDto> getFilteredDefects(
+            List<Integer> lotIds,
+            List<Integer> defectStatusIds,
+            String startDate,
+            String endDate,
+            List<Integer> locationIds,
+            List<Integer> processIds,
+            List<Integer> defectTypeIds,
+            List<Integer> createdByIds
+    ){
+        Specification<Defect> spec = Specification.where(null);
+
+        if(lotIds != null && !lotIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));
+        }
+
+        if(defectStatusIds != null && !defectStatusIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("defectStatus").get("id").in(defectStatusIds));
+        }
+
+       if(startDate != null && endDate != null){
+           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+           LocalDate startDateObj = LocalDate.parse(startDate, formatter);
+           LocalDate endDateObj = LocalDate.parse(endDate, formatter);
+           LocalDateTime startOfDay = startDateObj.atStartOfDay();
+           LocalDateTime endOfDay = endDateObj.atStartOfDay().plusDays(1).minusSeconds(1);
+
+           spec = spec.and((root, query, cb) -> cb.between(root.get("createdOn"), startOfDay, endOfDay));
+       }
+
+        if(locationIds != null && !locationIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("location").get("id").in(locationIds));
+        }
+
+        if(processIds != null && !processIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("process").get("id").in(processIds));
+        }
+
+        if(defectTypeIds != null && !defectTypeIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("defectType").get("id").in(defectTypeIds));
+        }
+
+        if(createdByIds != null && !createdByIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
+        }
+
+        return defectRepository.findAll(spec).stream().map(defectMapper::mapToDto).toList();
+    }
 
 
     @Override

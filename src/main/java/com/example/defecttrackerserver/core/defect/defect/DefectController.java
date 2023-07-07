@@ -22,6 +22,21 @@ public class DefectController {
     @GetMapping()
     public List<DefectDto> getAllDefects() { return defectService.getAllDefects();}
 
+    @GetMapping("/filtered")
+    public List<DefectDto> getFilteredDefects(
+            @RequestParam(required = false) List<Integer> lotIds,
+            @RequestParam(required = false) List<Integer> defectStatusIds,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) List<Integer> locationIds,
+            @RequestParam(required = false) List<Integer> processIds,
+            @RequestParam(required = false) List<Integer> defectTypeIds,
+            @RequestParam(required = false) List<Integer> createdByIds) {
+
+        return defectService.getFilteredDefects(lotIds, defectStatusIds, startDate, endDate,
+                locationIds, processIds, defectTypeIds, createdByIds);
+    }
+
     @PutMapping()
     public DefectDto updateDefect(@RequestBody DefectDto defectDto) { return defectService.updateDefect(defectDto); }
 
