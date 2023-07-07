@@ -10,10 +10,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 
@@ -34,7 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()))// only for testing
+                .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console(), new AntPathRequestMatcher("/auth/**")))// only for testing
+                //.csrf(AbstractHttpConfigurer::disable)// only for testing
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
