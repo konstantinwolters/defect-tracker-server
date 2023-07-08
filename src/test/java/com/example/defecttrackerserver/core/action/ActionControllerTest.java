@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ActionController.class)
-@Import(SecurityConfig.class)
 public class ActionControllerTest extends BaseControllerTest {
 
     @Autowired
