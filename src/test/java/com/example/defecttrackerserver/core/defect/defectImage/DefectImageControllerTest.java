@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
+import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,22 +20,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DefectImageController.class)
-@Import(SecurityConfig.class)
-public class DefectImageControllerTest {
+public class DefectImageControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private DefectImageController defectImageController;
 
     @MockBean
     private DefectImageServiceImpl defectImageService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private DefectImageDto testDefectImageDto;
+
+    @Override
+    protected Object getController() {
+        return defectImageController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testDefectImageDto = new DefectImageDto();
         testDefectImageDto.setPath("testPath");
     }
