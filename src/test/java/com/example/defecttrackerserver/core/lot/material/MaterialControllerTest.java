@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,22 +22,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MaterialController.class)
-@Import(SecurityConfig.class)
-public class MaterialControllerTest {
+public class MaterialControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private MaterialController materialController;
 
     @MockBean
     private MaterialServiceImpl materialService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private MaterialDto testMaterialDto;
+
+    @Override
+    protected Object getController() {
+        return materialController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testMaterialDto = new MaterialDto();
         testMaterialDto.setName("testName");
     }
