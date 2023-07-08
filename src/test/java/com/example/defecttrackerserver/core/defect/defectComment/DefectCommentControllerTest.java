@@ -1,16 +1,13 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
-import com.example.defecttrackerserver.config.SecurityConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.defecttrackerserver.BaseControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -19,22 +16,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DefectCommentController.class)
-@Import(SecurityConfig.class)
-public class DefectCommentControllerTest {
+public class DefectCommentControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private DefectCommentController defectCommentController;
 
     @MockBean
     private DefectCommentService defectCommentService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private DefectCommentDto testDefectCommentDto;
+
+    @Override
+    protected Object getController() {
+        return defectCommentController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testDefectCommentDto = new DefectCommentDto();
         testDefectCommentDto.setContent("test");
     }

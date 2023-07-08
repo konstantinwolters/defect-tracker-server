@@ -1,16 +1,13 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
-import com.example.defecttrackerserver.config.SecurityConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.defecttrackerserver.BaseControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
@@ -21,22 +18,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DefectTypeController.class)
-@Import(SecurityConfig.class)
-public class DefectTypeControllerTest {
+public class DefectTypeControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private DefectTypeController defectTypeController;
 
     @MockBean
     private DefectTypeServiceImpl defectTypeService;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private DefectTypeDto testDefectTypeDto;
+
+    @Override
+    protected Object getController() {
+        return defectTypeController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testDefectTypeDto = new DefectTypeDto();
         testDefectTypeDto.setName("testName");
     }

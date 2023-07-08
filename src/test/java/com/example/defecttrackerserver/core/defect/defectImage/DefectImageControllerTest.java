@@ -1,16 +1,13 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
-import com.example.defecttrackerserver.config.SecurityConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.defecttrackerserver.BaseControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -19,22 +16,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DefectImageController.class)
-@Import(SecurityConfig.class)
-public class DefectImageControllerTest {
+public class DefectImageControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private DefectImageController defectImageController;
 
     @MockBean
     private DefectImageServiceImpl defectImageService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private DefectImageDto testDefectImageDto;
+
+    @Override
+    protected Object getController() {
+        return defectImageController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testDefectImageDto = new DefectImageDto();
         testDefectImageDto.setPath("testPath");
     }

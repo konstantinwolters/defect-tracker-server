@@ -1,15 +1,13 @@
 package com.example.defecttrackerserver.core.user.role;
 
-import com.example.defecttrackerserver.config.SecurityConfig;
+import com.example.defecttrackerserver.BaseControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
@@ -18,19 +16,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(RoleController.class)
-@Import(SecurityConfig.class)
-public class RoleControllerTest {
+public class RoleControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private RoleController roleController;
 
     @MockBean
     private RoleService roleService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
     private Role role;
+
+    @Override
+    protected Object getController() {
+        return roleController;
+    }
 
     @BeforeEach
     public void setUp(){
+        super.setUp();
         role = new Role();
         role.setName("ADMIN");
     }
@@ -49,7 +52,6 @@ public class RoleControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldReturnAllRoles() throws Exception {
-
         when(roleService.getRoles()).thenReturn(Arrays.asList(role));
 
         mockMvc.perform(get("/roles"))
