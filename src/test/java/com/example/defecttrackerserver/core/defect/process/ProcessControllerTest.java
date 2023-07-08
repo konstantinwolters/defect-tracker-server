@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,22 +22,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProcessController.class)
-@Import(SecurityConfig.class)
-public class ProcessControllerTest {
+public class ProcessControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private ProcessController processController;
 
     @MockBean
     private ProcessServiceImpl processService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private ProcessDto testProcessDto;
+
+    @Override
+    protected Object getController() {
+        return processController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testProcessDto = new ProcessDto();
         testProcessDto.setName("testName");
     }
