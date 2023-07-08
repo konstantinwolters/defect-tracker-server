@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,22 +21,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@Import(SecurityConfig.class)
-public class UserControllerTest {
+public class UserControllerTest extends BaseControllerTest {
+
+    @Autowired
+    private UserController userController;
 
     @MockBean
     private UserService userService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
     private UserDto testuserDto;
+
+    @Override
+    protected Object getController() {
+        return userController;
+    }
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         testuserDto = new UserDto();
         testuserDto.setUsername("bill");
     }
