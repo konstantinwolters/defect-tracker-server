@@ -42,12 +42,6 @@ public class DefectControllerTest extends BaseControllerTest {
     private DefectController defectController;
 
     @MockBean
-    UserDetailsService userDetailsService;
-
-    @MockBean
-    JwtService jwtService;
-
-    @MockBean
     private DefectService defectService;
 
     private DefectDto testDefectDto;
@@ -55,16 +49,6 @@ public class DefectControllerTest extends BaseControllerTest {
     @Override
     protected Object getController() {
         return defectController;
-    }
-
-    @Override
-    protected JwtService getJwtService() {
-        return jwtService;
-    }
-
-    @Override
-    protected UserDetailsService getUserDetailsService() {
-        return userDetailsService;
     }
 
     @BeforeEach

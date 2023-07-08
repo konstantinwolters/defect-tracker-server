@@ -24,6 +24,12 @@ public abstract class BaseControllerTest {
     protected ObjectMapper objectMapper;
 
     @MockBean
+    UserDetailsService userDetailsService;
+
+    @MockBean
+    JwtService jwtService;
+
+    @MockBean
     protected JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @MockBean
@@ -33,13 +39,9 @@ public abstract class BaseControllerTest {
     public void setUp() {
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(getController())
-                .addFilter(new JwtAuthenticationFilter(getJwtService(), getUserDetailsService()))
+                .addFilter(new JwtAuthenticationFilter(jwtService, userDetailsService))
                 .build();
     }
 
     protected abstract Object getController();
-
-    protected abstract JwtService getJwtService();
-
-    protected abstract UserDetailsService getUserDetailsService();
 }
