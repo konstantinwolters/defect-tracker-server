@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +81,26 @@ public class DefectServiceImplTest {
 
         assertNotNull(result);
         assertEquals(defect.getId(), result.get(0).getId());
+    }
+
+    @Test
+    public void shouldReturnFilteredDefects() {
+        List<Integer> lotIds = Arrays.asList(1, 2);
+        List<Integer> defectStatusIds = Arrays.asList(1, 2);
+        String startDate = "2023-01-01";
+        String endDate = "2023-01-31";
+        List<Integer> locationIds = Arrays.asList(1, 2);
+        List<Integer> processIds = Arrays.asList(1, 2);
+        List<Integer> defectTypeIds = Arrays.asList(1, 2);
+        List<Integer> createdByIds = Arrays.asList(1, 2);
+
+        when(defectRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(defect));
+        when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
+
+        List<DefectDto> result = defectService.getFilteredDefects(lotIds, defectStatusIds, startDate, endDate, locationIds, processIds, defectTypeIds, createdByIds);
+
+        assertEquals(1, result.size());
+        assertEquals(defectDto, result.get(0));
     }
 
     @Test

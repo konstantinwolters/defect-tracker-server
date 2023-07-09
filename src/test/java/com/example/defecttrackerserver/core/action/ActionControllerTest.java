@@ -11,9 +11,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -76,14 +77,14 @@ public class ActionControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllActionsByUserCreatedId() throws Exception{
-        when(actionService.getAllActionsByUserCreatedId(any(Integer.class))).thenReturn(Arrays.asList(testactionDto));
+    public void shouldReturnFilteredActions() throws Exception{
+        when(actionService.getFilteredActions(anyString(), anyString(), anyBoolean(), anyList(), anyList(), anyString(), anyString(), anyList()))
+                .thenReturn(Arrays.asList(testactionDto));
 
-        mockMvc.perform(get("/actions/created-by/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].description").value("test"));
+        mockMvc.perform(get("/actions/filtered")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

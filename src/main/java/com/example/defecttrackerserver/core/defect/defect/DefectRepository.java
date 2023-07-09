@@ -7,5 +7,4 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
-    List<Defect> findAllByIdIn(List<Integer> ids);
 }

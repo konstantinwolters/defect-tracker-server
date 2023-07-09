@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.auth.authException;
+package com.example.defecttrackerserver.auth.authException;
 
 public class UnauthorizedAccessException extends RuntimeException {
 

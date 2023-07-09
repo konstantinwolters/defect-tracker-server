@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.auth;
+package com.example.defecttrackerserver.auth;
 
 import com.example.defecttrackerserver.security.JwtService;
 import jakarta.servlet.http.Cookie;
@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, CsrfToken csrfToken) {
         //perform authentication
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -27,7 +28,10 @@ public class AuthenticationService {
         var user = userDetailsService.loadUserByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
 
-        return AuthenticationResponse.builder().jwt(jwtToken).build();
+        return AuthenticationResponse.builder()
+                .jwt(jwtToken)
+                .csrf(csrfToken.getToken())
+                .build();
     }
 
     public Cookie createAuthenticationCookie(AuthenticationRequest request) {

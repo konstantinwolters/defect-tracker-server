@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.auth;
+package com.example.defecttrackerserver.auth;
 
 import lombok.*;
 
@@ -8,4 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 public class AuthenticationResponse {
     private String jwt;
+    private String csrf;
 }

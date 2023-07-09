@@ -1,6 +1,5 @@
-package com.example.defecttrackerserver.core.auth.authException;
+package com.example.defecttrackerserver.auth.authException;
 
-import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import com.example.defecttrackerserver.exception.ExceptionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
