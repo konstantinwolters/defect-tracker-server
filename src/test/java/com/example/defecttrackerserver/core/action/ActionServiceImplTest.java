@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +71,26 @@ public class ActionServiceImplTest {
         assertNotNull(result);
         assertEquals(action.getId(), result.getId());
         assertEquals(action.getDescription(), result.getDescription());
+    }
+
+    @Test
+    void shouldReturnFilteredActions() {
+        String dueDateStart = "2023-01-01";
+        String dueDateEnd = "2023-01-31";
+        Boolean isComplete = true;
+        List<Integer> assignedUserIds = Arrays.asList(1,2);
+        List<Integer> defectIds = Arrays.asList(1,2);
+        String createdOnStart = "2023-01-01";
+        String createdOnEnd = "2023-01-31";;
+        List<Integer> createdByIds = Arrays.asList(1,2);
+
+        when(actionRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(action));
+        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
+
+        List<ActionDto> result = actionService.getFilteredActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds);
+
+        assertEquals(1, result.size());
+        assertEquals(actionDto, result.get(0));
     }
 
     @Test
