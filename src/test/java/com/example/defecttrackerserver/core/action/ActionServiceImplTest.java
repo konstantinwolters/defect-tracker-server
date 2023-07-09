@@ -74,6 +74,18 @@ public class ActionServiceImplTest {
     }
 
     @Test
+    void shouldReturnAllActions() {
+        when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
+        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
+
+        List<ActionDto> result = actionService.getAllActions();
+
+        assertNotNull(result);
+        assertEquals(action.getId(), result.get(0).getId());
+        assertEquals(action.getDescription(), result.get(0).getDescription());
+    }
+
+    @Test
     void shouldReturnFilteredActions() {
         String dueDateStart = "2023-01-01";
         String dueDateEnd = "2023-01-31";
@@ -92,31 +104,6 @@ public class ActionServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(actionDto, result.get(0));
     }
-
-    @Test
-    void shouldReturnAllActions() {
-        when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
-        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
-
-        List<ActionDto> result = actionService.getAllActions();
-
-        assertNotNull(result);
-        assertEquals(action.getId(), result.get(0).getId());
-        assertEquals(action.getDescription(), result.get(0).getDescription());
-    }
-
-    @Test
-    void shouldReturnAllActionsByCreatedById() {
-        when(actionRepository.findByCreatedBy_Id(1)).thenReturn(Arrays.asList(action));
-        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
-
-        List<ActionDto> result = actionService.getAllActionsByUserCreatedId(1);
-
-        assertNotNull(result);
-        assertEquals(action.getId(), result.get(0).getId());
-        assertEquals(action.getDescription(), result.get(0).getDescription());
-    }
-
 
     @Test
     void shouldUpdateAction() {

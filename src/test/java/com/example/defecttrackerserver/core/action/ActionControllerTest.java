@@ -77,17 +77,6 @@ public class ActionControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllActionsByUserCreatedId() throws Exception{
-        when(actionService.getAllActionsByUserCreatedId(any(Integer.class))).thenReturn(Arrays.asList(testactionDto));
-
-        mockMvc.perform(get("/actions/created-by/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].description").value("test"));
-    }
-
-    @Test
     public void shouldReturnFilteredActions() throws Exception{
         when(actionService.getFilteredActions(anyString(), anyString(), anyBoolean(), anyList(), anyList(), anyString(), anyString(), anyList()))
                 .thenReturn(Arrays.asList(testactionDto));

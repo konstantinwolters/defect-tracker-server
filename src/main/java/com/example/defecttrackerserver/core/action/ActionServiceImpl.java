@@ -47,13 +47,6 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
-    public List<ActionDto> getAllActionsByUserCreatedId(Integer userId) {
-        List<Action> actions = actionRepository.findByCreatedBy_Id(userId);
-        return actions.stream()
-                .map(actionMapper::mapToDto).toList();
-    }
-
-    @Override
     public List<ActionDto> getFilteredActions(
             String dueDateStart,
             String dueDateEnd,

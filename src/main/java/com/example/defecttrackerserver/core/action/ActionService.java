@@ -7,8 +7,6 @@ public interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);
     List<ActionDto> getAllActions();
-    List<ActionDto> getAllActionsByUserCreatedId(Integer userId);
-
     List<ActionDto> getFilteredActions(
             String dueDateStart,
             String dueDateEnd,
