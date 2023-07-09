@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.auth;
+package com.example.defecttrackerserver.auth;
 
 import lombok.*;
 

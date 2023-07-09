@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.auth;
+package com.example.defecttrackerserver.auth;
 
 import com.example.defecttrackerserver.security.JwtService;
 import jakarta.servlet.http.Cookie;
