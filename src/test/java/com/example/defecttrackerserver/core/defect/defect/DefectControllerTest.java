@@ -11,7 +11,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -53,6 +53,17 @@ public class DefectControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.location").value("Texas"));
+    }
+
+    @Test
+    public void shouldReturnFilteredDefects() throws Exception {
+        when(defectService.getFilteredDefects(anyList(), anyList(), anyString(), anyString(), anyList(), anyList(), anyList(), anyList()))
+                .thenReturn(Arrays.asList(testDefectDto));
+
+        mockMvc.perform(get("/defects/filtered")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
