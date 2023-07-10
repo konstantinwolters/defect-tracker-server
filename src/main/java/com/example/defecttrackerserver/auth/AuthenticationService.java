@@ -16,7 +16,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request, CsrfToken csrfToken) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         //perform authentication
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -30,7 +30,6 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .jwt(jwtToken)
-                .csrf(csrfToken.getToken())
                 .build();
     }
 

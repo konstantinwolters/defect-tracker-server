@@ -1,47 +1,111 @@
-INSERT INTO ROLE (ROLE_ID, NAME) VALUES (1, 'ROLE_USER'), (2, 'ROLE_ADMIN');
+INSERT INTO ROLE (ROLE_ID, NAME)
+VALUES
+    (11, 'ROLE_USER'),
+    (12, 'ROLE_ADMIN');
 
-INSERT INTO LOCATION (ID, NAME) VALUES (1, 'Texas'), (2, 'San Jose'), (3, 'Duesseldorf');
+INSERT INTO LOCATION (ID, NAME)
+VALUES
+    (11, 'Texas'),
+    (12, 'San Jose'),
+    (13, 'Duesseldorf');
 
 INSERT INTO USERS (ID, LOCATION_ID, FIRST_NAME, LAST_NAME, MAIL, PASSWORD, USERNAME)
-VALUES (1, 1, null, null, 'bill@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bill'), (2, 1, null, null, 'bob@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bob');
+VALUES
+    (11, 11, null, null, 'bill@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bill'),
+    (12, 12, null, null, 'bob@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bob');
 
-INSERT INTO USER_ROLES (ROLE_ID, USER_ID) VALUES (2, 1), (1, 2);
+INSERT INTO USER_ROLES (ROLE_ID, USER_ID)
+VALUES
+    (12, 11),
+    (11, 12);
 
-INSERT INTO DEFECT_STATUS (ID, NAME) VALUES (1, 'New'), (2, 'QA check'), (3, 'Disposed'), (4, 'Cleared');
+INSERT INTO DEFECT_STATUS (ID, NAME)
+VALUES
+    (11, 'New'),
+    (12, 'QA check'),
+    (13, 'Disposed'),
+    (14, 'Cleared');
 
-INSERT INTO DEFECT_TYPE (ID, NAME) VALUES (1, 'Foreign Body'), (2, 'Pest'), (3, 'Quality Issue');
+INSERT INTO DEFECT_TYPE (ID, NAME)
+VALUES
+    (11, 'Foreign Body'),
+    (12, 'Pest'),
+    (13, 'Quality Issue');
 
-INSERT INTO PROCESS (ID, NAME) VALUES (1, 'Test Process'), (2, 'Test Process 2');
+INSERT INTO PROCESS (ID, NAME)
+VALUES
+    (11, 'Test Process'),
+    (12, 'Test Process 2');
 
-INSERT INTO MATERIAL (ID, NAME) VALUES (1, 'Chocolate'), (2, 'Beer');
+INSERT INTO MATERIAL (ID, NAME)
+VALUES
+    (11, 'Chocolate'),
+    (12, 'Beer');
 
-INSERT INTO SUPPLIER (ID, NAME) VALUES (1, 'Lindt'), (2, 'Oettinger');
+INSERT INTO SUPPLIER (ID, NAME)
+VALUES
+    (11, 'Lindt'),
+    (12, 'Oettinger');
 
 INSERT INTO LOT (ID, MATERIAL_ID, SUPPLIER_ID, LOT_NUMBER)
-VALUES (1, 1, 1, 'x0815x'), (2, 2, 2, '0816'), (3, 2, 2, '0817'), (4, 1, 1, '0818');
+VALUES
+    (11, 11, 11, 'x0815x'),
+    (12, 12, 12, '0816'),
+    (13, 12, 12, '0817'),
+    (14, 11, 11, '0818');
 
 INSERT INTO DEFECT (CREATED_BY_ID, DEFECT_STATUS_ID, DEFECT_TYPE_ID, ID, LOCATION_ID, LOT_ID, PROCESS_ID, CREATED_ON)
-VALUES (1, 1, 1, 1, 1, 1, 1, '2023-07-09 17:17:49.45023'), (1, 2, 2, 2, 2, 2, 2, '2023-04-09 17:17:49.45024'), (1, 3, 3, 3, 3, 3, 1, '2023-01-09 17:17:49.45025'), (2, 4, 1, 4, 1, 4, 2, '2023-02-09 17:17:49.45026'), (2, 1, 2, 5, 2, 1, 1, '2023-07-09 17:17:49.45025'), (2, 2, 3, 6, 3, 2, 2, '2023-07-01 17:17:49.45028');
+VALUES
+    (11, 11, 11, 11, 11, 11, 11, '2023-07-09 17:17:49.45023'),
+    (11, 12, 12, 12, 12, 12, 12, '2023-04-09 17:17:49.45024'),
+    (11, 13, 13, 13, 13, 13, 11, '2023-01-09 17:17:49.45025'),
+    (12, 14, 11, 14, 11, 14, 12, '2023-02-09 17:17:49.45026'),
+    (12, 11, 12, 15, 12, 11, 11, '2023-07-09 17:17:49.45025'),
+    (12, 12, 13, 16, 13, 12, 12, '2023-07-01 17:17:49.45028');
 
 INSERT INTO DEFECT_COMMENT (CREATED_BY_ID, DEFECT_ID, ID, CREATED_ON, CONTENT)
-VALUES (1, 1, 1, '2023-07-09 17:17:49.450168', 'Test Comment1'), (2, 1, 2, '2023-07-09 17:17:49.450168', 'Test Comment2'), (1, 2, 3, '2023-07-09 17:17:49.450168', 'Test Comment3'), (1, 3, 4, '2023-07-09 17:17:49.450168', 'Test Comment4'), (1, 4, 5, '2023-07-09 17:17:49.450168', 'Test Comment5'), (2, 5, 6, '2023-07-09 17:17:49.450168', 'Test Comment6');
+VALUES
+    (11, 11, 11, '2023-07-09 17:17:49.450168', 'Test Comment1'),
+    (12, 11, 12, '2023-07-09 17:17:49.450168', 'Test Comment2'),
+    (11, 12, 13, '2023-07-09 17:17:49.450168', 'Test Comment3'),
+    (11, 13, 14, '2023-07-09 17:17:49.450168', 'Test Comment4'),
+    (11, 14, 15, '2023-07-09 17:17:49.450168', 'Test Comment5'),
+    (12, 15, 16, '2023-07-09 17:17:49.450168', 'Test Comment6');
 
 INSERT INTO DEFECT_IMAGE (DEFECT_ID, ID, PATH)
-VALUES (1, 1, 'testpath1'), (1, 2, 'testpath2'), (2, 3, 'testpath3'), (3, 4, 'testpath4'), (4, 5, 'testpath5'), (4, 6, 'testpath6'), (5, 7, 'testpath7'), (6, 8, 'testpath8');
+VALUES
+    (11, 11, 'testpath1'),
+    (11, 12, 'testpath2'),
+    (12, 13, 'testpath3'),
+    (13, 14, 'testpath4'),
+    (14, 15, 'testpath5'),
+    (14, 16, 'testpath6'),
+    (15, 17, 'testpath7'),
+    (16, 18, 'testpath8');
 
 INSERT INTO ACTION (CREATED_BY_ID, DEFECT_ID, DUE_DATE, ID, IS_COMPLETED, CREATED_ON, DESCRIPTION)
 VALUES
-    (1, 1, '2023-07-01', 1, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 1'),
-    (2, 1, '2023-07-02', 2, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 2'),
-    (1, 2, '2023-07-03', 3, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 3'),
-    (2, 2, '2023-07-04', 4, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 4'),
-    (1, 2, '2023-07-05', 5, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 5'),
-    (2, 3, '2023-07-06', 6, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 6'),
-    (1, 4, '2023-07-07', 7, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 7'),
-    (2, 5, '2023-07-08', 8, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 8'),
-    (1, 6, '2023-07-09', 9, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 9'),
-    (2, 6, '2023-07-10', 10, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 10');
+    (11, 11, '2023-07-01', 11, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 1'),
+    (12, 11, '2023-07-02', 12, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 2'),
+    (11, 12, '2023-07-03', 13, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 3'),
+    (12, 12, '2023-07-04', 14, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 4'),
+    (11, 12, '2023-07-05', 15, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 5'),
+    (12, 13, '2023-07-06', 16, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 6'),
+    (11, 14, '2023-07-07', 17, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 7'),
+    (12, 15, '2023-07-08', 18, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 8'),
+    (11, 16, '2023-07-09', 19, FALSE, '2023-07-09 17:17:49.41829', 'Test Action 9'),
+    (12, 16, '2023-07-10', 20, TRUE, '2023-07-09 17:17:49.41829', 'Test Action 10');
 
 INSERT INTO USER_ACTIONS (ACTION_ID, USER_ID)
-VALUES (1, 1), (2, 2), (3, 1), (4, 2), (5, 1), (6, 2), (7, 1), (8, 2), (9, 1), (10, 2);
+VALUES
+    (11, 11),
+    (12, 12),
+    (13, 11),
+    (14, 12),
+    (15, 11),
+    (16, 12),
+    (17, 11),
+    (18, 12),
+    (19, 11),
+    (20, 12);
 
