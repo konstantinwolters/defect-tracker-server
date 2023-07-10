@@ -8,5 +8,4 @@ import lombok.*;
 @NoArgsConstructor
 public class AuthenticationResponse {
     private String jwt;
-    private String csrf;
 }

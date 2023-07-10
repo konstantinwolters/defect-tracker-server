@@ -23,7 +23,7 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request,
             CsrfToken csrfToken
     ){
-        return ResponseEntity.ok(authenticationService.authenticate(request, csrfToken));
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @PostMapping("/authenticate-cookie")
