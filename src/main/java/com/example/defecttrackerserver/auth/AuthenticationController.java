@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.auth;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,11 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate-cookie")
     public ResponseEntity<?> authenticationCookie(
-            @RequestBody AuthenticationRequest request
+            @RequestBody AuthenticationRequest request,
+            HttpServletResponse response
     ) {
-        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
         Cookie jwtCookie = authenticationService.createAuthenticationCookie(request);
-        responseBuilder.header(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-        return responseBuilder.build();
+        response.addCookie(jwtCookie);
+        return ResponseEntity.ok().build();
     }
 }
