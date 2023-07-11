@@ -20,10 +20,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto saveUser(UserDto userDto) {
-        User user = new User();
         userDto.setId(null);
 
-        User newUser = userMapper.mapToEntity(userDto, user);
+        User newUser = userMapper.mapToEntity(userDto, new User());
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         User savedUser = userRepository.save(newUser);

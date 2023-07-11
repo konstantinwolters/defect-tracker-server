@@ -31,6 +31,7 @@ public class UserMapper {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setMail(userDto.getMail());
+        user.setIsActive(userDto.getIsActive());
 
         user.setLocation(locationRepository.findByName(
                 userDto.getLocation())
@@ -64,6 +65,7 @@ public class UserMapper {
         userDto.setLastName(user.getLastName());
         userDto.setMail(user.getMail());
         userDto.setLocation(user.getLocation().getName());
+        userDto.setIsActive(user.getIsActive());
         if(user.getRoles() != null) {
             userDto.setRoles(new HashSet<>(user.getRoles().stream()
                     .map(Role::getName)
@@ -84,6 +86,8 @@ public class UserMapper {
         if(userDto.getMail() == null
                 || userDto.getMail().isBlank())
             throw new IllegalArgumentException("Mail must not be null or empty");
+        if(userDto.getIsActive() == null)
+            throw new IllegalArgumentException("IsActive must not be null");
         if(userDto.getPassword() == null
                 || userDto.getPassword().isBlank())
             throw new IllegalArgumentException("Password must not be null or empty");
