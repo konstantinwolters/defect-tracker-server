@@ -55,6 +55,7 @@ class UserMapperTest {
         userDto.setMail("tim@testermann.de");
         userDto.setFirstName("Tim");
         userDto.setLastName("Testermann");
+        userDto.setIsActive(true);
         locationDto = new LocationDto();
         locationDto.setId(1);
         userDto.setLocation("Texas");
@@ -83,6 +84,7 @@ class UserMapperTest {
         assertEquals(userDto.getMail(), mappedUser.getMail());
         assertEquals(userDto.getFirstName(), mappedUser.getFirstName());
         assertEquals(userDto.getLastName(), mappedUser.getLastName());
+        assertEquals(userDto.getIsActive(), mappedUser.getIsActive());
         assertEquals(userDto.getRoles().size(), mappedUser.getRoles().size());
         assertEquals(userDto.getAssignedActions().size(), mappedUser.getAssignedActions().size());
     }
@@ -148,6 +150,11 @@ class UserMapperTest {
         assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
 
         userDto.setUsername("Username");
+        userDto.setIsActive(null);
+        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
+
+
+        userDto.setIsActive(true);
         userDto.setMail(null);
         assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
 
