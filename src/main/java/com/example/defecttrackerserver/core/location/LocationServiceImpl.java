@@ -1,7 +1,9 @@
 package com.example.defecttrackerserver.core.location;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class LocationServiceImpl implements LocationService {
     private final LocationMapper locationMapper;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public LocationDto saveLocation(LocationDto locationDto) {
         if(locationDto.getName() == null)
             throw new IllegalArgumentException("Location name must not be null");
@@ -42,6 +45,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public LocationDto updateLocation(LocationDto locationDto) {
         if(locationDto.getId() == null)
             throw new IllegalArgumentException("Location id must not be null");
@@ -59,6 +64,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteLocation(Integer id) {
         locationRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with id: " + id));

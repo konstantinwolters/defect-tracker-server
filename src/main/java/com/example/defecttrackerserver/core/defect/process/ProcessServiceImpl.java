@@ -1,7 +1,9 @@
 package com.example.defecttrackerserver.core.defect.process;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class ProcessServiceImpl implements ProcessService {
     private final ProcessMapper processMapper;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProcessDto saveProcess(ProcessDto processDto) {
         if(processDto.getName() == null)
             throw new IllegalArgumentException("Process name must not be null");
@@ -42,6 +45,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProcessDto updateProcess(ProcessDto processDto) {
         if(processDto.getId() == null)
             throw new IllegalArgumentException("Process id must not be null");
@@ -59,6 +64,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProcess(Integer id) {
         Process process = processRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Process not found with id: " + id));

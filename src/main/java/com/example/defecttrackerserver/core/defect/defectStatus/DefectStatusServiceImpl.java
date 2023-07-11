@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.defect.defectStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     private final DefectStatusMapper defectStatusMapper;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectStatusDto saveDefectStatus(DefectStatusDto defectStatusDto) {
         if(defectStatusDto.getName() == null)
             throw new IllegalArgumentException("DefectStatus name must not be null");
@@ -43,6 +45,7 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectStatusDto updateDefectStatus(DefectStatusDto defectStatusDto) {
         if(defectStatusDto.getId() == null)
             throw new IllegalArgumentException("DefectStatus id must not be null");
@@ -60,6 +63,7 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectStatus(Integer id) {
         DefectStatus defectStatus = defectStatusRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: " + id));

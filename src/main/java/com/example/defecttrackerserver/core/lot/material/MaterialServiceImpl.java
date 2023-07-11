@@ -1,7 +1,9 @@
 package com.example.defecttrackerserver.core.lot.material;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class MaterialServiceImpl implements MaterialService {
     private final MaterialMapper materialMapper;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
     public MaterialDto saveMaterial(MaterialDto materialDto) {
         if(materialDto.getName() == null)
             throw new IllegalArgumentException("Material name must not be null");
@@ -42,6 +45,8 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
     public MaterialDto updateMaterial(MaterialDto materialDto) {
         if(materialDto.getId() == null)
             throw new IllegalArgumentException("Material id must not be null");
@@ -59,6 +64,7 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteMaterial(Integer id) {
         Material material = materialRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Material not found with id: " + id));

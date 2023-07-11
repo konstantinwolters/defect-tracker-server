@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.user.user;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto saveUser(UserDto userDto) {
         User user = new User();
         userDto.setId(null);
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override // TODO: implement method security that only admins and the user themselves can update their own data
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto updateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
@@ -62,6 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(Integer id) {
         User userToDelete = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));

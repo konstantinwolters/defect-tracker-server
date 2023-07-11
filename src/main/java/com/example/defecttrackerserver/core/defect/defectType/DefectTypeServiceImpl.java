@@ -1,8 +1,10 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     private final DefectTypeMapper defectTypeMapper;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectTypeDto saveDefectType(DefectTypeDto defectTypeDto) {
         if(defectTypeDto.getName() == null)
             throw new IllegalArgumentException("DefectType name must not be null");
@@ -43,6 +46,8 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectTypeDto updateDefectType(DefectTypeDto defectTypeDto) {
         if(defectTypeDto.getId() == null)
             throw new IllegalArgumentException("DefectType id must not be null");
@@ -60,6 +65,7 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectType(Integer id) {
         DefectType defectType = defectTypeRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: " + id));

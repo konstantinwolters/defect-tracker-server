@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ public class DefectImageServiceImpl implements DefectImageService{
     private final DefectImageMapper defectImageMapper;
 
     @Override
+    @Transactional
     public DefectImageDto saveDefectImageToDefect(Integer defectId, DefectImageDto defectImageDto) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
@@ -27,7 +29,6 @@ public class DefectImageServiceImpl implements DefectImageService{
         DefectImage defectImage = new DefectImage();
         defectImage.setPath(defectImageDto.getPath());
         defect.addDefectImage(defectImage);
-        defectRepository.save(defect);
 
         return defectImageMapper.mapToDto(defectImage);
     }
@@ -57,6 +58,8 @@ public class DefectImageServiceImpl implements DefectImageService{
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectImageFromDefect(Integer defectId, Integer defectImageId) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
@@ -65,6 +68,5 @@ public class DefectImageServiceImpl implements DefectImageService{
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: " + defectImageId));
 
         defect.deleteDefectImage(defectImage);
-        defectRepository.save(defect);
     }
 }

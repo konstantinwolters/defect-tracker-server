@@ -1,11 +1,14 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +20,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
     private final DefectCommentRepository defectCommentRepository;
     private final DefectRepository defectRepository;
     private final DefectCommentMapper defectCommentMapper;
+    private final SecurityService securityService;
 
     @Override
     @Transactional
@@ -48,6 +52,11 @@ public class DefectCommentServiceImpl implements DefectCommentService {
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: "
                         + defectComment.getId()));
 
+        if(!securityService.getUsername().equals(defectCommentToUpdate.getCreatedBy().getUsername())
+        && !securityService.hasRole("ROLE_ADMIN")){
+            throw new UnauthorizedAccessException("You are not authorized to update this defect comment");
+        }
+
         defectCommentMapper.checkNullOrEmptyFields(defectComment);
 
         DefectComment mappedDefectComment = defectCommentMapper.map(defectComment, defectCommentToUpdate);
@@ -58,6 +67,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectComment(Integer defectId, Integer defectCommentId) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
