@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -107,7 +108,7 @@ public class ActionServiceImpl implements ActionService{
         boolean isAuthorized = actionToUpdate.getAssignedUsers()
                 .stream().anyMatch(user -> user.getUsername().equals(securityService.getUsername()));
 
-        if(!isAuthorized){
+        if(!isAuthorized && !securityService.hasRole("ROLE_ADMIN")){
             throw new UnauthorizedAccessException("Unauthorized access.");
         }
         actionToUpdate.setIsCompleted(isCompleted);
@@ -115,6 +116,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ActionDto updateAction(ActionDto actionDto) {
         Action actionToUpdate = actionRepository.findById(actionDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));
@@ -127,6 +129,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteAction(Integer id) {
         Action action = actionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));

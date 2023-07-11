@@ -26,6 +26,9 @@ public class User {
     private String lastName;
 
     @Column(nullable = false)
+    private Boolean isActive;
+
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true, nullable = false)

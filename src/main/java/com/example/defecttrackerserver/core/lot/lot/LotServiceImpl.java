@@ -5,6 +5,7 @@ import com.example.defecttrackerserver.core.lot.lot.lotException.LotExistsExcept
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +19,11 @@ public class LotServiceImpl implements LotService{
     private final LotMapper lotMapper;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
     public LotDto saveLot(LotDto lotDto) {
         if(lotRepository.findByLotNumber(lotDto.getLotNumber()).isPresent())
             throw new LotExistsException("Lot already exists with lot number: " + lotDto.getLotNumber());
 
-        @SuppressWarnings("ConstantConditions")
         Lot newLot = lotMapper.map(lotDto, new Lot());
 
         return lotMapper.mapToDto(lotRepository.save(newLot));
@@ -42,6 +43,7 @@ public class LotServiceImpl implements LotService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
     public LotDto updateLot(LotDto lotDto) {
         Lot lot = lotRepository.findById(lotDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + lotDto.getId()));
@@ -57,6 +59,7 @@ public class LotServiceImpl implements LotService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteLot(Integer id) {
         Lot lot = lotRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
