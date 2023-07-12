@@ -27,6 +27,7 @@ public class Defect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String description;
     private LocalDateTime createdOn;
 
     @ManyToOne

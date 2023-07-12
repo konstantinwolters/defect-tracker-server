@@ -16,6 +16,7 @@ import java.util.Set;
 public class DefectDto {
 
     private Integer id;
+    private String description;
     private String defectStatus;
     private Set<DefectCommentDto> defectComments;
     private String lot;
