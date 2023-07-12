@@ -30,8 +30,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
 
         defectCommentDto.setCreatedOn(LocalDateTime.now());
 
-        DefectComment defectComment = new DefectComment();
-        DefectComment newDefectComment = defectCommentMapper.map(defectCommentDto, defectComment);
+        DefectComment newDefectComment = defectCommentMapper.map(defectCommentDto, new DefectComment());
         defect.addDefectComment(newDefectComment);
 
         return defectCommentMapper.mapToDto(newDefectComment);

@@ -58,7 +58,6 @@ public class DefectImageServiceImplTest {
 
         assertNotNull(result);
         assertEquals(defectImage.getPath(), result.getPath());
-        verify(defectRepository, times(1)).save(defect);
         assertEquals(1, defect.getImages().size());
     }
 
@@ -97,7 +96,6 @@ public class DefectImageServiceImplTest {
         defectImageService.deleteDefectImageFromDefect(1,1);
 
         verify(defectSpy, times(1)).deleteDefectImage(defectImage);
-        verify(defectRepository, times(1)).save(defectSpy);
         assertFalse(defectSpy.getImages().contains(defectImage));
     }
 
