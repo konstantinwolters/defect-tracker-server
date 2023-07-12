@@ -84,6 +84,7 @@ class DefectMapperTest {
 
         defectDto = new DefectDto();
         defectDto.setId(1);
+        defectDto.setDescription("testDescription");
         defectDto.setDefectStatus("testStatus");
 
         defectCommentDto = new DefectCommentDto();
@@ -144,6 +145,7 @@ class DefectMapperTest {
         Defect mappedDefect = defectMapper.map(defectDto, defect);
 
         assertEquals(defectDto.getDefectStatus(), mappedDefect.getDefectStatus().getName());
+        assertEquals(defectDto.getDescription(), mappedDefect.getDescription());
         assertEquals(defectDto.getDefectComments().size(), mappedDefect.getDefectComments().size());
         assertEquals(defectDto.getLot(), mappedDefect.getLot().getLotNumber());
         assertEquals(defectDto.getLocation(), mappedDefect.getLocation().getName());
@@ -319,6 +321,10 @@ class DefectMapperTest {
         assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
 
         defectDto.setDefectStatus("test");
+        defectDto.setDescription(null);
+        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
+
+        defectDto.setDescription("test");
         defectDto.setLot(null);
         assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
 

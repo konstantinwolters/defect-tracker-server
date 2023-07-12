@@ -47,6 +47,7 @@ public class DefectMapper {
         checkNullOrEmptyFields(defectDto);
 
         defect.setCreatedOn(defectDto.getCreatedOn());
+        defect.setDescription(defectDto.getDescription());
         defect.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "
                 + defectDto.getDefectStatus())));
@@ -108,6 +109,7 @@ public class DefectMapper {
     public DefectDto mapToDto(Defect defect){
         DefectDto defectDto = new DefectDto();
         defectDto.setId(defect.getId());
+        defectDto.setDescription(defect.getDescription());
         defectDto.setCreatedOn(defect.getCreatedOn());
         defectDto.setDefectStatus(defect.getDefectStatus().getName());
         defectDto.setDefectComments(defect.getDefectComments().stream()
@@ -132,6 +134,9 @@ public class DefectMapper {
     }
 
     public void checkNullOrEmptyFields(DefectDto defectDto) {
+        if(defectDto.getDescription() == null || defectDto.getDescription().isEmpty())
+            throw new IllegalArgumentException("Description must not be null");
+
         if(defectDto.getDefectStatus() == null)
             throw new IllegalArgumentException("DefectStatus must not be null");
 

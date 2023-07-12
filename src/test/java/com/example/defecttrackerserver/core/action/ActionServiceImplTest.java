@@ -1,7 +1,10 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.security.SecurityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,13 +13,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,6 +23,9 @@ public class ActionServiceImplTest {
 
     @Mock
     private ActionRepository actionRepository;
+
+    @Mock
+    private SecurityService securityService;
 
     @Mock
     private ActionMapper actionMapper;
@@ -46,6 +48,10 @@ public class ActionServiceImplTest {
         action.setId(1);
         action.setDefect(new Defect());
         action.setDescription("test");
+
+        User user = new User();
+        user.setUsername("testUser");
+        action.setAssignedUsers(new HashSet<>(Set.of(user)));
     }
 
     @Test
@@ -105,6 +111,23 @@ public class ActionServiceImplTest {
         assertEquals(actionDto, result.get(0));
     }
 
+    @Test
+    void shouldCloseAction(){
+        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
+        when(securityService.getUsername()).thenReturn("testUser");
+
+        actionService.closeAction(1, true);
+        assertEquals(action.getIsCompleted(), true);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNotAuthorizedToCloseAction(){
+        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
+        when(securityService.getUsername()).thenReturn("Bob");
+
+        assertThrows(UnauthorizedAccessException.class,
+                () -> actionService.closeAction(1, true));
+    }
     @Test
     void shouldUpdateAction() {
         when(actionRepository.save(any(Action.class))).thenReturn(action);
