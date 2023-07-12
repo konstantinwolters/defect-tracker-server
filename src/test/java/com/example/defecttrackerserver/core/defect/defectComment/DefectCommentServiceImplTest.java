@@ -1,8 +1,11 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +28,9 @@ public class DefectCommentServiceImplTest {
     private DefectRepository defectRepository;
 
     @Mock
+    private SecurityService securityService;
+
+    @Mock
     private DefectCommentMapper defectCommentMapper;
 
     @InjectMocks
@@ -42,9 +48,13 @@ public class DefectCommentServiceImplTest {
         defectCommentDto.setContent("testContent");
         defectCommentDto.setCreatedBy(new UserDto());
 
+        User user = new User();
+        user.setUsername("testUser");
+
         defectComment = new DefectComment();
         defectComment.setId(1);
         defectComment.setContent("testContent");
+        defectComment.setCreatedBy(user);
 
         defect = new Defect();
         defect.setId(1);
@@ -81,6 +91,7 @@ public class DefectCommentServiceImplTest {
         when(defectCommentRepository.save(any(DefectComment.class))).thenReturn(defectComment);
         when(defectCommentMapper.map(any(DefectCommentDto.class), any(DefectComment.class))).thenReturn(defectComment);
         when(defectCommentMapper.mapToDto(any(DefectComment.class))).thenReturn(defectCommentDto);
+        when(securityService.getUsername()).thenReturn("testUser");
 
         DefectCommentDto result = defectCommentService.updateDefectComment(defectCommentDto);
 
@@ -100,6 +111,14 @@ public class DefectCommentServiceImplTest {
 
         verify(defectSpy, times(1)).deleteDefectComment(defectComment);
         assertFalse(defectSpy.getDefectComments().contains(defectComment));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUserNotAuthorizedToUpdateDefectComment(){
+        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectComment));
+        when(securityService.getUsername()).thenReturn("Bob");
+
+        assertThrows(UnauthorizedAccessException.class, () -> defectCommentService.updateDefectComment(defectCommentDto));
     }
 
     @Test

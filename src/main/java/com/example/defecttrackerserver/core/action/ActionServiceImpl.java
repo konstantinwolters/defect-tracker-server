@@ -24,11 +24,11 @@ public class ActionServiceImpl implements ActionService{
     private SecurityService securityService;
 
     @Override
+    @Transactional
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
         actionDto.setCreatedOn(LocalDateTime.now());
-        Action action = new Action();
-        Action newAction = actionMapper.map(actionDto, action);
+        Action newAction = actionMapper.map(actionDto, new Action());
         newAction.setIsCompleted(false);
         Action savedAction = actionRepository.save(newAction);
         return actionMapper.mapToDto(savedAction);
@@ -109,7 +109,7 @@ public class ActionServiceImpl implements ActionService{
                 .stream().anyMatch(user -> user.getUsername().equals(securityService.getUsername()));
 
         if(!isAuthorized && !securityService.hasRole("ROLE_ADMIN")){
-            throw new UnauthorizedAccessException("Unauthorized access.");
+            throw new UnauthorizedAccessException("You are not authorized to close this action");
         }
         actionToUpdate.setIsCompleted(isCompleted);
     }
