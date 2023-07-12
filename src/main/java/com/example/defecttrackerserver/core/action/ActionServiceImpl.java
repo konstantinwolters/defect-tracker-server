@@ -21,7 +21,7 @@ public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
     private final ActionMapper actionMapper;
-    private SecurityService securityService;
+    private final SecurityService securityService;
 
     @Override
     @Transactional
