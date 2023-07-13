@@ -4,6 +4,7 @@ import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessExce
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.*;
@@ -81,14 +86,19 @@ public class ActionServiceImplTest {
 
     @Test
     void shouldReturnAllActions() {
-        when(actionRepository.findAll()).thenReturn(Arrays.asList(action));
+        Pageable pageable = PageRequest.of(0,10);
+        Page<Action> page = new PageImpl<>(List.of(action));
+
+        when(actionRepository.findAll(pageable)).thenReturn(page);
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
-        List<ActionDto> result = actionService.getAllActions();
+        PaginatedResponse<ActionDto> result = actionService.getAllActions(pageable);
 
-        assertNotNull(result);
-        assertEquals(action.getId(), result.get(0).getId());
-        assertEquals(action.getDescription(), result.get(0).getDescription());
+        assertEquals(1, result.getContent().size());
+        assertTrue(result.getContent().contains(actionDto));
+        assertEquals(page.getTotalPages(), result.getTotalPages());
+        assertEquals((int) page.getTotalElements(),result.getTotalElements());
+        assertEquals(page.getNumber(), result.getCurrentPage());
     }
 
     @Test
@@ -101,14 +111,20 @@ public class ActionServiceImplTest {
         String createdOnStart = "2023-01-01";
         String createdOnEnd = "2023-01-31";;
         List<Integer> createdByIds = Arrays.asList(1,2);
+        Pageable pageable = PageRequest.of(0,10);
+        Page<Action> page = new PageImpl<>(List.of(action));
 
-        when(actionRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(action));
+        when(actionRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
-        List<ActionDto> result = actionService.getFilteredActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds);
+        PaginatedResponse<ActionDto> result = actionService.getFilteredActions(dueDateStart, dueDateEnd, isComplete,
+                assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
 
-        assertEquals(1, result.size());
-        assertEquals(actionDto, result.get(0));
+        assertEquals(1, result.getContent().size());
+        assertTrue(result.getContent().contains(actionDto));
+        assertEquals(page.getTotalPages(), result.getTotalPages());
+        assertEquals((int) page.getTotalElements(),result.getTotalElements());
+        assertEquals(page.getNumber(), result.getCurrentPage());
     }
 
     @Test

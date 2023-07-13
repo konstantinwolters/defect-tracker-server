@@ -2,7 +2,7 @@ INSERT INTO ROLE (ROLE_ID, NAME)
 VALUES
     (11, 'ROLE_USER'),
     (12, 'ROLE_ADMIN'),
-    (12, 'ROLE_PURCHASER');
+    (13, 'ROLE_PURCHASER');
 
 INSERT INTO LOCATION (ID, NAME)
 VALUES
@@ -10,10 +10,10 @@ VALUES
     (12, 'San Jose'),
     (13, 'Duesseldorf');
 
-INSERT INTO USERS (ID, LOCATION_ID, FIRST_NAME, LAST_NAME, MAIL, PASSWORD, USERNAME)
+INSERT INTO USERS (ID, LOCATION_ID, FIRST_NAME, LAST_NAME, MAIL, PASSWORD, USERNAME, IS_ACTIVE)
 VALUES
-    (11, 11, null, null, 'bill@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bill'),
-    (12, 12, null, null, 'bob@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bob');
+    (11, 11, null, null, 'bill@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bill', true),
+    (12, 12, null, null, 'bob@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bob', true);
 
 INSERT INTO USER_ROLES (ROLE_ID, USER_ID)
 VALUES
@@ -55,14 +55,14 @@ VALUES
     (13, 12, 12, '0817'),
     (14, 11, 11, '0818');
 
-INSERT INTO DEFECT (CREATED_BY_ID, DEFECT_STATUS_ID, DEFECT_TYPE_ID, ID, LOCATION_ID, LOT_ID, PROCESS_ID, CREATED_ON)
+INSERT INTO DEFECT (CREATED_BY_ID, DESCRIPTION, DEFECT_STATUS_ID, DEFECT_TYPE_ID, ID, LOCATION_ID, LOT_ID, PROCESS_ID, CREATED_ON)
 VALUES
-    (11, 11, 11, 11, 11, 11, 11, '2023-07-09 17:17:49.45023'),
-    (11, 12, 12, 12, 12, 12, 12, '2023-04-09 17:17:49.45024'),
-    (11, 13, 13, 13, 13, 13, 11, '2023-01-09 17:17:49.45025'),
-    (12, 14, 11, 14, 11, 14, 12, '2023-02-09 17:17:49.45026'),
-    (12, 11, 12, 15, 12, 11, 11, '2023-07-09 17:17:49.45025'),
-    (12, 12, 13, 16, 13, 12, 12, '2023-07-01 17:17:49.45028');
+    (11,'Test Description1', 11, 11, 11, 11, 11, 11, '2023-07-09 17:17:49.45023'),
+    (11,'Test Description2', 12, 12, 12, 12, 12, 12, '2023-04-09 17:17:49.45024'),
+    (11,'Test Description3', 13, 13, 13, 13, 13, 11, '2023-01-09 17:17:49.45025'),
+    (12,'Test Description4', 14, 11, 14, 11, 14, 12, '2023-02-09 17:17:49.45026'),
+    (12,'Test Description5', 11, 12, 15, 12, 11, 11, '2023-07-09 17:17:49.45025'),
+    (12,'Test Description6', 12, 13, 16, 13, 12, 12, '2023-07-01 17:17:49.45028');
 
 INSERT INTO DEFECT_COMMENT (CREATED_BY_ID, DEFECT_ID, ID, CREATED_ON, CONTENT)
 VALUES
