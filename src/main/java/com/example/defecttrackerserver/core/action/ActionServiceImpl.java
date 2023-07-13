@@ -2,10 +2,14 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,13 +47,21 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
-    public List<ActionDto> getAllActions() {
-        List<Action> actions = actionRepository.findAll();
-        return actions.stream().map(actionMapper::mapToDto).toList();
+    public PaginatedResponse<ActionDto> getAllActions(Pageable pageable){
+        Page<Action> actions = actionRepository.findAll(pageable);
+
+        List<ActionDto> actionDtos = actions.stream().map(actionMapper::mapToDto).toList();
+
+        return new PaginatedResponse<>(
+                actionDtos,
+                actions.getTotalPages(),
+                (int) actions.getTotalElements(),
+                actions.getNumber()
+        );
     }
 
     @Override
-    public List<ActionDto> getFilteredActions(
+    public PaginatedResponse<ActionDto> getFilteredActions(
             String dueDateStart,
             String dueDateEnd,
             Boolean isCompleted,
@@ -56,7 +69,8 @@ public class ActionServiceImpl implements ActionService{
             List<Integer> defectIds,
             String createdOnStart,
             String createdOnEnd,
-            List<Integer> createdByIds
+            List<Integer> createdByIds,
+            Pageable pageable
     ){
         Specification<Action> spec = Specification.where(null);
 
@@ -78,7 +92,6 @@ public class ActionServiceImpl implements ActionService{
             spec = spec.and((root, query, cb) -> root.get("assignedUsers").get("id").in(assignedUserIds));
         }
 
-
         if(defectIds != null && !defectIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("defect").get("id").in(defectIds));
         }
@@ -96,7 +109,16 @@ public class ActionServiceImpl implements ActionService{
         if(createdByIds != null && !createdByIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
         }
-        return actionRepository.findAll(spec).stream().map(actionMapper::mapToDto).toList();
+
+        Page<Action> actions = actionRepository.findAll(spec, pageable);
+        List<ActionDto> actionDtos = actions.stream().map(actionMapper::mapToDto).toList();
+
+        return new PaginatedResponse<>(
+                actionDtos,
+                actions.getTotalPages(),
+                (int) actions.getTotalElements(),
+                actions.getNumber()
+        );
     }
 
     @Override

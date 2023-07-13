@@ -1,6 +1,12 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +29,17 @@ public class ActionController {
     }
 
     @GetMapping()
-    public List<ActionDto> getAllActions() { return actionService.getAllActions(); }
+    public PaginatedResponse<ActionDto> getAllActions(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return actionService.getAllActions(pageable);
+    }
 
     @GetMapping("/filtered")
-    public List<ActionDto> getFilteredActions(
+    public PaginatedResponse<ActionDto> getFilteredActions(
             @RequestParam(required = false) String dueDateStart,
             @RequestParam(required = false) String dueDateEnd,
             @RequestParam(required = false) Boolean isCompleted,
@@ -34,9 +47,14 @@ public class ActionController {
             @RequestParam(required = false) List<Integer> defectIds,
             @RequestParam(required = false) String createdOnStart,
             @RequestParam(required = false) String createdOnEnd,
-            @RequestParam(required = false) List<Integer> createdByIds) {
+            @RequestParam(required = false) List<Integer> createdByIds,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
         return actionService.getFilteredActions(dueDateStart, dueDateEnd, isCompleted,
-                assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds);
+                assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
     }
 
     @PutMapping("/{id}")
