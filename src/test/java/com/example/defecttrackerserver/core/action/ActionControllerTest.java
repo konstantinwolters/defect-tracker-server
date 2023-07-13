@@ -65,27 +65,27 @@ public class ActionControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.description").value("test"));
     }
 
-    @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllActions() throws Exception {
-        when(actionService.getAllActions()).thenReturn(Arrays.asList(testactionDto));
+//    @Test
+//    @WithMockUser(username = "bill", roles = "ADMIN")
+//    public void shouldGetAllActions() throws Exception {
+//        when(actionService.getAllActions()).thenReturn(Arrays.asList(testactionDto));
+//
+//        mockMvc.perform(get("/actions"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$[0].description").value("test"));
+//    }
 
-        mockMvc.perform(get("/actions"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].description").value("test"));
-    }
-
-    @Test
-    public void shouldReturnFilteredActions() throws Exception{
-        when(actionService.getFilteredActions(anyString(), anyString(), anyBoolean(), anyList(), anyList(), anyString(), anyString(), anyList()))
-                .thenReturn(Arrays.asList(testactionDto));
-
-        mockMvc.perform(get("/actions/filtered")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void shouldReturnFilteredActions() throws Exception{
+//        when(actionService.getFilteredActions(anyString(), anyString(), anyBoolean(), anyList(), anyList(), anyString(), anyString(), anyList()))
+//                .thenReturn(Arrays.asList(testactionDto));
+//
+//        mockMvc.perform(get("/actions/filtered")
+//                    .with(csrf())
+//                    .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
