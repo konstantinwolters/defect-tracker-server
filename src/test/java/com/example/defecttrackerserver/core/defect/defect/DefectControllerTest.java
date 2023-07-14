@@ -1,15 +1,20 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.core.action.ActionDto;
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
@@ -57,11 +62,13 @@ public class DefectControllerTest extends BaseControllerTest {
 
     @Test
     public void shouldReturnFilteredDefects() throws Exception {
-        when(defectService.getFilteredDefects(anyList(), anyList(), anyString(), anyString(), anyList(), anyList(), anyList(), anyList()))
-                .thenReturn(Arrays.asList(testDefectDto));
+        PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1, 1, 0);
+
+        when(defectService.getFilteredDefects(anyList(), anyList(), anyString(), anyString(), anyList(),
+                anyList(), anyList(), anyList(), any(Pageable.class)))
+                .thenReturn(response);
 
         mockMvc.perform(get("/defects/filtered")
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

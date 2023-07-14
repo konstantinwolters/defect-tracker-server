@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,9 +50,19 @@ public class ActionController {
             @RequestParam(required = false) String createdOnEnd,
             @RequestParam(required = false) List<Integer> createdByIds,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size) {
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) List<String> sort) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sorting = sort == null ?
+                Sort.unsorted() :
+                sort.stream()
+                        .map(sortStr -> {
+                            String[] split = sortStr.split(",");
+                            return Sort.by(Sort.Direction.fromString(split[1]), split[0]);
+                        })
+                        .reduce(Sort.unsorted(), Sort::and);
+
+        Pageable pageable = PageRequest.of(page, size, sorting);
 
         return actionService.getFilteredActions(dueDateStart, dueDateEnd, isCompleted,
                 assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
