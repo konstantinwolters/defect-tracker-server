@@ -1,6 +1,10 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +27,7 @@ public class DefectController {
     public List<DefectDto> getAllDefects() { return defectService.getAllDefects();}
 
     @GetMapping("/filtered")
-    public List<DefectDto> getFilteredDefects(
+    public PaginatedResponse<DefectDto> getFilteredDefects(
             @RequestParam(required = false) List<Integer> lotIds,
             @RequestParam(required = false) List<Integer> defectStatusIds,
             @RequestParam(required = false) String startDate,
@@ -31,10 +35,13 @@ public class DefectController {
             @RequestParam(required = false) List<Integer> locationIds,
             @RequestParam(required = false) List<Integer> processIds,
             @RequestParam(required = false) List<Integer> defectTypeIds,
-            @RequestParam(required = false) List<Integer> createdByIds) {
+            @RequestParam(required = false) List<Integer> createdByIds,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
 
         return defectService.getFilteredDefects(lotIds, defectStatusIds, startDate, endDate,
-                locationIds, processIds, defectTypeIds, createdByIds);
+                locationIds, processIds, defectTypeIds, createdByIds, pageable);
     }
 
     @PutMapping()

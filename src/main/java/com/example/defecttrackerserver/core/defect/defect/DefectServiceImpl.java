@@ -3,9 +3,12 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -49,7 +52,7 @@ public class DefectServiceImpl implements DefectService{
     }
 
     @Override
-   public List<DefectDto> getFilteredDefects(
+   public PaginatedResponse<DefectDto> getFilteredDefects(
             List<Integer> lotIds,
             List<Integer> defectStatusIds,
             String startDate,
@@ -57,7 +60,8 @@ public class DefectServiceImpl implements DefectService{
             List<Integer> locationIds,
             List<Integer> processIds,
             List<Integer> defectTypeIds,
-            List<Integer> createdByIds
+            List<Integer> createdByIds,
+            Pageable pageable
     ){
         Specification<Defect> spec = Specification.where(null);
 
@@ -95,7 +99,15 @@ public class DefectServiceImpl implements DefectService{
             spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
         }
 
-        return defectRepository.findAll(spec).stream().map(defectMapper::mapToDto).toList();
+        Page<Defect> defects = defectRepository.findAll(spec, pageable);
+        List<DefectDto> defectDtos =  defects.stream().map(defectMapper::mapToDto).toList();
+
+        return new PaginatedResponse<>(
+                defectDtos,
+                defects.getTotalPages(),
+                (int) defects.getTotalElements(),
+                defects.getNumber()
+        );
     }
 
 
