@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -24,6 +27,10 @@ public class UserServiceImpl implements UserService {
 
         User newUser = userMapper.mapToEntity(userDto, new User());
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
+        Role role = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with name: ROLE_USER"));
+        newUser.addRole(role);
 
         User savedUser = userRepository.save(newUser);
         return userMapper.mapToDto(savedUser);
