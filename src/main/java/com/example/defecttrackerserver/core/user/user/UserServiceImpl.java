@@ -1,5 +1,9 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
+import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
+import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RoleRepository roleRepository;
+    private final SecurityService securityService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -24,6 +30,10 @@ public class UserServiceImpl implements UserService {
 
         User newUser = userMapper.mapToEntity(userDto, new User());
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
+        Role role = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with name: ROLE_USER"));
+        newUser.addRole(role);
 
         User savedUser = userRepository.save(newUser);
         return userMapper.mapToDto(savedUser);
@@ -43,12 +53,18 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-    @Override // TODO: implement method security that only admins and the user themselves can update their own data
+    @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto updateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
+
+        if(!securityService.getUsername().equals(user.getUsername())
+        && !securityService.hasRole("ROLE_ADMIN")){
+            throw new UnauthorizedAccessException(
+                    "You are not authorized to update this user's data");
+        }
 
         if(userDto.getPassword() == null)
             userDto.setPassword(user.getPassword());

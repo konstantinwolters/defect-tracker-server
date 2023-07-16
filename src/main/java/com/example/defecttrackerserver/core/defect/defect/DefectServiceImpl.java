@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.response.PaginatedResponse;
@@ -34,7 +35,9 @@ public class DefectServiceImpl implements DefectService{
         defectDto.setCreatedOn(LocalDateTime.now());
 
         Defect newDefect = defectMapper.map(defectDto, defect);
-        //TODO: Set Status?! Must first be fetched from DB
+        DefectStatus defectStatus = defectStatusRepository.findByName("New")
+                .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: 11"));
+        newDefect.setDefectStatus(defectStatus);
 
         return defectMapper.mapToDto(defectRepository.save(newDefect));
     }
