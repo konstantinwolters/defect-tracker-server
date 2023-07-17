@@ -30,8 +30,8 @@ public class DefectController {
     public PaginatedResponse<DefectDto> getFilteredDefects(
             @RequestParam(required = false) List<Integer> lotIds,
             @RequestParam(required = false) List<Integer> defectStatusIds,
-            @RequestParam(required = false) String startDate,
-            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String createdOnStart,
+            @RequestParam(required = false) String createdOnEnd,
             @RequestParam(required = false) List<Integer> locationIds,
             @RequestParam(required = false) List<Integer> processIds,
             @RequestParam(required = false) List<Integer> defectTypeIds,
@@ -40,7 +40,7 @@ public class DefectController {
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        return defectService.getFilteredDefects(lotIds, defectStatusIds, startDate, endDate,
+        return defectService.getFilteredDefects(lotIds, defectStatusIds, createdOnStart, createdOnEnd,
                 locationIds, processIds, defectTypeIds, createdByIds, pageable);
     }
 

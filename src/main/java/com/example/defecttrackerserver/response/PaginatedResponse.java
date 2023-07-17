@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.response;
 
-import com.example.defecttrackerserver.core.action.ActionFilterValues;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,14 +12,14 @@ public class PaginatedResponse<T> {
     private int totalPages;
     private int totalElements;
     private int currentPage;
-    private ActionFilterValues actionFilterValuesDto;
+    private Object filterValues;
 
     public PaginatedResponse(List<T> content, int totalPages, int totalElements,
-                             int currentPage, ActionFilterValues actionFilterValues) {
+                             int currentPage, Object filterValues) {
         this.content = content;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
         this.currentPage = currentPage;
-        this.actionFilterValuesDto = actionFilterValues;
+        this.filterValues = filterValues;
     }
 }

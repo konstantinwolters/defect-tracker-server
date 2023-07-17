@@ -4,6 +4,7 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.user.user.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class DefectServiceImpl implements DefectService{
 
         Defect newDefect = defectMapper.map(defectDto, defect);
         DefectStatus defectStatus = defectStatusRepository.findByName("New")
-                .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: 11"));
+                .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with name: 'New'"));
         newDefect.setDefectStatus(defectStatus);
 
         return defectMapper.mapToDto(defectRepository.save(newDefect));
@@ -105,15 +107,33 @@ public class DefectServiceImpl implements DefectService{
         Page<Defect> defects = defectRepository.findAll(spec, pageable);
         List<DefectDto> defectDtos =  defects.stream().map(defectMapper::mapToDto).toList();
 
+        List<Defect> filteredDefects = defectRepository.findAll(spec);
+
         return new PaginatedResponse<>(
                 defectDtos,
                 defects.getTotalPages(),
                 (int) defects.getTotalElements(),
                 defects.getNumber(),
-                null
+                getDefectFilterValues(filteredDefects)
         );
     }
 
+    @Override
+    public DefectFilterValues getDefectFilterValues(List<Defect> defects) {
+        List<Integer> defectIds = defects.stream().map(Defect::getId).toList();
+
+        DefectFilterValues defectFilterValues = new DefectFilterValues();
+        defectFilterValues.setLot(defectRepository.findDistinctLotNumber(defectIds));
+        defectFilterValues.setLocation(defectRepository.findDistinctLocationName(defectIds));
+        defectFilterValues.setProcess(defectRepository.findDistinctProcessName(defectIds));
+        defectFilterValues.setDefectType(defectRepository.findDistinctDefectTypeName(defectIds));
+        defectFilterValues.setCreatedBy(defectRepository.findDistinctCreatedBy(defectIds).stream()
+                .map(UserInfo::new).collect(Collectors.toSet()));
+        defectFilterValues.setDefectStatus(defectRepository.findDistinctDefectStatusName(defectIds));
+        defectFilterValues.setCreatedOn(defectRepository.findDistinctCreatedOn(defectIds).stream()
+                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
+        return defectFilterValues;
+    }
 
     @Override
     @Transactional

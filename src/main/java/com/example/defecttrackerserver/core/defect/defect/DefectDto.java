@@ -14,7 +14,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class DefectDto {
-
     private Integer id;
     private String description;
     private String defectStatus;
