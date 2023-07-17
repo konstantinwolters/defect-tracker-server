@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectStatus;
 
+import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,6 +21,9 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     public DefectStatusDto saveDefectStatus(DefectStatusDto defectStatusDto) {
         if(defectStatusDto.getName() == null)
             throw new IllegalArgumentException("DefectStatus name must not be null");
+
+        if(defectStatusRepository.findByName(defectStatusDto.getName()).isPresent())
+            throw new DefectTypeExistsException("DefectStatus already exists with name: " + defectStatusDto.getName());
 
         DefectStatus defectStatus = new DefectStatus();
         defectStatus.setName(defectStatusDto.getName());
@@ -55,6 +59,10 @@ public class DefectStatusServiceImpl implements DefectStatusService{
         DefectStatus defectStatus = defectStatusRepository.findById(defectStatusDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: "
                         + defectStatusDto.getId()));
+
+        if(defectStatusRepository.findByName(defectStatusDto.getName()).isPresent()
+                && !defectStatusRepository.findByName(defectStatusDto.getName()).get().getId().equals(defectStatus.getId()))
+            throw new DefectTypeExistsException("DefectStatus already exists with name: " + defectStatusDto.getName());
 
         defectStatus.setName(defectStatusDto.getName());
         DefectStatus savedDefectStatus = defectStatusRepository.save(defectStatus);

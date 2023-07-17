@@ -67,7 +67,6 @@ public class DefectTypeServiceImpl implements DefectTypeService {
         if(defectTypeExists.isPresent() && !defectTypeExists.get().getId().equals(defectType.getId()))
             throw new DefectTypeExistsException("DefectType already exists with name: " + defectTypeDto.getName());
 
-        defectType.setId(defectTypeDto.getId());
         defectType.setName(defectTypeDto.getName());
 
         DefectType saveDefectType = defectTypeRepository.save(defectType);
