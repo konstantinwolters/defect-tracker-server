@@ -55,6 +55,7 @@ public class DefectServiceImplTest {
     @Test
     void shouldSaveDefect() {
         when(defectRepository.save(defect)).thenReturn(defect);
+        when(defectStatusRepository.findByName(anyString())).thenReturn(Optional.of(new DefectStatus()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
@@ -77,17 +78,6 @@ public class DefectServiceImplTest {
     }
 
     @Test
-    void shouldReturnAllDefects() {
-        when(defectRepository.findAll()).thenReturn(Arrays.asList(defect));
-        when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
-
-        List<DefectDto> result = defectService.getAllDefects();
-
-        assertNotNull(result);
-        assertEquals(defect.getId(), result.get(0).getId());
-    }
-
-    @Test
     public void shouldReturnFilteredDefects() {
         List<Integer> lotIds = Arrays.asList(1, 2);
         List<Integer> defectStatusIds = Arrays.asList(1, 2);
@@ -103,7 +93,7 @@ public class DefectServiceImplTest {
         when(defectRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
-        PaginatedResponse<DefectDto> result = defectService.getFilteredDefects(lotIds, defectStatusIds, startDate,
+        PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, defectStatusIds, startDate,
                 endDate, locationIds, processIds, defectTypeIds, createdByIds, pageable);
 
         assertEquals(1, result.getContent().size());

@@ -1,6 +1,9 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
+import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +27,13 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
     private UserMapper userMapper;
+
+    @Mock
+    private SecurityService securityService;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -60,6 +69,7 @@ public class UserServiceImplTest {
     @Test
     void shouldSaveUser() {
         when(userRepository.save(any(User.class))).thenReturn(user);
+        when(roleRepository.findByName(anyString())).thenReturn(Optional.of(new Role()));
         when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(passwordEncoder.encode(any())).thenReturn("test");
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
@@ -102,6 +112,7 @@ public class UserServiceImplTest {
     @Test
     void shouldUpdateUser(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(securityService.getUsername()).thenReturn("test");
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);

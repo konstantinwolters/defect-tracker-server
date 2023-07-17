@@ -52,12 +52,7 @@ public class DefectServiceImpl implements DefectService{
     }
 
     @Override
-    public List<DefectDto> getAllDefects() {
-        return defectRepository.findAll().stream().map(defectMapper::mapToDto).toList();
-    }
-
-    @Override
-   public PaginatedResponse<DefectDto> getFilteredDefects(
+   public PaginatedResponse<DefectDto> getDefects(
             List<Integer> lotIds,
             List<Integer> defectStatusIds,
             String startDate,

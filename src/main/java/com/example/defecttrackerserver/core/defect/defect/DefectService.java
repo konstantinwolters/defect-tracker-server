@@ -8,8 +8,7 @@ import java.util.List;
 public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto);
     DefectDto getDefectById(Integer id);
-    List<DefectDto> getAllDefects();
-    PaginatedResponse<DefectDto> getFilteredDefects(
+    PaginatedResponse<DefectDto> getDefects(
             List<Integer> lotIds,
             List<Integer> defectStatusIds,
             String startDate,

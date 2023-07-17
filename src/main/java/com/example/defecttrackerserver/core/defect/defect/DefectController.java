@@ -24,9 +24,6 @@ public class DefectController {
     public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
 
     @GetMapping()
-    public List<DefectDto> getAllDefects() { return defectService.getAllDefects();}
-
-    @GetMapping("/filtered")
     public PaginatedResponse<DefectDto> getFilteredDefects(
             @RequestParam(required = false) List<Integer> lotIds,
             @RequestParam(required = false) List<Integer> defectStatusIds,
@@ -40,7 +37,7 @@ public class DefectController {
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        return defectService.getFilteredDefects(lotIds, defectStatusIds, createdOnStart, createdOnEnd,
+        return defectService.getDefects(lotIds, defectStatusIds, createdOnStart, createdOnEnd,
                 locationIds, processIds, defectTypeIds, createdByIds, pageable);
     }
 
