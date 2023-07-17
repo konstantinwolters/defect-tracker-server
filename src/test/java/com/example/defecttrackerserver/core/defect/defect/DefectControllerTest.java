@@ -61,19 +61,6 @@ public class DefectControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void shouldReturnFilteredDefects() throws Exception {
-        PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1, 1, 0);
-
-        when(defectService.getFilteredDefects(anyList(), anyList(), anyString(), anyString(), anyList(),
-                anyList(), anyList(), anyList(), any(Pageable.class)))
-                .thenReturn(response);
-
-        mockMvc.perform(get("/defects/filtered")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldGetDefectById() throws Exception {
         when(defectService.getDefectById(any(Integer.class))).thenReturn(testDefectDto);
@@ -85,14 +72,17 @@ public class DefectControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllDefects() throws Exception {
-        when(defectService.getAllDefects()).thenReturn(Arrays.asList(testDefectDto));
+    public void shouldReturnFilteredDefects() throws Exception {
+        PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
+                1, 0, new DefectFilterValues());
 
-        mockMvc.perform(get("/defects").with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].location").value("Texas"));
+        when(defectService.getDefects(anyList(), anyList(), anyString(), anyString(), anyList(),
+                anyList(), anyList(), anyList(), any(Pageable.class)))
+                .thenReturn(response);
+
+        mockMvc.perform(get("/defects")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

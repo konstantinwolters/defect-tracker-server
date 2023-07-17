@@ -85,23 +85,6 @@ public class ActionServiceImplTest {
     }
 
     @Test
-    void shouldReturnAllActions() {
-        Pageable pageable = PageRequest.of(0,10);
-        Page<Action> page = new PageImpl<>(List.of(action));
-
-        when(actionRepository.findAll(pageable)).thenReturn(page);
-        when(actionMapper.mapToDto(action)).thenReturn(actionDto);
-
-        PaginatedResponse<ActionDto> result = actionService.getAllActions(pageable);
-
-        assertEquals(1, result.getContent().size());
-        assertTrue(result.getContent().contains(actionDto));
-        assertEquals(page.getTotalPages(), result.getTotalPages());
-        assertEquals((int) page.getTotalElements(),result.getTotalElements());
-        assertEquals(page.getNumber(), result.getCurrentPage());
-    }
-
-    @Test
     void shouldReturnFilteredActions() {
         String dueDateStart = "2023-01-01";
         String dueDateEnd = "2023-01-31";
@@ -117,7 +100,7 @@ public class ActionServiceImplTest {
         when(actionRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
-        PaginatedResponse<ActionDto> result = actionService.getFilteredActions(dueDateStart, dueDateEnd, isComplete,
+        PaginatedResponse<ActionDto> result = actionService.getActions(dueDateStart, dueDateEnd, isComplete,
                 assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
 
         assertEquals(1, result.getContent().size());

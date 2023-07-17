@@ -12,11 +12,14 @@ public class PaginatedResponse<T> {
     private int totalPages;
     private int totalElements;
     private int currentPage;
+    private Object filterValues;
 
-    public PaginatedResponse(List<T> content, int totalPages, int totalElements, int currentPage) {
+    public PaginatedResponse(List<T> content, int totalPages, int totalElements,
+                             int currentPage, Object filterValues) {
         this.content = content;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
         this.currentPage = currentPage;
+        this.filterValues = filterValues;
     }
 }

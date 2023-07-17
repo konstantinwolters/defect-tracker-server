@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.core.lot.material.materialException.MaterialExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,10 +18,13 @@ public class MaterialServiceImpl implements MaterialService {
     private final MaterialMapper materialMapper;
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
     public MaterialDto saveMaterial(MaterialDto materialDto) {
         if(materialDto.getName() == null)
             throw new IllegalArgumentException("Material name must not be null");
+
+        if(materialRepository.findByName(materialDto.getName()).isPresent())
+            throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
 
         Material material = new Material();
         material.setName(materialDto.getName());
@@ -46,7 +51,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
     public MaterialDto updateMaterial(MaterialDto materialDto) {
         if(materialDto.getId() == null)
             throw new IllegalArgumentException("Material id must not be null");
@@ -56,6 +61,10 @@ public class MaterialServiceImpl implements MaterialService {
         Material material = materialRepository.findById(materialDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Material not found with id: "
                         + materialDto.getId()));
+
+        Optional<Material> materialExists = materialRepository.findByName(materialDto.getName());
+        if(materialExists.isPresent() && !materialExists.get().getId().equals(material.getId()))
+            throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
 
         material.setName(materialDto.getName());
         Material savedMaterial = materialRepository.save(material);

@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.location;
 
+import com.example.defecttrackerserver.core.location.locationException.LocationExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +22,9 @@ public class LocationServiceImpl implements LocationService {
     public LocationDto saveLocation(LocationDto locationDto) {
         if(locationDto.getName() == null)
             throw new IllegalArgumentException("Location name must not be null");
+
+        if(locationRepository.findByName(locationDto.getName()).isPresent())
+            throw new LocationExistsException("Location already exists with name: " + locationDto.getName());
 
         Location location = new Location();
         location.setName(locationDto.getName());
@@ -57,7 +62,12 @@ public class LocationServiceImpl implements LocationService {
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with id: "
                         + locationDto.getId()));
 
+        Optional<Location> locationExists = locationRepository.findByName(locationDto.getName());
+        if(locationExists.isPresent() && !locationExists.get().getId().equals(location.getId()))
+            throw new LocationExistsException("Location already exists with name: " + locationDto.getName());
+
         location.setName(locationDto.getName());
+
         Location savedLocation = locationRepository.save(location);
 
         return locationMapper.mapToDto(savedLocation);

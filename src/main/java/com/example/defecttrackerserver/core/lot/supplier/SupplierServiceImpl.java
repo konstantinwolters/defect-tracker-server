@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
+import com.example.defecttrackerserver.core.lot.supplier.supplierException.SupplierExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,24 +18,27 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierMapper supplierMapper;
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
-    public SupplierDto saveSupplier(SupplierDto materialDto) {
-        if(materialDto.getName() == null)
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
+    public SupplierDto saveSupplier(SupplierDto supplierDto) {
+        if(supplierDto.getName() == null)
             throw new IllegalArgumentException("Supplier name must not be null");
 
+        if(supplierRepository.findByName(supplierDto.getName()).isPresent())
+            throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
+
         Supplier supplier = new Supplier();
-        supplier.setName(materialDto.getName());
+        supplier.setName(supplierDto.getName());
 
-        Supplier savedMaterial = supplierRepository.save(supplier);
+        Supplier savedSupplier = supplierRepository.save(supplier);
 
-        return supplierMapper.mapToDto(savedMaterial);
+        return supplierMapper.mapToDto(savedSupplier);
     }
 
     @Override
     public SupplierDto getSupplierById(Integer id) {
         return supplierRepository.findById(id)
                 .map(supplierMapper::mapToDto)
-                .orElseThrow(() -> new IllegalArgumentException("Supplier not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Supplier not found with id: " + id));
     }
 
     @Override
@@ -46,21 +51,25 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
-    public SupplierDto updateSupplier(SupplierDto materialDto) {
-        if(materialDto.getId() == null)
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
+    public SupplierDto updateSupplier(SupplierDto supplierDto) {
+        if(supplierDto.getId() == null)
             throw new IllegalArgumentException("Supplier id must not be null");
-        if(materialDto.getName() == null)
+        if(supplierDto.getName() == null)
             throw new IllegalArgumentException("Supplier name must not be null");
 
-        Supplier supplier = supplierRepository.findById(materialDto.getId())
+        Supplier supplier = supplierRepository.findById(supplierDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Supplier not found with id: "
-                        + materialDto.getId()));
+                        + supplierDto.getId()));
 
-        supplier.setName(materialDto.getName());
-        Supplier savedMaterial = supplierRepository.save(supplier);
+        Optional<Supplier> supplierExists = supplierRepository.findByName(supplierDto.getName());
+        if(supplierExists.isPresent() && !supplierExists.get().getId().equals(supplier.getId()))
+            throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
 
-        return supplierMapper.mapToDto(savedMaterial);
+        supplier.setName(supplierDto.getName());
+        Supplier savedSupplier = supplierRepository.save(supplier);
+
+        return supplierMapper.mapToDto(savedSupplier);
     }
 
     @Override

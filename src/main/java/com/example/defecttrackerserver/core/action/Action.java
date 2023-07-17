@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id") //TODO: Remove und test
 public class Action {
 
     @Id
