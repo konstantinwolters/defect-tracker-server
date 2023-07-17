@@ -55,7 +55,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto updateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));

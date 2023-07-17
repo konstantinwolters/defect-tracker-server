@@ -2,13 +2,13 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.user.user.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +56,8 @@ public class ActionServiceImpl implements ActionService{
                 actionDtos,
                 actions.getTotalPages(),
                 (int) actions.getTotalElements(),
-                actions.getNumber()
+                actions.getNumber(),
+                null
         );
     }
 
@@ -113,12 +114,33 @@ public class ActionServiceImpl implements ActionService{
         Page<Action> actions = actionRepository.findAll(spec, pageable);
         List<ActionDto> actionDtos = actions.stream().map(actionMapper::mapToDto).toList();
 
+        List<Action> filteredActions = actionRepository.findAll(spec);
+
         return new PaginatedResponse<>(
                 actionDtos,
                 actions.getTotalPages(),
                 (int) actions.getTotalElements(),
-                actions.getNumber()
+                actions.getNumber(),
+                getActionFilterValues(filteredActions)
         );
+    }
+
+    @Override
+    public ActionFilterValues getActionFilterValues(List<Action> actions){
+        List<Integer> actionIds = actions.stream().map(Action::getId).toList();
+
+        ActionFilterValues actionFilterValues = new ActionFilterValues();
+        actionFilterValues.setDueDate(actionRepository.findDistinctDueDate(actionIds));
+        actionFilterValues.setIsCompleted(actionRepository.findDistinctIsCompleted(actionIds));
+        actionFilterValues.setAssignedUsers(actionRepository.findDistinctAssignedUsers(actionIds).stream()
+                .map(UserInfo::new).collect(Collectors.toSet()));
+        actionFilterValues.setDefect(actionRepository.findDistinctDefect(actionIds));
+        actionFilterValues.setCreatedOn(actionRepository.findDistinctCreatedOn(actionIds).stream()
+                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
+        actionFilterValues.setCreatedBy(actionRepository.findDistinctCreatedBy(actionIds).stream()
+                .map(UserInfo::new).collect(Collectors.toSet()));
+
+        return actionFilterValues;
     }
 
     @Override

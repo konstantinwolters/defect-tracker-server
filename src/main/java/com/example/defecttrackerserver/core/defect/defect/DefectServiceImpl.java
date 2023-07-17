@@ -109,7 +109,8 @@ public class DefectServiceImpl implements DefectService{
                 defectDtos,
                 defects.getTotalPages(),
                 (int) defects.getTotalElements(),
-                defects.getNumber()
+                defects.getNumber(),
+                null
         );
     }
 
