@@ -72,24 +72,6 @@ public class ActionControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllActions() throws Exception {
-        Pageable pageable = PageRequest.of(0,10);
-        Page<ActionDto> page = new PageImpl<>(Arrays.asList(testactionDto));
-        PaginatedResponse<ActionDto> paginatedResponse = new PaginatedResponse<>(
-                Arrays.asList(testactionDto), 1 ,1 , 0);
-
-        when(actionService.getAllActions(pageable)).thenReturn(paginatedResponse);
-
-        mockMvc.perform(get("/actions?page=0&size=10"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].description").value(testactionDto.getDescription()))
-                .andExpect(jsonPath("$.totalPages").value(page.getTotalPages()))
-                .andExpect(jsonPath("$.totalElements").value((int) page.getTotalElements()))
-                .andExpect(jsonPath("$.currentPage").value(page.getNumber()));
-    }
-
-    @Test
     public void shouldReturnFilteredActions() throws Exception {
         String dueDateStart = "2023-01-01";
         String dueDateEnd = "2023-01-31";
@@ -101,12 +83,13 @@ public class ActionControllerTest extends BaseControllerTest {
         List<Integer> createdByIds = Arrays.asList(1,2);
         Pageable pageable = PageRequest.of(0,10);
 
-        PaginatedResponse<ActionDto> response = new PaginatedResponse<>(List.of(testactionDto), 1, 1, 0);
+        PaginatedResponse<ActionDto> response = new PaginatedResponse<>(List.of(testactionDto), 1,
+                1, 0, new ActionFilterValues());
 
-        when(actionService.getFilteredActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
+        when(actionService.getActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
                 createdOnStart, createdOnEnd, createdByIds, pageable)).thenReturn(response);
 
-        mockMvc.perform(get("/actions/filtered")
+        mockMvc.perform(get("/actions")
                         .param("dueDateStart", dueDateStart)
                         .param("dueDateEnd", dueDateEnd)
                         .param("isCompleted", String.valueOf(isComplete))

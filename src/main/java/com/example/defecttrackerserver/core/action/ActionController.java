@@ -29,17 +29,7 @@ public class ActionController {
         return actionService.getActionById(id);
     }
 
-    @GetMapping()
-    public PaginatedResponse<ActionDto> getAllActions(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        return actionService.getAllActions(pageable);
-    }
-
-    @GetMapping("/filtered")
+    @GetMapping("")
     public PaginatedResponse<ActionDto> getFilteredActions(
             @RequestParam(required = false) String dueDateStart,
             @RequestParam(required = false) String dueDateEnd,
@@ -64,7 +54,7 @@ public class ActionController {
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
-        return actionService.getFilteredActions(dueDateStart, dueDateEnd, isCompleted,
+        return actionService.getActions(dueDateStart, dueDateEnd, isCompleted,
                 assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
     }
 

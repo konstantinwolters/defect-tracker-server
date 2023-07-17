@@ -47,22 +47,7 @@ public class ActionServiceImpl implements ActionService{
     }
 
     @Override
-    public PaginatedResponse<ActionDto> getAllActions(Pageable pageable){
-        Page<Action> actions = actionRepository.findAll(pageable);
-
-        List<ActionDto> actionDtos = actions.stream().map(actionMapper::mapToDto).toList();
-
-        return new PaginatedResponse<>(
-                actionDtos,
-                actions.getTotalPages(),
-                (int) actions.getTotalElements(),
-                actions.getNumber(),
-                null
-        );
-    }
-
-    @Override
-    public PaginatedResponse<ActionDto> getFilteredActions(
+    public PaginatedResponse<ActionDto> getActions(
             String dueDateStart,
             String dueDateEnd,
             Boolean isCompleted,

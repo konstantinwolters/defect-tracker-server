@@ -8,8 +8,7 @@ import java.util.List;
 public interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);
-    PaginatedResponse<ActionDto> getAllActions(Pageable pageable);
-    PaginatedResponse<ActionDto> getFilteredActions(
+    PaginatedResponse<ActionDto> getActions(
             String dueDateStart,
             String dueDateEnd,
             Boolean isCompleted,
