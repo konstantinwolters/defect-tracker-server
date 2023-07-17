@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
+import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +21,9 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectTypeDto saveDefectType(DefectTypeDto defectTypeDto) {
+        if(defectTypeRepository.findByName(defectTypeDto.getName()).isPresent())
+            throw new DefectTypeExistsException("DefectType already exists with name: " + defectTypeDto.getName());
+
         if(defectTypeDto.getName() == null)
             throw new IllegalArgumentException("DefectType name must not be null");
 
@@ -58,7 +63,13 @@ public class DefectTypeServiceImpl implements DefectTypeService {
                 .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: "
                         + defectTypeDto.getId()));
 
+        Optional<DefectType> defectTypeExists = defectTypeRepository.findByName(defectTypeDto.getName());
+        if(defectTypeExists.isPresent() && !defectTypeExists.get().getId().equals(defectType.getId()))
+            throw new DefectTypeExistsException("DefectType already exists with name: " + defectTypeDto.getName());
+
+        defectType.setId(defectTypeDto.getId());
         defectType.setName(defectTypeDto.getName());
+
         DefectType saveDefectType = defectTypeRepository.save(defectType);
 
         return defectTypeMapper.mapToDto(saveDefectType);
