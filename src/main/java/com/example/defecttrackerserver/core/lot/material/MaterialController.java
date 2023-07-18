@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class MaterialController {
     private final MaterialService materialService;
 
     @PostMapping
-    public MaterialDto saveProcess(@RequestBody MaterialDto materialDto) {
+    public MaterialDto saveProcess(@Valid @RequestBody MaterialDto materialDto) {
         return materialService.saveMaterial(materialDto);
     }
 
@@ -27,7 +28,7 @@ public class MaterialController {
     }
 
     @PutMapping
-    public MaterialDto updateProcess(@RequestBody MaterialDto materialDto) {
+    public MaterialDto updateProcess(@Valid@RequestBody MaterialDto materialDto) {
         return materialService.updateMaterial(materialDto);
     }
 

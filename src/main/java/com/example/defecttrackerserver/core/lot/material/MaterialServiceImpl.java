@@ -20,9 +20,6 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
     public MaterialDto saveMaterial(MaterialDto materialDto) {
-        if(materialDto.getName() == null)
-            throw new IllegalArgumentException("Material name must not be null");
-
         if(materialRepository.findByName(materialDto.getName()).isPresent())
             throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
 
@@ -55,8 +52,6 @@ public class MaterialServiceImpl implements MaterialService {
     public MaterialDto updateMaterial(MaterialDto materialDto) {
         if(materialDto.getId() == null)
             throw new IllegalArgumentException("Material id must not be null");
-        if(materialDto.getName() == null)
-            throw new IllegalArgumentException("Material name must not be null");
 
         Material material = materialRepository.findById(materialDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Material not found with id: "
