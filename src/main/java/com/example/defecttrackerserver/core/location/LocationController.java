@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.location;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class LocationController {
     private final LocationService locationService;
 
     @PostMapping
-    public LocationDto saveLocation(@RequestBody LocationDto locationDto) {
+    public LocationDto saveLocation(@Valid @RequestBody LocationDto locationDto) {
         return locationService.saveLocation(locationDto);
     }
 
@@ -27,7 +28,7 @@ public class LocationController {
     }
 
     @PutMapping
-    public LocationDto updateLocation(@RequestBody LocationDto locationDto) {
+    public LocationDto updateLocation(@Valid@RequestBody LocationDto locationDto) {
         return locationService.updateLocation(locationDto);
     }
 

@@ -20,9 +20,6 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public LocationDto saveLocation(LocationDto locationDto) {
-        if(locationDto.getName() == null)
-            throw new IllegalArgumentException("Location name must not be null");
-
         if(locationRepository.findByName(locationDto.getName()).isPresent())
             throw new LocationExistsException("Location already exists with name: " + locationDto.getName());
 
@@ -55,8 +52,6 @@ public class LocationServiceImpl implements LocationService {
     public LocationDto updateLocation(LocationDto locationDto) {
         if(locationDto.getId() == null)
             throw new IllegalArgumentException("Location id must not be null");
-        if(locationDto.getName() == null)
-            throw new IllegalArgumentException("Location name must not be null");
 
         Location location = locationRepository.findById(locationDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with id: "
