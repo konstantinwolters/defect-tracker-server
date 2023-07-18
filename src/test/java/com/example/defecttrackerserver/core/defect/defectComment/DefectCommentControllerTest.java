@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class DefectCommentControllerTest extends BaseControllerTest {
         super.setUp();
         testDefectCommentDto = new DefectCommentDto();
         testDefectCommentDto.setContent("test");
+        testDefectCommentDto.setCreatedBy(new UserDto());
     }
 
     @Test

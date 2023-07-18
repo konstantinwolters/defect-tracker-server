@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.defect.defectType;
 import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,12 +21,9 @@ public class DefectTypeServiceImpl implements DefectTypeService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectTypeDto saveDefectType(DefectTypeDto defectTypeDto) {
+    public DefectTypeDto saveDefectType(@Valid DefectTypeDto defectTypeDto) {
         if(defectTypeRepository.findByName(defectTypeDto.getName()).isPresent())
             throw new DefectTypeExistsException("DefectType already exists with name: " + defectTypeDto.getName());
-
-        if(defectTypeDto.getName() == null)
-            throw new IllegalArgumentException("DefectType name must not be null");
 
         DefectType defectType = new DefectType();
         defectType.setName(defectTypeDto.getName());
@@ -53,11 +51,9 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectTypeDto updateDefectType(DefectTypeDto defectTypeDto) {
+    public DefectTypeDto updateDefectType(@Valid DefectTypeDto defectTypeDto) {
         if(defectTypeDto.getId() == null)
             throw new IllegalArgumentException("DefectType id must not be null");
-        if(defectTypeDto.getName() == null)
-            throw new IllegalArgumentException("DefectType name must not be null");
 
         DefectType defectType = defectTypeRepository.findById(defectTypeDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: "

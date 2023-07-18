@@ -19,9 +19,6 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectStatusDto saveDefectStatus(DefectStatusDto defectStatusDto) {
-        if(defectStatusDto.getName() == null)
-            throw new IllegalArgumentException("DefectStatus name must not be null");
-
         if(defectStatusRepository.findByName(defectStatusDto.getName()).isPresent())
             throw new DefectTypeExistsException("DefectStatus already exists with name: " + defectStatusDto.getName());
 
@@ -53,8 +50,6 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     public DefectStatusDto updateDefectStatus(DefectStatusDto defectStatusDto) {
         if(defectStatusDto.getId() == null)
             throw new IllegalArgumentException("DefectStatus id must not be null");
-        if(defectStatusDto.getName() == null)
-            throw new IllegalArgumentException("DefectStatus name must not be null");
 
         DefectStatus defectStatus = defectStatusRepository.findById(defectStatusDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: "

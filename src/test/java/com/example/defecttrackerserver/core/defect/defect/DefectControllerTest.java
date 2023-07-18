@@ -2,6 +2,9 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.core.action.ActionDto;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +47,12 @@ public class DefectControllerTest extends BaseControllerTest {
         super.setUp();
         testDefectDto = new DefectDto();
         testDefectDto.setLocation("Texas");
+        testDefectDto.setDescription("Test");
+        testDefectDto.setDefectType("TestType");
+        testDefectDto.setLot("TestLot");
+        testDefectDto.setProcess("TestProcess");
+        testDefectDto.setCreatedBy(new UserDto());
+
     }
 
     @Test

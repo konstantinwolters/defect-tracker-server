@@ -39,6 +39,7 @@ public class LotControllerTest extends BaseControllerTest{
     public void setUp() {
         super.setUp();
         testLotDto = new LotDto();
+        testLotDto.setLotNumber("testLotNumber");
         MaterialDto materialDto = new MaterialDto();
         materialDto.setName("testMaterial");
         SupplierDto supplierDto = new SupplierDto();
@@ -74,7 +75,7 @@ public class LotControllerTest extends BaseControllerTest{
     }
 
     @Test
-    @WithMockUser(username = "XXXX", roles = "ADMIN")
+    @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldGetAllLots() throws Exception {
         when(lotService.getAllLots()).thenReturn(Arrays.asList(testLotDto));
 

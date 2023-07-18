@@ -56,8 +56,6 @@ public class DefectCommentServiceImpl implements DefectCommentService {
             throw new UnauthorizedAccessException("You are not authorized to update this defect comment");
         }
 
-        defectCommentMapper.checkNullOrEmptyFields(defectComment);
-
         DefectComment mappedDefectComment = defectCommentMapper.map(defectComment, defectCommentToUpdate);
         DefectComment updatedDefectComment = defectCommentRepository.save(mappedDefectComment);
 

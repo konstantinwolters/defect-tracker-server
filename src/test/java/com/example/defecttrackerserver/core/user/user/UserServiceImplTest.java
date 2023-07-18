@@ -50,7 +50,6 @@ public class UserServiceImplTest {
         location.setId(1);
         location.setName("Texas");
 
-
         userDto = new UserDto();
         userDto.setId(1);
         userDto.setUsername("test");
@@ -122,7 +121,6 @@ public class UserServiceImplTest {
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
         assertEquals(user.getUsername(), result.getUsername());
-        assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
     }
 

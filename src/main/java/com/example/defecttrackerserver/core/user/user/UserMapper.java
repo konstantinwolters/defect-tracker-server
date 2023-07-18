@@ -23,7 +23,6 @@ public class UserMapper {
     private final UserRepository userRepository;
 
     public User mapToEntity(UserDto userDto, User user){
-        checkNullOrEmptyFields(userDto);
         checkDuplicateUserEntries(userDto);
 
         user.setUsername(userDto.getUsername());
@@ -77,22 +76,6 @@ public class UserMapper {
                     .collect(Collectors.toSet())));
         }
         return userDto;
-    }
-
-    public void checkNullOrEmptyFields(UserDto userDto) {
-        if(userDto.getUsername() == null
-                || userDto.getUsername().isBlank())
-            throw new IllegalArgumentException("Username must not be null or empty");
-        if(userDto.getMail() == null
-                || userDto.getMail().isBlank())
-            throw new IllegalArgumentException("Mail must not be null or empty");
-        if(userDto.getIsActive() == null)
-            throw new IllegalArgumentException("IsActive must not be null");
-        if(userDto.getPassword() == null
-                || userDto.getPassword().isBlank())
-            throw new IllegalArgumentException("Password must not be null or empty");
-        if(userDto.getLocation() == null)
-            throw new IllegalArgumentException("Location must not be null");
     }
 
     public void checkDuplicateUserEntries(UserDto userDto) {

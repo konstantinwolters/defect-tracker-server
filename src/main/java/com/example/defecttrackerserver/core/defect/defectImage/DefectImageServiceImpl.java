@@ -22,10 +22,6 @@ public class DefectImageServiceImpl implements DefectImageService{
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
 
-        if(defectImageDto.getPath() == null) {
-            throw new IllegalArgumentException("Path must not be null");
-        }
-
         DefectImage defectImage = new DefectImage();
         defectImage.setPath(defectImageDto.getPath());
         defect.addDefectImage(defectImage);
@@ -46,10 +42,6 @@ public class DefectImageServiceImpl implements DefectImageService{
         DefectImage defectImage =  defectImageRepository.findById(defectImageDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: "
                         + defectImageDto.getId()));
-
-        if (defectImageDto.getPath() == null) {
-            throw new IllegalArgumentException("Path must not be null");
-        }
 
         defectImage.setPath(defectImageDto.getPath());
         DefectImage savedDefectImage = defectImageRepository.save(defectImage);

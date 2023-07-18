@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DefectStatusMapper {
-
     public DefectStatusDto mapToDto(DefectStatus defectStatus) {
         DefectStatusDto defectStatusDto = new DefectStatusDto();
         defectStatusDto.setId(defectStatus.getId());

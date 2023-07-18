@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SupplierMapper {
-
     public SupplierDto mapToDto(Supplier supplier) {
         SupplierDto supplierDto = new SupplierDto();
         supplierDto.setId(supplier.getId());

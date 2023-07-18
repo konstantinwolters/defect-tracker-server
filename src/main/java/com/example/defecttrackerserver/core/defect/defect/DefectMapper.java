@@ -38,14 +38,11 @@ public class DefectMapper {
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final LotMapper lotMapper;
     private final DefectCommentMapper defectCommentMapper;
     private final DefectImageMapper defectImageMapper;
     private final ActionMapper actionMapper;
 
     public Defect map (DefectDto defectDto, Defect defect){
-        checkNullOrEmptyFields(defectDto);
-
         defect.setCreatedOn(defectDto.getCreatedOn());
         defect.setDescription(defectDto.getDescription());
         defect.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
@@ -131,31 +128,5 @@ public class DefectMapper {
                         + defect.getCreatedBy().getId())))
         );
         return defectDto;
-    }
-
-    public void checkNullOrEmptyFields(DefectDto defectDto) {
-        if(defectDto.getDescription() == null || defectDto.getDescription().isEmpty())
-            throw new IllegalArgumentException("Description must not be null");
-
-        if(defectDto.getDefectStatus() == null)
-            throw new IllegalArgumentException("DefectStatus must not be null");
-
-        if(defectDto.getCreatedOn() == null)
-            throw new IllegalArgumentException("CreatedOn must not be null");
-
-        if(defectDto.getLot() == null)
-            throw new IllegalArgumentException("Lot must not be null");
-
-        if(defectDto.getLocation() == null)
-            throw new IllegalArgumentException("Location must not be null");
-
-        if(defectDto.getProcess() == null)
-            throw new IllegalArgumentException("Process must not be null");
-
-        if(defectDto.getDefectType() == null)
-            throw new IllegalArgumentException("DefectType must not be null");
-
-        if(defectDto.getCreatedBy() == null)
-            throw new IllegalArgumentException("CreatedBy must not be null");
     }
 }

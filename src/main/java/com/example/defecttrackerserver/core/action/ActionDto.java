@@ -1,6 +1,8 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +14,23 @@ import java.util.Set;
 @Setter
 public class ActionDto {
     private Integer id;
-    private String description;
     private Boolean isCompleted;
-    private LocalDate dueDate;
-    private Set<UserDto> assignedUsers;
-    private Integer defect;
     private LocalDateTime createdOn;
+
+    @NotNull(message = "Action description must not be null.")
+    @NotEmpty(message = "Action description must not be empty.")
+    private String description;
+
+    @NotNull(message = "Action dueDate must not be null.")
+    private LocalDate dueDate;
+
+    @NotNull(message = "Action assignedUsers must not be null.")
+    @NotEmpty(message = "Action assignedUsers must not be empty.")
+    private Set<UserDto> assignedUsers;
+
+    @NotNull(message = "Action defect must not be null.")
+    private Integer defect;
+
+    @NotNull(message = "Action createdBy must not be null.")
     private UserDto createdBy;
 }

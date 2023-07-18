@@ -104,15 +104,5 @@ class LotMapperTest {
 
         assertThrows(EntityNotFoundException.class, () -> lotMapper.map(lotDto, new Lot()));
     }
-
-    @Test
-    void shouldThrowExceptionWhenNullOrEmptyFields() {
-        lotDto.setMaterial(null);
-        assertThrows(IllegalArgumentException.class, () -> lotMapper.checkNullOrEmptyFields(lotDto));
-
-        lotDto.setMaterial(new MaterialDto());
-        lotDto.setSupplier(null);
-        assertThrows(IllegalArgumentException.class, () -> lotMapper.checkNullOrEmptyFields(lotDto));
-    }
 }
 

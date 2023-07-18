@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class DefectTypeController {
     private final DefectTypeService defectTypeService;
 
     @PostMapping
-    public DefectTypeDto saveDefectType(@RequestBody DefectTypeDto defectTypeDto) {
+    public DefectTypeDto saveDefectType(@Valid @RequestBody DefectTypeDto defectTypeDto) {
         return defectTypeService.saveDefectType(defectTypeDto);
     }
 
@@ -27,7 +28,7 @@ public class DefectTypeController {
     }
 
     @PutMapping
-    public DefectTypeDto updateDefectType(@RequestBody DefectTypeDto defectTypeDto) {
+    public DefectTypeDto updateDefectType(@Valid@RequestBody DefectTypeDto defectTypeDto) {
         return defectTypeService.updateDefectType(defectTypeDto);
     }
 

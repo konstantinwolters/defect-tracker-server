@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Getter
 @Setter
 public class ExceptionDetails {
-    private final String message;
+    private final List<String> message;
     private final Throwable throwable;
     private final HttpStatus httpStatus;
 }

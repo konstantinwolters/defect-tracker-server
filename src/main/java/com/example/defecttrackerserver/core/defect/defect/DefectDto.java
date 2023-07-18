@@ -5,6 +5,9 @@ import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDt
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,15 +18,32 @@ import java.util.Set;
 @Setter
 public class DefectDto {
     private Integer id;
-    private String description;
-    private String defectStatus;
-    private Set<DefectCommentDto> defectComments;
-    private String lot;
-    private String location;
-    private String process;
-    private String defectType;
     private Set<DefectImageDto> images;
+    private Set<DefectCommentDto> defectComments;
     private Set<ActionDto> actions;
-    private UserDto createdBy;
+    private String defectStatus;
     private LocalDateTime createdOn;
+
+    @NotNull(message = "Defect description must not be null.")
+    @NotEmpty(message = "Defect description must not be empty.")
+    private String description;
+
+    @NotNull(message = "Lot must not be null.")
+    @NotEmpty(message = "Lot must not be empty.")
+    private String lot;
+
+    @NotNull(message = "Location must not be null.")
+    @NotEmpty(message = "Location must not be empty.")
+    private String location;
+
+    @NotNull(message = "Process must not be null.")
+    @NotEmpty(message = "Process must not be empty.")
+    private String process;
+
+    @NotNull(message = "DefectType must not be null.")
+    @NotEmpty(message = "DefectType must not be empty.")
+    private String defectType;
+
+    @NotNull(message = "CreatedBy must not be null.")
+    private UserDto createdBy;
 }

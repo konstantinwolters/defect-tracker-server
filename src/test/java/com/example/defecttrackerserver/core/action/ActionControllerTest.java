@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.core.user.user.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
@@ -45,6 +48,10 @@ public class ActionControllerTest extends BaseControllerTest {
         super.setUp();
         testactionDto = new ActionDto();
         testactionDto.setDescription("test");
+        testactionDto.setDueDate(LocalDate.now());
+        testactionDto.setAssignedUsers(Set.of(new UserDto()));
+        testactionDto.setDefect(1);
+        testactionDto.setCreatedBy(new UserDto());
     }
 
     @Test

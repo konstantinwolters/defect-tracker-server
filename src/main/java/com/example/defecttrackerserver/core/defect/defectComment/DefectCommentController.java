@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class DefectCommentController {
 
     @PostMapping("/{id}/comments")
     public DefectCommentDto addDefectCommentToDefect(@PathVariable Integer id,
-                                                     @RequestBody DefectCommentDto defectCommentDto) {
+                                                     @Valid @RequestBody DefectCommentDto defectCommentDto) {
         return defectCommentService.addDefectCommentToDefect(id, defectCommentDto);
     }
 
@@ -22,7 +23,7 @@ public class DefectCommentController {
     }
 
     @PutMapping("/comments")
-    public DefectCommentDto updateDefectComment(@RequestBody DefectCommentDto defectCommentDto) {
+    public DefectCommentDto updateDefectComment(@Valid @RequestBody DefectCommentDto defectCommentDto) {
         return defectCommentService.updateDefectComment(defectCommentDto);
     }
 

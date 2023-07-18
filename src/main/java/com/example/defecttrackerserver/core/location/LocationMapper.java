@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LocationMapper {
-
     public LocationDto mapToDto(Location location) {
         LocationDto locationDto = new LocationDto();
         locationDto.setId(location.getId());

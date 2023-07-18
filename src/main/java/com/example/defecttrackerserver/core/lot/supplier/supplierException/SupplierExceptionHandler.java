@@ -6,13 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Arrays;
+
 @ControllerAdvice
 public class SupplierExceptionHandler {
 
     @ExceptionHandler({SupplierExistsException.class})
     public ResponseEntity<Object> handleUserException(SupplierExistsException e) {
         ExceptionDetails exceptionDetails = new ExceptionDetails(
-                e.getMessage(),
+                Arrays.asList(e.getMessage()),
                 e.getCause(),
                 HttpStatus.NOT_FOUND
         );

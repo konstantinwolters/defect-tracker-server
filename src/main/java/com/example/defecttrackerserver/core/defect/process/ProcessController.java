@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class ProcessController {
     private final ProcessService processService;
 
     @PostMapping
-    public ProcessDto saveProcess(@RequestBody ProcessDto processDto) {
+    public ProcessDto saveProcess(@Valid @RequestBody ProcessDto processDto) {
         return processService.saveProcess(processDto);
     }
 
@@ -27,7 +28,7 @@ public class ProcessController {
     }
 
     @PutMapping
-    public ProcessDto updateProcess(@RequestBody ProcessDto processDto) {
+    public ProcessDto updateProcess(@Valid@RequestBody ProcessDto processDto) {
         return processService.updateProcess(processDto);
     }
 

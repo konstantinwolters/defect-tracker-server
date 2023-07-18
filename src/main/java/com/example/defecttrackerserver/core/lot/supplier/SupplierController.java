@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class SupplierController {
     private final SupplierService supplierService;
 
     @PostMapping
-    public SupplierDto saveProcess(@RequestBody SupplierDto supplierDto) {
+    public SupplierDto saveProcess(@Valid @RequestBody SupplierDto supplierDto) {
         return supplierService.saveSupplier(supplierDto);
     }
 
@@ -27,7 +28,7 @@ public class SupplierController {
     }
 
     @PutMapping
-    public SupplierDto updateProcess(@RequestBody SupplierDto supplierDto) {
+    public SupplierDto updateProcess(@Valid@RequestBody SupplierDto supplierDto) {
         return supplierService.updateSupplier(supplierDto);
     }
 
