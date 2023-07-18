@@ -93,27 +93,5 @@ class ActionMapperTest {
 
         assertThrows(EntityNotFoundException.class, () -> actionMapper.map(actionDto, new Action()));
     }
-
-    @Test
-    void shouldThrowExceptionWhenNullOrEmptyFields() {
-        actionDto.setDueDate(null);
-        assertThrows(IllegalArgumentException.class, () -> actionMapper.checkNullOrEmptyFields(actionDto));
-
-        actionDto.setDueDate(LocalDate.of(2023,1,1));
-        actionDto.setDescription("");
-        assertThrows(IllegalArgumentException.class, () -> actionMapper.checkNullOrEmptyFields(actionDto));
-
-        actionDto.setDescription("test");
-        actionDto.setAssignedUsers(null);
-        assertThrows(IllegalArgumentException.class, () -> actionMapper.checkNullOrEmptyFields(actionDto));
-
-        actionDto.setAssignedUsers(Set.of(new UserDto()));
-        actionDto.setDefect(null);
-        assertThrows(IllegalArgumentException.class, () -> actionMapper.checkNullOrEmptyFields(actionDto));
-
-        actionDto.setDefect(1);
-        actionDto.setCreatedBy(null);
-        assertThrows(IllegalArgumentException.class, () -> actionMapper.checkNullOrEmptyFields(actionDto));
-    }
 }
 

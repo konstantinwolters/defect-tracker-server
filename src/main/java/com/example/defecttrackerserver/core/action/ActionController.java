@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,7 @@ public class ActionController {
     private final ActionService actionService;
 
     @PostMapping()
-    public ActionDto saveAction(@RequestBody ActionDto actionDto) {
+    public ActionDto saveAction(@Valid @RequestBody ActionDto actionDto) {
         return actionService.saveAction(actionDto);
     }
 
@@ -64,7 +65,7 @@ public class ActionController {
     }
 
     @PutMapping()
-    public ActionDto updateAction(@RequestBody ActionDto actionDto) {
+    public ActionDto updateAction(@Valid @RequestBody ActionDto actionDto) {
         return actionService.updateAction(actionDto);
     }
 

@@ -54,17 +54,14 @@ class DefectMapperTest {
     @Mock
     private LocationRepository locationRepository;
 
-
     @Mock
     private UserRepository userRepository;
 
     @Mock
     private ProcessRepository processRepository;
 
-
     @Mock
     private DefectTypeRepository defectTypeRepository;
-
 
     @Mock
     private ActionRepository actionRepository;
@@ -313,36 +310,6 @@ class DefectMapperTest {
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNullOrEmptyFields() {
-        defectDto.setDefectStatus(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
-
-        defectDto.setDefectStatus("test");
-        defectDto.setDescription(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
-
-        defectDto.setDescription("test");
-        defectDto.setLot(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
-
-        defectDto.setLot("testLot");
-        defectDto.setLocation(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
-
-        defectDto.setLocation("test");
-        defectDto.setProcess(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
-
-        defectDto.setProcess("test");
-        defectDto.setDefectType(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
-
-        defectDto.setDefectType("test");
-        defectDto.setCreatedBy(null);
-        assertThrows(IllegalArgumentException.class, () -> defectMapper.checkNullOrEmptyFields(defectDto));
     }
 }
 

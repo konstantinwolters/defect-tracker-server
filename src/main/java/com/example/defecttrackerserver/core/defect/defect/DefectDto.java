@@ -7,6 +7,7 @@ import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.user.UserDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,14 +21,12 @@ public class DefectDto {
     private Set<DefectImageDto> images;
     private Set<DefectCommentDto> defectComments;
     private Set<ActionDto> actions;
+    private String defectStatus;
+    private LocalDateTime createdOn;
 
     @NotNull(message = "Defect description must not be null.")
     @NotEmpty(message = "Defect description must not be empty.")
     private String description;
-
-    @NotNull(message = "DefectStatus must not be null.")
-    @NotEmpty(message = "DefectStatus must not be empty.")
-    private String defectStatus;
 
     @NotNull(message = "Lot must not be null.")
     @NotEmpty(message = "Lot must not be empty.")
@@ -47,7 +46,4 @@ public class DefectDto {
 
     @NotNull(message = "CreatedBy must not be null.")
     private UserDto createdBy;
-
-    @NotNull(message = "DefectStatus must not be null.")
-    private LocalDateTime createdOn;
 }
