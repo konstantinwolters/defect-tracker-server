@@ -41,6 +41,9 @@ public class UserControllerTest extends BaseControllerTest {
         super.setUp();
         testuserDto = new UserDto();
         testuserDto.setUsername("bill");
+        testuserDto.setMail("test@mail.com");
+        testuserDto.setLocation("testLocation");
+        testuserDto.setIsActive(true);
     }
 
     @Test

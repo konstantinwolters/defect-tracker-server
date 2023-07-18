@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto saveUser(UserDto userDto) {
         userDto.setId(null);
+
+        if(userDto.getPassword() == null)
+            throw new IllegalArgumentException("Password must not be null.");
 
         User newUser = userMapper.mapToEntity(userDto, new User());
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -65,14 +69,13 @@ public class UserServiceImpl implements UserService {
                     "You are not authorized to update this user's data");
         }
 
-        if(userDto.getPassword() == null)
+        if(userDto.getPassword() == null) {
             userDto.setPassword(user.getPassword());
+        }else{
+            userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
 
         User userToUpdate = userMapper.mapToEntity(userDto, user);
-
-        //if user has chosen a new password, encode
-        if(!userToUpdate.getPassword().equals(user.getPassword()))
-            userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
 
         User updatedUser = userRepository.save(userToUpdate);
         return userMapper.mapToDto(updatedUser);

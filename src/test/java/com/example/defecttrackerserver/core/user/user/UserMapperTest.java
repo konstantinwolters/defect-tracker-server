@@ -144,30 +144,6 @@ class UserMapperTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNullOrEmptyFields() {
-        UserDto userDto = new UserDto();
-        userDto.setUsername("");
-        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
-
-        userDto.setUsername("Username");
-        userDto.setIsActive(null);
-        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
-
-
-        userDto.setIsActive(true);
-        userDto.setMail(null);
-        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
-
-        userDto.setMail("XXXXXXXXXXXX");
-        userDto.setPassword("");
-        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
-
-        userDto.setPassword("XXXXXXXXXXXX");
-        userDto.setLocation(null);
-        assertThrows(IllegalArgumentException.class, () -> userMapper.checkNullOrEmptyFields(userDto));
-    }
-
-    @Test
     void shouldThrowExceptionWhenDuplicateUserEntriesOnSave() {
         User duplicateUser = new User();
         duplicateUser.setId(1);

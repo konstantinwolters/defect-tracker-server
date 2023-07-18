@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,13 +11,24 @@ import java.util.Set;
 @Setter
 public class UserDto  {
     private Integer id;
-    private String username;
     private String password;
     private String firstName;
     private String lastName;
-    private Boolean isActive;
-    private String mail;
-    private String location;
     private Set<String> roles;
     private Set<Integer> assignedActions;
+
+    @NotNull(message = "User isActive must not be null.")
+    private Boolean isActive;
+
+    @NotNull(message = "Username must not be null.")
+    @NotEmpty(message = "Username must not be empty.")
+    private String username;
+
+    @NotNull(message = "User mail must not be null.")
+    @NotEmpty(message = "User mail must not be empty.")
+    private String mail;
+
+    @NotNull(message = "User location must not be null.")
+    @NotEmpty(message = "User location must not be empty.")
+    private String location;
 }

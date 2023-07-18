@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public UserDto saveUser(@RequestBody UserDto userDto) {
+    public UserDto saveUser(@Valid @RequestBody UserDto userDto) {
             return userService.saveUser(userDto);
     }
 
@@ -28,10 +29,9 @@ public class UserController {
     }
 
     @PutMapping()
-    public UserDto updateUser(@RequestBody UserDto userDto) {
+    public UserDto updateUser(@Valid@RequestBody UserDto userDto) {
         return userService.updateUser(userDto);
     }
-
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
