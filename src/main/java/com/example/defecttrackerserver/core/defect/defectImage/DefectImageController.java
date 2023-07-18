@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,7 @@ public class DefectImageController {
     private final DefectImageService defectImageService;
 
     @PostMapping("/{defectId}/images")
-    public DefectImageDto addImageToDefect(@PathVariable Integer defectId, @RequestBody DefectImageDto defectImageDto) {
+    public DefectImageDto addImageToDefect(@PathVariable Integer defectId, @Valid @RequestBody DefectImageDto defectImageDto) {
         return defectImageService.saveDefectImageToDefect(defectId, defectImageDto);
     }
 
@@ -20,7 +21,7 @@ public class DefectImageController {
     }
 
     @PutMapping("/images")
-    public DefectImageDto updateImage(@RequestBody DefectImageDto defectImageDto) {
+    public DefectImageDto updateImage(@Valid @RequestBody DefectImageDto defectImageDto) {
         return defectImageService.updateDefectImage(defectImageDto);
     }
 
