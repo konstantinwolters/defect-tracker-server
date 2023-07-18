@@ -46,7 +46,7 @@ class DefectCommentMapperTest {
     }
 
     @Test
-    void shouldReturnMappedAction() {
+    void shouldReturnMappedDefectComment() {
         User user = new User();
         user.setId(1);
 
@@ -65,20 +65,6 @@ class DefectCommentMapperTest {
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> defectCommentMapper.map(defectCommentDto, new DefectComment()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNullOrEmptyFields() {
-        defectCommentDto.setContent("");
-        assertThrows(IllegalArgumentException.class, () -> defectCommentMapper.checkNullOrEmptyFields(defectCommentDto));
-
-        defectCommentDto.setContent("testContent");
-        defectCommentDto.setCreatedOn(null);
-        assertThrows(IllegalArgumentException.class, () -> defectCommentMapper.checkNullOrEmptyFields(defectCommentDto));
-
-        defectCommentDto.setCreatedOn(LocalDateTime.now());
-        defectCommentDto.setCreatedBy(null);
-        assertThrows(IllegalArgumentException.class, () -> defectCommentMapper.checkNullOrEmptyFields(defectCommentDto));
     }
 }
 

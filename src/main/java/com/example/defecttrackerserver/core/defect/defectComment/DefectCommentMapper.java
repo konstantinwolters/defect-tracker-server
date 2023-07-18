@@ -13,8 +13,6 @@ public class DefectCommentMapper {
     private final UserMapper userMapper;
 
     public DefectComment map(DefectCommentDto defectCommentDto, DefectComment defectComment){
-        checkNullOrEmptyFields(defectCommentDto);
-
         defectComment.setContent(defectCommentDto.getContent());
         defectComment.setCreatedOn(defectCommentDto.getCreatedOn());
 
@@ -33,14 +31,5 @@ public class DefectCommentMapper {
         defectCommentDto.setCreatedBy(userMapper.mapToDto(defectComment.getCreatedBy()));
 
         return defectCommentDto;
-    }
-
-    public void checkNullOrEmptyFields(DefectCommentDto defectCommentDto) {
-        if(defectCommentDto.getContent() == null || defectCommentDto.getContent().isEmpty())
-            throw new IllegalArgumentException("Description must not be null or empty");
-        if(defectCommentDto.getCreatedOn() == null)
-            throw  new IllegalArgumentException("Created on must not be null");
-        if(defectCommentDto.getCreatedBy() == null)
-            throw new IllegalArgumentException("Created by must not be null");
     }
 }
