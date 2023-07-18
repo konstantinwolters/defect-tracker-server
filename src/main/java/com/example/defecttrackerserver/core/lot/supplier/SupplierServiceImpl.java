@@ -20,9 +20,6 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
     public SupplierDto saveSupplier(SupplierDto supplierDto) {
-        if(supplierDto.getName() == null)
-            throw new IllegalArgumentException("Supplier name must not be null");
-
         if(supplierRepository.findByName(supplierDto.getName()).isPresent())
             throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
 
@@ -55,8 +52,6 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierDto updateSupplier(SupplierDto supplierDto) {
         if(supplierDto.getId() == null)
             throw new IllegalArgumentException("Supplier id must not be null");
-        if(supplierDto.getName() == null)
-            throw new IllegalArgumentException("Supplier name must not be null");
 
         Supplier supplier = supplierRepository.findById(supplierDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Supplier not found with id: "
