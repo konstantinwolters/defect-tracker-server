@@ -20,9 +20,6 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProcessDto saveProcess(ProcessDto processDto) {
-        if(processDto.getName() == null)
-            throw new IllegalArgumentException("Process name must not be null");
-
         if(processRepository.findByName(processDto.getName()).isPresent())
             throw new processExistsException("Process already exists with name: " + processDto.getName());
 
@@ -55,8 +52,6 @@ public class ProcessServiceImpl implements ProcessService {
     public ProcessDto updateProcess(ProcessDto processDto) {
         if(processDto.getId() == null)
             throw new IllegalArgumentException("Process id must not be null");
-        if(processDto.getName() == null)
-            throw new IllegalArgumentException("Process name must not be null");
 
         Process process = processRepository.findById(processDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Process not found with id: "
