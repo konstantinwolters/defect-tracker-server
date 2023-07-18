@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class LotController {
     private final LotService lotService;
 
     @PostMapping
-    public LotDto saveLot(@RequestBody LotDto lotDto) {
+    public LotDto saveLot(@Valid @RequestBody LotDto lotDto) {
         return lotService.saveLot(lotDto);
     }
 
@@ -27,7 +28,7 @@ public class LotController {
     }
 
     @PutMapping
-    public LotDto updateLot(@RequestBody LotDto lotDto) {
+    public LotDto updateLot(@Valid@RequestBody LotDto lotDto) {
         return lotService.updateLot(lotDto);
     }
 
