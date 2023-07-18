@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectStatus;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class DefectStatusController {
     private final DefectStatusService defectStatusService;
 
     @PostMapping
-    public DefectStatusDto saveDefectStatus(@RequestBody DefectStatusDto defectStatusDto) {
+    public DefectStatusDto saveDefectStatus(@Valid @RequestBody DefectStatusDto defectStatusDto) {
         return defectStatusService.saveDefectStatus(defectStatusDto);
     }
 
@@ -27,7 +28,7 @@ public class DefectStatusController {
     }
 
     @PutMapping
-    public DefectStatusDto updateDefectStatus(@RequestBody DefectStatusDto defectStatusDto) {
+    public DefectStatusDto updateDefectStatus(@Valid @RequestBody DefectStatusDto defectStatusDto) {
         return defectStatusService.updateDefectStatus(defectStatusDto);
     }
 
