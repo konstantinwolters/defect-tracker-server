@@ -1,11 +1,14 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +20,7 @@ public class DefectController {
     private final DefectService defectService;
 
     @PostMapping()
-
-    public DefectDto saveDefect(@RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}
+    public DefectDto saveDefect(@Valid @RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}
 
     @GetMapping("/{id}")
     public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
@@ -42,7 +44,7 @@ public class DefectController {
     }
 
     @PutMapping()
-    public DefectDto updateDefect(@RequestBody DefectDto defectDto) { return defectService.updateDefect(defectDto); }
+    public DefectDto updateDefect(@Valid @RequestBody DefectDto defectDto) { return defectService.updateDefect(defectDto); }
 
     @DeleteMapping("/{id}")
     public void deleteDefect(@PathVariable Integer id) { defectService.deleteDefect(id);}
