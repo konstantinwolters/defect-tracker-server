@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto updateUser(UserDto userDto) {
-        User user = userRepository.findById(userDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userDto.getId()));
+    public UserDto updateUser(Integer userId, UserDto userDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
         if(!securityService.getUsername().equals(user.getUsername())
         && !securityService.hasRole("ROLE_ADMIN")){

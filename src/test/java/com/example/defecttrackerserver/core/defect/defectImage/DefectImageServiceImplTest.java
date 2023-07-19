@@ -79,7 +79,7 @@ public class DefectImageServiceImplTest {
         when(defectImageRepository.save(any(DefectImage.class))).thenReturn(defectImage);
         when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
 
-        DefectImageDto result = defectImageService.updateDefectImage(defectImageDto);
+        DefectImageDto result = defectImageService.updateDefectImage(1, defectImageDto);
 
         assertNotNull(result);
         assertEquals(defectImage.getId(), result.getId());

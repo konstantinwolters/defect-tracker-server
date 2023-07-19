@@ -22,9 +22,9 @@ public class DefectCommentController {
         return defectCommentService.getDefectCommentById(id);
     }
 
-    @PutMapping("/comments")
-    public DefectCommentDto updateDefectComment(@Valid @RequestBody DefectCommentDto defectCommentDto) {
-        return defectCommentService.updateDefectComment(defectCommentDto);
+    @PutMapping("/comments/{id}")
+    public DefectCommentDto updateDefectComment(@PathVariable Integer id, @Valid @RequestBody DefectCommentDto defectCommentDto) {
+        return defectCommentService.updateDefectComment(id, defectCommentDto);
     }
 
     @DeleteMapping("/{defectId}/comments/{commentId}")

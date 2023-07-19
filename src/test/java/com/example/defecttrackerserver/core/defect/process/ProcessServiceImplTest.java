@@ -83,7 +83,7 @@ public class ProcessServiceImplTest {
         when(processRepository.save(any(Process.class))).thenReturn(process);
         when(processMapper.mapToDto(any(Process.class))).thenReturn(processDto);
 
-        ProcessDto result = processService.updateProcess(processDto);
+        ProcessDto result = processService.updateProcess(1, processDto);
 
         assertNotNull(result);
         assertEquals(process.getId(), result.getId());

@@ -116,9 +116,20 @@ public class ActionControllerTest extends BaseControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
+    public void shouldCloseAction() throws Exception {
+        doNothing().when(actionService).closeAction(any(Integer.class), any(Boolean.class));
+
+        mockMvc.perform(patch("/actions/1")
+                        .param("isCompleted", "true")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateAction() throws Exception {
-        when(actionService.updateAction(any(ActionDto.class))).thenReturn(testactionDto);
-        mockMvc.perform(put("/actions")
+        when(actionService.updateAction(any(Integer.class), any(ActionDto.class))).thenReturn(testactionDto);
+        mockMvc.perform(put("/actions/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testactionDto)))
                 .andExpect(status().isOk())

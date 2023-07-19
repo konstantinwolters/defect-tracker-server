@@ -47,13 +47,13 @@ public class DefectStatusServiceImpl implements DefectStatusService{
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectStatusDto updateDefectStatus(DefectStatusDto defectStatusDto) {
+    public DefectStatusDto updateDefectStatus(Integer defectStatusId, DefectStatusDto defectStatusDto) {
         if(defectStatusDto.getId() == null)
             throw new IllegalArgumentException("DefectStatus id must not be null");
 
-        DefectStatus defectStatus = defectStatusRepository.findById(defectStatusDto.getId())
+        DefectStatus defectStatus = defectStatusRepository.findById(defectStatusId)
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: "
-                        + defectStatusDto.getId()));
+                        + defectStatusId));
 
         if(defectStatusRepository.findByName(defectStatusDto.getName()).isPresent()
                 && !defectStatusRepository.findByName(defectStatusDto.getName()).get().getId().equals(defectStatus.getId()))

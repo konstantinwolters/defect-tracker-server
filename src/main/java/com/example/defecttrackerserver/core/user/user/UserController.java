@@ -28,9 +28,9 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping()
-    public UserDto updateUser(@Valid@RequestBody UserDto userDto) {
-        return userService.updateUser(userDto);
+    @PutMapping("/{id}")
+    public UserDto updateUser(@PathVariable Integer id, @Valid @RequestBody UserDto userDto) {
+        return userService.updateUser(1, userDto);
     }
 
     @DeleteMapping("/{id}")

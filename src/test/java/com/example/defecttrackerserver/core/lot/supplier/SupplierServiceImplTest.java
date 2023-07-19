@@ -83,7 +83,7 @@ public class SupplierServiceImplTest {
         when(supplierRepository.save(any(Supplier.class))).thenReturn(supplier);
         when(supplierMapper.mapToDto(any(Supplier.class))).thenReturn(supperDto);
 
-        SupplierDto result = supplierService.updateSupplier(supperDto);
+        SupplierDto result = supplierService.updateSupplier(1, supperDto);
 
         assertNotNull(result);
         assertEquals(supplier.getId(), result.getId());

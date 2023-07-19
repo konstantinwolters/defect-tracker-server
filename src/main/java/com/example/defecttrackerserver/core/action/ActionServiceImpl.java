@@ -146,9 +146,9 @@ public class ActionServiceImpl implements ActionService{
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ActionDto updateAction(ActionDto actionDto) {
-        Action actionToUpdate = actionRepository.findById(actionDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionDto.getId()));
+    public ActionDto updateAction(Integer actionId, ActionDto actionDto) {
+        Action actionToUpdate = actionRepository.findById(actionId)
+                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
 
         Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
 

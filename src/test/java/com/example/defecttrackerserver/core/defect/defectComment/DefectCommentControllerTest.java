@@ -68,8 +68,9 @@ public class DefectCommentControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateDefectComment() throws Exception {
-        when(defectCommentService.updateDefectComment(any(DefectCommentDto.class))).thenReturn(testDefectCommentDto);
-        mockMvc.perform(put("/defects/comments")
+        when(defectCommentService.updateDefectComment(any(Integer.class), any(DefectCommentDto.class)))
+                .thenReturn(testDefectCommentDto);
+        mockMvc.perform(put("/defects/comments/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testDefectCommentDto)))
                 .andExpect(status().isOk())

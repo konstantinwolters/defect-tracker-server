@@ -82,8 +82,8 @@ public class MaterialControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateMaterial() throws Exception {
-        when(materialService.updateMaterial(any(MaterialDto.class))).thenReturn(testMaterialDto);
-        mockMvc.perform(put("/materials")
+        when(materialService.updateMaterial(any(Integer.class), any(MaterialDto.class))).thenReturn(testMaterialDto);
+        mockMvc.perform(put("/materials/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testMaterialDto)))
                 .andExpect(status().isOk())

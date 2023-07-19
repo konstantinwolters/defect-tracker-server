@@ -27,9 +27,9 @@ public class DefectTypeController {
         return defectTypeService.getAllDefectTypes();
     }
 
-    @PutMapping
-    public DefectTypeDto updateDefectType(@Valid@RequestBody DefectTypeDto defectTypeDto) {
-        return defectTypeService.updateDefectType(defectTypeDto);
+    @PutMapping("/{id}")
+    public DefectTypeDto updateDefectType(@PathVariable Integer id, @Valid @RequestBody DefectTypeDto defectTypeDto) {
+        return defectTypeService.updateDefectType(1, defectTypeDto);
     }
 
     @DeleteMapping("/{id}")

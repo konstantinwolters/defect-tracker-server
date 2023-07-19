@@ -6,6 +6,6 @@ public interface DefectTypeService {
     DefectTypeDto saveDefectType(DefectTypeDto defectTypeDto);
     DefectTypeDto getDefectTypeById(Integer id);
     List<DefectTypeDto> getAllDefectTypes();
-    DefectTypeDto updateDefectType(DefectTypeDto defectTypeDto);
+    DefectTypeDto updateDefectType(Integer defectTypeId, DefectTypeDto defectTypeDto);
     void deleteDefectType(Integer id);
 }

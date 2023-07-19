@@ -65,8 +65,9 @@ public class DefectImageControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateDefectImage() throws Exception {
-        when(defectImageService.updateDefectImage(any(DefectImageDto.class))).thenReturn(testDefectImageDto);
-        mockMvc.perform(put("/defects/images")
+        when(defectImageService.updateDefectImage(any(Integer.class), any(DefectImageDto.class)))
+                .thenReturn(testDefectImageDto);
+        mockMvc.perform(put("/defects/images/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testDefectImageDto)))
                 .andExpect(status().isOk())

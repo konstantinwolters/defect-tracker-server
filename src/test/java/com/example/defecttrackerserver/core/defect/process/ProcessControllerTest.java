@@ -78,8 +78,8 @@ public class ProcessControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateProcess() throws Exception {
-        when(processService.updateProcess(any(ProcessDto.class))).thenReturn(testProcessDto);
-        mockMvc.perform(put("/processes")
+        when(processService.updateProcess(any(Integer.class), any(ProcessDto.class))).thenReturn(testProcessDto);
+        mockMvc.perform(put("/processes/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testProcessDto)))
                 .andExpect(status().isOk())

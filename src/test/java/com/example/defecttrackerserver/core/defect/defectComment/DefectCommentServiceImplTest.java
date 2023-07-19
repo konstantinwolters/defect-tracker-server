@@ -93,7 +93,7 @@ public class DefectCommentServiceImplTest {
         when(defectCommentMapper.mapToDto(any(DefectComment.class))).thenReturn(defectCommentDto);
         when(securityService.getUsername()).thenReturn("testUser");
 
-        DefectCommentDto result = defectCommentService.updateDefectComment(defectCommentDto);
+        DefectCommentDto result = defectCommentService.updateDefectComment(1, defectCommentDto);
 
         assertNotNull(result);
         assertEquals(defectComment.getId(), result.getId());
@@ -118,7 +118,7 @@ public class DefectCommentServiceImplTest {
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectComment));
         when(securityService.getUsername()).thenReturn("Bob");
 
-        assertThrows(UnauthorizedAccessException.class, () -> defectCommentService.updateDefectComment(defectCommentDto));
+        assertThrows(UnauthorizedAccessException.class, () -> defectCommentService.updateDefectComment(1, defectCommentDto));
     }
 
     @Test

@@ -97,8 +97,8 @@ public class DefectControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateDefect() throws Exception {
-        when(defectService.updateDefect(any(DefectDto.class))).thenReturn(testDefectDto);
-        mockMvc.perform(put("/defects")
+        when(defectService.updateDefect(any(Integer.class), any(DefectDto.class))).thenReturn(testDefectDto);
+        mockMvc.perform(put("/defects/1")
                         .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testDefectDto)))

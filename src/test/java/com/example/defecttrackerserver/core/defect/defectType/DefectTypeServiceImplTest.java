@@ -83,7 +83,7 @@ public class DefectTypeServiceImplTest {
         when(defectTypeRepository.save(any(DefectType.class))).thenReturn(defectType);
         when(defectTypeMapper.mapToDto(any(DefectType.class))).thenReturn(defectTypeDto);
 
-        DefectTypeDto result = defectTypeService.updateDefectType(defectTypeDto);
+        DefectTypeDto result = defectTypeService.updateDefectType(1, defectTypeDto);
 
         assertNotNull(result);
         assertEquals(defectType.getId(), result.getId());

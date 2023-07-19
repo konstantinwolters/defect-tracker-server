@@ -59,14 +59,14 @@ public class ActionController {
                 assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public void closeAction(@PathVariable Integer id, @RequestParam Boolean isCompleted) {
         actionService.closeAction(id, isCompleted);
     }
 
-    @PutMapping()
-    public ActionDto updateAction(@Valid @RequestBody ActionDto actionDto) {
-        return actionService.updateAction(actionDto);
+    @PutMapping("/{id}")
+    public ActionDto updateAction(@PathVariable Integer id, @Valid @RequestBody ActionDto actionDto) {
+        return actionService.updateAction(id, actionDto);
     }
 
     @DeleteMapping("/{id}")

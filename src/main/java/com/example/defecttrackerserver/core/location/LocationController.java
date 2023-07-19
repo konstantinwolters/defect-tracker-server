@@ -27,9 +27,9 @@ public class LocationController {
         return locationService.getAllLocations();
     }
 
-    @PutMapping
-    public LocationDto updateLocation(@Valid@RequestBody LocationDto locationDto) {
-        return locationService.updateLocation(locationDto);
+    @PutMapping("/{id}")
+    public LocationDto updateLocation(@PathVariable Integer id, @Valid@RequestBody LocationDto locationDto) {
+        return locationService.updateLocation(1, locationDto);
     }
 
     @DeleteMapping("/{id}")

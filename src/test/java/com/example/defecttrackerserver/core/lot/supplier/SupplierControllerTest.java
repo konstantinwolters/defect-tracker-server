@@ -78,8 +78,8 @@ public class SupplierControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateSupplier() throws Exception {
-        when(supplierService.updateSupplier(any(SupplierDto.class))).thenReturn(testSupplierDto);
-        mockMvc.perform(put("/suppliers")
+        when(supplierService.updateSupplier(any(Integer.class),any(SupplierDto.class))).thenReturn(testSupplierDto);
+        mockMvc.perform(put("/suppliers/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testSupplierDto)))
                 .andExpect(status().isOk())
