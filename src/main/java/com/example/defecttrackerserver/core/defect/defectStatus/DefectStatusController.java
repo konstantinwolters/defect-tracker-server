@@ -27,9 +27,9 @@ public class DefectStatusController {
         return defectStatusService.getAllDefectStatus();
     }
 
-    @PutMapping
-    public DefectStatusDto updateDefectStatus(@Valid @RequestBody DefectStatusDto defectStatusDto) {
-        return defectStatusService.updateDefectStatus(defectStatusDto);
+    @PutMapping("/{id}")
+    public DefectStatusDto updateDefectStatus(@PathVariable Integer id, @Valid @RequestBody DefectStatusDto defectStatusDto) {
+        return defectStatusService.updateDefectStatus(1, defectStatusDto);
     }
 
     @DeleteMapping("/{id}")

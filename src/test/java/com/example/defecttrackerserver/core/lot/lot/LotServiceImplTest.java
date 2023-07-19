@@ -82,7 +82,7 @@ public class LotServiceImplTest {
 
         when(lotMapper.mapToDto(any(Lot.class))).thenReturn(lotDto);
 
-        LotDto result = lotService.updateLot(lotDto);
+        LotDto result = lotService.updateLot(1, lotDto);
 
         assertNotNull(result);
         assertEquals(lot.getId(), result.getId());

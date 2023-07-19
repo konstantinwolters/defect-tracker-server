@@ -46,10 +46,10 @@ public class DefectCommentServiceImpl implements DefectCommentService {
 
     @Override
     @Transactional
-    public DefectCommentDto updateDefectComment(DefectCommentDto defectComment) {
-        DefectComment defectCommentToUpdate = defectCommentRepository.findById(defectComment.getId())
+    public DefectCommentDto updateDefectComment(Integer defectCommentId, DefectCommentDto defectComment) {
+        DefectComment defectCommentToUpdate = defectCommentRepository.findById(defectCommentId)
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: "
-                        + defectComment.getId()));
+                        + defectCommentId));
 
         if(!securityService.getUsername().equals(defectCommentToUpdate.getCreatedBy().getUsername())
         && !securityService.hasRole("ROLE_ADMIN")){

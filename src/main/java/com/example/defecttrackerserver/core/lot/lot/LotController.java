@@ -27,9 +27,9 @@ public class LotController {
         return lotService.getAllLots();
     }
 
-    @PutMapping
-    public LotDto updateLot(@Valid@RequestBody LotDto lotDto) {
-        return lotService.updateLot(lotDto);
+    @PutMapping("/{id}")
+    public LotDto updateLot(@PathVariable Integer id, @Valid @RequestBody LotDto lotDto) {
+        return lotService.updateLot(1, lotDto);
     }
 
     @DeleteMapping("/{id}")

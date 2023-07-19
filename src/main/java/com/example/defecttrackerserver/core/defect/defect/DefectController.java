@@ -43,8 +43,9 @@ public class DefectController {
                 locationIds, processIds, defectTypeIds, createdByIds, pageable);
     }
 
-    @PutMapping()
-    public DefectDto updateDefect(@Valid @RequestBody DefectDto defectDto) { return defectService.updateDefect(defectDto); }
+    @PutMapping("/{id}")
+    public DefectDto updateDefect(@PathVariable Integer id, @Valid @RequestBody DefectDto defectDto) {
+        return defectService.updateDefect(id, defectDto); }
 
     @DeleteMapping("/{id}")
     public void deleteDefect(@PathVariable Integer id) { defectService.deleteDefect(id);}

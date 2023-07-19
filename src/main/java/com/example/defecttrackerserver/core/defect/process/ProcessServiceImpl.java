@@ -49,13 +49,13 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ProcessDto updateProcess(ProcessDto processDto) {
+    public ProcessDto updateProcess(Integer processId, ProcessDto processDto) {
         if(processDto.getId() == null)
             throw new IllegalArgumentException("Process id must not be null");
 
-        Process process = processRepository.findById(processDto.getId())
+        Process process = processRepository.findById(processId)
                 .orElseThrow(()-> new EntityNotFoundException("Process not found with id: "
-                        + processDto.getId()));
+                        + processId));
 
         Optional<Process> processExists = processRepository.findByName(processDto.getName());
         if(processExists.isPresent() && !processExists.get().getId().equals(process.getId()))

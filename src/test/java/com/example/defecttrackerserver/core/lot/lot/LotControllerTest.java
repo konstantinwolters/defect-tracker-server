@@ -89,8 +89,8 @@ public class LotControllerTest extends BaseControllerTest{
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateLot() throws Exception {
-        when(lotService.updateLot(any(LotDto.class))).thenReturn(testLotDto);
-        mockMvc.perform(put("/lots")
+        when(lotService.updateLot(any(Integer.class),any(LotDto.class))).thenReturn(testLotDto);
+        mockMvc.perform(put("/lots/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testLotDto)))
                 .andExpect(status().isOk())

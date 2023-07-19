@@ -27,9 +27,9 @@ public class SupplierController {
         return supplierService.getAllSuppliers();
     }
 
-    @PutMapping
-    public SupplierDto updateProcess(@Valid@RequestBody SupplierDto supplierDto) {
-        return supplierService.updateSupplier(supplierDto);
+    @PutMapping("/{id}")
+    public SupplierDto updateProcess(@PathVariable Integer id, @Valid @RequestBody SupplierDto supplierDto) {
+        return supplierService.updateSupplier(1, supplierDto);
     }
 
     @DeleteMapping("/{id}")

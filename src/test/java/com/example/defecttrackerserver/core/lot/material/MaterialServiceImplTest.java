@@ -83,7 +83,7 @@ public class MaterialServiceImplTest {
         when(materialRepository.save(any(Material.class))).thenReturn(material);
         when(materialMapper.mapToDto(any(Material.class))).thenReturn(materialDto);
 
-        MaterialDto result = materialService.updateMaterial(materialDto);
+        MaterialDto result = materialService.updateMaterial(1, materialDto);
 
         assertNotNull(result);
         assertEquals(material.getId(), result.getId());

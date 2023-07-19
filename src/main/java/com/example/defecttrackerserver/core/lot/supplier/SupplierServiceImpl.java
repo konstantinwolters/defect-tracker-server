@@ -49,13 +49,13 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
-    public SupplierDto updateSupplier(SupplierDto supplierDto) {
+    public SupplierDto updateSupplier(Integer supplierId, SupplierDto supplierDto) {
         if(supplierDto.getId() == null)
             throw new IllegalArgumentException("Supplier id must not be null");
 
-        Supplier supplier = supplierRepository.findById(supplierDto.getId())
+        Supplier supplier = supplierRepository.findById(supplierId)
                 .orElseThrow(()-> new EntityNotFoundException("Supplier not found with id: "
-                        + supplierDto.getId()));
+                        + supplierId));
 
         Optional<Supplier> supplierExists = supplierRepository.findByName(supplierDto.getName());
         if(supplierExists.isPresent() && !supplierExists.get().getId().equals(supplier.getId()))

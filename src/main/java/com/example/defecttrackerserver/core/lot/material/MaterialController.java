@@ -27,9 +27,9 @@ public class MaterialController {
         return materialService.getAllMaterials();
     }
 
-    @PutMapping
-    public MaterialDto updateProcess(@Valid@RequestBody MaterialDto materialDto) {
-        return materialService.updateMaterial(materialDto);
+    @PutMapping("/{id}")
+    public MaterialDto updateProcess(@PathVariable Integer id, @Valid @RequestBody MaterialDto materialDto) {
+        return materialService.updateMaterial(1, materialDto);
     }
 
     @DeleteMapping("/{id}")

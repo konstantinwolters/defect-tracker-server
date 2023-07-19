@@ -114,11 +114,13 @@ public class ActionControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.currentPage").value(response.getCurrentPage()));
     }
 
+    //TODO: Create unit test for closeAction()
+
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateAction() throws Exception {
-        when(actionService.updateAction(any(ActionDto.class))).thenReturn(testactionDto);
-        mockMvc.perform(put("/actions")
+        when(actionService.updateAction(any(Integer.class), any(ActionDto.class))).thenReturn(testactionDto);
+        mockMvc.perform(put("/actions/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testactionDto)))
                 .andExpect(status().isOk())

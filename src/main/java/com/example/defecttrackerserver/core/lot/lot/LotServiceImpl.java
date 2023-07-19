@@ -44,9 +44,9 @@ public class LotServiceImpl implements LotService{
 
     @Override
     @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
-    public LotDto updateLot(LotDto lotDto) {
-        Lot lot = lotRepository.findById(lotDto.getId())
-                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + lotDto.getId()));
+    public LotDto updateLot(Integer lotId, LotDto lotDto) {
+        Lot lot = lotRepository.findById(lotId)
+                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + lotId));
 
         Optional<Lot> lotExists = lotRepository.findByLotNumber(lotDto.getLotNumber());
         if(lotExists.isPresent() && !lotExists.get().getId().equals(lotDto.getId()))

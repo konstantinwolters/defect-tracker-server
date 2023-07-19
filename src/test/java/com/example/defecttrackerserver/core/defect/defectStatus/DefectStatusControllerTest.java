@@ -78,8 +78,8 @@ public class DefectStatusControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateDefectStatus() throws Exception {
-        when(defectStatusService.updateDefectStatus(any(DefectStatusDto.class))).thenReturn(testDefectStatusDto);
-        mockMvc.perform(put("/defectstatus")
+        when(defectStatusService.updateDefectStatus(any(Integer.class), any(DefectStatusDto.class))).thenReturn(testDefectStatusDto);
+        mockMvc.perform(put("/defectstatus/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testDefectStatusDto)))
                 .andExpect(status().isOk())

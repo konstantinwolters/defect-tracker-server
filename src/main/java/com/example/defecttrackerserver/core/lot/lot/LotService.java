@@ -6,6 +6,6 @@ public interface LotService {
     LotDto saveLot(LotDto lotDto);
     LotDto getLotById(Integer id);
     List<LotDto> getAllLots();
-    LotDto updateLot(LotDto lotDto);
+    LotDto updateLot(Integer lodId, LotDto lotDto);
     void deleteLot(Integer id);
 }

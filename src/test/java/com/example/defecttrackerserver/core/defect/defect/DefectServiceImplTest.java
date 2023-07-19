@@ -111,7 +111,7 @@ public class DefectServiceImplTest {
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(any(Defect.class))).thenReturn(defectDto);
 
-        DefectDto result = defectService.updateDefect(defectDto);
+        DefectDto result = defectService.updateDefect(1, defectDto);
 
         assertNotNull(result);
         assertEquals(defect.getId(), result.getId());

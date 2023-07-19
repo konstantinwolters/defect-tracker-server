@@ -5,7 +5,6 @@ import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +37,10 @@ public class DefectImageServiceImpl implements DefectImageService{
 
     @Override
     @Transactional
-    public DefectImageDto updateDefectImage(DefectImageDto defectImageDto) {
-        DefectImage defectImage =  defectImageRepository.findById(defectImageDto.getId())
+    public DefectImageDto updateDefectImage(Integer defectImageId, DefectImageDto defectImageDto) {
+        DefectImage defectImage =  defectImageRepository.findById(defectImageId)
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: "
-                        + defectImageDto.getId()));
+                        + defectImageId));
 
         defectImage.setPath(defectImageDto.getPath());
         DefectImage savedDefectImage = defectImageRepository.save(defectImage);

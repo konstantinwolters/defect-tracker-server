@@ -6,6 +6,6 @@ public interface DefectStatusService {
     DefectStatusDto saveDefectStatus(DefectStatusDto defectStatusDto);
     DefectStatusDto getDefectStatusById(Integer id);
     List<DefectStatusDto> getAllDefectStatus();
-    DefectStatusDto updateDefectStatus(DefectStatusDto defectStatusDto);
+    DefectStatusDto updateDefectStatus(Integer defectStatusId, DefectStatusDto defectStatusDto);
     void deleteDefectStatus(Integer id);
 }

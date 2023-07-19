@@ -51,13 +51,13 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectTypeDto updateDefectType(@Valid DefectTypeDto defectTypeDto) {
+    public DefectTypeDto updateDefectType(Integer defectTypeId, @Valid DefectTypeDto defectTypeDto) {
         if(defectTypeDto.getId() == null)
             throw new IllegalArgumentException("DefectType id must not be null");
 
-        DefectType defectType = defectTypeRepository.findById(defectTypeDto.getId())
+        DefectType defectType = defectTypeRepository.findById(defectTypeId)
                 .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: "
-                        + defectTypeDto.getId()));
+                        + defectTypeId));
 
         Optional<DefectType> defectTypeExists = defectTypeRepository.findByName(defectTypeDto.getName());
         if(defectTypeExists.isPresent() && !defectTypeExists.get().getId().equals(defectType.getId()))

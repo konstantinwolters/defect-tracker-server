@@ -116,7 +116,7 @@ public class UserServiceImplTest {
         when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
 
-        UserDto result = userService.updateUser(userDto);
+        UserDto result = userService.updateUser(1, userDto);
 
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());

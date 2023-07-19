@@ -6,6 +6,6 @@ public interface MaterialService {
     MaterialDto saveMaterial(MaterialDto materialDto);
     MaterialDto getMaterialById(Integer id);
     List<MaterialDto> getAllMaterials();
-    MaterialDto updateMaterial(MaterialDto materialDto);
+    MaterialDto updateMaterial(Integer materialId, MaterialDto materialDto);
     void deleteMaterial(Integer id);
 }

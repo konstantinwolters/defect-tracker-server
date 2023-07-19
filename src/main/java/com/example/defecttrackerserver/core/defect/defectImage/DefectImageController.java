@@ -20,9 +20,9 @@ public class DefectImageController {
         return defectImageService.getDefectImageById(id);
     }
 
-    @PutMapping("/images")
-    public DefectImageDto updateImage(@Valid @RequestBody DefectImageDto defectImageDto) {
-        return defectImageService.updateDefectImage(defectImageDto);
+    @PutMapping("/images/{id}")
+    public DefectImageDto updateImage(@PathVariable Integer id, @Valid @RequestBody DefectImageDto defectImageDto) {
+        return defectImageService.updateDefectImage(id, defectImageDto);
     }
 
     @DeleteMapping("/{defectId}/images/{imageId}")

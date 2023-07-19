@@ -87,16 +87,16 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "XXXX", roles = "ADMIN")
     public void shouldUpdateUser() throws Exception {
-        when(userService.updateUser(any(UserDto.class))).thenReturn(testuserDto);
+        when(userService.updateUser(any(Integer.class), any(UserDto.class))).thenReturn(testuserDto);
 
-        mockMvc.perform(put("/users")
+        mockMvc.perform(put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testuserDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.username").value("bill"));
 
-        verify(userService, times(1)).updateUser(any(UserDto.class));
+        verify(userService, times(1)).updateUser(any(Integer.class), any(UserDto.class));
     }
 
     @Test

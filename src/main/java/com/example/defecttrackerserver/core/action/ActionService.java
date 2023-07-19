@@ -20,6 +20,6 @@ public interface ActionService {
             Pageable pageable);
     ActionFilterValues getActionFilterValues(List<Action> actions);
     void closeAction(Integer actionId, Boolean isCompleted);
-    ActionDto updateAction(ActionDto action);
+    ActionDto updateAction(Integer actionId, ActionDto action);
     void deleteAction(Integer id);
 }

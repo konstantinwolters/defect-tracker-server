@@ -6,6 +6,6 @@ public interface ProcessService {
     ProcessDto saveProcess(ProcessDto processDto);
     ProcessDto getProcessById(Integer id);
     List<ProcessDto> getAllProcesses();
-    ProcessDto updateProcess(ProcessDto processDto);
+    ProcessDto updateProcess(Integer processId, ProcessDto processDto);
     void deleteProcess(Integer id);
 }

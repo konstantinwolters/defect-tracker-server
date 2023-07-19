@@ -83,7 +83,7 @@ public class LocationServiceImplTest {
         when(locationRepository.save(any(Location.class))).thenReturn(location);
         when(locationMapper.mapToDto(any(Location.class))).thenReturn(locationDto);
 
-        LocationDto result = locationService.updateLocation(locationDto);
+        LocationDto result = locationService.updateLocation(1, locationDto);
 
         assertNotNull(result);
         assertEquals(location.getId(), result.getId());

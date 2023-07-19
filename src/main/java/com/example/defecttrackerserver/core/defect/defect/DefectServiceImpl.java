@@ -133,9 +133,9 @@ public class DefectServiceImpl implements DefectService{
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectDto updateDefect(DefectDto defectDto) {
-        Defect defectToUpdate = defectRepository.findById(defectDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectDto.getId()));
+    public DefectDto updateDefect(Integer defectId, DefectDto defectDto) {
+        Defect defectToUpdate = defectRepository.findById(defectId)
+                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
 
         defectToUpdate.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect Status not found with name: "

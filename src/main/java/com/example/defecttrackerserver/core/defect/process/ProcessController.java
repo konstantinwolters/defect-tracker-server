@@ -27,9 +27,9 @@ public class ProcessController {
         return processService.getAllProcesses();
     }
 
-    @PutMapping
-    public ProcessDto updateProcess(@Valid@RequestBody ProcessDto processDto) {
-        return processService.updateProcess(processDto);
+    @PutMapping("/{id}")
+    public ProcessDto updateProcess(@PathVariable Integer id, @Valid @RequestBody ProcessDto processDto) {
+        return processService.updateProcess(1, processDto);
     }
 
     @DeleteMapping("/{id}")

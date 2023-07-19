@@ -78,8 +78,8 @@ public class LocationControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateLocation() throws Exception {
-        when(locationService.updateLocation(any(LocationDto.class))).thenReturn(testLocationDto);
-        mockMvc.perform(put("/locations")
+        when(locationService.updateLocation(any(Integer.class), any(LocationDto.class))).thenReturn(testLocationDto);
+        mockMvc.perform(put("/locations/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testLocationDto)))
                 .andExpect(status().isOk())

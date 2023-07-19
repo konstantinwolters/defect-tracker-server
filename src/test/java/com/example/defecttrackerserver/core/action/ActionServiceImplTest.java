@@ -134,7 +134,7 @@ public class ActionServiceImplTest {
         when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
         when(actionMapper.mapToDto(any(Action.class))).thenReturn(actionDto);
 
-        ActionDto result = actionService.updateAction(actionDto);
+        ActionDto result = actionService.updateAction(1, actionDto);
 
         assertNotNull(result);
         assertEquals(action.getId(), result.getId());

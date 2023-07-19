@@ -49,13 +49,13 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public LocationDto updateLocation(LocationDto locationDto) {
+    public LocationDto updateLocation(Integer locationId, LocationDto locationDto) {
         if(locationDto.getId() == null)
             throw new IllegalArgumentException("Location id must not be null");
 
-        Location location = locationRepository.findById(locationDto.getId())
+        Location location = locationRepository.findById(locationId)
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with id: "
-                        + locationDto.getId()));
+                        + locationId));
 
         Optional<Location> locationExists = locationRepository.findByName(locationDto.getName());
         if(locationExists.isPresent() && !locationExists.get().getId().equals(location.getId()))
