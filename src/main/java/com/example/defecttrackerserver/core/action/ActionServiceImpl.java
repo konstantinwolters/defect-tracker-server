@@ -5,6 +5,7 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
+import com.example.defecttrackerserver.utils.DateTimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -61,11 +62,8 @@ public class ActionServiceImpl implements ActionService{
         Specification<Action> spec = Specification.where(null);
 
         if(dueDateStart != null && dueDateEnd != null){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate startDateObj = LocalDate.parse(dueDateStart, formatter);
-            LocalDate endDateObj = LocalDate.parse(dueDateEnd, formatter);
-            LocalDateTime startOfDay = startDateObj.atStartOfDay();
-            LocalDateTime endOfDay = endDateObj.atStartOfDay().plusDays(1).minusSeconds(1);
+            LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(dueDateStart);
+            LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(dueDateEnd).plusDays(1).minusSeconds(1);
 
             spec = spec.and((root, query, cb) -> cb.between(root.get("dueDate"), startOfDay, endOfDay));
         }
@@ -83,11 +81,8 @@ public class ActionServiceImpl implements ActionService{
         }
 
         if(createdOnStart != null && createdOnEnd != null){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate startDateObj = LocalDate.parse(createdOnStart, formatter);
-            LocalDate endDateObj = LocalDate.parse(createdOnEnd, formatter);
-            LocalDateTime startOfDay = startDateObj.atStartOfDay();
-            LocalDateTime endOfDay = endDateObj.atStartOfDay().plusDays(1).minusSeconds(1);
+            LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(dueDateStart);
+            LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(dueDateEnd).plusDays(1).minusSeconds(1);
 
             spec = spec.and((root, query, cb) -> cb.between(root.get("createdOn"), startOfDay, endOfDay));
         }
