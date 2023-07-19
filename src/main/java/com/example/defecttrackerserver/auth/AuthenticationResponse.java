@@ -7,5 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
-    private String jwt;
+    private String accessToken;
+    private String refreshToken;
 }
