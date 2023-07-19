@@ -114,7 +114,16 @@ public class ActionControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.currentPage").value(response.getCurrentPage()));
     }
 
-    //TODO: Create unit test for closeAction()
+    @Test
+    @WithMockUser(username = "bill", roles = "ADMIN")
+    public void shouldCloseAction() throws Exception {
+        doNothing().when(actionService).closeAction(any(Integer.class), any(Boolean.class));
+
+        mockMvc.perform(patch("/actions/1")
+                        .param("isCompleted", "true")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")

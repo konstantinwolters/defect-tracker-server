@@ -126,7 +126,7 @@ public class UserServiceImplTest {
 
     @Test
     void shouldDeleteUserById(){
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user)); //TODO: Does this make sense?
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
 
         userService.deleteUser(1);
 
