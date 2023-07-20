@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepo
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.user.user.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.utils.DateTimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -74,11 +75,8 @@ public class DefectServiceImpl implements DefectService{
         }
 
        if(startDate != null && endDate != null){
-           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-           LocalDate startDateObj = LocalDate.parse(startDate, formatter);
-           LocalDate endDateObj = LocalDate.parse(endDate, formatter);
-           LocalDateTime startOfDay = startDateObj.atStartOfDay();
-           LocalDateTime endOfDay = endDateObj.atStartOfDay().plusDays(1).minusSeconds(1);
+           LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(startDate);
+           LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(endDate).plusDays(1).minusSeconds(1);
 
            spec = spec.and((root, query, cb) -> cb.between(root.get("createdOn"), startOfDay, endOfDay));
        }
