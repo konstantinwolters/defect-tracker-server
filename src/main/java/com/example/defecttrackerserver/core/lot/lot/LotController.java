@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.lot.lot;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class LotController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLot(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteLot(@PathVariable Integer id) {
         lotService.deleteLot(id);
+        return ResponseEntity.noContent().build();
     }
 }

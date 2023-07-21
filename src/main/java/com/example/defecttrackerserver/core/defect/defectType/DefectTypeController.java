@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectType;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class DefectTypeController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDefectType(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteDefectType(@PathVariable Integer id) {
         defectTypeService.deleteDefectType(id);
+        return ResponseEntity.noContent().build();
     }
 }

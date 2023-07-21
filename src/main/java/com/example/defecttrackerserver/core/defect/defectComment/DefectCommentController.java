@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectComment;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +29,8 @@ public class DefectCommentController {
     }
 
     @DeleteMapping("/{defectId}/comments/{commentId}")
-    public void deleteDefectComment(@PathVariable Integer defectId, @PathVariable Integer commentId) {
+    public ResponseEntity<Void> deleteDefectComment(@PathVariable Integer defectId, @PathVariable Integer commentId) {
         defectCommentService.deleteDefectComment(defectId, commentId);
+        return ResponseEntity.noContent().build();
     }
 }

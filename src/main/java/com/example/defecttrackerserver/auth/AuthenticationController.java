@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request,
+            @RequestBody AuthenticationRequest request
     ){
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
@@ -35,7 +35,6 @@ public class AuthenticationController {
     ) throws IOException {
         authenticationService.refreshToken(request, response);
     }
-
 
     @PostMapping("/authenticate-cookie")
     public ResponseEntity<?> authenticationCookie(

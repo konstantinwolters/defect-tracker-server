@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.lot.supplier;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class SupplierController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProcess(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteProcess(@PathVariable Integer id) {
         supplierService.deleteSupplier(id);
+        return ResponseEntity.noContent().build();
     }
 }
