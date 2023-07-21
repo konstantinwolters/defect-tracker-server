@@ -92,6 +92,6 @@ public class LocationControllerTest extends BaseControllerTest {
     public void shouldDeleteLocation() throws Exception {
         doNothing().when(locationService).deleteLocation(any(Integer.class));
         mockMvc.perform(delete("/locations/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

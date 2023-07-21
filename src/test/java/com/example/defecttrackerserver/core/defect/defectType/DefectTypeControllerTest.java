@@ -91,6 +91,6 @@ public class DefectTypeControllerTest extends BaseControllerTest {
     public void shouldDeleteDefectType() throws Exception {
         doNothing().when(defectTypeService).deleteDefectType(any(Integer.class));
         mockMvc.perform(delete("/defecttypes/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

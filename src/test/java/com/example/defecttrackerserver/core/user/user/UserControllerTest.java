@@ -103,7 +103,7 @@ public class UserControllerTest extends BaseControllerTest {
     @WithMockUser(username = "XXXX", roles = "ADMIN")
     public void shouldDeleteUser() throws Exception {
         mockMvc.perform(delete("/users/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(userService, times(1)).deleteUser(anyInt());
     }

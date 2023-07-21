@@ -112,6 +112,6 @@ public class DefectControllerTest extends BaseControllerTest {
     public void shouldDeleteDefect() throws Exception {
         doNothing().when(defectService).deleteDefect(any(Integer.class));
         mockMvc.perform(delete("/defects/1").with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

@@ -84,6 +84,6 @@ public class DefectCommentControllerTest extends BaseControllerTest {
 
         doNothing().when(defectCommentService).deleteDefectComment(any(Integer.class), any(Integer.class));
         mockMvc.perform(delete("/defects/1/comments/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
