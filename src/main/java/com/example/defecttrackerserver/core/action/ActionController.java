@@ -70,7 +70,8 @@ public class ActionController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAction(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteAction(@PathVariable Integer id) {
         actionService.deleteAction(id);
+        return ResponseEntity.noContent().build();
     }
 }

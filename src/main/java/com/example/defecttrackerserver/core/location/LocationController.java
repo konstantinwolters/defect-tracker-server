@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.location;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class LocationController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLocation(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteLocation(@PathVariable Integer id) {
         locationService.deleteLocation(id);
+        return ResponseEntity.noContent().build();
     }
 }

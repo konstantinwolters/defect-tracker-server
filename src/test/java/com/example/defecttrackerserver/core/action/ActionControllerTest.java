@@ -142,6 +142,6 @@ public class ActionControllerTest extends BaseControllerTest {
     public void shouldDeleteAction() throws Exception {
         doNothing().when(actionService).deleteAction(any(Integer.class));
         mockMvc.perform(delete("/actions/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

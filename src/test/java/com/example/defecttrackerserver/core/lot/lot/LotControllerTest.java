@@ -104,6 +104,6 @@ public class LotControllerTest extends BaseControllerTest{
     public void shouldDeleteLot() throws Exception {
         doNothing().when(lotService).deleteLot(any(Integer.class));
         mockMvc.perform(delete("/lots/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

@@ -92,6 +92,6 @@ public class SupplierControllerTest extends BaseControllerTest {
     public void shouldDeleteSupplier() throws Exception {
         doNothing().when(supplierService).deleteSupplier(any(Integer.class));
         mockMvc.perform(delete("/suppliers/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

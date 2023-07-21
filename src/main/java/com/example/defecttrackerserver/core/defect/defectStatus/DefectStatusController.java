@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectStatus;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class DefectStatusController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDefectStatus(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteDefectStatus(@PathVariable Integer id) {
         defectStatusService.deleteDefectStatus(id);
+        return ResponseEntity.noContent().build();
     }
 }

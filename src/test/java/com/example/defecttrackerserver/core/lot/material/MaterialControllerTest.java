@@ -96,6 +96,6 @@ public class MaterialControllerTest extends BaseControllerTest {
     public void shouldDeleteMaterial() throws Exception {
         doNothing().when(materialService).deleteMaterial(any(Integer.class));
         mockMvc.perform(delete("/materials/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

@@ -92,6 +92,6 @@ public class ProcessControllerTest extends BaseControllerTest {
     public void shouldDeleteProcess() throws Exception {
         doNothing().when(processService).deleteProcess(any(Integer.class));
         mockMvc.perform(delete("/processes/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

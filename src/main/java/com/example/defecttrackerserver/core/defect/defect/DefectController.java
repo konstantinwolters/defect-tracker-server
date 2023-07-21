@@ -48,5 +48,6 @@ public class DefectController {
         return defectService.updateDefect(id, defectDto); }
 
     @DeleteMapping("/{id}")
-    public void deleteDefect(@PathVariable Integer id) { defectService.deleteDefect(id);}
+    public ResponseEntity<Void> deleteDefect(@PathVariable Integer id) { defectService.deleteDefect(id);
+        return ResponseEntity.noContent().build();}
 }

@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.lot.material;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class MaterialController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProcess(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteProcess(@PathVariable Integer id) {
         materialService.deleteMaterial(id);
+        return ResponseEntity.noContent().build();
     }
 }

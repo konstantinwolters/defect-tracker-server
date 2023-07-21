@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectImage;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +27,8 @@ public class DefectImageController {
     }
 
     @DeleteMapping("/{defectId}/images/{imageId}")
-    public void deleteImage(@PathVariable Integer defectId, @PathVariable Integer imageId) {
+    public ResponseEntity<Void> deleteImage(@PathVariable Integer defectId, @PathVariable Integer imageId) {
         defectImageService.deleteDefectImageFromDefect(defectId, imageId);
+        return ResponseEntity.noContent().build();
     }
 }

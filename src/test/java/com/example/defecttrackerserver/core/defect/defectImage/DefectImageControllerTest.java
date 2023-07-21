@@ -80,6 +80,6 @@ public class DefectImageControllerTest extends BaseControllerTest {
     public void shouldDeleteDefectImage() throws Exception {
         doNothing().when(defectImageService).deleteDefectImageFromDefect(any(Integer.class), any(Integer.class));
         mockMvc.perform(delete("/defects/1/images/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

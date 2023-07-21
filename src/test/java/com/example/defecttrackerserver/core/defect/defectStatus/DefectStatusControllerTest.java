@@ -92,6 +92,6 @@ public class DefectStatusControllerTest extends BaseControllerTest {
     public void shouldDeleteDefectStatus() throws Exception {
         doNothing().when(defectStatusService).deleteDefectStatus(any(Integer.class));
         mockMvc.perform(delete("/defectstatus/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
