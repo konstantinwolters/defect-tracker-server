@@ -35,14 +35,4 @@ public class AuthenticationController {
     ) throws IOException {
         authenticationService.refreshToken(request, response);
     }
-
-    @PostMapping("/authenticate-cookie")
-    public ResponseEntity<?> authenticationCookie(
-            @RequestBody AuthenticationRequest request,
-            HttpServletResponse response
-    ) {
-        Cookie jwtCookie = authenticationService.createAuthenticationCookie(request);
-        response.addCookie(jwtCookie);
-        return ResponseEntity.ok().build();
-    }
 }

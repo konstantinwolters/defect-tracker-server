@@ -42,26 +42,6 @@ public class AuthenticationService {
                 .build();
     }
 
-    public Cookie createAuthenticationCookie(AuthenticationRequest request) {
-        //perform authentication
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
-        var user = userDetailsService.loadUserByUsername(request.getUsername());
-        var jwtToken = jwtService.generateToken(user);
-
-        Cookie jwtCookie = new Cookie("jwt", jwtToken);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(true);
-        jwtCookie.setMaxAge(60 * 60 * 24 * 7); // 7 days
-        jwtCookie.setPath("/");
-
-        return jwtCookie;
-    }
-
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken;
