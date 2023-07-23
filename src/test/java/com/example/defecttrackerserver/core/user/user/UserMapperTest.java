@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -56,6 +57,10 @@ class UserMapperTest {
         userDto.setFirstName("Tim");
         userDto.setLastName("Testermann");
         userDto.setIsActive(true);
+        userDto.setChangedAt(LocalDateTime.now());
+        userDto.setCreatedAt(LocalDateTime.now());
+        userDto.setCreatedBy(1);
+        userDto.setChangedBy(1);
         locationDto = new LocationDto();
         locationDto.setId(1);
         userDto.setLocation("Texas");
@@ -85,6 +90,9 @@ class UserMapperTest {
         assertEquals(userDto.getFirstName(), mappedUser.getFirstName());
         assertEquals(userDto.getLastName(), mappedUser.getLastName());
         assertEquals(userDto.getIsActive(), mappedUser.getIsActive());
+        assertEquals(userDto.getChangedAt(), mappedUser.getChangedAt());
+        assertEquals(userDto.getCreatedAt(), mappedUser.getCreatedAt());
+        assertEquals(userDto.getCreatedBy(), mappedUser.getCreatedBy());
         assertEquals(userDto.getRoles().size(), mappedUser.getRoles().size());
         assertEquals(userDto.getAssignedActions().size(), mappedUser.getAssignedActions().size());
     }

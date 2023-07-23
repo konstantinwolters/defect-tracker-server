@@ -1,10 +1,11 @@
 package com.example.defecttrackerserver.security;
 
 import com.example.defecttrackerserver.core.user.user.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,12 +15,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class SecurityServiceTest {
 
-    @MockBean
+    @Mock
     private UserRepository userRepository;
 
     @InjectMocks
@@ -50,5 +55,4 @@ class SecurityServiceTest {
         assertTrue(securityService.hasRole("ROLE_USER"));
         assertFalse(securityService.hasRole("ROLE_ADMIN"));
     }
-
 }
