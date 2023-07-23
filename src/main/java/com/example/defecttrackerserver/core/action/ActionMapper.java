@@ -24,6 +24,7 @@ public class ActionMapper {
         action.setDueDate(actionDto.getDueDate());
         action.setIsCompleted(actionDto.getIsCompleted());
         action.setCreatedAt(actionDto.getCreatedAt());
+        action.setChangedAt(actionDto.getChangedAt());
 
         Defect defect = defectRepository.findById(actionDto.getDefect())
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: "
@@ -31,6 +32,10 @@ public class ActionMapper {
         defect.addAction(action);
 
         action.setCreatedBy(userRepository.findById(actionDto.getCreatedBy().getId())
+                .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
+                        + actionDto.getCreatedBy().getId())));
+
+        action.setChangedBy(userRepository.findById(actionDto.getChangedBy().getId())
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
                         + actionDto.getCreatedBy().getId())));
 
@@ -57,7 +62,9 @@ public class ActionMapper {
                         .collect(Collectors.toSet()));
         actionDto.setDefect(action.getDefect().getId());
         actionDto.setCreatedAt(action.getCreatedAt());
+        actionDto.setChangedAt(actionDto.getChangedAt());
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));
+        actionDto.setChangedBy(userMapper.mapToDto(action.getChangedBy()));
         return actionDto;
     }
 }

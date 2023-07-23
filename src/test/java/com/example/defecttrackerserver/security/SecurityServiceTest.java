@@ -1,7 +1,10 @@
 package com.example.defecttrackerserver.security;
 
+import com.example.defecttrackerserver.core.user.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,12 +18,12 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SecurityServiceTest {
-    private SecurityService securityService;
 
-    @BeforeEach
-    void setUp() {
-        securityService = new SecurityService();
-    }
+    @MockBean
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private SecurityService securityService;
 
     @Test
     void shouldReturnUsernameFromSecurityContext() {

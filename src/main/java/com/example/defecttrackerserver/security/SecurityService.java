@@ -1,15 +1,22 @@
 package com.example.defecttrackerserver.security;
 
+import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class SecurityService {
+    private final UserRepository userRepository;
 
     public String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -24,7 +31,7 @@ public class SecurityService {
         return authentication.getName();
     }
 
-    public Integer getUserId() {
+    public User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null
                 || !authentication.isAuthenticated()
@@ -32,7 +39,9 @@ public class SecurityService {
             return null;
         }
 
-        return securityUser.getId();
+        return userRepository.findById(securityUser.getId())
+                .orElseThrow( () -> new EntityNotFoundException("User not found with id: "
+                + securityUser.getId()));
     }
 
     public boolean hasRole(String role) {
