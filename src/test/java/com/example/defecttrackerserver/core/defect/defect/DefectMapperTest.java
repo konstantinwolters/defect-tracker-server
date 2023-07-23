@@ -2,12 +2,15 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
+import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentMapper;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImageMapper;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
@@ -21,8 +24,9 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,6 +34,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,9 +43,6 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 class DefectMapperTest {
-
-    @InjectMocks
-    private DefectMapper defectMapper;
 
     @Mock
     private DefectStatusRepository defectStatusRepository;
@@ -68,6 +70,21 @@ class DefectMapperTest {
 
     @Mock
     private DefectImageRepository defectImageRepository;
+
+    @Mock
+    private DefectCommentMapper defectCommentMapper;
+
+    @Mock
+    private DefectImageMapper defectImageMapper;
+
+    @Mock
+    private ActionMapper actionMapper;
+
+    @Mock
+    private UserMapper userMapper;
+
+    @InjectMocks
+    private DefectMapper defectMapper;
 
     DefectDto defectDto;
     UserDto userDto;
@@ -311,6 +328,66 @@ class DefectMapperTest {
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
+    }
+
+    @Test
+    void shouldReturnMappedDefectDto() {
+        Defect defect = new Defect();
+        defect.setId(1);
+        defect.setDescription("testDescription");
+        defect.setCreatedAt(LocalDateTime.now());
+        defect.setChangedAt(LocalDateTime.now());
+
+        DefectStatus defectStatus = new DefectStatus();
+        defectStatus.setName("testStatus");
+        defect.setDefectStatus(defectStatus);
+
+        defect.setDefectComments(Set.of(new DefectComment()));
+
+        Lot lot = new Lot();
+        lot.setLotNumber("testLot");
+        defect.setLot(lot);
+
+        Location location  = new Location();
+        location.setName("testLocation");
+        defect.setLocation(location);
+
+        Process process = new Process();
+        process.setName("testProcess");
+        defect.setProcess(process);
+
+        DefectType defectType = new DefectType();
+        defectType.setName("testType");
+        defect.setDefectType(defectType);
+
+        defect.setImages(Set.of(new DefectImage()));
+        defect.setActions(Set.of(new Action()));
+
+        User user = new User();
+        user.setId(1);
+        defect.setCreatedBy(user);
+        defect.setChangedBy(user);
+
+        when(defectCommentMapper.mapToDto(any())).thenReturn(new DefectCommentDto());
+        when(defectImageMapper.mapToDto(any())).thenReturn(new DefectImageDto());
+        when(actionMapper.mapToDto(any())).thenReturn(new ActionDto());
+        when(userRepository.findById(any())).thenReturn(Optional.of(user));
+        when(userMapper.mapToDto(any())).thenReturn(userDto);
+
+        DefectDto mappedDefectDto = defectMapper.mapToDto(defect);
+        assertEquals(defect.getId(), mappedDefectDto.getId());
+        assertEquals(defect.getDescription(), mappedDefectDto.getDescription());
+        assertEquals(defect.getCreatedAt(), mappedDefectDto.getCreatedAt());
+        assertEquals(defect.getChangedAt(), mappedDefectDto.getChangedAt());
+        assertEquals(defect.getDefectStatus().getName(), mappedDefectDto.getDefectStatus());
+        assertEquals(defect.getDefectComments().size(), mappedDefectDto.getDefectComments().size());
+        assertEquals(defect.getLot().getLotNumber(), mappedDefectDto.getLot());
+        assertEquals(defect.getLocation().getName(), mappedDefectDto.getLocation());
+        assertEquals(defect.getProcess().getName(), mappedDefectDto.getProcess());
+        assertEquals(defect.getDefectType().getName(), mappedDefectDto.getDefectType());
+        assertEquals(defect.getImages().size(), mappedDefectDto.getImages().size());
+        assertEquals(defect.getCreatedBy().getId(), mappedDefectDto.getCreatedBy().getId());
+        assertEquals(defect.getChangedBy().getId(), mappedDefectDto.getChangedBy().getId());
     }
 }
 
