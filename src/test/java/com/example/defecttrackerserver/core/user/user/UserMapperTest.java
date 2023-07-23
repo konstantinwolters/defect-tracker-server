@@ -51,11 +51,11 @@ class UserMapperTest {
 
         userDto = new UserDto();
         userDto.setId(1);
-        userDto.setUsername("timtest");
-        userDto.setPassword("Testermann");
-        userDto.setMail("tim@testermann.de");
-        userDto.setFirstName("Tim");
-        userDto.setLastName("Testermann");
+        userDto.setUsername("testUsername");
+        userDto.setPassword("testPassword");
+        userDto.setMail("test@mail.com");
+        userDto.setFirstName("testFirstName");
+        userDto.setLastName("testLastName");
         userDto.setIsActive(true);
         userDto.setChangedAt(LocalDateTime.now());
         userDto.setCreatedAt(LocalDateTime.now());
@@ -63,7 +63,7 @@ class UserMapperTest {
         userDto.setChangedBy(1);
         locationDto = new LocationDto();
         locationDto.setId(1);
-        userDto.setLocation("Texas");
+        userDto.setLocation("testLocation");
         RoleDto roleDto = new RoleDto();
         roleDto.setId(1);
         userDto.setRoles(Set.of("ROLE_ADMIN"));
@@ -176,6 +176,51 @@ class UserMapperTest {
         when(userRepository.findByMail(any())).thenReturn(Optional.of(duplicateUser));
 
         assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
+    }
+
+    @Test
+    void shouldReturnMappedUserDto() {
+        User user = new User();
+        user.setId(1);
+        user.setUsername("testUsername");
+        user.setMail("test@mail.com");
+        user.setFirstName("testFirstName");
+        user.setLastName("testLastName");
+        user.setIsActive(true);
+        user.setChangedAt(LocalDateTime.now());
+        user.setCreatedAt(LocalDateTime.now());
+        user.setCreatedBy(1);
+        user.setChangedBy(1);
+
+        Location location = new Location();
+        location.setId(1);
+        location.setName("testLocation");
+        user.setLocation(location);
+
+        Role role = new Role();
+        role.setId(1);
+        role.setName("ROLE_ADMIN");
+        user.setRoles(Set.of(role));
+
+        Action action = new Action();
+        action.setId(1);
+        user.setAssignedActions(Set.of(action));
+
+        UserDto mappedUserDto = userMapper.mapToDto(user);
+
+        assertEquals(user.getId(), mappedUserDto.getId());
+        assertEquals(user.getUsername(), mappedUserDto.getUsername());
+        assertEquals(user.getMail(), mappedUserDto.getMail());
+        assertNull(user.getPassword());
+        assertEquals(user.getFirstName(), mappedUserDto.getFirstName());
+        assertEquals(user.getLastName(), mappedUserDto.getLastName());
+        assertEquals(user.getIsActive(), mappedUserDto.getIsActive());
+        assertEquals(user.getChangedAt(), mappedUserDto.getChangedAt());
+        assertEquals(user.getCreatedAt(), mappedUserDto.getCreatedAt());
+        assertEquals(user.getCreatedBy(), mappedUserDto.getCreatedBy());
+        assertEquals(user.getRoles().size(), mappedUserDto.getRoles().size());
+        assertEquals(user.getAssignedActions().size(), mappedUserDto.getAssignedActions().size());
+        assertEquals(user.getLocation().getName(), mappedUserDto.getLocation());
     }
 }
 

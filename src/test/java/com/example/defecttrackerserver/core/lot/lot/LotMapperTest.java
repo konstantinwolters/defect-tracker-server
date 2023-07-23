@@ -104,5 +104,7 @@ class LotMapperTest {
 
         assertThrows(EntityNotFoundException.class, () -> lotMapper.map(lotDto, new Lot()));
     }
+
+
 }
 
