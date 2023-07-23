@@ -15,7 +15,7 @@ import java.util.Set;
 public class ActionDto {
     private Integer id;
     private Boolean isCompleted;
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
 
     @NotNull(message = "Action description must not be null.")
     @NotEmpty(message = "Action description must not be empty.")

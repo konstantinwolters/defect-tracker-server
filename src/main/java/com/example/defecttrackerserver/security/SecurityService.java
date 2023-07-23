@@ -24,6 +24,17 @@ public class SecurityService {
         return authentication.getName();
     }
 
+    public Integer getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || !(authentication.getPrincipal() instanceof SecurityUser securityUser)) {
+            return null;
+        }
+
+        return securityUser.getId();
+    }
+
     public boolean hasRole(String role) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

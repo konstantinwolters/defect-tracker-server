@@ -2,8 +2,6 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +34,9 @@ public class Action {
     private Defect defect;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
+
+    private LocalDateTime changedAt;
 
     @ManyToOne
     @JoinColumn(nullable = false)

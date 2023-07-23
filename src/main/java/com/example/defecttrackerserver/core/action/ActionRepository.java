@@ -26,7 +26,7 @@ public interface ActionRepository extends JpaRepository<Action, Integer>, JpaSpe
     @Query("SELECT DISTINCT a.defect.id FROM Action a WHERE a.id IN :actionIds")
     Set<Integer> findDistinctDefect(@Param("actionIds") List<Integer> actionIds);
 
-    @Query("SELECT DISTINCT a.createdOn FROM Action a WHERE a.id IN :actionIds")
+    @Query("SELECT DISTINCT a.createdAt FROM Action a WHERE a.id IN :actionIds")
     Set<LocalDateTime> findDistinctCreatedOn(@Param("actionIds") List<Integer> actionIds);
 
     @Query("SELECT DISTINCT a.createdBy FROM Action a WHERE a.id IN :actionIds")

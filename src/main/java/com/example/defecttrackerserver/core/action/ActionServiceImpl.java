@@ -15,9 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +31,7 @@ public class ActionServiceImpl implements ActionService{
     @Transactional
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
-        actionDto.setCreatedOn(LocalDateTime.now());
+        actionDto.setCreatedAt(LocalDateTime.now());
         Action newAction = actionMapper.map(actionDto, new Action());
         newAction.setIsCompleted(false);
         Action savedAction = actionRepository.save(newAction);
