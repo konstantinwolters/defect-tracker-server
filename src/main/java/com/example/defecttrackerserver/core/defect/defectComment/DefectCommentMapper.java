@@ -14,7 +14,7 @@ public class DefectCommentMapper {
 
     public DefectComment map(DefectCommentDto defectCommentDto, DefectComment defectComment){
         defectComment.setContent(defectCommentDto.getContent());
-        defectComment.setCreatedOn(defectCommentDto.getCreatedOn());
+        defectComment.setCreatedAt(defectCommentDto.getCreatedAt());
 
         defectComment.setCreatedBy(userRepository.findById(defectCommentDto.getCreatedBy().getId())
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
@@ -27,7 +27,7 @@ public class DefectCommentMapper {
         DefectCommentDto defectCommentDto = new DefectCommentDto();
         defectCommentDto.setId(defectComment.getId());
         defectCommentDto.setContent(defectComment.getContent());
-        defectCommentDto.setCreatedOn(defectComment.getCreatedOn());
+        defectCommentDto.setCreatedAt(defectComment.getCreatedAt());
         defectCommentDto.setCreatedBy(userMapper.mapToDto(defectComment.getCreatedBy()));
 
         return defectCommentDto;

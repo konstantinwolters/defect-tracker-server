@@ -36,7 +36,7 @@ class DefectCommentMapperTest {
         defectCommentDto = new DefectCommentDto();
         defectCommentDto.setId(1);
         defectCommentDto.setContent("testContent");
-        defectCommentDto.setCreatedOn(LocalDateTime.now());
+        defectCommentDto.setCreatedAt(LocalDateTime.now());
 
         userDto = new UserDto();
         userDto.setId(1);
@@ -56,7 +56,7 @@ class DefectCommentMapperTest {
         DefectComment mappedDefectComment = defectCommentMapper.map(defectCommentDto, defectComment);
 
         assertEquals(defectCommentDto.getContent(), mappedDefectComment.getContent());
-        assertEquals(defectCommentDto.getCreatedOn(), mappedDefectComment.getCreatedOn());
+        assertEquals(defectCommentDto.getCreatedAt(), mappedDefectComment.getCreatedAt());
         assertEquals(defectCommentDto.getCreatedBy().getId(), (mappedDefectComment.getCreatedBy().getId()));
     }
 

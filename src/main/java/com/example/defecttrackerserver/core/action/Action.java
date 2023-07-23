@@ -43,6 +43,5 @@ public class Action {
     private User createdBy;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     private User changedBy;
 }

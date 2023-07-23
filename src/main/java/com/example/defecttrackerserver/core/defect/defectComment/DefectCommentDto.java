@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class DefectCommentDto {
     private Integer id;
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
 
     @NotNull(message = "DefectComment content must not be null.")
     @NotEmpty(message = "DefectComment content must not be empty.")

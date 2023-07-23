@@ -20,7 +20,7 @@ public class DefectComment {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     private User createdBy;

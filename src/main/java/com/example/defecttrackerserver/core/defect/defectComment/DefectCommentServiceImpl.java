@@ -7,7 +7,6 @@ import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
 
-        defectCommentDto.setCreatedOn(LocalDateTime.now());
+        defectCommentDto.setCreatedAt(LocalDateTime.now());
 
         DefectComment newDefectComment = defectCommentMapper.map(defectCommentDto, new DefectComment());
         defect.addDefectComment(newDefectComment);
