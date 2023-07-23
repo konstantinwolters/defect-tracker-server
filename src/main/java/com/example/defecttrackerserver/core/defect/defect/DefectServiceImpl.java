@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepo
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.user.user.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.DateTimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -16,9 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,13 +28,14 @@ public class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
     private final DefectMapper defectMapper;
+    private final SecurityService securityService;
 
     @Override
     @Transactional
     public DefectDto saveDefect(DefectDto defectDto) {
         Defect defect = new Defect();
         defectDto.setId(null);
-        defectDto.setCreatedOn(LocalDateTime.now());
+        defectDto.setCreatedAt(LocalDateTime.now());
 
         Defect newDefect = defectMapper.map(defectDto, defect);
         DefectStatus defectStatus = defectStatusRepository.findByName("New")
@@ -138,6 +138,8 @@ public class DefectServiceImpl implements DefectService{
         defectToUpdate.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect Status not found with name: "
                         + defectDto.getDefectStatus())));
+        defectToUpdate.setChangedBy(securityService.getUser());
+        defectToUpdate.setChangedAt(LocalDateTime.now());
         Defect mappedDefect = defectMapper.map(defectDto, defectToUpdate);
 
         Defect updatedDefect = defectRepository.save(mappedDefect);

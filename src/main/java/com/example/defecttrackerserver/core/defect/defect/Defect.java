@@ -28,7 +28,8 @@ public class Defect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String description;
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
+    private LocalDateTime changedAt;
 
     @ManyToOne
     @JoinColumn(name = "defect_status_id", nullable = false)
@@ -68,6 +69,10 @@ public class Defect {
     @ManyToOne
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "changed_by_id", nullable = false)
+    private User changedBy;
 
     public void addDefectComment(DefectComment defectComment) { defectComments.add(defectComment); }
 

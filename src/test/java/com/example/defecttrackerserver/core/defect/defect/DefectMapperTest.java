@@ -104,7 +104,8 @@ class DefectMapperTest {
         userDto = new UserDto();
         userDto.setId(1);
         defectDto.setCreatedBy(userDto);
-        defectDto.setCreatedOn(LocalDateTime.of(2023,2,1,0,0));
+        defectDto.setCreatedAt(LocalDateTime.of(2023,2,1,0,0));
+        defectDto.setChangedBy(userDto);
     }
 
     @Test
