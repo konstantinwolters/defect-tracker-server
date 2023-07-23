@@ -16,4 +16,6 @@ public class ActionFilterValues {
     private Set<Integer> defect;
     private Set<LocalDate> createdOn;
     private Set<UserInfo> createdBy;
+
+    //TODO: add changedBy and changedAt
 }

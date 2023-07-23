@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.action;
 import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.UserInfo;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.DateTimeUtils;
@@ -15,9 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
+    private final UserRepository userRepository;
     private final ActionMapper actionMapper;
     private final SecurityService securityService;
 
@@ -33,7 +33,7 @@ public class ActionServiceImpl implements ActionService{
     @Transactional
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
-        actionDto.setCreatedOn(LocalDateTime.now());
+        actionDto.setCreatedAt(LocalDateTime.now());
         Action newAction = actionMapper.map(actionDto, new Action());
         newAction.setIsCompleted(false);
         Action savedAction = actionRepository.save(newAction);
@@ -135,6 +135,8 @@ public class ActionServiceImpl implements ActionService{
         if(!isAuthorized && !securityService.hasRole("ROLE_ADMIN")){
             throw new UnauthorizedAccessException("You are not authorized to close this action");
         }
+        actionToUpdate.setChangedBy(securityService.getUser());
+        actionToUpdate.setChangedAt(LocalDateTime.now());
         actionToUpdate.setIsCompleted(isCompleted);
     }
 
@@ -144,9 +146,9 @@ public class ActionServiceImpl implements ActionService{
     public ActionDto updateAction(Integer actionId, ActionDto actionDto) {
         Action actionToUpdate = actionRepository.findById(actionId)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
-
+        actionToUpdate.setChangedBy(securityService.getUser());
+        actionToUpdate.setChangedAt(LocalDateTime.now());
         Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
-
         Action updatedAction = actionRepository.save(mappedAction);
         return actionMapper.mapToDto(updatedAction);
     }

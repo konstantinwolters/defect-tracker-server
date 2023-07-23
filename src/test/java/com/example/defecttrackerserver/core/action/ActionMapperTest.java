@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserDto;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,7 +46,8 @@ class ActionMapperTest {
         actionDto.setDescription("testDescription");
         actionDto.setDueDate(LocalDate.of(2023,1,1));
         actionDto.setIsCompleted(true);
-        actionDto.setCreatedOn(LocalDateTime.now());
+        actionDto.setCreatedAt(LocalDateTime.now());
+        actionDto.setChangedAt(LocalDateTime.now());
 
         userDto = new UserDto();
         userDto.setId(1);
@@ -53,6 +55,7 @@ class ActionMapperTest {
 
         actionDto.setAssignedUsers(Set.of(userDto));
         actionDto.setCreatedBy(userDto);
+        actionDto.setChangedBy(userDto);
 
         actionDto.setDefect(1);
     }
@@ -73,7 +76,7 @@ class ActionMapperTest {
 
         assertEquals(actionDto.getDescription(), mappedAction.getDescription());
         assertEquals(actionDto.getIsCompleted(), mappedAction.getIsCompleted());
-        assertEquals(actionDto.getCreatedOn(), mappedAction.getCreatedOn());
+        assertEquals(actionDto.getCreatedAt(), mappedAction.getCreatedAt());
         assertEquals(actionDto.getDueDate(), mappedAction.getDueDate());
         assertEquals(actionDto.getCreatedBy().getId(), (mappedAction.getCreatedBy().getId()));
         assertEquals(actionDto.getAssignedUsers().size(), mappedAction.getAssignedUsers().size());

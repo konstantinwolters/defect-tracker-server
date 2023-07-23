@@ -3,7 +3,9 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.security.SecurityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +36,9 @@ public class DefectServiceImplTest {
 
     @Mock
     private DefectMapper defectMapper;
+
+    @Mock
+    private SecurityService securityService;
 
     @InjectMocks
     private DefectServiceImpl defectService;
@@ -110,6 +115,7 @@ public class DefectServiceImplTest {
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(any(Defect.class))).thenReturn(defectDto);
+        when(securityService.getUser()).thenReturn(new User());
 
         DefectDto result = defectService.updateDefect(1, defectDto);
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
-    @Query("SELECT DISTINCT d.createdOn FROM Defect d WHERE d.id IN :defectIds")
+    @Query("SELECT DISTINCT d.createdAt FROM Defect d WHERE d.id IN :defectIds")
     Set<LocalDateTime> findDistinctCreatedOn(@Param("defectIds") List<Integer> defectIds);
 
     @Query("SELECT DISTINCT d.defectStatus.name FROM Defect d WHERE d.id IN :defectIds")

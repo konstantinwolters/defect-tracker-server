@@ -3,13 +3,12 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
-import com.example.defecttrackerserver.core.lot.lot.LotDto;
 import com.example.defecttrackerserver.core.user.user.UserDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.internal.util.privilegedactions.LoadClass;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -22,7 +21,9 @@ public class DefectDto {
     private Set<DefectCommentDto> defectComments;
     private Set<ActionDto> actions;
     private String defectStatus;
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
+    private LocalDateTime changedAt;
+    private UserDto changedBy;
 
     @NotNull(message = "Defect description must not be null.")
     @NotEmpty(message = "Defect description must not be empty.")

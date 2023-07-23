@@ -14,7 +14,6 @@ import com.example.defecttrackerserver.core.defect.defectType.DefectTypeReposito
 import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotMapper;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -43,7 +42,8 @@ public class DefectMapper {
     private final ActionMapper actionMapper;
 
     public Defect map (DefectDto defectDto, Defect defect){
-        defect.setCreatedOn(defectDto.getCreatedOn());
+        defect.setCreatedAt(defectDto.getCreatedAt());
+        defect.setChangedAt(defectDto.getChangedAt());
         defect.setDescription(defectDto.getDescription());
         defect.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "
@@ -100,6 +100,10 @@ public class DefectMapper {
         defect.setCreatedBy(userRepository.findById(defectDto.getCreatedBy().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
                         + defectDto.getCreatedBy().getId())));
+
+        defect.setChangedBy(userRepository.findById(defectDto.getChangedBy().getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
+                        + defectDto.getChangedBy().getId())));
         return defect;
     }
 
@@ -107,7 +111,8 @@ public class DefectMapper {
         DefectDto defectDto = new DefectDto();
         defectDto.setId(defect.getId());
         defectDto.setDescription(defect.getDescription());
-        defectDto.setCreatedOn(defect.getCreatedOn());
+        defectDto.setCreatedAt(defect.getCreatedAt());
+        defectDto.setChangedAt(defect.getChangedAt());
         defectDto.setDefectStatus(defect.getDefectStatus().getName());
         defectDto.setDefectComments(defect.getDefectComments().stream()
                 .map(defectCommentMapper::mapToDto)
@@ -126,6 +131,11 @@ public class DefectMapper {
                 userMapper.mapToDto(userRepository.findById(defect.getCreatedBy().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
                         + defect.getCreatedBy().getId())))
+        );
+        defectDto.setChangedBy(
+                userMapper.mapToDto(userRepository.findById(defect.getChangedBy().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
+                                + defect.getChangedBy().getId())))
         );
         return defectDto;
     }
