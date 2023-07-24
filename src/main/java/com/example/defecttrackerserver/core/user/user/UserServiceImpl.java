@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -38,6 +39,8 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new EntityNotFoundException("Role not found with name: ROLE_USER"));
         newUser.addRole(role);
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setCreatedBy(securityService.getUser().getId());
 
         User savedUser = userRepository.save(newUser);
         return userMapper.mapToDto(savedUser);
@@ -76,6 +79,8 @@ public class UserServiceImpl implements UserService {
         }
 
         User userToUpdate = userMapper.mapToEntity(userDto, user);
+        userToUpdate.setChangedAt(LocalDateTime.now());
+        userToUpdate.setChangedBy(securityService.getUser().getId());
 
         User updatedUser = userRepository.save(userToUpdate);
         return userMapper.mapToDto(updatedUser);

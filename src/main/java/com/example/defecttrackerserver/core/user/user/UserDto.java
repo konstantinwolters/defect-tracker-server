@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -16,6 +17,10 @@ public class UserDto  {
     private String lastName;
     private Set<String> roles;
     private Set<Integer> assignedActions;
+    private LocalDateTime createdAt;
+    private LocalDateTime changedAt;
+    private Integer createdBy;
+    private Integer changedBy;
 
     @NotNull(message = "User isActive must not be null.")
     private Boolean isActive;

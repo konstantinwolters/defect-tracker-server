@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
+import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,10 @@ public class UserMapper {
         user.setLastName(userDto.getLastName());
         user.setMail(userDto.getMail());
         user.setIsActive(userDto.getIsActive());
+        user.setCreatedAt(userDto.getCreatedAt());
+        user.setChangedAt(userDto.getChangedAt());
+        user.setCreatedBy(userDto.getCreatedBy());
+        user.setChangedBy(userDto.getChangedBy());
 
         user.setLocation(locationRepository.findByName(
                 userDto.getLocation())
@@ -65,6 +70,10 @@ public class UserMapper {
         userDto.setMail(user.getMail());
         userDto.setLocation(user.getLocation().getName());
         userDto.setIsActive(user.getIsActive());
+        userDto.setCreatedAt(user.getCreatedAt());
+        userDto.setChangedAt(user.getChangedAt());
+        userDto.setCreatedBy(user.getCreatedBy());
+        userDto.setChangedBy(user.getChangedBy());
         if(user.getRoles() != null) {
             userDto.setRoles(new HashSet<>(user.getRoles().stream()
                     .map(Role::getName)

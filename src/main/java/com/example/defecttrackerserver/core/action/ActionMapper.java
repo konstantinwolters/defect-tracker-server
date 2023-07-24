@@ -62,7 +62,7 @@ public class ActionMapper {
                         .collect(Collectors.toSet()));
         actionDto.setDefect(action.getDefect().getId());
         actionDto.setCreatedAt(action.getCreatedAt());
-        actionDto.setChangedAt(actionDto.getChangedAt());
+        actionDto.setChangedAt(action.getChangedAt());
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));
         actionDto.setChangedBy(userMapper.mapToDto(action.getChangedBy()));
         return actionDto;

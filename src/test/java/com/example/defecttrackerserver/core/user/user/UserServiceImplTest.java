@@ -72,6 +72,7 @@ public class UserServiceImplTest {
         when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(passwordEncoder.encode(any())).thenReturn("test");
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
+        when(securityService.getUser()).thenReturn(user);
 
         UserDto result = userService.saveUser(userDto);
 
@@ -115,6 +116,7 @@ public class UserServiceImplTest {
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
+        when(securityService.getUser()).thenReturn(user);
 
         UserDto result = userService.updateUser(1, userDto);
 
