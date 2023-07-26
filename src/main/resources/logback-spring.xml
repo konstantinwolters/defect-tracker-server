@@ -21,7 +21,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="com.example.yourapp" level="DEBUG" additivity="false">
+    <logger name="com.example.defecttrackerserver" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>

@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.exception;
 
 import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,30 +15,42 @@ import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
+@Slf4j
 public class GeneralExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllExceptions(Exception e) {
+        log.error("Exception occurred: ", e);
+        return createResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("Invalid argument provided: ", e);
         return createResponse(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
+        log.error("Entity not found: ", e);
         return createResponse(e, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("Access denied: ", e);
         return createResponse(e, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UnauthorizedAccessException.class)
     public ResponseEntity<Object> handleUnauthorizedAccessException(UnauthorizedAccessException e) {
+        log.error("Unauthorized access: ", e);
         return createResponse(e, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        log.error("Invalid arguments: ", ex);
         List<String> errors = ex.getBindingResult()
                 .getAllErrors()
                 .stream()
