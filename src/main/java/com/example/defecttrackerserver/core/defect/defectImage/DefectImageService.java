@@ -4,5 +4,5 @@ public interface DefectImageService {
     DefectImageDto saveDefectImageToDefect(Integer defectId, DefectImageDto defectImageDto);
     DefectImageDto getDefectImageById(Integer id);
     DefectImageDto updateDefectImage(Integer defectImageId, DefectImageDto defectImageDto);
-    void deleteDefectImageFromDefect(Integer defectId, Integer defectImageId);
+    void deleteDefectImage(Integer defectId, Integer defectImageId);
 }

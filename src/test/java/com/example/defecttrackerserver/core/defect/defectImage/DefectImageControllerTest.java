@@ -78,7 +78,7 @@ public class DefectImageControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldDeleteDefectImage() throws Exception {
-        doNothing().when(defectImageService).deleteDefectImageFromDefect(any(Integer.class), any(Integer.class));
+        doNothing().when(defectImageService).deleteDefectImage(any(Integer.class), any(Integer.class));
         mockMvc.perform(delete("/defects/1/images/1"))
                 .andExpect(status().isNoContent());
     }

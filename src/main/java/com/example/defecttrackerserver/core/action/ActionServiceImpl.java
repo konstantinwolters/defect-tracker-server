@@ -3,13 +3,13 @@ package com.example.defecttrackerserver.core.action;
 import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.UserInfo;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.DateTimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
-    private final UserRepository userRepository;
     private final ActionMapper actionMapper;
     private final SecurityService securityService;
 

@@ -51,7 +51,7 @@ public class DefectImageServiceImpl implements DefectImageService{
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteDefectImageFromDefect(Integer defectId, Integer defectImageId) {
+    public void deleteDefectImage(Integer defectId, Integer defectImageId) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
 
