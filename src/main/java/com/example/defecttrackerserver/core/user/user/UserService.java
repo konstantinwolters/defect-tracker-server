@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
+
 import java.util.List;
 
 public interface UserService {

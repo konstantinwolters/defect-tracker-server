@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.user.user;
+package com.example.defecttrackerserver.core.user.user.userDtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

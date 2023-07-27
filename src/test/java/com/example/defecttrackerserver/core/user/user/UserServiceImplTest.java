@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.user.user;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;

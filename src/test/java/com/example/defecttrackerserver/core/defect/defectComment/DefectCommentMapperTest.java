@@ -1,8 +1,8 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
 import com.example.defecttrackerserver.core.user.user.User;
-import com.example.defecttrackerserver.core.user.user.UserDto;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

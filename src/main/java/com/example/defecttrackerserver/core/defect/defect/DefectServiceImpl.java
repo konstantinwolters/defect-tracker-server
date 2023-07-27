@@ -4,7 +4,7 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.user.user.UserInfo;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.DateTimeUtils;

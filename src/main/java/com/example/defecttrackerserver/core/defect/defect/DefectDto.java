@@ -3,12 +3,11 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
-import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.internal.util.privilegedactions.LoadClass;
 
 import java.time.LocalDateTime;
 import java.util.Set;

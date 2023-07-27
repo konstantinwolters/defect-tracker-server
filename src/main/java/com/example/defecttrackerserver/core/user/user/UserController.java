@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -78,7 +78,7 @@
 2023-07-26 22:35:22.669 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 2023-07-26 22:35:23.096 [http-nio-8080-exec-2] INFO  c.e.d.auth.AuthenticationController - User: bill authenticated
 2023-07-26 22:36:13.069 [http-nio-8080-exec-3] ERROR c.e.d.e.GeneralExceptionHandler - Exception occurred: 
-java.lang.NullPointerException: Cannot invoke "com.example.defecttrackerserver.core.user.user.UserDto.getId()" because the return value of "com.example.defecttrackerserver.core.defect.defect.DefectDto.getChangedBy()" is null
+java.lang.NullPointerException: Cannot invoke "com.example.defecttrackerserver.core.user.user.userDtos.UserDto.getId()" because the return value of "com.example.defecttrackerserver.core.defect.defect.DefectDto.getChangedBy()" is null
 	at com.example.defecttrackerserver.core.defect.defect.DefectMapper.map(DefectMapper.java:104)
 	at com.example.defecttrackerserver.core.defect.defect.DefectServiceImpl.saveDefect(DefectServiceImpl.java:40)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
@@ -187,7 +187,7 @@ java.lang.NullPointerException: Cannot invoke "com.example.defecttrackerserver.c
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:1623)
-2023-07-26 22:36:13.079 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException: Cannot invoke "com.example.defecttrackerserver.core.user.user.UserDto.getId()" because the return value of "com.example.defecttrackerserver.core.defect.defect.DefectDto.getChangedBy()" is null]
+2023-07-26 22:36:13.079 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [java.lang.NullPointerException: Cannot invoke "com.example.defecttrackerserver.core.user.user.userDtos.UserDto.getId()" because the return value of "com.example.defecttrackerserver.core.defect.defect.DefectDto.getChangedBy()" is null]
 2023-07-26 22:38:52.966 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2023-07-26 22:38:52.966 [SpringApplicationShutdownHook] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
 2023-07-26 22:38:53.359 [SpringApplicationShutdownHook] WARN  o.s.b.f.s.DisposableBeanAdapter - Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]

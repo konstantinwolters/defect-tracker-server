@@ -3,7 +3,6 @@ package com.example.defecttrackerserver.core.defect.defectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.core.user.user.UserDto;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
