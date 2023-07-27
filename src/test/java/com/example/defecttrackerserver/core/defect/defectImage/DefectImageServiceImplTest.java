@@ -93,7 +93,7 @@ public class DefectImageServiceImplTest {
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectSpy));
         when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectImage));
 
-        defectImageService.deleteDefectImageFromDefect(1,1);
+        defectImageService.deleteDefectImage(1,1);
 
         verify(defectSpy, times(1)).deleteDefectImage(defectImage);
         assertFalse(defectSpy.getImages().contains(defectImage));
@@ -103,7 +103,7 @@ public class DefectImageServiceImplTest {
     void shouldThrowExceptionWhenDefectNotFound(){
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectImageService.deleteDefectImageFromDefect(1,1));
+        assertThrows(EntityNotFoundException.class, () -> defectImageService.deleteDefectImage(1,1));
     }
 
     @Test
@@ -111,6 +111,6 @@ public class DefectImageServiceImplTest {
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
         when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> defectImageService.deleteDefectImageFromDefect(1,1));
+        assertThrows(EntityNotFoundException.class, () -> defectImageService.deleteDefectImage(1,1));
     }
 }

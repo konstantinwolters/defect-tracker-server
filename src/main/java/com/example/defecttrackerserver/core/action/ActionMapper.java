@@ -35,9 +35,11 @@ public class ActionMapper {
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
                         + actionDto.getCreatedBy().getId())));
 
-        action.setChangedBy(userRepository.findById(actionDto.getChangedBy().getId())
-                .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
-                        + actionDto.getCreatedBy().getId())));
+        if(actionDto.getChangedBy() != null) {
+            action.setChangedBy(userRepository.findById(actionDto.getChangedBy().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
+                            + actionDto.getCreatedBy().getId())));
+        }
 
         Set<User> assignedUsers = actionDto.getAssignedUsers().stream()
                 .map(userDto -> userRepository.findById(userDto.getId())
@@ -64,7 +66,8 @@ public class ActionMapper {
         actionDto.setCreatedAt(action.getCreatedAt());
         actionDto.setChangedAt(action.getChangedAt());
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));
-        actionDto.setChangedBy(userMapper.mapToDto(action.getChangedBy()));
+        if(action.getChangedBy() != null)
+            actionDto.setChangedBy(userMapper.mapToDto(action.getChangedBy()));
         return actionDto;
     }
 }

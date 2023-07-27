@@ -28,7 +28,7 @@ public class DefectImageController {
 
     @DeleteMapping("/{defectId}/images/{imageId}")
     public ResponseEntity<Void> deleteImage(@PathVariable Integer defectId, @PathVariable Integer imageId) {
-        defectImageService.deleteDefectImageFromDefect(defectId, imageId);
+        defectImageService.deleteDefectImage(defectId, imageId);
         return ResponseEntity.noContent().build();
     }
 }

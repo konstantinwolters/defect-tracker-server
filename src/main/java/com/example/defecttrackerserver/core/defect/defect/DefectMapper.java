@@ -101,9 +101,11 @@ public class DefectMapper {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
                         + defectDto.getCreatedBy().getId())));
 
-        defect.setChangedBy(userRepository.findById(defectDto.getChangedBy().getId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
-                        + defectDto.getChangedBy().getId())));
+        if(defectDto.getChangedBy() != null) {
+            defect.setChangedBy(userRepository.findById(defectDto.getChangedBy().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
+                            + defectDto.getChangedBy().getId())));
+        }
         return defect;
     }
 
@@ -132,11 +134,12 @@ public class DefectMapper {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
                         + defect.getCreatedBy().getId())))
         );
+        if(defect.getChangedBy() != null){
         defectDto.setChangedBy(
                 userMapper.mapToDto(userRepository.findById(defect.getChangedBy().getId())
                         .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
-                                + defect.getChangedBy().getId())))
-        );
+                                + defect.getChangedBy().getId()))));
+        }
         return defectDto;
     }
 }
