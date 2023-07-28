@@ -24,15 +24,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ){
-        AuthenticationResponse response;
-        try{
-            response = authenticationService.authenticate(request);
-        }catch (Exception e){
-            log.warn("Error authenticating for user: {}, reason: {}", request.getUsername(), e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-            log.info("User: {} authenticated", request.getUsername());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @PostMapping("/refresh-token")
