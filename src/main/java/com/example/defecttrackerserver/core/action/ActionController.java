@@ -1,6 +1,9 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -14,9 +17,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/actions")
+@Tag(name = "Action")
 public class ActionController {
     private final ActionService actionService;
 
+    @Operation(
+            description = "Save new action",
+            summary = "Saves actions",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Action saved successfully"),
+            }
+    )
     @PostMapping()
     public ActionDto saveAction(@Valid @RequestBody ActionDto actionDto) {
         return actionService.saveAction(actionDto);

@@ -31,7 +31,15 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(toH2Console()).permitAll() // only for testing
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "swagger-ui.html",
+                                "swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 //.csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console(), new AntPathRequestMatcher("/auth/**"))
