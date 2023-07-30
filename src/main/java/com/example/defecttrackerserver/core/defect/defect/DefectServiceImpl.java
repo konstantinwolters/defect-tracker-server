@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,8 @@ public class DefectServiceImpl implements DefectService{
    public PaginatedResponse<DefectDto> getDefects(
             List<Integer> lotIds,
             List<Integer> defectStatusIds,
-            String startDate,
-            String endDate,
+            LocalDate createdAtStart,
+            LocalDate createdAtEnd,
             List<Integer> locationIds,
             List<Integer> processIds,
             List<Integer> defectTypeIds,
@@ -74,12 +75,12 @@ public class DefectServiceImpl implements DefectService{
             spec = spec.and((root, query, cb) -> root.get("defectStatus").get("id").in(defectStatusIds));
         }
 
-       if(startDate != null && endDate != null){
-           LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(startDate);
-           LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(endDate).plusDays(1).minusSeconds(1);
+        if (createdAtStart != null && createdAtEnd != null) {
+            LocalDateTime startOfDay = createdAtStart.atStartOfDay();
+            LocalDateTime endOfDay = createdAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
 
-           spec = spec.and((root, query, cb) -> cb.between(root.get("createdOn"), startOfDay, endOfDay));
-       }
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
+        }
 
         if(locationIds != null && !locationIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("location").get("id").in(locationIds));
@@ -123,7 +124,7 @@ public class DefectServiceImpl implements DefectService{
         defectFilterValues.setCreatedBy(defectRepository.findDistinctCreatedBy(defectIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
         defectFilterValues.setDefectStatus(defectRepository.findDistinctDefectStatusName(defectIds));
-        defectFilterValues.setCreatedOn(defectRepository.findDistinctCreatedOn(defectIds).stream()
+        defectFilterValues.setCreatedAt(defectRepository.findDistinctCreatedOn(defectIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
         return defectFilterValues;
     }

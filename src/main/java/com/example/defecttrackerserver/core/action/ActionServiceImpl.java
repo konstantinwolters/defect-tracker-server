@@ -115,7 +115,7 @@ public class ActionServiceImpl implements ActionService{
         actionFilterValues.setAssignedUsers(actionRepository.findDistinctAssignedUsers(actionIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
         actionFilterValues.setDefect(actionRepository.findDistinctDefect(actionIds));
-        actionFilterValues.setCreatedOn(actionRepository.findDistinctCreatedOn(actionIds).stream()
+        actionFilterValues.setCreatedAt(actionRepository.findDistinctCreatedOn(actionIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
         actionFilterValues.setCreatedBy(actionRepository.findDistinctCreatedBy(actionIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));

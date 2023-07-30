@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -86,8 +87,8 @@ public class DefectServiceImplTest {
     public void shouldReturnFilteredDefects() {
         List<Integer> lotIds = Arrays.asList(1, 2);
         List<Integer> defectStatusIds = Arrays.asList(1, 2);
-        String startDate = "2023-01-01";
-        String endDate = "2023-01-31";
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
         List<Integer> locationIds = Arrays.asList(1, 2);
         List<Integer> processIds = Arrays.asList(1, 2);
         List<Integer> defectTypeIds = Arrays.asList(1, 2);

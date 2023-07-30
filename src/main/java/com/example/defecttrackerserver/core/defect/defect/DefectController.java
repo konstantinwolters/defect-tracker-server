@@ -5,9 +5,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -26,8 +28,8 @@ public class DefectController {
     public PaginatedResponse<DefectDto> getFilteredDefects(
             @RequestParam(required = false) List<Integer> lotIds,
             @RequestParam(required = false) List<Integer> defectStatusIds,
-            @RequestParam(required = false) String createdOnStart,
-            @RequestParam(required = false) String createdOnEnd,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
             @RequestParam(required = false) List<Integer> locationIds,
             @RequestParam(required = false) List<Integer> processIds,
             @RequestParam(required = false) List<Integer> defectTypeIds,
@@ -36,7 +38,7 @@ public class DefectController {
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        return defectService.getDefects(lotIds, defectStatusIds, createdOnStart, createdOnEnd,
+        return defectService.getDefects(lotIds, defectStatusIds, createdAtStart, createdAtEnd,
                 locationIds, processIds, defectTypeIds, createdByIds, pageable);
     }
 

@@ -14,7 +14,7 @@ public class ActionFilterValues {
     private Set<Boolean> isCompleted;
     private Set<UserInfo> assignedUsers;
     private Set<Integer> defect;
-    private Set<LocalDate> createdOn;
+    private Set<LocalDate> createdAt;
     private Set<UserInfo> createdBy;
 
     //TODO: add changedBy and changedAt
