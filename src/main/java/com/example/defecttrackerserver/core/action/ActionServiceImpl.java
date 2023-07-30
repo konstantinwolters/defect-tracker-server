@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
@@ -12,10 +11,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,21 +49,21 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public PaginatedResponse<ActionDto> getActions(
-            String dueDateStart,
-            String dueDateEnd,
+            LocalDate dueDateStart,
+            LocalDate dueDateEnd,
             Boolean isCompleted,
             List<Integer> assignedUserIds,
             List<Integer> defectIds,
-            String createdOnStart,
-            String createdOnEnd,
+            LocalDate createdAtStart,
+            LocalDate createdAtEnd,
             List<Integer> createdByIds,
             Pageable pageable
     ){
         Specification<Action> spec = Specification.where(null);
 
-        if(dueDateStart != null && dueDateEnd != null){
-            LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(dueDateStart);
-            LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(dueDateEnd).plusDays(1).minusSeconds(1);
+        if (dueDateStart != null && dueDateEnd != null) {
+            LocalDateTime startOfDay = dueDateStart.atStartOfDay();
+            LocalDateTime endOfDay = dueDateEnd.atStartOfDay().plusDays(1).minusSeconds(1);
 
             spec = spec.and((root, query, cb) -> cb.between(root.get("dueDate"), startOfDay, endOfDay));
         }
@@ -78,11 +80,11 @@ public class ActionServiceImpl implements ActionService{
             spec = spec.and((root, query, cb) -> root.get("defect").get("id").in(defectIds));
         }
 
-        if(createdOnStart != null && createdOnEnd != null){
-            LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(dueDateStart);
-            LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(dueDateEnd).plusDays(1).minusSeconds(1);
+        if (createdAtStart != null && createdAtEnd != null) {
+            LocalDateTime startOfDay = createdAtStart.atStartOfDay();
+            LocalDateTime endOfDay = createdAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
 
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdOn"), startOfDay, endOfDay));
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
         }
 
         if(createdByIds != null && !createdByIds.isEmpty()){
@@ -113,7 +115,7 @@ public class ActionServiceImpl implements ActionService{
         actionFilterValues.setAssignedUsers(actionRepository.findDistinctAssignedUsers(actionIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
         actionFilterValues.setDefect(actionRepository.findDistinctDefect(actionIds));
-        actionFilterValues.setCreatedOn(actionRepository.findDistinctCreatedOn(actionIds).stream()
+        actionFilterValues.setCreatedAt(actionRepository.findDistinctCreatedOn(actionIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
         actionFilterValues.setCreatedBy(actionRepository.findDistinctCreatedBy(actionIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
@@ -131,7 +133,7 @@ public class ActionServiceImpl implements ActionService{
                 .stream().anyMatch(user -> user.getUsername().equals(securityService.getUsername()));
 
         if(!isAuthorized && !securityService.hasRole("ROLE_ADMIN")){
-            throw new UnauthorizedAccessException("You are not authorized to close this action");
+            throw new AccessDeniedException("You are not authorized to close this action");
         }
         actionToUpdate.setChangedBy(securityService.getUser());
         actionToUpdate.setChangedAt(LocalDateTime.now());

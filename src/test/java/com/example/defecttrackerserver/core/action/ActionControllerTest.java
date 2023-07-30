@@ -78,13 +78,13 @@ public class ActionControllerTest extends BaseControllerTest {
 
     @Test
     public void shouldReturnFilteredActions() throws Exception {
-        String dueDateStart = "2023-01-01";
-        String dueDateEnd = "2023-01-31";
+        LocalDate dueDateStart = LocalDate.now();
+        LocalDate dueDateEnd = LocalDate.now();
         Boolean isComplete = true;
         List<Integer> assignedUserIds = Arrays.asList(1,2);
         List<Integer> defectIds = Arrays.asList(1,2);
-        String createdOnStart = "2023-01-01";
-        String createdOnEnd = "2023-01-31";
+        LocalDate createdAtStart = LocalDate.now();
+        LocalDate createdAtEnd = LocalDate.now();
         List<Integer> createdByIds = Arrays.asList(1,2);
         Pageable pageable = PageRequest.of(0,10);
 
@@ -92,21 +92,21 @@ public class ActionControllerTest extends BaseControllerTest {
                 1, 0, new ActionFilterValues());
 
         when(actionService.getActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
-                createdOnStart, createdOnEnd, createdByIds, pageable)).thenReturn(response);
+                createdAtStart, createdAtEnd, createdByIds, pageable)).thenReturn(response);
 
         mockMvc.perform(get("/actions")
-                        .param("dueDateStart", dueDateStart)
-                        .param("dueDateEnd", dueDateEnd)
+                        .param("dueDateStart", String.valueOf(dueDateStart))
+                        .param("dueDateEnd", String.valueOf(dueDateEnd))
                         .param("isCompleted", String.valueOf(isComplete))
                         .param("assignedUserIds", assignedUserIds.stream().map(Object::toString).toArray(String[]::new))
                         .param("defectIds", defectIds.stream().map(Object::toString).toArray(String[]::new))
-                        .param("createdOnStart", createdOnStart)
-                        .param("createdOnEnd", createdOnEnd)
+                        .param("createdAtStart", String.valueOf(createdAtStart))
+                        .param("createdAtEnd", String.valueOf(createdAtEnd))
                         .param("createdByIds", createdByIds.stream().map(Object::toString).toArray(String[]::new))
                         .param("page", "0")
                         .param("size", "10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].description").value(testactionDto.getDescription())) // Replace this with actual checks for your ActionDto fields
+                .andExpect(jsonPath("$.content[0].description").value(testactionDto.getDescription()))
                 .andExpect(jsonPath("$.totalPages").value(response.getTotalPages()))
                 .andExpect(jsonPath("$.totalElements").value(response.getTotalElements()))
                 .andExpect(jsonPath("$.currentPage").value(response.getCurrentPage()));

@@ -16,6 +16,6 @@ public class DefectFilterValues {
     private Set<String> process;
     private Set<String> defectType;
     private Set<UserInfo> createdBy;
-    private Set<LocalDate> createdOn;
+    private Set<LocalDate> createdAt;
     //TODO: Add filter for changedAt and ChangedBy
 }

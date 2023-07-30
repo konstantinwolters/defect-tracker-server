@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
-import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.Optional;
 
@@ -118,7 +118,7 @@ public class DefectCommentServiceImplTest {
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectComment));
         when(securityService.getUsername()).thenReturn("Bob");
 
-        assertThrows(UnauthorizedAccessException.class, () -> defectCommentService.updateDefectComment(1, defectCommentDto));
+        assertThrows(AccessDeniedException.class, () -> defectCommentService.updateDefectComment(1, defectCommentDto));
     }
 
     @Test
