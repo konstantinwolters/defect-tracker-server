@@ -69,7 +69,7 @@ public class DefectStatusController {
     @Operation(
             summary = "Delete DefectStatus",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "DefectStatus successfully deleted"),
+                    @ApiResponse(responseCode = "204", description = "DefectStatus successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
                     @ApiResponse(responseCode = "404", description = "DefectStatus not found"),
             }

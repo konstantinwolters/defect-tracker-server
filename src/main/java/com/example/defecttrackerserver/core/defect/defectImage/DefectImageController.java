@@ -57,7 +57,7 @@ public class DefectImageController {
     @Operation(
             summary = "Delete DefectImage",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "DefectImage successfully deleted"),
+                    @ApiResponse(responseCode = "204", description = "DefectImage successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
                     @ApiResponse(responseCode = "404", description = "Defect or DefectImage not found"),
             }
