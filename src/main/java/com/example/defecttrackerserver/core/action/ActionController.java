@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/actions")
-@Tag(name = "Action")
+@Tag(name = "Actions")
 public class ActionController {
     private final ActionService actionService;
 
