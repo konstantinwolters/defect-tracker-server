@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectComment;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/defects")
+@Tag(name = "DefectComments")
 public class DefectCommentController {
 
     private final DefectCommentService defectCommentService;
@@ -19,7 +21,7 @@ public class DefectCommentController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectComment saved successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
-                    @ApiResponse(responseCode = "404", description = "Defect or DefectComment not found"),
+                    @ApiResponse(responseCode = "404", description = "Defect not found"),
             }
     )
     @PostMapping("/{id}/comments")
