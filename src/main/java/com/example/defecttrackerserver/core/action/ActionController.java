@@ -52,7 +52,7 @@ public class ActionController {
     @Operation(
             summary = "Get all actions with filter values",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Action found"),
+                    @ApiResponse(responseCode = "200", description = "Actions found"),
             }
     )
     @GetMapping("")
@@ -97,7 +97,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Get all actions with filter values",
+            summary = "Close action",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Action found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -110,7 +110,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Get all actions with filter values",
+            summary = "Update action",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Action found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -123,7 +123,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Get all actions with filter values",
+            summary = "Delete action by id",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Action successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
