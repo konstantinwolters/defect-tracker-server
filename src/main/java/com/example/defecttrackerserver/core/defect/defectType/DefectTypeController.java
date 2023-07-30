@@ -63,7 +63,7 @@ public class DefectTypeController {
     )
     @PutMapping("/{id}")
     public DefectTypeDto updateDefectType(@PathVariable Integer id, @Valid @RequestBody DefectTypeDto defectTypeDto) {
-        return defectTypeService.updateDefectType(1, defectTypeDto);
+        return defectTypeService.updateDefectType(id, defectTypeDto);
     }
 
     @Operation(

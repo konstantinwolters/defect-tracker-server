@@ -30,7 +30,7 @@ public class SupplierController {
 
     @PutMapping("/{id}")
     public SupplierDto updateProcess(@PathVariable Integer id, @Valid @RequestBody SupplierDto supplierDto) {
-        return supplierService.updateSupplier(1, supplierDto);
+        return supplierService.updateSupplier(id, supplierDto);
     }
 
     @DeleteMapping("/{id}")

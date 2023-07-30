@@ -61,13 +61,13 @@ public class LocationController {
     )
     @PutMapping("/{id}")
     public LocationDto updateLocation(@PathVariable Integer id, @Valid@RequestBody LocationDto locationDto) {
-        return locationService.updateLocation(1, locationDto);
+        return locationService.updateLocation(id, locationDto);
     }
 
     @Operation(
             summary = "Delete Location",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Location successfully deleted"),
+                    @ApiResponse(responseCode = "204", description = "Location successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
                     @ApiResponse(responseCode = "404", description = "Location not found"),
             }

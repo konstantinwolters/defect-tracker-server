@@ -61,7 +61,7 @@ public class ProcessController {
     )
     @PutMapping("/{id}")
     public ProcessDto updateProcess(@PathVariable Integer id, @Valid @RequestBody ProcessDto processDto) {
-        return processService.updateProcess(1, processDto);
+        return processService.updateProcess(id, processDto);
     }
 
     @Operation(

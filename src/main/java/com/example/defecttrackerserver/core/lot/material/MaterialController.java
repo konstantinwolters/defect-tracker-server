@@ -30,7 +30,7 @@ public class MaterialController {
 
     @PutMapping("/{id}")
     public MaterialDto updateProcess(@PathVariable Integer id, @Valid @RequestBody MaterialDto materialDto) {
-        return materialService.updateMaterial(1, materialDto);
+        return materialService.updateMaterial(id, materialDto);
     }
 
     @DeleteMapping("/{id}")
