@@ -18,7 +18,7 @@ public class DefectTypeController {
     private final DefectTypeService defectTypeService;
 
     @Operation(
-            summary = "Add a DefectType",
+            summary = "Save DefectType",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectType saved successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -30,7 +30,7 @@ public class DefectTypeController {
     }
 
     @Operation(
-            summary = "Get DefectType by id",
+            summary = "Get DefectType by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectType found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -43,7 +43,7 @@ public class DefectTypeController {
     }
 
     @Operation(
-            summary = "Get all DefectType",
+            summary = "Get all DefectTypes",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectTypes found"),
             }

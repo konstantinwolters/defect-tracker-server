@@ -29,7 +29,7 @@ public class DefectImageController {
     }
 
     @Operation(
-            summary = "Get DefectImage by id",
+            summary = "Get DefectImage by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectImage found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

@@ -34,7 +34,7 @@ public class DefectController {
     public DefectDto saveDefect(@Valid @RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}
 
     @Operation(
-            summary = "Get Defect by id",
+            summary = "Get Defect by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Defect found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

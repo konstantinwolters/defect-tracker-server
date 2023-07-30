@@ -18,7 +18,7 @@ public class DefectStatusController {
     private final DefectStatusService defectStatusService;
 
     @Operation(
-            summary = "Add a DefectStatus",
+            summary = "Save DefectStatus",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectStatus saved successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -30,7 +30,7 @@ public class DefectStatusController {
     }
 
     @Operation(
-            summary = "Get a DefectStatus by id",
+            summary = "Get DefectStatus by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectStatus found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

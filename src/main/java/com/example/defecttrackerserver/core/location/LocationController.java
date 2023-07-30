@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.location;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/locations")
+@Tag(name = "Locations")
 public class LocationController {
     private final LocationService locationService;
 
@@ -28,7 +30,7 @@ public class LocationController {
     }
 
     @Operation(
-            summary = "Get Location by id",
+            summary = "Get Location by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Location saved successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.lot.material;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/materials")
+@Tag(name = "Materials")
 public class MaterialController {
     private final MaterialService materialService;
 
@@ -23,12 +25,12 @@ public class MaterialController {
             }
     )
     @PostMapping
-    public MaterialDto saveProcess(@Valid @RequestBody MaterialDto materialDto) {
+    public MaterialDto saveMaterial(@Valid @RequestBody MaterialDto materialDto) {
         return materialService.saveMaterial(materialDto);
     }
 
     @Operation(
-            summary = "Get Material by id",
+            summary = "Get Material by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Material found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -36,7 +38,7 @@ public class MaterialController {
             }
     )
     @GetMapping("/{id}")
-    public MaterialDto getProcess(@PathVariable Integer id) {
+    public MaterialDto getMaterial(@PathVariable Integer id) {
         return materialService.getMaterialById(id);
     }
 
@@ -47,7 +49,7 @@ public class MaterialController {
             }
     )
     @GetMapping
-    public List<MaterialDto> getAllProcesses() {
+    public List<MaterialDto> getAllMaterials() {
         return materialService.getAllMaterials();
     }
 
@@ -60,7 +62,7 @@ public class MaterialController {
             }
     )
     @PutMapping("/{id}")
-    public MaterialDto updateProcess(@PathVariable Integer id, @Valid @RequestBody MaterialDto materialDto) {
+    public MaterialDto updateMaterial(@PathVariable Integer id, @Valid @RequestBody MaterialDto materialDto) {
         return materialService.updateMaterial(id, materialDto);
     }
 
@@ -73,7 +75,7 @@ public class MaterialController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProcess(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteMaterial(@PathVariable Integer id) {
         materialService.deleteMaterial(id);
         return ResponseEntity.noContent().build();
     }

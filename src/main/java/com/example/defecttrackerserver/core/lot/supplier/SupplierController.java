@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.lot.supplier;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/suppliers")
+@Tag(name = "Suppliers")
 public class SupplierController {
     private final SupplierService supplierService;
 
@@ -28,7 +30,7 @@ public class SupplierController {
     }
 
     @Operation(
-            summary = "Get Supplier by id",
+            summary = "Get Supplier by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Supplier found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

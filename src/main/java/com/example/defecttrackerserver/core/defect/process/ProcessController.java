@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.process;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/processes")
+@Tag(name = "Processes")
 public class ProcessController {
     private final ProcessService processService;
 
@@ -28,7 +30,7 @@ public class ProcessController {
     }
 
     @Operation(
-            summary = "Get Process by id",
+            summary = "Get Process by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Process found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

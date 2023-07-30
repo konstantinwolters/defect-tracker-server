@@ -31,7 +31,7 @@ public class DefectCommentController {
     }
 
     @Operation(
-            summary = "Get DefectComment by id",
+            summary = "Get DefectComment by Id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "DefectComment found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -57,7 +57,7 @@ public class DefectCommentController {
     }
 
     @Operation(
-            summary = "Delete DefectComment by id",
+            summary = "Delete DefectComment",
             responses = {
                     @ApiResponse(responseCode = "204", description = "DefectComment successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
