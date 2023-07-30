@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,22 +25,47 @@ public class DefectController {
     @GetMapping("/{id}")
     public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
 
+    //TODO: Fix issue with sorting
     @GetMapping()
     public PaginatedResponse<DefectDto> getFilteredDefects(
-            @RequestParam(required = false) List<Integer> lotIds,
-            @RequestParam(required = false) List<Integer> defectStatusIds,
+            @RequestParam(required = false) String lotIds,
+            @RequestParam(required = false) String defectStatusIds,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
-            @RequestParam(required = false) List<Integer> locationIds,
-            @RequestParam(required = false) List<Integer> processIds,
-            @RequestParam(required = false) List<Integer> defectTypeIds,
-            @RequestParam(required = false) List<Integer> createdByIds,
+            @RequestParam(required = false) String locationIds,
+            @RequestParam(required = false) String processIds,
+            @RequestParam(required = false) String defectTypeIds,
+            @RequestParam(required = false) String createdByIds,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        return defectService.getDefects(lotIds, defectStatusIds, createdAtStart, createdAtEnd,
-                locationIds, processIds, defectTypeIds, createdByIds, pageable);
+        List<Integer> lotIdList = (lotIds != null) ? Arrays.stream(lotIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> defectStatusIdList = (defectStatusIds != null) ? Arrays.stream(defectStatusIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> locationIdList = (locationIds != null) ? Arrays.stream(locationIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> processIdList = (processIds != null) ? Arrays.stream(processIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> defectTypeIdList = (defectTypeIds != null) ? Arrays.stream(defectTypeIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> createdByIdList = (createdByIds != null) ? Arrays.stream(createdByIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        return defectService.getDefects(lotIdList, defectStatusIdList, createdAtStart, createdAtEnd, locationIdList,
+                processIdList, defectTypeIdList, createdByIdList,pageable);
     }
 
     @PutMapping("/{id}")

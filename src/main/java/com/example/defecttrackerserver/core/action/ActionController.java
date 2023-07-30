@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -59,14 +60,26 @@ public class ActionController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateEnd,
             @RequestParam(required = false) Boolean isCompleted,
-            @RequestParam(required = false) List<Integer> assignedUserIds,
-            @RequestParam(required = false) List<Integer> defectIds,
+            @RequestParam(required = false) String assignedUserIds,
+            @RequestParam(required = false) String defectIds,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
-            @RequestParam(required = false) List<Integer> createdByIds,
+            @RequestParam(required = false) String createdByIds,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) List<String> sort) {
+
+        List<Integer> assignedUserIdList = (assignedUserIds != null) ? Arrays.stream(assignedUserIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> defectIdList = (defectIds != null) ? Arrays.stream(defectIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        List<Integer> createdByIdList = (createdByIds != null) ? Arrays.stream(createdByIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
 
         Sort sorting = sort == null ?
                 Sort.unsorted() :
@@ -80,7 +93,7 @@ public class ActionController {
         Pageable pageable = PageRequest.of(page, size, sorting);
 
         return actionService.getActions(dueDateStart, dueDateEnd, isCompleted,
-                assignedUserIds, defectIds, createdAtStart, createdAtEnd, createdByIds, pageable);
+                assignedUserIdList, defectIdList, createdAtStart, createdAtEnd, createdByIdList, pageable);
     }
 
     @Operation(
