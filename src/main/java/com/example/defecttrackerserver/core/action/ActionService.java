@@ -3,19 +3,20 @@ package com.example.defecttrackerserver.core.action;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);
     PaginatedResponse<ActionDto> getActions(
-            String dueDateStart,
-            String dueDateEnd,
+            LocalDate dueDateStart,
+            LocalDate dueDateEnd,
             Boolean isCompleted,
             List<Integer> assignedUserIds,
             List<Integer> defectIds,
-            String createdOnStart,
-            String createdOnEnd,
+            LocalDate createdAtStart,
+            LocalDate createdAtEnd,
             List<Integer> createdByIds,
             Pageable pageable);
     ActionFilterValues getActionFilterValues(List<Action> actions);

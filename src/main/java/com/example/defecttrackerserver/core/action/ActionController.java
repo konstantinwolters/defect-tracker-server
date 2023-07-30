@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,10 +24,10 @@ public class ActionController {
     private final ActionService actionService;
 
     @Operation(
-            description = "Save new action",
-            summary = "Saves actions",
+            summary = "Save action",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Action saved successfully"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input"),
             }
     )
     @PostMapping()
@@ -33,6 +35,14 @@ public class ActionController {
         return actionService.saveAction(actionDto);
     }
 
+    @Operation(
+            summary = "Get action by id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Action found"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input"),
+                    @ApiResponse(responseCode = "404", description = "Action not found"),
+            }
+    )
     @GetMapping("/{id}")
     public ActionDto getAction(@PathVariable Integer id) {
         return actionService.getActionById(id);
@@ -40,13 +50,13 @@ public class ActionController {
 
     @GetMapping("")
     public PaginatedResponse<ActionDto> getFilteredActions(
-            @RequestParam(required = false) String dueDateStart,
-            @RequestParam(required = false) String dueDateEnd,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateStart,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateEnd,
             @RequestParam(required = false) Boolean isCompleted,
             @RequestParam(required = false) List<Integer> assignedUserIds,
             @RequestParam(required = false) List<Integer> defectIds,
-            @RequestParam(required = false) String createdOnStart,
-            @RequestParam(required = false) String createdOnEnd,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
             @RequestParam(required = false) List<Integer> createdByIds,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
@@ -64,7 +74,7 @@ public class ActionController {
         Pageable pageable = PageRequest.of(page, size, sorting);
 
         return actionService.getActions(dueDateStart, dueDateEnd, isCompleted,
-                assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
+                assignedUserIds, defectIds, createdAtStart, createdAtEnd, createdByIds, pageable);
     }
 
     @PatchMapping("/{id}")

@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,13 +87,13 @@ public class ActionServiceImplTest {
 
     @Test
     void shouldReturnFilteredActions() {
-        String dueDateStart = "2023-01-01";
-        String dueDateEnd = "2023-01-31";
+        LocalDate dueDateStart = LocalDate.now();
+        LocalDate dueDateEnd = LocalDate.now();
         Boolean isComplete = true;
         List<Integer> assignedUserIds = Arrays.asList(1,2);
         List<Integer> defectIds = Arrays.asList(1,2);
-        String createdOnStart = "2023-01-01";
-        String createdOnEnd = "2023-01-31";;
+        LocalDate createdAtStart = LocalDate.now();
+        LocalDate createdAtEnd = LocalDate.now();
         List<Integer> createdByIds = Arrays.asList(1,2);
         Pageable pageable = PageRequest.of(0,10);
         Page<Action> page = new PageImpl<>(List.of(action));
@@ -101,7 +102,7 @@ public class ActionServiceImplTest {
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
         PaginatedResponse<ActionDto> result = actionService.getActions(dueDateStart, dueDateEnd, isComplete,
-                assignedUserIds, defectIds, createdOnStart, createdOnEnd, createdByIds, pageable);
+                assignedUserIds, defectIds, createdAtStart, createdAtEnd, createdByIds, pageable);
 
         assertEquals(1, result.getContent().size());
         assertTrue(result.getContent().contains(actionDto));

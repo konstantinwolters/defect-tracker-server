@@ -15,7 +15,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,21 +49,21 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public PaginatedResponse<ActionDto> getActions(
-            String dueDateStart,
-            String dueDateEnd,
+            LocalDate dueDateStart,
+            LocalDate dueDateEnd,
             Boolean isCompleted,
             List<Integer> assignedUserIds,
             List<Integer> defectIds,
-            String createdOnStart,
-            String createdOnEnd,
+            LocalDate createdAtStart,
+            LocalDate createdAtEnd,
             List<Integer> createdByIds,
             Pageable pageable
     ){
         Specification<Action> spec = Specification.where(null);
 
-        if(dueDateStart != null && dueDateEnd != null){
-            LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(dueDateStart);
-            LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(dueDateEnd).plusDays(1).minusSeconds(1);
+        if (dueDateStart != null && dueDateEnd != null) {
+            LocalDateTime startOfDay = dueDateStart.atStartOfDay();
+            LocalDateTime endOfDay = dueDateEnd.atStartOfDay().plusDays(1).minusSeconds(1);
 
             spec = spec.and((root, query, cb) -> cb.between(root.get("dueDate"), startOfDay, endOfDay));
         }
@@ -78,11 +80,11 @@ public class ActionServiceImpl implements ActionService{
             spec = spec.and((root, query, cb) -> root.get("defect").get("id").in(defectIds));
         }
 
-        if(createdOnStart != null && createdOnEnd != null){
-            LocalDateTime startOfDay = DateTimeUtils.convertToDateTime(dueDateStart);
-            LocalDateTime endOfDay = DateTimeUtils.convertToDateTime(dueDateEnd).plusDays(1).minusSeconds(1);
+        if (createdAtStart != null && createdAtEnd != null) {
+            LocalDateTime startOfDay = createdAtStart.atStartOfDay();
+            LocalDateTime endOfDay = createdAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
 
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdOn"), startOfDay, endOfDay));
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
         }
 
         if(createdByIds != null && !createdByIds.isEmpty()){
