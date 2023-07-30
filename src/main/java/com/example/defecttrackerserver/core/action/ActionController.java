@@ -48,6 +48,12 @@ public class ActionController {
         return actionService.getActionById(id);
     }
 
+    @Operation(
+            summary = "Get all actions with filter values",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Action found"),
+            }
+    )
     @GetMapping("")
     public PaginatedResponse<ActionDto> getFilteredActions(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateStart,
@@ -77,16 +83,40 @@ public class ActionController {
                 assignedUserIds, defectIds, createdAtStart, createdAtEnd, createdByIds, pageable);
     }
 
+    @Operation(
+            summary = "Get all actions with filter values",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Action found"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input"),
+                    @ApiResponse(responseCode = "404", description = "Action not found"),
+            }
+    )
     @PatchMapping("/{id}")
     public void closeAction(@PathVariable Integer id, @RequestParam Boolean isCompleted) {
         actionService.closeAction(id, isCompleted);
     }
 
+    @Operation(
+            summary = "Get all actions with filter values",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Action found"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input"),
+                    @ApiResponse(responseCode = "404", description = "Action not found"),
+            }
+    )
     @PutMapping("/{id}")
     public ActionDto updateAction(@PathVariable Integer id, @Valid @RequestBody ActionDto actionDto) {
         return actionService.updateAction(id, actionDto);
     }
 
+    @Operation(
+            summary = "Get all actions with filter values",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Action successfully deleted"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input"),
+                    @ApiResponse(responseCode = "404", description = "Action not found"),
+            }
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAction(@PathVariable Integer id) {
         actionService.deleteAction(id);
