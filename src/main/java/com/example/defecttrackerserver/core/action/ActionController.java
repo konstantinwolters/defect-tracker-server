@@ -25,7 +25,7 @@ public class ActionController {
     private final ActionService actionService;
 
     @Operation(
-            summary = "Save action",
+            summary = "Save Action",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Action saved successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -37,7 +37,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Get action by id",
+            summary = "Get Action by id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Action found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -50,7 +50,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Get all actions with filter values",
+            summary = "Get all Actions with filter values",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Actions found"),
             }
@@ -97,7 +97,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Close action",
+            summary = "Close Action",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Action found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -110,9 +110,9 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Update action",
+            summary = "Update Action",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Action found"),
+                    @ApiResponse(responseCode = "200", description = "Action updated successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
                     @ApiResponse(responseCode = "404", description = "Action not found"),
             }
@@ -123,7 +123,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Delete action by id",
+            summary = "Delete Action by id",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Action successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),

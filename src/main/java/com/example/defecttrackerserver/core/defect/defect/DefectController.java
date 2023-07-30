@@ -24,7 +24,7 @@ public class DefectController {
     private final DefectService defectService;
 
     @Operation(
-            summary = "Save defect",
+            summary = "Save Defect",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Defect saved successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
@@ -46,7 +46,7 @@ public class DefectController {
 
     //TODO: Fix issue with sorting
     @Operation(
-            summary = "Get all defects with filter values",
+            summary = "Get all Defects with filter values",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Defects found"),
             }
@@ -94,9 +94,9 @@ public class DefectController {
     }
 
     @Operation(
-            summary = "Update defect",
+            summary = "Update Defect",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Defect found"),
+                    @ApiResponse(responseCode = "200", description = "Defect updated successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
                     @ApiResponse(responseCode = "404", description = "Defect not found"),
             }
@@ -106,7 +106,7 @@ public class DefectController {
         return defectService.updateDefect(id, defectDto); }
 
     @Operation(
-            summary = "Delete defect by id",
+            summary = "Delete Defect by id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Defect found"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
