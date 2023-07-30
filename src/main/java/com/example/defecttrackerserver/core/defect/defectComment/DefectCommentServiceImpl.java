@@ -1,12 +1,12 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
-import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +52,7 @@ public class DefectCommentServiceImpl implements DefectCommentService {
 
         if(!securityService.getUsername().equals(defectCommentToUpdate.getCreatedBy().getUsername())
         && !securityService.hasRole("ROLE_ADMIN")){
-            throw new UnauthorizedAccessException("You are not authorized to update this defect comment");
+            throw new AccessDeniedException("You are not authorized to update this defect comment");
         }
 
         DefectComment mappedDefectComment = defectCommentMapper.map(defectComment, defectCommentToUpdate);

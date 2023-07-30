@@ -1,12 +1,10 @@
 package com.example.defecttrackerserver.exception;
 
-import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,12 +40,6 @@ public class GeneralExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
         log.error("Access denied: ", e);
-        return createResponse(e, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(UnauthorizedAccessException.class)
-    public ResponseEntity<Object> handleUnauthorizedAccessException(UnauthorizedAccessException e) {
-        log.error("Unauthorized access: ", e);
         return createResponse(e, HttpStatus.UNAUTHORIZED);
     }
 

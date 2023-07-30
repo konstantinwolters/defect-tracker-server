@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -125,7 +125,7 @@ public class ActionServiceImplTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
         when(securityService.getUsername()).thenReturn("Bob");
 
-        assertThrows(UnauthorizedAccessException.class,
+        assertThrows(AccessDeniedException.class,
                 () -> actionService.closeAction(1, true));
     }
     @Test

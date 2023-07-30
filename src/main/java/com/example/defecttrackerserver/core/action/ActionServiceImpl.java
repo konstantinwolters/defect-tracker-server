@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.action;
 
-import com.example.defecttrackerserver.auth.authException.UnauthorizedAccessException;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -133,7 +133,7 @@ public class ActionServiceImpl implements ActionService{
                 .stream().anyMatch(user -> user.getUsername().equals(securityService.getUsername()));
 
         if(!isAuthorized && !securityService.hasRole("ROLE_ADMIN")){
-            throw new UnauthorizedAccessException("You are not authorized to close this action");
+            throw new AccessDeniedException("You are not authorized to close this action");
         }
         actionToUpdate.setChangedBy(securityService.getUser());
         actionToUpdate.setChangedAt(LocalDateTime.now());
