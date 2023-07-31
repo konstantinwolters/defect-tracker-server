@@ -82,18 +82,21 @@ public class DefectControllerTest extends BaseControllerTest {
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
-        when(defectService.getDefects(anyList(),anyList(), any(), any(), anyList(), anyList(), anyList(),
-                anyList(), any(Pageable.class))).thenReturn(response);
+        when(defectService.getDefects(anyList(),anyList(), any(), any(), any(), any(), anyList(), anyList(), anyList(),
+                anyList(), anyList(), any(Pageable.class))).thenReturn(response);
 
         mockMvc.perform(get("/defects")
                         .param("lotIds", "1", "2")
                         .param("defectStatusIds", "3", "4")
                         .param("createdAtStart", "2023-01-01")
                         .param("createdAtEnd", "2023-12-31")
+                        .param("changedAtStart", "2023-01-31")
+                        .param("changedAtEnd", "2023-12-31")
                         .param("locationIds", "5", "6")
                         .param("processIds", "7", "8")
                         .param("defectTypeIds", "9", "10")
                         .param("createdByIds", "11", "12")
+                        .param("changedByIds", "11", "12")
                         .param("page", "0")
                         .param("size", "10")
                         .contentType(MediaType.APPLICATION_JSON))

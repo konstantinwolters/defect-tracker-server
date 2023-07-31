@@ -87,20 +87,24 @@ public class DefectServiceImplTest {
     public void shouldReturnFilteredDefects() {
         List<Integer> lotIds = Arrays.asList(1, 2);
         List<Integer> defectStatusIds = Arrays.asList(1, 2);
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now();
+        LocalDate createdAtStart = LocalDate.now();
+        LocalDate createdAtEnd = LocalDate.now();
+        LocalDate changedAtStart = LocalDate.now();
+        LocalDate changedAtEnd = LocalDate.now();
         List<Integer> locationIds = Arrays.asList(1, 2);
         List<Integer> processIds = Arrays.asList(1, 2);
         List<Integer> defectTypeIds = Arrays.asList(1, 2);
         List<Integer> createdByIds = Arrays.asList(1, 2);
+        List<Integer> changedByIds = Arrays.asList(1, 2);
         Pageable pageable = PageRequest.of(0, 10);
         Page<Defect> page = new PageImpl<>(Arrays.asList(defect));
 
         when(defectRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
-        PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, defectStatusIds, startDate,
-                endDate, locationIds, processIds, defectTypeIds, createdByIds, pageable);
+        PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, defectStatusIds, createdAtStart,
+                createdAtEnd, changedAtStart, changedAtEnd, locationIds, processIds, defectTypeIds, createdByIds,
+                changedByIds, pageable);
 
         assertEquals(1, result.getContent().size());
         assertTrue(result.getContent().contains(defectDto));

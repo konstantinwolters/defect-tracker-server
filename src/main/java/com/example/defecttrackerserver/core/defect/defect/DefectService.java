@@ -14,10 +14,13 @@ public interface DefectService {
             List<Integer> defectStatusIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
+            LocalDate changedAtStart,
+            LocalDate changedAtEnd,
             List<Integer> locationIds,
             List<Integer> processIds,
             List<Integer> defectTypeIds,
             List<Integer> createdByIds,
+            List<Integer> changedByIds,
             Pageable pageable
             );
     DefectFilterValues getDefectFilterValues(List<Defect> defects);

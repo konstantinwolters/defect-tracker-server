@@ -57,10 +57,13 @@ public class DefectController {
             @RequestParam(required = false) String defectStatusIds,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate changedAtStart,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate changedAtEnd,
             @RequestParam(required = false) String locationIds,
             @RequestParam(required = false) String processIds,
             @RequestParam(required = false) String defectTypeIds,
             @RequestParam(required = false) String createdByIds,
+            @RequestParam(required = false) String changedByIds,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -89,8 +92,13 @@ public class DefectController {
                 .map(Integer::valueOf)
                 .toList() : null;
 
-        return defectService.getDefects(lotIdList, defectStatusIdList, createdAtStart, createdAtEnd, locationIdList,
-                processIdList, defectTypeIdList, createdByIdList,pageable);
+        List<Integer> changedByIdList = (changedByIds != null) ? Arrays.stream(changedByIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
+        return defectService.getDefects(lotIdList, defectStatusIdList, createdAtStart, createdAtEnd,
+                changedAtStart, changedAtEnd, locationIdList, processIdList, defectTypeIdList, createdByIdList,
+                changedByIdList, pageable);
     }
 
     @Operation(
