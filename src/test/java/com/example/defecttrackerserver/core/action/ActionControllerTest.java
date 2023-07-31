@@ -85,14 +85,18 @@ public class ActionControllerTest extends BaseControllerTest {
         List<Integer> defectIds = Arrays.asList(1,2);
         LocalDate createdAtStart = LocalDate.now();
         LocalDate createdAtEnd = LocalDate.now();
+        LocalDate changedAtStart = LocalDate.now();
+        LocalDate changedAtEnd = LocalDate.now();
         List<Integer> createdByIds = Arrays.asList(1,2);
+        List<Integer> changedByIds = Arrays.asList(1,2);
         Pageable pageable = PageRequest.of(0,10);
 
         PaginatedResponse<ActionDto> response = new PaginatedResponse<>(List.of(testactionDto), 1,
                 1, 0, new ActionFilterValues());
 
         when(actionService.getActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
-                createdAtStart, createdAtEnd, createdByIds, pageable)).thenReturn(response);
+                createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, createdByIds, changedByIds,
+                pageable)).thenReturn(response);
 
         mockMvc.perform(get("/actions")
                         .param("dueDateStart", String.valueOf(dueDateStart))
@@ -102,7 +106,10 @@ public class ActionControllerTest extends BaseControllerTest {
                         .param("defectIds", defectIds.stream().map(Object::toString).toArray(String[]::new))
                         .param("createdAtStart", String.valueOf(createdAtStart))
                         .param("createdAtEnd", String.valueOf(createdAtEnd))
+                        .param("changedAtStart", String.valueOf(createdAtStart))
+                        .param("changedAtEnd", String.valueOf(createdAtEnd))
                         .param("createdByIds", createdByIds.stream().map(Object::toString).toArray(String[]::new))
+                        .param("changedByIds", changedByIds.stream().map(Object::toString).toArray(String[]::new))
                         .param("page", "0")
                         .param("size", "10"))
                 .andExpect(status().isOk())

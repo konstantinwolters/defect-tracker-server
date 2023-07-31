@@ -4,7 +4,6 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
-import com.example.defecttrackerserver.utils.DateTimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +54,10 @@ public class ActionServiceImpl implements ActionService{
             List<Integer> defectIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
+            LocalDate changedAtStart,
+            LocalDate changedAtEnd,
             List<Integer> createdByIds,
+            List<Integer> changedByIds,
             Pageable pageable
     ){
         Specification<Action> spec = Specification.where(null);
@@ -87,8 +88,19 @@ public class ActionServiceImpl implements ActionService{
             spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
         }
 
+        if (changedAtStart != null && changedAtEnd != null) {
+            LocalDateTime startOfDay = changedAtStart.atStartOfDay();
+            LocalDateTime endOfDay = changedAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
+
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
+        }
+
         if(createdByIds != null && !createdByIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
+        }
+
+        if(changedByIds != null && !changedByIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("changedBy").get("id").in(changedByIds));
         }
 
         Page<Action> actions = actionRepository.findAll(spec, pageable);
@@ -115,9 +127,13 @@ public class ActionServiceImpl implements ActionService{
         actionFilterValues.setAssignedUsers(actionRepository.findDistinctAssignedUsers(actionIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
         actionFilterValues.setDefect(actionRepository.findDistinctDefect(actionIds));
-        actionFilterValues.setCreatedAt(actionRepository.findDistinctCreatedOn(actionIds).stream()
+        actionFilterValues.setCreatedAt(actionRepository.findDistinctCreatedAt(actionIds).stream()
+                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
+        actionFilterValues.setChangedAt(actionRepository.findDistinctChangedAt(actionIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
         actionFilterValues.setCreatedBy(actionRepository.findDistinctCreatedBy(actionIds).stream()
+                .map(UserInfo::new).collect(Collectors.toSet()));
+        actionFilterValues.setChangedBy(actionRepository.findDistinctChangedBy(actionIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
 
         return actionFilterValues;

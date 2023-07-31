@@ -94,7 +94,10 @@ public class ActionServiceImplTest {
         List<Integer> defectIds = Arrays.asList(1,2);
         LocalDate createdAtStart = LocalDate.now();
         LocalDate createdAtEnd = LocalDate.now();
+        LocalDate changedAtStart = LocalDate.now();
+        LocalDate changedAtEnd = LocalDate.now();
         List<Integer> createdByIds = Arrays.asList(1,2);
+        List<Integer> changedByIds = Arrays.asList(1,2);
         Pageable pageable = PageRequest.of(0,10);
         Page<Action> page = new PageImpl<>(List.of(action));
 
@@ -102,7 +105,8 @@ public class ActionServiceImplTest {
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
         PaginatedResponse<ActionDto> result = actionService.getActions(dueDateStart, dueDateEnd, isComplete,
-                assignedUserIds, defectIds, createdAtStart, createdAtEnd, createdByIds, pageable);
+                assignedUserIds, defectIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                createdByIds, changedByIds, pageable);
 
         assertEquals(1, result.getContent().size());
         assertTrue(result.getContent().contains(actionDto));

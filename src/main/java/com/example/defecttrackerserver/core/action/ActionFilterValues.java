@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,6 @@ public class ActionFilterValues {
     private Set<Integer> defect;
     private Set<LocalDate> createdAt;
     private Set<UserInfo> createdBy;
-
-    //TODO: add changedBy and changedAt
+    private Set<UserInfo> changedBy;
+    private Set<LocalDate> changedAt;
 }
