@@ -17,7 +17,10 @@ public interface ActionService {
             List<Integer> defectIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
+            LocalDate changedAtStart,
+            LocalDate changedEnd,
             List<Integer> createdByIds,
+            List<Integer> changedByIds,
             Pageable pageable);
     ActionFilterValues getActionFilterValues(List<Action> actions);
     void closeAction(Integer actionId, Boolean isCompleted);

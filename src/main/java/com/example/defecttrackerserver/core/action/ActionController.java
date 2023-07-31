@@ -64,7 +64,10 @@ public class ActionController {
             @RequestParam(required = false) String defectIds,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate changedAtStart,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate changedAtEnd,
             @RequestParam(required = false) String createdByIds,
+            @RequestParam(required = false) String changedByIds,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) List<String> sort) {
@@ -81,6 +84,10 @@ public class ActionController {
                 .map(Integer::valueOf)
                 .toList() : null;
 
+        List<Integer> changedByIdList = (changedByIds != null) ? Arrays.stream(changedByIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+
         Sort sorting = sort == null ?
                 Sort.unsorted() :
                 sort.stream()
@@ -92,8 +99,9 @@ public class ActionController {
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
-        return actionService.getActions(dueDateStart, dueDateEnd, isCompleted,
-                assignedUserIdList, defectIdList, createdAtStart, createdAtEnd, createdByIdList, pageable);
+        return actionService.getActions(dueDateStart, dueDateEnd, isCompleted, assignedUserIdList,
+                defectIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                createdByIdList, changedByIdList, pageable);
     }
 
     @Operation(

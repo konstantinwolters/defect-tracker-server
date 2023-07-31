@@ -12,7 +12,10 @@ import java.util.Set;
 
 public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
     @Query("SELECT DISTINCT d.createdAt FROM Defect d WHERE d.id IN :defectIds")
-    Set<LocalDateTime> findDistinctCreatedOn(@Param("defectIds") List<Integer> defectIds);
+    Set<LocalDateTime> findDistinctCreatedAt(@Param("defectIds") List<Integer> defectIds);
+
+    @Query("SELECT DISTINCT d.changedAt FROM Defect d WHERE d.id IN :defectIds")
+    Set<LocalDateTime> findDistinctChangedAt(@Param("defectIds") List<Integer> defectIds);
 
     @Query("SELECT DISTINCT d.defectStatus.name FROM Defect d WHERE d.id IN :defectIds")
     Set<String> findDistinctDefectStatusName(@Param("defectIds") List<Integer> defectIds);
@@ -31,4 +34,7 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
 
     @Query("SELECT DISTINCT d.createdBy FROM Defect d WHERE d.id IN :defectIds")
     Set<User> findDistinctCreatedBy(@Param("defectIds") List<Integer> defectIds);
+
+    @Query("SELECT DISTINCT d.changedBy FROM Defect d WHERE d.id IN :defectIds")
+    Set<User> findDistinctChangedBy(@Param("defectIds") List<Integer> defectIds);
 }

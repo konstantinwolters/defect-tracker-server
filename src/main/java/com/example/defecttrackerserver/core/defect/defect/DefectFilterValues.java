@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,5 +18,6 @@ public class DefectFilterValues {
     private Set<String> defectType;
     private Set<UserInfo> createdBy;
     private Set<LocalDate> createdAt;
-    //TODO: Add filter for changedAt and ChangedBy
+    private Set<UserInfo> changedBy;
+    private Set<LocalDate> changedAt;
 }

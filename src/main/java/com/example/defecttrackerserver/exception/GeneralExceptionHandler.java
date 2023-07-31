@@ -51,7 +51,7 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.error("Invalid arguments: ", e);
+        log.error("Method not supported: ", e);
         return createResponse(e, HttpStatus.METHOD_NOT_ALLOWED);
     }
 

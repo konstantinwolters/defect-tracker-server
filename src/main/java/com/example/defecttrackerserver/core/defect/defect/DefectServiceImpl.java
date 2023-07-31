@@ -7,7 +7,6 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
-import com.example.defecttrackerserver.utils.DateTimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -59,10 +58,13 @@ public class DefectServiceImpl implements DefectService{
             List<Integer> defectStatusIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
+            LocalDate changedAtStart,
+            LocalDate changedAtEnd,
             List<Integer> locationIds,
             List<Integer> processIds,
             List<Integer> defectTypeIds,
             List<Integer> createdByIds,
+            List<Integer> changedByIds,
             Pageable pageable
     ){
         Specification<Defect> spec = Specification.where(null);
@@ -82,6 +84,13 @@ public class DefectServiceImpl implements DefectService{
             spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
         }
 
+        if (changedAtStart != null && changedAtEnd != null) {
+            LocalDateTime startOfDay = changedAtStart.atStartOfDay();
+            LocalDateTime endOfDay = changedAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
+
+            spec = spec.and((root, query, cb) -> cb.between(root.get("changedAt"), startOfDay, endOfDay));
+        }
+
         if(locationIds != null && !locationIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("location").get("id").in(locationIds));
         }
@@ -96,6 +105,10 @@ public class DefectServiceImpl implements DefectService{
 
         if(createdByIds != null && !createdByIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
+        }
+
+        if(changedByIds != null && !changedByIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("changedBy").get("id").in(changedByIds));
         }
 
         Page<Defect> defects = defectRepository.findAll(spec, pageable);
@@ -123,8 +136,12 @@ public class DefectServiceImpl implements DefectService{
         defectFilterValues.setDefectType(defectRepository.findDistinctDefectTypeName(defectIds));
         defectFilterValues.setCreatedBy(defectRepository.findDistinctCreatedBy(defectIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
+        defectFilterValues.setChangedBy(defectRepository.findDistinctChangedBy(defectIds).stream()
+                .map(UserInfo::new).collect(Collectors.toSet()));
         defectFilterValues.setDefectStatus(defectRepository.findDistinctDefectStatusName(defectIds));
-        defectFilterValues.setCreatedAt(defectRepository.findDistinctCreatedOn(defectIds).stream()
+        defectFilterValues.setCreatedAt(defectRepository.findDistinctCreatedAt(defectIds).stream()
+                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
+        defectFilterValues.setChangedAt(defectRepository.findDistinctChangedAt(defectIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
         return defectFilterValues;
     }
