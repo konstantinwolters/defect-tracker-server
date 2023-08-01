@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class ProcessDto {
     private Integer id;
+    private String customId;
 
     @NotNull(message = "Process name must not be null")
     @NotEmpty(message = "Process name must not be empty")

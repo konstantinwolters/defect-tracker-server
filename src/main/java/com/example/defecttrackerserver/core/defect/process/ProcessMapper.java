@@ -8,6 +8,7 @@ public class ProcessMapper {
         ProcessDto processDto = new ProcessDto();
         processDto.setId(process.getId());
         processDto.setName(process.getName());
+        processDto.setCustomId(process.getCustomId());
         return processDto;
     }
 }
