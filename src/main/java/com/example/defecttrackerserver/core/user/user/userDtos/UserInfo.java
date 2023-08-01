@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserInfo {
-    Integer id;
-    String name;
+    private Integer id;
+    private String customId;
+    private String name;
 
     public UserInfo(User user) {
         this.id = user.getId();

@@ -26,6 +26,7 @@ public class UserMapper {
     public User mapToEntity(UserDto userDto, User user){
         checkDuplicateUserEntries(userDto);
 
+        user.setCustomId(userDto.getCustomId());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
@@ -63,6 +64,7 @@ public class UserMapper {
     public UserDto mapToDto(User user){
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        userDto.setCustomId(user.getCustomId());
         userDto.setUsername(user.getUsername());
         userDto.setPassword(null);
         userDto.setFirstName(user.getFirstName());

@@ -20,6 +20,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
     public SupplierDto saveSupplier(SupplierDto supplierDto) {
+
         if(supplierRepository.findByName(supplierDto.getName()).isPresent())
             throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
 
