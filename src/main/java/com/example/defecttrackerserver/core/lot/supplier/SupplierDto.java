@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class SupplierDto {
     private Integer id;
+    private String customId;
 
     @NotNull(message = "Supplier name must not be null.")
     @NotEmpty(message = "Supplier name must not be empty.")

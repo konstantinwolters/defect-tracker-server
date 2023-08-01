@@ -7,6 +7,7 @@ public class MaterialMapper {
     public MaterialDto mapToDto(Material material) {
         MaterialDto materialDto = new MaterialDto();
         materialDto.setId(material.getId());
+        materialDto.setCustomId(material.getCustomId());
         materialDto.setName(material.getName());
         return materialDto;
     }

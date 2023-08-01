@@ -8,6 +8,7 @@ public class SupplierMapper {
         SupplierDto supplierDto = new SupplierDto();
         supplierDto.setId(supplier.getId());
         supplierDto.setName(supplier.getName());
+        supplierDto.setCustomId(supplier.getCustomId());
         return supplierDto;
     }
 }

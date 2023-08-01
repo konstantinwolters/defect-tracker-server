@@ -12,7 +12,9 @@ import java.util.Set;
 @Setter
 public class DefectFilterValues {
     private Set<String> defectStatus;
-    private Set<String> lot;
+    private Set<String> lot; //TODO: Lot Number must be filter value. LotDto as filter object?
+    //TODO: Add filter by material
+    //TODO: Add filter by supplier
     private Set<String> location;
     private Set<String> process;
     private Set<String> defectType;

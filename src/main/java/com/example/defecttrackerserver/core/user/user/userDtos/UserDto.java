@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 public class UserDto  {
     private Integer id;
+    private String customId;
     private String password;
     private String firstName;
     private String lastName;

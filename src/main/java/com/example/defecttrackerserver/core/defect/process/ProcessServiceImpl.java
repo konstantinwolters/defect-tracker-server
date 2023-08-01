@@ -25,6 +25,7 @@ public class ProcessServiceImpl implements ProcessService {
 
         Process process = new Process();
         process.setName(processDto.getName());
+        process.setCustomId(processDto.getCustomId());
 
         Process savedProcess = processRepository.save(process);
 
@@ -62,6 +63,8 @@ public class ProcessServiceImpl implements ProcessService {
             throw new processExistsException("Process already exists with name: " + processDto.getName());
 
         process.setName(processDto.getName());
+        process.setCustomId(processDto.getCustomId());
+
         Process savedProcess = processRepository.save(process);
 
         return processMapper.mapToDto(savedProcess);

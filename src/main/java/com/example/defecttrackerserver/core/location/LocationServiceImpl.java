@@ -25,6 +25,7 @@ public class LocationServiceImpl implements LocationService {
 
         Location location = new Location();
         location.setName(locationDto.getName());
+        location.setCustomId(locationDto.getCustomId());
 
         Location savedLocation = locationRepository.save(location);
 
@@ -62,6 +63,7 @@ public class LocationServiceImpl implements LocationService {
             throw new LocationExistsException("Location already exists with name: " + locationDto.getName());
 
         location.setName(locationDto.getName());
+        location.setCustomId(locationDto.getCustomId());
 
         Location savedLocation = locationRepository.save(location);
 

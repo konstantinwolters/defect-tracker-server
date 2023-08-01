@@ -7,6 +7,7 @@ public class LocationMapper {
     public LocationDto mapToDto(Location location) {
         LocationDto locationDto = new LocationDto();
         locationDto.setId(location.getId());
+        locationDto.setCustomId(location.getCustomId());
         locationDto.setName(location.getName());
         return locationDto;
     }

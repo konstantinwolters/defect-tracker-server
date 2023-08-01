@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class LocationDto {
     private Integer id;
+    private String customId;
 
     @NotNull(message = "Location name cannot be null")
     @NotEmpty(message = "Location name cannot be empty")
