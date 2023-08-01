@@ -14,5 +14,8 @@ public class Supplier {
     private Integer id;
 
     @Column(unique = true)
+    private String customId;
+
+    @Column(unique = true)
     private String name;
 }

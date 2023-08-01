@@ -25,6 +25,7 @@ public class SupplierServiceImpl implements SupplierService {
 
         Supplier supplier = new Supplier();
         supplier.setName(supplierDto.getName());
+        supplier.setCustomId(supplierDto.getCustomId());
 
         Supplier savedSupplier = supplierRepository.save(supplier);
 
@@ -62,6 +63,8 @@ public class SupplierServiceImpl implements SupplierService {
             throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
 
         supplier.setName(supplierDto.getName());
+        supplier.setCustomId(supplierDto.getCustomId());
+
         Supplier savedSupplier = supplierRepository.save(supplier);
 
         return supplierMapper.mapToDto(savedSupplier);
