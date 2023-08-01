@@ -14,5 +14,8 @@ public class Material {
     private Integer id;
 
     @Column(unique = true)
+    private String customId;
+
+    @Column(unique = true)
     private String name;
 }

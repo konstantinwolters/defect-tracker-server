@@ -25,6 +25,7 @@ public class MaterialServiceImpl implements MaterialService {
 
         Material material = new Material();
         material.setName(materialDto.getName());
+        material.setCustomId(materialDto.getCustomId());
 
         Material savedMaterial = materialRepository.save(material);
 
@@ -62,6 +63,7 @@ public class MaterialServiceImpl implements MaterialService {
             throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
 
         material.setName(materialDto.getName());
+        material.setCustomId(materialDto.getCustomId());
         Material savedMaterial = materialRepository.save(material);
 
         return materialMapper.mapToDto(savedMaterial);
