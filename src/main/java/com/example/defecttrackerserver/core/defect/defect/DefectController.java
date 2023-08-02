@@ -1,5 +1,11 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotRepository;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +28,9 @@ import java.util.List;
 @Tag(name = "Defects")
 public class DefectController {
     private final DefectService defectService;
+    private final LotRepository lotRepository;
+    private final MaterialRepository materialRepository;
+    private final SupplierRepository supplierRepository;
 
     @Operation(
             summary = "Save Defect",
@@ -53,7 +62,9 @@ public class DefectController {
     )
     @GetMapping()
     public PaginatedResponse<DefectDto> getFilteredDefects(
-            @RequestParam(required = false) String lotIds,
+            @RequestParam(required = false) String lotNumbers,
+            @RequestParam(required = false) String materialIds,
+            @RequestParam(required = false) String supplierIds,
             @RequestParam(required = false) String defectStatusIds,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
@@ -68,9 +79,19 @@ public class DefectController {
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        List<Integer> lotIdList = (lotIds != null) ? Arrays.stream(lotIds.split(","))
+        List<String> lotNumbersList = (lotNumbers != null) ? Arrays.stream(lotNumbers.split(","))
+                .toList() : null;
+        List<Lot> lotList = lotRepository.findByLotNumbers(lotNumbersList);
+
+        List<Integer> materialIdList = (materialIds != null) ? Arrays.stream(materialIds.split(","))
                 .map(Integer::valueOf)
                 .toList() : null;
+        List<Material> materialList = materialRepository.findByIds(materialIdList);
+
+        List<Integer> supplierIdList = (supplierIds != null) ? Arrays.stream(supplierIds.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
+        List<Supplier> supplierList = supplierRepository.findByIds(supplierIdList);
 
         List<Integer> defectStatusIdList = (defectStatusIds != null) ? Arrays.stream(defectStatusIds.split(","))
                 .map(Integer::valueOf)
@@ -96,7 +117,7 @@ public class DefectController {
                 .map(Integer::valueOf)
                 .toList() : null;
 
-        return defectService.getDefects(lotIdList, defectStatusIdList, createdAtStart, createdAtEnd,
+        return defectService.getDefects(lotList, materialList, supplierList, defectStatusIdList, createdAtStart, createdAtEnd,
                 changedAtStart, changedAtEnd, locationIdList, processIdList, defectTypeIdList, createdByIdList,
                 changedByIdList, pageable);
     }

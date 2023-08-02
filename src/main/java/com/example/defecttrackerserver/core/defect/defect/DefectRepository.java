@@ -26,6 +26,13 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
     @Query("SELECT DISTINCT d.lot.lotNumber FROM Defect d WHERE d.id IN :defectIds")
     Set<String> findDistinctLotNumber(@Param("defectIds") List<Integer> defectIds);
 
+    @Query("SELECT DISTINCT d.lot.material.id FROM Defect d WHERE d.id IN :defectIds")
+    Set<Integer> findDistinctMaterialIds(@Param("defectIds") List<Integer> defectIds);
+
+    @Query("SELECT DISTINCT d.lot.supplier.id FROM Defect d WHERE d.id IN :defectIds")
+    Set<Integer> findDistinctSupplierIds(@Param("defectIds") List<Integer> defectIds);
+
+
     @Query("SELECT DISTINCT d.process.name FROM Defect d WHERE d.id IN :defectIds")
     Set<String> findDistinctProcessName(@Param("defectIds") List<Integer> defectIds);
 

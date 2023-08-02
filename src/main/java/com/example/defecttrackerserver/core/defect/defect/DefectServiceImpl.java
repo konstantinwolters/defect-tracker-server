@@ -4,6 +4,8 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
@@ -54,7 +56,9 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
    public PaginatedResponse<DefectDto> getDefects(
-            List<Integer> lotIds,
+            List<Lot> lots,
+            List<Material> materials,
+            List<Supplier> suppliers,
             List<Integer> defectStatusIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
@@ -69,8 +73,16 @@ public class DefectServiceImpl implements DefectService{
     ){
         Specification<Defect> spec = Specification.where(null);
 
-        if(lotIds != null && !lotIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));
+        if(lots != null && !lots.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("lot").in(lots));
+        }
+
+        if(materials != null && !materials.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("lot").get("material").in(materials));
+        }
+
+        if(suppliers != null && !suppliers.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").in(suppliers));
         }
 
         if(defectStatusIds != null && !defectStatusIds.isEmpty()){
@@ -130,7 +142,9 @@ public class DefectServiceImpl implements DefectService{
         List<Integer> defectIds = defects.stream().map(Defect::getId).toList();
 
         DefectFilterValues defectFilterValues = new DefectFilterValues();
-        defectFilterValues.setLot(defectRepository.findDistinctLotNumber(defectIds));
+        defectFilterValues.setLotNumber(defectRepository.findDistinctLotNumber(defectIds));
+        defectFilterValues.setMaterial(defectRepository.findDistinctMaterialIds(defectIds));
+        defectFilterValues.setSupplier(defectRepository.findDistinctSupplierIds(defectIds));
         defectFilterValues.setLocation(defectRepository.findDistinctLocationName(defectIds));
         defectFilterValues.setProcess(defectRepository.findDistinctProcessName(defectIds));
         defectFilterValues.setDefectType(defectRepository.findDistinctDefectTypeName(defectIds));
