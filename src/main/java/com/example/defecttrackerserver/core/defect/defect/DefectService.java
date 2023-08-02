@@ -1,5 +1,8 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 
@@ -10,7 +13,9 @@ public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto);
     DefectDto getDefectById(Integer id);
     PaginatedResponse<DefectDto> getDefects(
-            List<Integer> lotIds,
+            List<Lot> lots,
+            List<Material> materials,
+            List<Supplier> suppliers,
             List<Integer> defectStatusIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
