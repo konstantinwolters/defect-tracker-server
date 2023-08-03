@@ -1,8 +1,12 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialDto;
+import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,12 @@ public class DefectControllerTest extends BaseControllerTest {
 
     @Autowired
     private DefectController defectController;
+
+    @MockBean
+    private Utils utils;
+
+    @MockBean
+    private MaterialMapper materialMapper;
 
     @MockBean
     private DefectService defectService;
@@ -82,11 +92,15 @@ public class DefectControllerTest extends BaseControllerTest {
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
-        when(defectService.getDefects(anyList(),anyList(), any(), any(), any(), any(), anyList(), anyList(), anyList(),
-                anyList(), anyList(), any(Pageable.class))).thenReturn(response);
+        when(defectService.getDefects(anyList(),anyList(), anyList(), anyList(), any(), any(), any(), any(),
+                anyList(), anyList(), anyList(), anyList(), anyList(), any(Pageable.class))).thenReturn(response);
+
+        when(utils.convertStringToListOfInteger(anyString())).thenReturn(List.of(1,2));
 
         mockMvc.perform(get("/defects")
                         .param("lotIds", "1", "2")
+                        .param("materialIds", "1", "2")
+                        .param("supplierIds", "1", "2")
                         .param("defectStatusIds", "3", "4")
                         .param("createdAtStart", "2023-01-01")
                         .param("createdAtEnd", "2023-12-31")

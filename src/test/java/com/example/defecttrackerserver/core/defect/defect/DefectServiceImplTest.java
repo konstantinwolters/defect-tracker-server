@@ -1,8 +1,25 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
+import com.example.defecttrackerserver.core.defect.process.Process;
+import com.example.defecttrackerserver.core.defect.process.ProcessDto;
+import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
+import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.location.LocationDto;
+import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialDto;
+import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
@@ -37,6 +54,24 @@ public class DefectServiceImplTest {
 
     @Mock
     private DefectMapper defectMapper;
+
+    @Mock
+    private MaterialMapper materialMapper;
+
+    @Mock
+    private SupplierMapper supplierMapper;
+
+    @Mock
+    private LocationMapper locationMapper;
+
+    @Mock
+    private ProcessMapper processMapper;
+
+    @Mock
+    private DefectStatusMapper defectStatusMapper;
+
+    @Mock
+    private DefectTypeMapper defectTypeMapper;
 
     @Mock
     private SecurityService securityService;
@@ -86,6 +121,8 @@ public class DefectServiceImplTest {
     @Test
     public void shouldReturnFilteredDefects() {
         List<Integer> lotIds = Arrays.asList(1, 2);
+        List<Integer> materialIds = Arrays.asList(1, 2);
+        List<Integer> supplierIds = Arrays.asList(1, 2);
         List<Integer> defectStatusIds = Arrays.asList(1, 2);
         LocalDate createdAtStart = LocalDate.now();
         LocalDate createdAtEnd = LocalDate.now();
@@ -102,9 +139,9 @@ public class DefectServiceImplTest {
         when(defectRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
-        PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, defectStatusIds, createdAtStart,
-                createdAtEnd, changedAtStart, changedAtEnd, locationIds, processIds, defectTypeIds, createdByIds,
-                changedByIds, pageable);
+        PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, materialIds, supplierIds,
+                defectStatusIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, locationIds,
+                processIds, defectTypeIds, createdByIds, changedByIds, pageable);
 
         assertEquals(1, result.getContent().size());
         assertTrue(result.getContent().contains(defectDto));

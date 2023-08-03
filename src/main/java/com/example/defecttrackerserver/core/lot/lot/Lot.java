@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,19 @@ public class Lot {
             cascade = CascadeType.REMOVE,
             orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Defect> defects = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lot lot = (Lot) o;
+        return Objects.equals(id, lot.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public void addDefect(Defect defect) {
         defects.add(defect);

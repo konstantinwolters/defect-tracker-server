@@ -13,9 +13,9 @@ public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto);
     DefectDto getDefectById(Integer id);
     PaginatedResponse<DefectDto> getDefects(
-            List<Lot> lots,
-            List<Material> materials,
-            List<Supplier> suppliers,
+            List<Integer> lotIds,
+            List<Integer> materialsIds,
+            List<Integer> suppliersIds,
             List<Integer> defectStatusIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,

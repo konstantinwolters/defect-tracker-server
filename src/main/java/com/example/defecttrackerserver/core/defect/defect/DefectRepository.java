@@ -1,5 +1,12 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.process.Process;
+import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.user.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,27 +24,26 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
     @Query("SELECT DISTINCT d.changedAt FROM Defect d WHERE d.id IN :defectIds")
     Set<LocalDateTime> findDistinctChangedAt(@Param("defectIds") List<Integer> defectIds);
 
-    @Query("SELECT DISTINCT d.defectStatus.name FROM Defect d WHERE d.id IN :defectIds")
-    Set<String> findDistinctDefectStatusName(@Param("defectIds") List<Integer> defectIds);
+    @Query("SELECT DISTINCT d.defectStatus FROM Defect d WHERE d.id IN :defectIds")
+    Set<DefectStatus> findDistinctDefectStatuses(@Param("defectIds") List<Integer> defectIds);
 
-    @Query("SELECT DISTINCT d.location.name FROM Defect d WHERE d.id IN :defectIds")
-    Set<String> findDistinctLocationName(@Param("defectIds") List<Integer> defectIds);
+    @Query("SELECT DISTINCT d.location FROM Defect d WHERE d.id IN :defectIds")
+    Set<Location> findDistinctLocations(@Param("defectIds") List<Integer> defectIds);
 
-    @Query("SELECT DISTINCT d.lot.lotNumber FROM Defect d WHERE d.id IN :defectIds")
-    Set<String> findDistinctLotNumber(@Param("defectIds") List<Integer> defectIds);
+    @Query("SELECT DISTINCT d.lot FROM Defect d WHERE d.id IN :defectIds")
+    Set<Lot> findDistinctLots(@Param("defectIds") List<Integer> defectIds);
 
-    @Query("SELECT DISTINCT d.lot.material.id FROM Defect d WHERE d.id IN :defectIds")
-    Set<Integer> findDistinctMaterialIds(@Param("defectIds") List<Integer> defectIds);
+    @Query("SELECT DISTINCT d.lot.material FROM Defect d WHERE d.id IN :defectIds")
+    Set<Material> findDistinctMaterials(@Param("defectIds") List<Integer> defectIds);
 
-    @Query("SELECT DISTINCT d.lot.supplier.id FROM Defect d WHERE d.id IN :defectIds")
-    Set<Integer> findDistinctSupplierIds(@Param("defectIds") List<Integer> defectIds);
+    @Query("SELECT DISTINCT d.lot.supplier FROM Defect d WHERE d.id IN :defectIds")
+    Set<Supplier> findDistinctSuppliers(@Param("defectIds") List<Integer> defectIds);
 
+    @Query("SELECT DISTINCT d.process FROM Defect d WHERE d.id IN :defectIds")
+    Set<Process> findDistinctProcesses(@Param("defectIds") List<Integer> defectIds);
 
-    @Query("SELECT DISTINCT d.process.name FROM Defect d WHERE d.id IN :defectIds")
-    Set<String> findDistinctProcessName(@Param("defectIds") List<Integer> defectIds);
-
-    @Query("SELECT DISTINCT d.defectType.name FROM Defect d WHERE d.id IN :defectIds")
-    Set<String> findDistinctDefectTypeName(@Param("defectIds") List<Integer> defectIds);
+    @Query("SELECT DISTINCT d.defectType FROM Defect d WHERE d.id IN :defectIds")
+    Set<DefectType> findDistinctDefectTypes(@Param("defectIds") List<Integer> defectIds);
 
     @Query("SELECT DISTINCT d.createdBy FROM Defect d WHERE d.id IN :defectIds")
     Set<User> findDistinctCreatedBy(@Param("defectIds") List<Integer> defectIds);

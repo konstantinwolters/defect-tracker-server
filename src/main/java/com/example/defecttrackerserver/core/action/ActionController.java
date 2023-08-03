@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +24,7 @@ import java.util.List;
 @Tag(name = "Actions")
 public class ActionController {
     private final ActionService actionService;
+    private final Utils utils;
 
     @Operation(
             summary = "Save Action",
@@ -72,21 +74,10 @@ public class ActionController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) List<String> sort) {
 
-        List<Integer> assignedUserIdList = (assignedUserIds != null) ? Arrays.stream(assignedUserIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> defectIdList = (defectIds != null) ? Arrays.stream(defectIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> createdByIdList = (createdByIds != null) ? Arrays.stream(createdByIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> changedByIdList = (changedByIds != null) ? Arrays.stream(changedByIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
+        List<Integer> assignedUserIdList = utils.convertStringToListOfInteger(assignedUserIds);
+        List<Integer> defectIdList = utils.convertStringToListOfInteger(defectIds);
+        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
+        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
 
         Sort sorting = sort == null ?
                 Sort.unsorted() :

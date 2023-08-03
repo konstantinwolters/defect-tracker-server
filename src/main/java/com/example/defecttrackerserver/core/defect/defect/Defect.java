@@ -16,6 +16,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -73,6 +74,19 @@ public class Defect {
     @ManyToOne
     @JoinColumn(name = "changed_by_id", nullable = false)
     private User changedBy;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Defect defect = (Defect) o;
+        return Objects.equals(id, defect.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public void addDefectComment(DefectComment defectComment) { defectComments.add(defectComment); }
 

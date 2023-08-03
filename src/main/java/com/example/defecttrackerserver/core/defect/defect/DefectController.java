@@ -7,6 +7,7 @@ import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,9 +30,7 @@ import java.util.List;
 @Tag(name = "Defects")
 public class DefectController {
     private final DefectService defectService;
-    private final LotRepository lotRepository;
-    private final MaterialRepository materialRepository;
-    private final SupplierRepository supplierRepository;
+    private final Utils utils;
 
     @Operation(
             summary = "Save Defect",
@@ -62,7 +62,7 @@ public class DefectController {
     )
     @GetMapping()
     public PaginatedResponse<DefectDto> getFilteredDefects(
-            @RequestParam(required = false) String lotNumbers,
+            @RequestParam(required = false) String lotsIds,
             @RequestParam(required = false) String materialIds,
             @RequestParam(required = false) String supplierIds,
             @RequestParam(required = false) String defectStatusIds,
@@ -79,45 +79,17 @@ public class DefectController {
             @RequestParam(defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        List<String> lotNumbersList = (lotNumbers != null) ? Arrays.stream(lotNumbers.split(","))
-                .toList() : null;
-        List<Lot> lotList = lotRepository.findByLotNumbers(lotNumbersList);
+        List<Integer> lotIdList = utils.convertStringToListOfInteger(lotsIds);
+        List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
+        List<Integer> supplierIdList = utils.convertStringToListOfInteger(supplierIds);
+        List<Integer> defectStatusIdList = utils.convertStringToListOfInteger(defectStatusIds);
+        List<Integer> locationIdList = utils.convertStringToListOfInteger(locationIds);
+        List<Integer> processIdList = utils.convertStringToListOfInteger(processIds);
+        List<Integer> defectTypeIdList = utils.convertStringToListOfInteger(defectTypeIds);
+        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
+        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
 
-        List<Integer> materialIdList = (materialIds != null) ? Arrays.stream(materialIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-        List<Material> materialList = materialRepository.findByIds(materialIdList);
-
-        List<Integer> supplierIdList = (supplierIds != null) ? Arrays.stream(supplierIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-        List<Supplier> supplierList = supplierRepository.findByIds(supplierIdList);
-
-        List<Integer> defectStatusIdList = (defectStatusIds != null) ? Arrays.stream(defectStatusIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> locationIdList = (locationIds != null) ? Arrays.stream(locationIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> processIdList = (processIds != null) ? Arrays.stream(processIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> defectTypeIdList = (defectTypeIds != null) ? Arrays.stream(defectTypeIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> createdByIdList = (createdByIds != null) ? Arrays.stream(createdByIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        List<Integer> changedByIdList = (changedByIds != null) ? Arrays.stream(changedByIds.split(","))
-                .map(Integer::valueOf)
-                .toList() : null;
-
-        return defectService.getDefects(lotList, materialList, supplierList, defectStatusIdList, createdAtStart, createdAtEnd,
+        return defectService.getDefects(lotIdList, materialIdList, supplierIdList, defectStatusIdList, createdAtStart, createdAtEnd,
                 changedAtStart, changedAtEnd, locationIdList, processIdList, defectTypeIdList, createdByIdList,
                 changedByIdList, pageable);
     }

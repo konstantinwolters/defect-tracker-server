@@ -3,8 +3,10 @@ package com.example.defecttrackerserver.core.action;
 import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +32,9 @@ public class ActionControllerTest extends BaseControllerTest {
 
     @Autowired
     private ActionController actionController;
+
+    @MockBean
+    private Utils utils;
 
     @MockBean
     private ActionService actionService;
@@ -97,6 +102,7 @@ public class ActionControllerTest extends BaseControllerTest {
         when(actionService.getActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
                 createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, createdByIds, changedByIds,
                 pageable)).thenReturn(response);
+        when(utils.convertStringToListOfInteger(any(String.class))).thenReturn(Arrays.asList(1,2));
 
         mockMvc.perform(get("/actions")
                         .param("dueDateStart", String.valueOf(dueDateStart))

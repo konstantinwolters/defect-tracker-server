@@ -2,10 +2,18 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
+import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
+import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotInfo;
+import com.example.defecttrackerserver.core.lot.lot.LotMapper;
 import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
@@ -31,6 +39,13 @@ public class DefectServiceImpl implements DefectService{
     private final DefectStatusRepository defectStatusRepository;
     private final DefectMapper defectMapper;
     private final SecurityService securityService;
+    private final MaterialMapper materialMapper;
+    private final SupplierMapper supplierMapper;
+    private final LocationMapper locationMapper;
+    private final ProcessMapper processMapper;
+    private final DefectTypeMapper defectTypeMapper;
+    private final DefectStatusMapper defectStatusMapper;
+
 
     @Override
     @Transactional
@@ -56,9 +71,9 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
    public PaginatedResponse<DefectDto> getDefects(
-            List<Lot> lots,
-            List<Material> materials,
-            List<Supplier> suppliers,
+            List<Integer> lotIds,
+            List<Integer> materials,
+            List<Integer> suppliers,
             List<Integer> defectStatusIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
@@ -71,18 +86,19 @@ public class DefectServiceImpl implements DefectService{
             List<Integer> changedByIds,
             Pageable pageable
     ){
+
         Specification<Defect> spec = Specification.where(null);
 
-        if(lots != null && !lots.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").in(lots));
+        if(lotIds != null && !lotIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));
         }
 
         if(materials != null && !materials.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("material").in(materials));
+            spec = spec.and((root, query, cb) -> root.get("lot").get("material").get("id").in(materials));
         }
 
         if(suppliers != null && !suppliers.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").in(suppliers));
+            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").get("id").in(suppliers));
         }
 
         if(defectStatusIds != null && !defectStatusIds.isEmpty()){
@@ -142,20 +158,27 @@ public class DefectServiceImpl implements DefectService{
         List<Integer> defectIds = defects.stream().map(Defect::getId).toList();
 
         DefectFilterValues defectFilterValues = new DefectFilterValues();
-        defectFilterValues.setLotNumber(defectRepository.findDistinctLotNumber(defectIds));
-        defectFilterValues.setMaterial(defectRepository.findDistinctMaterialIds(defectIds));
-        defectFilterValues.setSupplier(defectRepository.findDistinctSupplierIds(defectIds));
-        defectFilterValues.setLocation(defectRepository.findDistinctLocationName(defectIds));
-        defectFilterValues.setProcess(defectRepository.findDistinctProcessName(defectIds));
-        defectFilterValues.setDefectType(defectRepository.findDistinctDefectTypeName(defectIds));
-        defectFilterValues.setCreatedBy(defectRepository.findDistinctCreatedBy(defectIds).stream()
+        defectFilterValues.setLots(defectRepository.findDistinctLots(defectIds).stream()
+                .map(LotInfo::new).collect(Collectors.toSet()));
+        defectFilterValues.setMaterials(defectRepository.findDistinctMaterials(defectIds).stream()
+                .map(materialMapper::mapToDto).collect(Collectors.toSet()));
+        defectFilterValues.setSuppliers(defectRepository.findDistinctSuppliers(defectIds).stream()
+                .map(supplierMapper::mapToDto).collect(Collectors.toSet()));
+        defectFilterValues.setLocations(defectRepository.findDistinctLocations(defectIds).stream()
+                .map(locationMapper::mapToDto).collect(Collectors.toSet()));
+        defectFilterValues.setProcesses(defectRepository.findDistinctProcesses(defectIds).stream()
+                .map(processMapper::mapToDto).collect(Collectors.toSet()));
+        defectFilterValues.setDefectTypes(defectRepository.findDistinctDefectTypes(defectIds).stream()
+                .map(defectTypeMapper::mapToDto).collect(Collectors.toSet()));
+        defectFilterValues.setCreatedByUsers(defectRepository.findDistinctCreatedBy(defectIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
-        defectFilterValues.setChangedBy(defectRepository.findDistinctChangedBy(defectIds).stream()
+        defectFilterValues.setChangedByUsers(defectRepository.findDistinctChangedBy(defectIds).stream()
                 .map(UserInfo::new).collect(Collectors.toSet()));
-        defectFilterValues.setDefectStatus(defectRepository.findDistinctDefectStatusName(defectIds));
-        defectFilterValues.setCreatedAt(defectRepository.findDistinctCreatedAt(defectIds).stream()
+        defectFilterValues.setDefectStatuses(defectRepository.findDistinctDefectStatuses(defectIds).stream()
+                .map(defectStatusMapper::mapToDto).collect(Collectors.toSet()));
+        defectFilterValues.setCreatedDates(defectRepository.findDistinctCreatedAt(defectIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
-        defectFilterValues.setChangedAt(defectRepository.findDistinctChangedAt(defectIds).stream()
+        defectFilterValues.setChangedDates(defectRepository.findDistinctChangedAt(defectIds).stream()
                 .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
         return defectFilterValues;
     }
