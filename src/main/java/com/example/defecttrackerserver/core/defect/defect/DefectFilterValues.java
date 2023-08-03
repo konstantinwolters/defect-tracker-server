@@ -1,9 +1,15 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
+import com.example.defecttrackerserver.core.defect.process.ProcessDto;
+import com.example.defecttrackerserver.core.location.LocationDto;
+import com.example.defecttrackerserver.core.lot.lot.LotInfo;
+import com.example.defecttrackerserver.core.lot.material.MaterialDto;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -11,15 +17,15 @@ import java.util.Set;
 @Getter
 @Setter
 public class DefectFilterValues {
-    private Set<String> defectStatus;
-    private Set<String> lotNumber;
-    private Set<Integer> material;
-    private Set<Integer> supplier;
-    private Set<String> location;
-    private Set<String> process;
-    private Set<String> defectType;
-    private Set<UserInfo> createdBy;
-    private Set<LocalDate> createdAt;
-    private Set<UserInfo> changedBy;
-    private Set<LocalDate> changedAt;
+    private Set<DefectStatusDto> defectStatuses;
+    private Set<LotInfo> lots;
+    private Set<MaterialDto> materials;
+    private Set<SupplierDto> suppliers;
+    private Set<LocationDto> locations;
+    private Set<ProcessDto> processes;
+    private Set<DefectTypeDto> defectTypes;
+    private Set<UserInfo> createdByUsers;
+    private Set<LocalDate> createdDates;
+    private Set<UserInfo> changedByUsers;
+    private Set<LocalDate> changedDates;
 }

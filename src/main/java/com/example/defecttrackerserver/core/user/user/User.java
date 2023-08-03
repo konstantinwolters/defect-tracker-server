@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -60,6 +62,19 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "action_id")
     )
     private Set<Action> assignedActions = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public void addRole(Role role){
         roles.add(role);

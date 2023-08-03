@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,4 +46,17 @@ public class Action {
 
     @ManyToOne
     private User changedBy;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Action action = (Action) o;
+        return Objects.equals(id, action.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
