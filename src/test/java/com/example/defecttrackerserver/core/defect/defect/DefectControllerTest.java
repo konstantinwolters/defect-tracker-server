@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -88,7 +89,7 @@ public class DefectControllerTest extends BaseControllerTest {
 
     @Test
     public void shouldReturnFilteredDefects() throws Exception {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
@@ -113,6 +114,7 @@ public class DefectControllerTest extends BaseControllerTest {
                         .param("changedByIds", "11", "12")
                         .param("page", "0")
                         .param("size", "10")
+                        .param("sort", "id,desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].description").value(testDefectDto.getDescription()))

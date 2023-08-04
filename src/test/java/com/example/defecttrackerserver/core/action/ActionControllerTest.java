@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -94,7 +95,8 @@ public class ActionControllerTest extends BaseControllerTest {
         LocalDate changedAtEnd = LocalDate.now();
         List<Integer> createdByIds = Arrays.asList(1,2);
         List<Integer> changedByIds = Arrays.asList(1,2);
-        Pageable pageable = PageRequest.of(0,10);
+        Pageable pageable = PageRequest.of(0,10, Sort.Direction.DESC, "id");
+
 
         PaginatedResponse<ActionDto> response = new PaginatedResponse<>(List.of(testactionDto), 1,
                 1, 0, new ActionFilterValues());
@@ -117,7 +119,8 @@ public class ActionControllerTest extends BaseControllerTest {
                         .param("createdByIds", createdByIds.stream().map(Object::toString).toArray(String[]::new))
                         .param("changedByIds", changedByIds.stream().map(Object::toString).toArray(String[]::new))
                         .param("page", "0")
-                        .param("size", "10"))
+                        .param("size", "10")
+                        .param("sort", "id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].description").value(testactionDto.getDescription()))
                 .andExpect(jsonPath("$.totalPages").value(response.getTotalPages()))

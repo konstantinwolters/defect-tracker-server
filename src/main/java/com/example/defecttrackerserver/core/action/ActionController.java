@@ -72,21 +72,23 @@ public class ActionController {
             @RequestParam(required = false) String changedByIds,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(required = false) List<String> sort) {
+            @RequestParam(required = false) String sort) {
 
         List<Integer> assignedUserIdList = utils.convertStringToListOfInteger(assignedUserIds);
         List<Integer> defectIdList = utils.convertStringToListOfInteger(defectIds);
         List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
         List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
 
-        Sort sorting = sort == null ?
-                Sort.unsorted() :
-                sort.stream()
-                        .map(sortStr -> {
-                            String[] split = sortStr.split(",");
-                            return Sort.by(Sort.Direction.fromString(split[1]), split[0]);
-                        })
-                        .reduce(Sort.unsorted(), Sort::and);
+        Sort sorting = Sort.unsorted();
+        if (sort != null && !sort.isEmpty()) {
+            String[] split = sort.split(",");
+                Sort.Direction direction = Sort.Direction.fromString(split[1]);
+                sorting = Sort.by(direction, split[0]);
+        }
+
+        // After Sort object creation
+        System.out.println("Sort object: " + sorting.toString());
+
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
