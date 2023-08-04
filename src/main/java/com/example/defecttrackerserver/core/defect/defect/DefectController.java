@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,8 +77,8 @@ public class DefectController {
             @RequestParam(required = false) String createdByIds,
             @RequestParam(required = false) String changedByIds,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) String sort) {
 
         List<Integer> lotIdList = utils.convertStringToListOfInteger(lotsIds);
         List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
@@ -88,6 +89,15 @@ public class DefectController {
         List<Integer> defectTypeIdList = utils.convertStringToListOfInteger(defectTypeIds);
         List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
         List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
+
+        Sort sorting = Sort.unsorted();
+        if (sort != null && !sort.isEmpty()) {
+            String[] split = sort.split(",");
+            Sort.Direction direction = Sort.Direction.fromString(split[1]);
+            sorting = Sort.by(direction, split[0]);
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sorting);
 
         return defectService.getDefects(lotIdList, materialIdList, supplierIdList, defectStatusIdList, createdAtStart, createdAtEnd,
                 changedAtStart, changedAtEnd, locationIdList, processIdList, defectTypeIdList, createdByIdList,

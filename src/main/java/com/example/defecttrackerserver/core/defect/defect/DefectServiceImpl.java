@@ -86,7 +86,6 @@ public class DefectServiceImpl implements DefectService{
             List<Integer> changedByIds,
             Pageable pageable
     ){
-
         Specification<Defect> spec = Specification.where(null);
 
         if(lotIds != null && !lotIds.isEmpty()){

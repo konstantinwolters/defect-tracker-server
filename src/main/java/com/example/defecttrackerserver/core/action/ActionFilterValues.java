@@ -11,12 +11,12 @@ import java.util.Set;
 @Getter
 @Setter
 public class ActionFilterValues {
-    private Set<LocalDate> dueDate;
+    private Set<LocalDate> dueDates;
     private Set<Boolean> isCompleted;
     private Set<UserInfo> assignedUsers;
-    private Set<Integer> defect;
-    private Set<LocalDate> createdAt;
-    private Set<UserInfo> createdBy;
-    private Set<UserInfo> changedBy;
-    private Set<LocalDate> changedAt;
+    private Set<Integer> defects;
+    private Set<LocalDate> createdDates;
+    private Set<UserInfo> createdByUsers;
+    private Set<UserInfo> changedByUsers;
+    private Set<LocalDate> changedDates;
 }
