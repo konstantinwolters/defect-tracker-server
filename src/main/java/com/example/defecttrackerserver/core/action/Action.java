@@ -41,7 +41,7 @@ public class Action {
     private LocalDateTime changedAt;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, updatable = false)
     private User createdBy;
 
     @ManyToOne

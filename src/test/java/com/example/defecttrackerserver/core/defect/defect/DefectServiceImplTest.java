@@ -21,6 +21,7 @@ import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +55,9 @@ public class DefectServiceImplTest {
 
     @Mock
     private DefectMapper defectMapper;
+
+    @Mock
+    private UserMapper userMapper;
 
     @Mock
     private MaterialMapper materialMapper;
@@ -99,6 +103,7 @@ public class DefectServiceImplTest {
         when(defectStatusRepository.findByName(anyString())).thenReturn(Optional.of(new DefectStatus()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
+        when(securityService.getUser()).thenReturn(new User());
 
         DefectDto result = defectService.saveDefect(defectDto);
 

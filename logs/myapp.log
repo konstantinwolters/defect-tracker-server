@@ -2794,3 +2794,405 @@ org.springframework.data.mapping.PropertyReferenceException: No property 'popo' 
 2023-08-05 09:03:48.838 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
 2023-08-05 09:03:48.838 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
 2023-08-05 09:03:48.838 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 11:13:07.024 [main] INFO  c.e.d.c.action.ActionControllerTest - Starting ActionControllerTest using Java 20.0.2 with PID 111852 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 11:13:07.025 [main] DEBUG c.e.d.c.action.ActionControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 11:13:07.026 [main] INFO  c.e.d.c.action.ActionControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 11:13:09.407 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@580ffea, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@191e654, org.springframework.security.web.context.SecurityContextHolderFilter@6a6e9289, org.springframework.security.web.header.HeaderWriterFilter@29b8df5, org.springframework.security.web.authentication.logout.LogoutFilter@26f75d9c, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@61554b6b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@761f234c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@100807ca, org.springframework.security.web.session.SessionManagementFilter@362a6aa5, org.springframework.security.web.access.ExceptionTranslationFilter@252c6cdb, org.springframework.security.web.access.intercept.AuthorizationFilter@f76872f]
+2023-08-05 11:13:09.615 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:09.616 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:09.618 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2023-08-05 11:13:09.651 [main] INFO  c.e.d.c.action.ActionControllerTest - Started ActionControllerTest in 3.091 seconds (process running for 4.358)
+2023-08-05 11:13:09.702 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:09.703 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:09.703 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 11:13:10.029 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:10.032 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:10.032 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 11:13:10.063 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:10.063 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:10.064 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 11:13:10.087 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:10.088 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:10.088 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 11:13:10.118 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:10.119 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:10.119 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 11:13:10.146 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 11:13:10.146 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 11:13:10.147 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:30.558 [main] INFO  c.e.d.c.d.d.DefectStatusControllerTest - Starting DefectStatusControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:30.559 [main] DEBUG c.e.d.c.d.d.DefectStatusControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:30.561 [main] INFO  c.e.d.c.d.d.DefectStatusControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:32.503 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3966c679, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@66a99584, org.springframework.security.web.context.SecurityContextHolderFilter@79bf39e5, org.springframework.security.web.header.HeaderWriterFilter@5bcfdaf3, org.springframework.security.web.authentication.logout.LogoutFilter@3c271988, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@364c93e6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@66589252, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@55574295, org.springframework.security.web.session.SessionManagementFilter@38856d6e, org.springframework.security.web.access.ExceptionTranslationFilter@7430ed93, org.springframework.security.web.access.intercept.AuthorizationFilter@45e35a0d]
+2023-08-05 14:11:32.808 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:32.809 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:32.815 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 6 ms
+2023-08-05 14:11:32.858 [main] INFO  c.e.d.c.d.d.DefectStatusControllerTest - Started DefectStatusControllerTest in 2.979 seconds (process running for 7.593)
+2023-08-05 14:11:32.914 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:32.915 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:32.915 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:33.086 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:33.087 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:33.087 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:33.115 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:33.115 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:33.115 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:33.249 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:33.249 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:33.250 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:33.305 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:33.306 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:33.306 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:33.433 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defect.DefectControllerTest]: DefectControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:33.468 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defect.DefectControllerTest
+2023-08-05 14:11:33.499 [main] INFO  c.e.d.c.d.d.DefectControllerTest - Starting DefectControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:33.499 [main] DEBUG c.e.d.c.d.d.DefectControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:33.499 [main] INFO  c.e.d.c.d.d.DefectControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:34.018 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@49bf5ec8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@18174bd9, org.springframework.security.web.context.SecurityContextHolderFilter@7acf07b2, org.springframework.security.web.header.HeaderWriterFilter@d408c5d, org.springframework.security.web.authentication.logout.LogoutFilter@4a937d43, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d50e7f6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@54fbaa65, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3af6d7a7, org.springframework.security.web.session.SessionManagementFilter@74ed1d35, org.springframework.security.web.access.ExceptionTranslationFilter@178617da, org.springframework.security.web.access.intercept.AuthorizationFilter@19877453]
+2023-08-05 14:11:34.119 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:34.119 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:34.121 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:34.135 [main] INFO  c.e.d.c.d.d.DefectControllerTest - Started DefectControllerTest in 0.663 seconds (process running for 8.87)
+2023-08-05 14:11:34.160 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:34.161 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:34.162 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:34.271 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:34.271 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:34.272 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:34.341 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:34.343 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:34.344 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:34.388 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:34.392 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:34.393 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:34.410 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:34.411 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:34.411 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:34.425 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defectComment.DefectCommentControllerTest]: DefectCommentControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:34.446 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defectComment.DefectCommentControllerTest
+2023-08-05 14:11:34.476 [main] INFO  c.e.d.c.d.d.DefectCommentControllerTest - Starting DefectCommentControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:34.476 [main] DEBUG c.e.d.c.d.d.DefectCommentControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:34.476 [main] INFO  c.e.d.c.d.d.DefectCommentControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:34.938 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6138ee0e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c40e456, org.springframework.security.web.context.SecurityContextHolderFilter@65374526, org.springframework.security.web.header.HeaderWriterFilter@f28ee19, org.springframework.security.web.authentication.logout.LogoutFilter@332fc35c, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@664c0466, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2edc6690, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2df40273, org.springframework.security.web.session.SessionManagementFilter@7c07deff, org.springframework.security.web.access.ExceptionTranslationFilter@12922d53, org.springframework.security.web.access.intercept.AuthorizationFilter@78e386a5]
+2023-08-05 14:11:35.020 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.021 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.023 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:35.036 [main] INFO  c.e.d.c.d.d.DefectCommentControllerTest - Started DefectCommentControllerTest in 0.586 seconds (process running for 9.771)
+2023-08-05 14:11:35.065 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.066 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.066 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.106 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.107 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.108 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.163 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.163 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.163 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.188 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.191 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.193 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.228 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.lot.lot.LotControllerTest]: LotControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:35.249 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.lot.lot.LotControllerTest
+2023-08-05 14:11:35.285 [main] INFO  c.e.d.core.lot.lot.LotControllerTest - Starting LotControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:35.285 [main] DEBUG c.e.d.core.lot.lot.LotControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:35.286 [main] INFO  c.e.d.core.lot.lot.LotControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:35.649 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@123fd460, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5037f491, org.springframework.security.web.context.SecurityContextHolderFilter@640a80aa, org.springframework.security.web.header.HeaderWriterFilter@50572c04, org.springframework.security.web.authentication.logout.LogoutFilter@688884e, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1d4ee936, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7410c197, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1227ea21, org.springframework.security.web.session.SessionManagementFilter@ab90b8c, org.springframework.security.web.access.ExceptionTranslationFilter@63fe055, org.springframework.security.web.access.intercept.AuthorizationFilter@1e0bae92]
+2023-08-05 14:11:35.716 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.716 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.717 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:35.729 [main] INFO  c.e.d.core.lot.lot.LotControllerTest - Started LotControllerTest in 0.474 seconds (process running for 10.464)
+2023-08-05 14:11:35.744 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.746 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.748 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.770 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.771 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.771 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.791 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.791 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.792 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.810 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.810 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.810 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:35.838 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:35.840 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:35.841 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:35.962 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.lot.supplier.SupplierControllerTest]: SupplierControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:35.986 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.lot.supplier.SupplierControllerTest
+2023-08-05 14:11:36.022 [main] INFO  c.e.d.c.l.s.SupplierControllerTest - Starting SupplierControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:36.023 [main] DEBUG c.e.d.c.l.s.SupplierControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:36.023 [main] INFO  c.e.d.c.l.s.SupplierControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:36.385 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1390cc4c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3905229, org.springframework.security.web.context.SecurityContextHolderFilter@344db28d, org.springframework.security.web.header.HeaderWriterFilter@1098c1b1, org.springframework.security.web.authentication.logout.LogoutFilter@12b0440b, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4420f4d4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@126320a8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7ebefdfa, org.springframework.security.web.session.SessionManagementFilter@4bba628, org.springframework.security.web.access.ExceptionTranslationFilter@59b5251d, org.springframework.security.web.access.intercept.AuthorizationFilter@5a98983b]
+2023-08-05 14:11:36.432 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.433 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.433 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:36.448 [main] INFO  c.e.d.c.l.s.SupplierControllerTest - Started SupplierControllerTest in 0.455 seconds (process running for 11.183)
+2023-08-05 14:11:36.465 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.465 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.465 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:36.482 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.482 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.483 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:36.502 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.502 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.502 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:36.516 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.516 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.517 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:36.533 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.533 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.534 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:36.547 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.user.user.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:36.562 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.user.user.UserControllerTest
+2023-08-05 14:11:36.584 [main] INFO  c.e.d.c.user.user.UserControllerTest - Starting UserControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:36.584 [main] DEBUG c.e.d.c.user.user.UserControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:36.584 [main] INFO  c.e.d.c.user.user.UserControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:36.915 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@35c55050, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2a0154f7, org.springframework.security.web.context.SecurityContextHolderFilter@40a1916d, org.springframework.security.web.header.HeaderWriterFilter@1ea6446b, org.springframework.security.web.authentication.logout.LogoutFilter@3095e9c6, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6a8a54f5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4623c0d3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@237e61ac, org.springframework.security.web.session.SessionManagementFilter@39d0775c, org.springframework.security.web.access.ExceptionTranslationFilter@1467dcd0, org.springframework.security.web.access.intercept.AuthorizationFilter@50fd4246]
+2023-08-05 14:11:36.990 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:36.990 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:36.991 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:36.996 [main] INFO  c.e.d.c.user.user.UserControllerTest - Started UserControllerTest in 0.43 seconds (process running for 11.731)
+2023-08-05 14:11:37.014 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.014 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.015 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:37.032 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.032 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.032 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:37.063 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.063 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.063 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:37.079 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.079 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.079 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:37.095 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.095 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.095 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:37.509 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.action.ActionControllerTest]: ActionControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:37.524 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.action.ActionControllerTest
+2023-08-05 14:11:37.544 [main] INFO  c.e.d.c.action.ActionControllerTest - Starting ActionControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:37.544 [main] DEBUG c.e.d.c.action.ActionControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:37.544 [main] INFO  c.e.d.c.action.ActionControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:37.863 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3a273e53, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2a4edf0b, org.springframework.security.web.context.SecurityContextHolderFilter@dd7b622, org.springframework.security.web.header.HeaderWriterFilter@61f9cab2, org.springframework.security.web.authentication.logout.LogoutFilter@1c419713, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@73b8c79b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c3b3f04, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@36fb5ba, org.springframework.security.web.session.SessionManagementFilter@1a8d4a3c, org.springframework.security.web.access.ExceptionTranslationFilter@d9e61f2, org.springframework.security.web.access.intercept.AuthorizationFilter@2c36c62a]
+2023-08-05 14:11:37.917 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.917 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.921 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:37.927 [main] INFO  c.e.d.c.action.ActionControllerTest - Started ActionControllerTest in 0.4 seconds (process running for 12.662)
+2023-08-05 14:11:37.940 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.940 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.941 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:37.979 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.979 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.979 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:37.998 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:37.998 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:37.999 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.016 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.016 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.016 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.042 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.042 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.042 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.058 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.058 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.058 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.276 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.process.ProcessControllerTest]: ProcessControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:38.289 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.process.ProcessControllerTest
+2023-08-05 14:11:38.321 [main] INFO  c.e.d.c.d.p.ProcessControllerTest - Starting ProcessControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:38.321 [main] DEBUG c.e.d.c.d.p.ProcessControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:38.321 [main] INFO  c.e.d.c.d.p.ProcessControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:38.695 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4203d164, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@fbb41e5, org.springframework.security.web.context.SecurityContextHolderFilter@2bc3ab4d, org.springframework.security.web.header.HeaderWriterFilter@3f64a088, org.springframework.security.web.authentication.logout.LogoutFilter@d980dac, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@18a01254, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@25a8128, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@eefc1bf, org.springframework.security.web.session.SessionManagementFilter@557d9532, org.springframework.security.web.access.ExceptionTranslationFilter@13f4149d, org.springframework.security.web.access.intercept.AuthorizationFilter@43b70cb6]
+2023-08-05 14:11:38.790 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.791 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.791 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.806 [main] INFO  c.e.d.c.d.p.ProcessControllerTest - Started ProcessControllerTest in 0.513 seconds (process running for 13.54)
+2023-08-05 14:11:38.825 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.825 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.826 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:38.847 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.847 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.848 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:38.869 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.869 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.870 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:38.889 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.889 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.889 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.912 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:38.913 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:38.913 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:38.928 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defectType.DefectTypeControllerTest]: DefectTypeControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:38.947 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defectType.DefectTypeControllerTest
+2023-08-05 14:11:38.975 [main] INFO  c.e.d.c.d.d.DefectTypeControllerTest - Starting DefectTypeControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:38.976 [main] DEBUG c.e.d.c.d.d.DefectTypeControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:38.977 [main] INFO  c.e.d.c.d.d.DefectTypeControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:39.359 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1a7c593b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@684aac7, org.springframework.security.web.context.SecurityContextHolderFilter@2aa43751, org.springframework.security.web.header.HeaderWriterFilter@443ec909, org.springframework.security.web.authentication.logout.LogoutFilter@35853c37, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ed238c2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c96d290, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3c638904, org.springframework.security.web.session.SessionManagementFilter@8dd572e, org.springframework.security.web.access.ExceptionTranslationFilter@4eb1407f, org.springframework.security.web.access.intercept.AuthorizationFilter@20865ff2]
+2023-08-05 14:11:39.449 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:39.449 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:39.450 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:39.460 [main] INFO  c.e.d.c.d.d.DefectTypeControllerTest - Started DefectTypeControllerTest in 0.506 seconds (process running for 14.195)
+2023-08-05 14:11:39.474 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:39.475 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:39.475 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:39.491 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:39.491 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:39.491 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:39.509 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:39.510 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:39.510 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:39.528 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:39.528 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:39.528 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:39.544 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:39.544 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:39.544 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:40.017 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defectImage.DefectImageControllerTest]: DefectImageControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:40.034 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defectImage.DefectImageControllerTest
+2023-08-05 14:11:40.056 [main] INFO  c.e.d.c.d.d.DefectImageControllerTest - Starting DefectImageControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:40.056 [main] DEBUG c.e.d.c.d.d.DefectImageControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:40.056 [main] INFO  c.e.d.c.d.d.DefectImageControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:40.508 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@57e3a1b8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@62e9a6cc, org.springframework.security.web.context.SecurityContextHolderFilter@2c8d537e, org.springframework.security.web.header.HeaderWriterFilter@dc4fa78, org.springframework.security.web.authentication.logout.LogoutFilter@622ae2ba, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4e0d2ddd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@64b0195e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@55f77306, org.springframework.security.web.session.SessionManagementFilter@2d6dbcec, org.springframework.security.web.access.ExceptionTranslationFilter@186f51bb, org.springframework.security.web.access.intercept.AuthorizationFilter@2170c3ed]
+2023-08-05 14:11:40.585 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:40.586 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:40.586 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:40.606 [main] INFO  c.e.d.c.d.d.DefectImageControllerTest - Started DefectImageControllerTest in 0.568 seconds (process running for 15.341)
+2023-08-05 14:11:40.637 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:40.638 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:40.638 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:40.672 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:40.672 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:40.672 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:40.689 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:40.689 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:40.689 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:40.723 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:40.723 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:40.723 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:40.799 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.lot.material.MaterialControllerTest]: MaterialControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:40.820 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.lot.material.MaterialControllerTest
+2023-08-05 14:11:40.851 [main] INFO  c.e.d.c.l.m.MaterialControllerTest - Starting MaterialControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:40.852 [main] DEBUG c.e.d.c.l.m.MaterialControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:40.852 [main] INFO  c.e.d.c.l.m.MaterialControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:41.197 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@653e6996, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1ff06f00, org.springframework.security.web.context.SecurityContextHolderFilter@7aa45a14, org.springframework.security.web.header.HeaderWriterFilter@7a4764bb, org.springframework.security.web.authentication.logout.LogoutFilter@7c80c68f, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3f169051, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7e3559b4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1248ac5d, org.springframework.security.web.session.SessionManagementFilter@33cd31cf, org.springframework.security.web.access.ExceptionTranslationFilter@5022aaa3, org.springframework.security.web.access.intercept.AuthorizationFilter@23b34af8]
+2023-08-05 14:11:41.254 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:41.254 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:41.255 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:41.261 [main] INFO  c.e.d.c.l.m.MaterialControllerTest - Started MaterialControllerTest in 0.437 seconds (process running for 15.996)
+2023-08-05 14:11:41.274 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:41.275 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:41.275 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:41.295 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:41.296 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:41.296 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:41.314 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:41.314 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:41.315 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:41.336 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:41.336 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:41.336 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:41.350 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:41.350 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:41.351 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:41.500 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.user.role.RoleControllerTest]: RoleControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:41.538 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.user.role.RoleControllerTest
+2023-08-05 14:11:41.573 [main] INFO  c.e.d.c.user.role.RoleControllerTest - Starting RoleControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:41.574 [main] DEBUG c.e.d.c.user.role.RoleControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:41.574 [main] INFO  c.e.d.c.user.role.RoleControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:41.953 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@63190b1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4325de9e, org.springframework.security.web.context.SecurityContextHolderFilter@7e4061bb, org.springframework.security.web.header.HeaderWriterFilter@51336aad, org.springframework.security.web.authentication.logout.LogoutFilter@102abf66, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@28c7ae7f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@626bcfc8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1c0b38af, org.springframework.security.web.session.SessionManagementFilter@166323b9, org.springframework.security.web.access.ExceptionTranslationFilter@391de98d, org.springframework.security.web.access.intercept.AuthorizationFilter@3922c5bc]
+2023-08-05 14:11:42.009 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.009 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.009 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.020 [main] INFO  c.e.d.c.user.role.RoleControllerTest - Started RoleControllerTest in 0.479 seconds (process running for 16.755)
+2023-08-05 14:11:42.034 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.035 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.035 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.053 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.053 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.053 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.062 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.location.LocationControllerTest]: LocationControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-08-05 14:11:42.081 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.location.LocationControllerTest
+2023-08-05 14:11:42.103 [main] INFO  c.e.d.c.l.LocationControllerTest - Starting LocationControllerTest using Java 20.0.2 with PID 119801 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:11:42.103 [main] DEBUG c.e.d.c.l.LocationControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:11:42.103 [main] INFO  c.e.d.c.l.LocationControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:11:42.445 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4c39c972, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d5eed70, org.springframework.security.web.context.SecurityContextHolderFilter@13cd4784, org.springframework.security.web.header.HeaderWriterFilter@1e2abb0c, org.springframework.security.web.authentication.logout.LogoutFilter@32fe6b1e, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1ce0a7bc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@57598df7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@71254c46, org.springframework.security.web.session.SessionManagementFilter@357528cf, org.springframework.security.web.access.ExceptionTranslationFilter@1962d811, org.springframework.security.web.access.intercept.AuthorizationFilter@3097f11f]
+2023-08-05 14:11:42.502 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.504 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.505 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.513 [main] INFO  c.e.d.c.l.LocationControllerTest - Started LocationControllerTest in 0.428 seconds (process running for 17.248)
+2023-08-05 14:11:42.527 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.528 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.528 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.546 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.546 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.547 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:11:42.568 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.568 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.568 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.581 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.581 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.581 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:11:42.591 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:11:42.592 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:11:42.592 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:14:05.655 [restartedMain] INFO  c.e.d.DefectTrackerServerApplication - Starting DefectTrackerServerApplication using Java 20.0.2 with PID 120322 (/home/kon/IdeaProjects/defect-tracker-server/target/classes started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:14:05.661 [restartedMain] DEBUG c.e.d.DefectTrackerServerApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:14:05.663 [restartedMain] INFO  c.e.d.DefectTrackerServerApplication - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:14:05.706 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-08-05 14:14:05.712 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-08-05 14:14:06.819 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-05 14:14:06.913 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 13 JPA repository interfaces.
+2023-08-05 14:14:07.740 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-08-05 14:14:07.757 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2023-08-05 14:14:07.761 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-08-05 14:14:07.816 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-08-05 14:14:07.817 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2103 ms
+2023-08-05 14:14:07.862 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-08-05 14:14:08.056 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2023-08-05 14:14:08.058 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-08-05 14:14:08.067 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2023-08-05 14:14:08.226 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-05 14:14:08.297 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-08-05 14:14:08.300 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2023-08-05 14:14:08.441 [restartedMain] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2023-08-05 14:14:08.564 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-08-05 14:14:08.608 [restartedMain] INFO  org.hibernate.orm.dialect - HHH035001: Using dialect: org.hibernate.dialect.H2Dialect, version: 2.1.214
+2023-08-05 14:14:08.950 [restartedMain] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2023-08-05 14:14:09.808 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-05 14:14:09.911 [restartedMain] INFO  o.h.t.s.i.e.GenerationTargetToDatabase - HHH000476: Executing script '[injected ScriptSourceInputNonExistentImpl script]'
+2023-08-05 14:14:09.915 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-05 14:14:10.282 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-08-05 14:14:10.613 [restartedMain] DEBUG c.e.d.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2023-08-05 14:14:11.562 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-05 14:14:11.973 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4e53d9ee, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@77da8fe2, org.springframework.security.web.context.SecurityContextHolderFilter@32af10ec, org.springframework.security.web.header.HeaderWriterFilter@328d355b, org.springframework.security.web.authentication.logout.LogoutFilter@4e88a94f, com.example.defecttrackerserver.security.JwtAuthenticationFilter@76235a2d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3070b8b8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@412594e9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@23a69975, org.springframework.security.web.session.SessionManagementFilter@5725313b, org.springframework.security.web.access.ExceptionTranslationFilter@411f4ab0, org.springframework.security.web.access.intercept.AuthorizationFilter@22aec0cc]
+2023-08-05 14:14:12.425 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-08-05 14:14:12.466 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-08-05 14:14:12.479 [restartedMain] INFO  c.e.d.DefectTrackerServerApplication - Started DefectTrackerServerApplication in 7.398 seconds (process running for 8.179)
+2023-08-05 14:14:33.996 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-08-05 14:14:33.996 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-08-05 14:14:33.998 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:14:34.455 [http-nio-8080-exec-2] INFO  c.e.d.auth.AuthLoggingAspect - User: bill authenticated
+2023-08-05 14:15:51.608 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-05 14:15:51.609 [SpringApplicationShutdownHook] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2023-08-05 14:15:52.001 [SpringApplicationShutdownHook] WARN  o.s.b.f.s.DisposableBeanAdapter - Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
+2023-08-05 14:15:52.001 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-08-05 14:15:52.113 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-08-05 14:18:16.248 [main] INFO  c.e.d.c.d.d.DefectControllerTest - Starting DefectControllerTest using Java 20.0.2 with PID 120755 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
+2023-08-05 14:18:16.249 [main] DEBUG c.e.d.c.d.d.DefectControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-05 14:18:16.251 [main] INFO  c.e.d.c.d.d.DefectControllerTest - No active profile set, falling back to 1 default profile: "default"
+2023-08-05 14:18:18.474 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1f1ffc18, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5a4e492c, org.springframework.security.web.context.SecurityContextHolderFilter@5a654e05, org.springframework.security.web.header.HeaderWriterFilter@102fd71d, org.springframework.security.web.authentication.logout.LogoutFilter@795131d6, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6d946eee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@23dc70c1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@b5311cb, org.springframework.security.web.session.SessionManagementFilter@2c7c898a, org.springframework.security.web.access.ExceptionTranslationFilter@4cefa0be, org.springframework.security.web.access.intercept.AuthorizationFilter@6244afc4]
+2023-08-05 14:18:18.742 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:18:18.744 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:18:18.745 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2023-08-05 14:18:18.793 [main] INFO  c.e.d.c.d.d.DefectControllerTest - Started DefectControllerTest in 3.139 seconds (process running for 7.955)
+2023-08-05 14:18:18.857 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:18:18.858 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:18:18.861 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:18:19.192 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:18:19.193 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:18:19.193 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:18:19.255 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:18:19.256 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:18:19.256 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2023-08-05 14:18:19.315 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:18:19.316 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:18:19.321 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2023-08-05 14:18:19.352 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2023-08-05 14:18:19.353 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2023-08-05 14:18:19.354 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms

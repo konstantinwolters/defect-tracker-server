@@ -22,15 +22,16 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
 public class Defect {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String description;
-    private LocalDateTime createdAt;
     private LocalDateTime changedAt;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "defect_status_id", nullable = false)
@@ -72,7 +73,7 @@ public class Defect {
     private User createdBy;
 
     @ManyToOne
-    @JoinColumn(name = "changed_by_id", nullable = false)
+    @JoinColumn(name = "changed_by_id")
     private User changedBy;
 
     @Override

@@ -14,6 +14,7 @@ import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
@@ -43,6 +44,7 @@ public class DefectServiceImpl implements DefectService{
     private final SupplierMapper supplierMapper;
     private final LocationMapper locationMapper;
     private final ProcessMapper processMapper;
+    private final UserMapper userMapper;
     private final DefectTypeMapper defectTypeMapper;
     private final DefectStatusMapper defectStatusMapper;
 
@@ -53,8 +55,10 @@ public class DefectServiceImpl implements DefectService{
         Defect defect = new Defect();
         defectDto.setId(null);
         defectDto.setCreatedAt(LocalDateTime.now());
+        defectDto.setCreatedBy(userMapper.mapToDto(securityService.getUser()));
 
         Defect newDefect = defectMapper.map(defectDto, defect);
+
         DefectStatus defectStatus = defectStatusRepository.findByName("New")
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with name: 'New'"));
         newDefect.setDefectStatus(defectStatus);
@@ -157,28 +161,61 @@ public class DefectServiceImpl implements DefectService{
         List<Integer> defectIds = defects.stream().map(Defect::getId).toList();
 
         DefectFilterValues defectFilterValues = new DefectFilterValues();
-        defectFilterValues.setLots(defectRepository.findDistinctLots(defectIds).stream()
-                .map(LotInfo::new).collect(Collectors.toSet()));
-        defectFilterValues.setMaterials(defectRepository.findDistinctMaterials(defectIds).stream()
-                .map(materialMapper::mapToDto).collect(Collectors.toSet()));
-        defectFilterValues.setSuppliers(defectRepository.findDistinctSuppliers(defectIds).stream()
-                .map(supplierMapper::mapToDto).collect(Collectors.toSet()));
-        defectFilterValues.setLocations(defectRepository.findDistinctLocations(defectIds).stream()
-                .map(locationMapper::mapToDto).collect(Collectors.toSet()));
-        defectFilterValues.setProcesses(defectRepository.findDistinctProcesses(defectIds).stream()
-                .map(processMapper::mapToDto).collect(Collectors.toSet()));
-        defectFilterValues.setDefectTypes(defectRepository.findDistinctDefectTypes(defectIds).stream()
-                .map(defectTypeMapper::mapToDto).collect(Collectors.toSet()));
-        defectFilterValues.setCreatedByUsers(defectRepository.findDistinctCreatedBy(defectIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
-        defectFilterValues.setChangedByUsers(defectRepository.findDistinctChangedBy(defectIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
-        defectFilterValues.setDefectStatuses(defectRepository.findDistinctDefectStatuses(defectIds).stream()
-                .map(defectStatusMapper::mapToDto).collect(Collectors.toSet()));
-        defectFilterValues.setCreatedDates(defectRepository.findDistinctCreatedAt(defectIds).stream()
-                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
-        defectFilterValues.setChangedDates(defectRepository.findDistinctChangedAt(defectIds).stream()
-                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
+        defectFilterValues.setLots(
+                defectRepository.findDistinctLots(defectIds).stream()
+                        .map(LotInfo::new)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setMaterials(
+                defectRepository.findDistinctMaterials(defectIds).stream()
+                        .map(materialMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setSuppliers(
+                defectRepository.findDistinctSuppliers(defectIds).stream()
+                        .map(supplierMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setLocations(
+                defectRepository.findDistinctLocations(defectIds).stream()
+                        .map(locationMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setProcesses(
+                defectRepository.findDistinctProcesses(defectIds).stream()
+                        .map(processMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setCreatedByUsers(
+                defectRepository.findDistinctCreatedBy(defectIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setChangedByUsers(
+                defectRepository.findDistinctChangedBy(defectIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setDefectStatuses(
+                defectRepository.findDistinctDefectStatuses(defectIds).stream()
+                        .map(defectStatusMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setDefectTypes(
+                defectRepository.findDistinctDefectTypes(defectIds).stream()
+                        .map(defectTypeMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setCreatedDates(
+                defectRepository.findDistinctCreatedAt(defectIds).stream()
+                        .map(LocalDateTime::toLocalDate)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setChangedDates(
+                defectRepository.findDistinctChangedAt(defectIds).stream()
+                        .map(LocalDateTime::toLocalDate)
+                        .collect(Collectors.toSet())
+        );
         return defectFilterValues;
     }
 
