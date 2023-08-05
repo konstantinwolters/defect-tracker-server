@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
@@ -26,14 +27,17 @@ public class ActionServiceImpl implements ActionService{
     private final ActionRepository actionRepository;
     private final ActionMapper actionMapper;
     private final SecurityService securityService;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
         actionDto.setCreatedAt(LocalDateTime.now());
+        actionDto.setCreatedBy(userMapper.mapToDto(securityService.getUser()));
+        actionDto.setIsCompleted(false);
+
         Action newAction = actionMapper.map(actionDto, new Action());
-        newAction.setIsCompleted(false);
         Action savedAction = actionRepository.save(newAction);
         return actionMapper.mapToDto(savedAction);
     }
@@ -122,19 +126,39 @@ public class ActionServiceImpl implements ActionService{
         List<Integer> actionIds = actions.stream().map(Action::getId).toList();
 
         ActionFilterValues actionFilterValues = new ActionFilterValues();
-        actionFilterValues.setDueDates(actionRepository.findDistinctDueDate(actionIds));
-        actionFilterValues.setIsCompleted(actionRepository.findDistinctIsCompleted(actionIds));
-        actionFilterValues.setAssignedUsers(actionRepository.findDistinctAssignedUsers(actionIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
-        actionFilterValues.setDefects(actionRepository.findDistinctDefect(actionIds));
-        actionFilterValues.setCreatedDates(actionRepository.findDistinctCreatedAt(actionIds).stream()
-                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
-        actionFilterValues.setChangedDates(actionRepository.findDistinctChangedAt(actionIds).stream()
-                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
-        actionFilterValues.setCreatedByUsers(actionRepository.findDistinctCreatedBy(actionIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
-        actionFilterValues.setChangedByUsers(actionRepository.findDistinctChangedBy(actionIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
+
+        actionFilterValues.setDueDates(
+                actionRepository.findDistinctDueDate(actionIds)
+        );
+        actionFilterValues.setIsCompleted(
+                actionRepository.findDistinctIsCompleted(actionIds)
+        );
+        actionFilterValues.setAssignedUsers(
+                actionRepository.findDistinctAssignedUsers(actionIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet())
+        );
+        actionFilterValues.setDefects(
+                actionRepository.findDistinctDefect(actionIds)
+        );
+        actionFilterValues.setCreatedDates(
+                actionRepository.findDistinctCreatedAt(actionIds).stream()
+                        .map(LocalDateTime::toLocalDate)
+                        .collect(Collectors.toSet())
+        );
+        actionFilterValues.setChangedDates(
+                actionRepository.findDistinctChangedAt(actionIds).stream()
+                        .map(LocalDateTime::toLocalDate)
+                        .collect(Collectors.toSet())
+        );
+        actionFilterValues.setCreatedByUsers(
+                actionRepository.findDistinctCreatedBy(actionIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet()));
+        actionFilterValues.setChangedByUsers(
+                actionRepository.findDistinctChangedBy(actionIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet()));
 
         return actionFilterValues;
     }

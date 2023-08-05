@@ -95,32 +95,31 @@ class DefectMapperTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
 
+        defectCommentDto = new DefectCommentDto();
+        defectCommentDto.setId(1);
+
+        defectImageDto = new DefectImageDto();
+        defectImageDto.setId(1);
+
+        actionDto = new ActionDto();
+        actionDto.setId(1);
+
+        userDto = new UserDto();
+        userDto.setId(1);
+
         defectDto = new DefectDto();
         defectDto.setId(1);
         defectDto.setDescription("testDescription");
         defectDto.setDefectStatus("testStatus");
-
-        defectCommentDto = new DefectCommentDto();
-        defectCommentDto.setId(1);
         defectDto.setDefectComments(Set.of(defectCommentDto));
-
         defectDto.setLot("testLot");
         defectDto.setLocation("testCity");
         defectDto.setProcess("testProcess");
         defectDto.setDefectType("testType");
-
-        defectImageDto = new DefectImageDto();
-        defectImageDto.setId(1);
         defectDto.setImages(Set.of(defectImageDto));
-
-        actionDto = new ActionDto();
-        actionDto.setId(1);
         defectDto.setActions(Set.of(actionDto));
-
-        userDto = new UserDto();
-        userDto.setId(1);
         defectDto.setCreatedBy(userDto);
-        defectDto.setCreatedAt(LocalDateTime.of(2023,2,1,0,0));
+        defectDto.setCreatedAt(LocalDateTime.now());
         defectDto.setChangedBy(userDto);
     }
 

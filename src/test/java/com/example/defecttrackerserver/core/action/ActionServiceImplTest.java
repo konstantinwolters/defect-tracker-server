@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
@@ -36,6 +37,9 @@ public class ActionServiceImplTest {
     @Mock
     private ActionMapper actionMapper;
 
+    @Mock
+    private UserMapper userMapper;
+
     @InjectMocks
     private ActionServiceImpl actionService;
 
@@ -65,6 +69,7 @@ public class ActionServiceImplTest {
         when(actionRepository.save(action)).thenReturn(action);
         when(actionMapper.map(any(ActionDto.class), any(Action.class))).thenReturn(action);
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
+        when(securityService.getUser()).thenReturn(new User());
 
         ActionDto result = actionService.saveAction(actionDto);
 
