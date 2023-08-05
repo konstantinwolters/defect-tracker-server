@@ -122,19 +122,39 @@ public class ActionServiceImpl implements ActionService{
         List<Integer> actionIds = actions.stream().map(Action::getId).toList();
 
         ActionFilterValues actionFilterValues = new ActionFilterValues();
-        actionFilterValues.setDueDates(actionRepository.findDistinctDueDate(actionIds));
-        actionFilterValues.setIsCompleted(actionRepository.findDistinctIsCompleted(actionIds));
-        actionFilterValues.setAssignedUsers(actionRepository.findDistinctAssignedUsers(actionIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
-        actionFilterValues.setDefects(actionRepository.findDistinctDefect(actionIds));
-        actionFilterValues.setCreatedDates(actionRepository.findDistinctCreatedAt(actionIds).stream()
-                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
-        actionFilterValues.setChangedDates(actionRepository.findDistinctChangedAt(actionIds).stream()
-                .map(LocalDateTime::toLocalDate).collect(Collectors.toSet()));
-        actionFilterValues.setCreatedByUsers(actionRepository.findDistinctCreatedBy(actionIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
-        actionFilterValues.setChangedByUsers(actionRepository.findDistinctChangedBy(actionIds).stream()
-                .map(UserInfo::new).collect(Collectors.toSet()));
+
+        actionFilterValues.setDueDates(
+                actionRepository.findDistinctDueDate(actionIds)
+        );
+        actionFilterValues.setIsCompleted(
+                actionRepository.findDistinctIsCompleted(actionIds)
+        );
+        actionFilterValues.setAssignedUsers(
+                actionRepository.findDistinctAssignedUsers(actionIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet())
+        );
+        actionFilterValues.setDefects(
+                actionRepository.findDistinctDefect(actionIds)
+        );
+        actionFilterValues.setCreatedDates(
+                actionRepository.findDistinctCreatedAt(actionIds).stream()
+                        .map(LocalDateTime::toLocalDate)
+                        .collect(Collectors.toSet())
+        );
+        actionFilterValues.setChangedDates(
+                actionRepository.findDistinctChangedAt(actionIds).stream()
+                        .map(LocalDateTime::toLocalDate)
+                        .collect(Collectors.toSet())
+        );
+        actionFilterValues.setCreatedByUsers(
+                actionRepository.findDistinctCreatedBy(actionIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet()));
+        actionFilterValues.setChangedByUsers(
+                actionRepository.findDistinctChangedBy(actionIds).stream()
+                        .map(UserInfo::new)
+                        .collect(Collectors.toSet()));
 
         return actionFilterValues;
     }

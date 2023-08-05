@@ -43,6 +43,10 @@ class ActionMapperTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
 
+        userDto = new UserDto();
+        userDto.setId(1);
+        userDto.setUsername("testName");
+
         actionDto = new ActionDto();
         actionDto.setId(1);
         actionDto.setDescription("testDescription");
@@ -50,15 +54,9 @@ class ActionMapperTest {
         actionDto.setIsCompleted(true);
         actionDto.setCreatedAt(LocalDateTime.now());
         actionDto.setChangedAt(LocalDateTime.now());
-
-        userDto = new UserDto();
-        userDto.setId(1);
-        userDto.setUsername("testName");
-
         actionDto.setAssignedUsers(Set.of(userDto));
         actionDto.setCreatedBy(userDto);
         actionDto.setChangedBy(userDto);
-
         actionDto.setDefect(1);
     }
 
@@ -101,6 +99,12 @@ class ActionMapperTest {
 
     @Test
     void shouldReturnMappedActionDto() {
+        User user = new User();
+        user.setId(1);
+
+        Defect defect = new Defect();
+        defect.setId(1);
+
         Action action = new Action();
         action.setId(1);
         action.setDescription("testDescription");
@@ -108,18 +112,10 @@ class ActionMapperTest {
         action.setIsCompleted(true);
         action.setCreatedAt(LocalDateTime.now());
         action.setChangedAt(LocalDateTime.now());
-
-        User user = new User();
-        user.setId(1);
-
         action.setCreatedBy(user);
         action.setAssignedUsers(Set.of(user));
         action.setChangedBy(user);
-
-        Defect defect = new Defect();
-        defect.setId(1);
         action.setDefect(defect);
-
 
         when(userMapper.mapToDto(any(User.class))).thenReturn(userDto);
 
