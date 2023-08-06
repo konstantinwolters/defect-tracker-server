@@ -50,6 +50,15 @@ class UserMapperTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
 
+        locationDto = new LocationDto();
+        locationDto.setId(1);
+
+        RoleDto roleDto = new RoleDto();
+        roleDto.setId(1);
+
+        ActionDto actionDto = new ActionDto();
+        actionDto.setId(1);
+
         userDto = new UserDto();
         userDto.setId(1);
         userDto.setUsername("testUsername");
@@ -62,14 +71,8 @@ class UserMapperTest {
         userDto.setCreatedAt(LocalDateTime.now());
         userDto.setCreatedBy(1);
         userDto.setChangedBy(1);
-        locationDto = new LocationDto();
-        locationDto.setId(1);
         userDto.setLocation("testLocation");
-        RoleDto roleDto = new RoleDto();
-        roleDto.setId(1);
         userDto.setRoles(Set.of("ROLE_ADMIN"));
-        ActionDto actionDto = new ActionDto();
-        actionDto.setId(1);
         userDto.setAssignedActions(Set.of(1));
     }
 
@@ -181,6 +184,17 @@ class UserMapperTest {
 
     @Test
     void shouldReturnMappedUserDto() {
+        Location location = new Location();
+        location.setId(1);
+        location.setName("testLocation");
+
+        Role role = new Role();
+        role.setId(1);
+        role.setName("ROLE_ADMIN");
+
+        Action action = new Action();
+        action.setId(1);
+
         User user = new User();
         user.setId(1);
         user.setUsername("testUsername");
@@ -192,19 +206,8 @@ class UserMapperTest {
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedBy(1);
         user.setChangedBy(1);
-
-        Location location = new Location();
-        location.setId(1);
-        location.setName("testLocation");
         user.setLocation(location);
-
-        Role role = new Role();
-        role.setId(1);
-        role.setName("ROLE_ADMIN");
         user.setRoles(Set.of(role));
-
-        Action action = new Action();
-        action.setId(1);
         user.setAssignedActions(Set.of(action));
 
         UserDto mappedUserDto = userMapper.mapToDto(user);
