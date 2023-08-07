@@ -68,8 +68,7 @@ public class UserServiceImpl implements UserService {
 
         if(!securityService.getUsername().equals(user.getUsername())
         && !securityService.hasRole("ROLE_ADMIN")){
-            throw new AccessDeniedException(
-                    "You are not authorized to update this user's data");
+            throw new AccessDeniedException("You are not authorized to update this user's data");
         }
 
         if(userDto.getPassword() == null) {
