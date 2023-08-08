@@ -1,21 +1,26 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations="classpath:application-test.properties")
+@ActiveProfiles("test")
 public class ActionIntegrationTest {
 
     @LocalServerPort
@@ -43,6 +48,9 @@ public class ActionIntegrationTest {
     @Autowired
     ActionRepository actionRepository;
 
+    @Autowired
+    DefectTypeRepository defectTypeRepository;
+
     @BeforeEach
     void setUp() {
         RestAssured.baseURI = "http://localhost:" + port;
@@ -51,6 +59,11 @@ public class ActionIntegrationTest {
 
     @Test
     void shouldSaveAction() {
+
         System.out.println("Hello world");
+        DefectType defectType = new DefectType();
+        defectType.setName("TestType");
+
+        defectTypeRepository.save(defectType);
     }
 }
