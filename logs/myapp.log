@@ -1,352 +1,604 @@
-2023-08-06 18:58:06.003 [main] INFO  c.e.d.c.d.d.DefectStatusControllerTest - Starting DefectStatusControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:06.007 [main] DEBUG c.e.d.c.d.d.DefectStatusControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:06.008 [main] INFO  c.e.d.c.d.d.DefectStatusControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:07.454 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6b576ff8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@25e8a111, org.springframework.security.web.context.SecurityContextHolderFilter@14624acc, org.springframework.security.web.header.HeaderWriterFilter@2b561f51, org.springframework.security.web.authentication.logout.LogoutFilter@364c93e6, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@f453129, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@642ec6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@47666b39, org.springframework.security.web.session.SessionManagementFilter@1c22642d, org.springframework.security.web.access.ExceptionTranslationFilter@2c557eee, org.springframework.security.web.access.intercept.AuthorizationFilter@f5167f0]
-2023-08-06 18:58:07.633 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:07.634 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:07.635 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:07.662 [main] INFO  c.e.d.c.d.d.DefectStatusControllerTest - Started DefectStatusControllerTest in 2.139 seconds (process running for 5.885)
-2023-08-06 18:58:07.696 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:07.696 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:07.696 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:07.838 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:07.839 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:07.839 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:07.859 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:07.859 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:07.859 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:07.964 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:07.965 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:07.965 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:07.986 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:07.987 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:07.988 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:08.096 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defect.DefectControllerTest]: DefectControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:08.118 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defect.DefectControllerTest
-2023-08-06 18:58:08.145 [main] INFO  c.e.d.c.d.d.DefectControllerTest - Starting DefectControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:08.145 [main] DEBUG c.e.d.c.d.d.DefectControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:08.145 [main] INFO  c.e.d.c.d.d.DefectControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:08.637 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5935eb9c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@fc6cac6, org.springframework.security.web.context.SecurityContextHolderFilter@1f4fa465, org.springframework.security.web.header.HeaderWriterFilter@6731b6bd, org.springframework.security.web.authentication.logout.LogoutFilter@61a17f3, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e65c4d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6b888692, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@538d2308, org.springframework.security.web.session.SessionManagementFilter@768f2398, org.springframework.security.web.access.ExceptionTranslationFilter@793248d, org.springframework.security.web.access.intercept.AuthorizationFilter@1a3e8b68]
-2023-08-06 18:58:08.700 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:08.701 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:08.702 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:08.710 [main] INFO  c.e.d.c.d.d.DefectControllerTest - Started DefectControllerTest in 0.588 seconds (process running for 6.934)
-2023-08-06 18:58:08.724 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:08.724 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:08.724 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:08.769 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:08.769 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:08.769 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:08.803 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:08.804 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:08.804 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:08.832 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:08.832 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:08.832 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:08.846 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:08.847 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:08.847 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:08.859 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defectComment.DefectCommentControllerTest]: DefectCommentControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:08.880 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defectComment.DefectCommentControllerTest
-2023-08-06 18:58:08.907 [main] INFO  c.e.d.c.d.d.DefectCommentControllerTest - Starting DefectCommentControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:08.907 [main] DEBUG c.e.d.c.d.d.DefectCommentControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:08.907 [main] INFO  c.e.d.c.d.d.DefectCommentControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:09.236 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6cf34b88, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5e7fc012, org.springframework.security.web.context.SecurityContextHolderFilter@32cda33c, org.springframework.security.web.header.HeaderWriterFilter@541d8a9e, org.springframework.security.web.authentication.logout.LogoutFilter@6c7bc8ac, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5bb24266, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@63437af4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@63e0c744, org.springframework.security.web.session.SessionManagementFilter@51c0346d, org.springframework.security.web.access.ExceptionTranslationFilter@221961f2, org.springframework.security.web.access.intercept.AuthorizationFilter@5d7f4cbb]
-2023-08-06 18:58:09.289 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.289 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.290 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:09.297 [main] INFO  c.e.d.c.d.d.DefectCommentControllerTest - Started DefectCommentControllerTest in 0.413 seconds (process running for 7.521)
-2023-08-06 18:58:09.310 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.310 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.310 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.326 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.326 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.326 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.348 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.348 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.349 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:09.366 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.366 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.366 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.384 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.lot.lot.LotControllerTest]: LotControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:09.404 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.lot.lot.LotControllerTest
-2023-08-06 18:58:09.429 [main] INFO  c.e.d.core.lot.lot.LotControllerTest - Starting LotControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:09.429 [main] DEBUG c.e.d.core.lot.lot.LotControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:09.429 [main] INFO  c.e.d.core.lot.lot.LotControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:09.741 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@48c56b42, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5c6fae3c, org.springframework.security.web.context.SecurityContextHolderFilter@23471f48, org.springframework.security.web.header.HeaderWriterFilter@2a10a99b, org.springframework.security.web.authentication.logout.LogoutFilter@46aa5294, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2898cd46, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7ebf5bf, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@466c39de, org.springframework.security.web.session.SessionManagementFilter@51617b93, org.springframework.security.web.access.ExceptionTranslationFilter@3647b274, org.springframework.security.web.access.intercept.AuthorizationFilter@70a81b4e]
-2023-08-06 18:58:09.804 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.805 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.806 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:09.814 [main] INFO  c.e.d.core.lot.lot.LotControllerTest - Started LotControllerTest in 0.407 seconds (process running for 8.037)
-2023-08-06 18:58:09.826 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.826 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.826 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.851 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.853 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.856 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:09.873 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.873 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.873 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.893 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.893 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.893 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.913 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:09.914 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:09.914 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:09.980 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.lot.supplier.SupplierControllerTest]: SupplierControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:10.003 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.lot.supplier.SupplierControllerTest
-2023-08-06 18:58:10.032 [main] INFO  c.e.d.c.l.s.SupplierControllerTest - Starting SupplierControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:10.032 [main] DEBUG c.e.d.c.l.s.SupplierControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:10.033 [main] INFO  c.e.d.c.l.s.SupplierControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:10.338 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@55154761, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@304e83a, org.springframework.security.web.context.SecurityContextHolderFilter@1b52f723, org.springframework.security.web.header.HeaderWriterFilter@b079fa2, org.springframework.security.web.authentication.logout.LogoutFilter@6b17aa0b, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@39384ba6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@e7529ac, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5e9db5e7, org.springframework.security.web.session.SessionManagementFilter@25198ead, org.springframework.security.web.access.ExceptionTranslationFilter@774b798, org.springframework.security.web.access.intercept.AuthorizationFilter@3796ca50]
-2023-08-06 18:58:10.387 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.388 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.388 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.394 [main] INFO  c.e.d.c.l.s.SupplierControllerTest - Started SupplierControllerTest in 0.387 seconds (process running for 8.618)
-2023-08-06 18:58:10.405 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.406 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.406 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.419 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.420 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.420 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.435 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.435 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.435 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.447 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.447 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.448 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:10.464 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.464 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.464 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.472 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.user.user.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:10.486 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.user.user.UserControllerTest
-2023-08-06 18:58:10.505 [main] INFO  c.e.d.c.user.user.UserControllerTest - Starting UserControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:10.506 [main] DEBUG c.e.d.c.user.user.UserControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:10.506 [main] INFO  c.e.d.c.user.user.UserControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:10.760 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@79c48ad5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@39d5376c, org.springframework.security.web.context.SecurityContextHolderFilter@290964bd, org.springframework.security.web.header.HeaderWriterFilter@7335aae5, org.springframework.security.web.authentication.logout.LogoutFilter@17caf362, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3411e0d7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6a2d0632, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@20dab85c, org.springframework.security.web.session.SessionManagementFilter@35355074, org.springframework.security.web.access.ExceptionTranslationFilter@22e7ec5f, org.springframework.security.web.access.intercept.AuthorizationFilter@2e78213c]
-2023-08-06 18:58:10.811 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.811 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.812 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:10.818 [main] INFO  c.e.d.c.user.user.UserControllerTest - Started UserControllerTest in 0.329 seconds (process running for 9.041)
-2023-08-06 18:58:10.830 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.830 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.830 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.851 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.852 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.852 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.872 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.872 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.873 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:10.884 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.885 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.885 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:10.895 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:10.896 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:10.896 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.215 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.action.ActionControllerTest]: ActionControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:11.227 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.action.ActionControllerTest
-2023-08-06 18:58:11.244 [main] INFO  c.e.d.c.action.ActionControllerTest - Starting ActionControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:11.245 [main] DEBUG c.e.d.c.action.ActionControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:11.245 [main] INFO  c.e.d.c.action.ActionControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:11.498 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@456a0e9e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@ea2f3a, org.springframework.security.web.context.SecurityContextHolderFilter@16043cb9, org.springframework.security.web.header.HeaderWriterFilter@57e15f2d, org.springframework.security.web.authentication.logout.LogoutFilter@73e6d475, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7aaec50e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@27ebe541, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@18d3e7fc, org.springframework.security.web.session.SessionManagementFilter@23b81002, org.springframework.security.web.access.ExceptionTranslationFilter@fac6d4a, org.springframework.security.web.access.intercept.AuthorizationFilter@7d5caf3]
-2023-08-06 18:58:11.542 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.543 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.543 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.549 [main] INFO  c.e.d.c.action.ActionControllerTest - Started ActionControllerTest in 0.319 seconds (process running for 9.772)
-2023-08-06 18:58:11.568 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.568 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.568 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.620 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.620 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.620 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.637 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.637 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.637 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.657 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.658 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.658 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.689 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.689 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.690 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.701 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:11.701 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:11.701 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:11.864 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.process.ProcessControllerTest]: ProcessControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:11.880 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.process.ProcessControllerTest
-2023-08-06 18:58:11.902 [main] INFO  c.e.d.c.d.p.ProcessControllerTest - Starting ProcessControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:11.902 [main] DEBUG c.e.d.c.d.p.ProcessControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:11.902 [main] INFO  c.e.d.c.d.p.ProcessControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:12.137 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3a1c65ac, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5ff24b0f, org.springframework.security.web.context.SecurityContextHolderFilter@4733c7f0, org.springframework.security.web.header.HeaderWriterFilter@35595f1, org.springframework.security.web.authentication.logout.LogoutFilter@2c992252, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@fd10007, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2004e611, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@a9f4621, org.springframework.security.web.session.SessionManagementFilter@81ba0c5, org.springframework.security.web.access.ExceptionTranslationFilter@6685d5e4, org.springframework.security.web.access.intercept.AuthorizationFilter@2cfc81f8]
-2023-08-06 18:58:12.181 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.181 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.182 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:12.187 [main] INFO  c.e.d.c.d.p.ProcessControllerTest - Started ProcessControllerTest in 0.304 seconds (process running for 10.411)
-2023-08-06 18:58:12.198 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.198 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.198 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.209 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.210 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.210 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.221 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.221 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.221 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.231 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.231 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.232 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:12.246 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.246 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.246 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.255 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defectType.DefectTypeControllerTest]: DefectTypeControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:12.269 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defectType.DefectTypeControllerTest
-2023-08-06 18:58:12.285 [main] INFO  c.e.d.c.d.d.DefectTypeControllerTest - Starting DefectTypeControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:12.285 [main] DEBUG c.e.d.c.d.d.DefectTypeControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:12.285 [main] INFO  c.e.d.c.d.d.DefectTypeControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:12.553 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@100a15a3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@779af906, org.springframework.security.web.context.SecurityContextHolderFilter@3b577709, org.springframework.security.web.header.HeaderWriterFilter@716f968a, org.springframework.security.web.authentication.logout.LogoutFilter@34fa61ad, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@452bddc0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48fdd829, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7b4b2dcd, org.springframework.security.web.session.SessionManagementFilter@6cc20add, org.springframework.security.web.access.ExceptionTranslationFilter@cfe4f8c, org.springframework.security.web.access.intercept.AuthorizationFilter@9bec662]
-2023-08-06 18:58:12.596 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.596 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.597 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:12.602 [main] INFO  c.e.d.c.d.d.DefectTypeControllerTest - Started DefectTypeControllerTest in 0.33 seconds (process running for 10.826)
-2023-08-06 18:58:12.613 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.613 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.614 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.627 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.627 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.627 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.642 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.642 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.643 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:12.656 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.657 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.657 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:12.668 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:12.668 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:12.668 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.072 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.defect.defectImage.DefectImageControllerTest]: DefectImageControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:13.094 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.defect.defectImage.DefectImageControllerTest
-2023-08-06 18:58:13.124 [main] INFO  c.e.d.c.d.d.DefectImageControllerTest - Starting DefectImageControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:13.124 [main] DEBUG c.e.d.c.d.d.DefectImageControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:13.124 [main] INFO  c.e.d.c.d.d.DefectImageControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:13.370 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2cf1c10e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ad3f113, org.springframework.security.web.context.SecurityContextHolderFilter@2dbc56fb, org.springframework.security.web.header.HeaderWriterFilter@2bba7b40, org.springframework.security.web.authentication.logout.LogoutFilter@194ff162, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@37220ee3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4fba033c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@19b019a6, org.springframework.security.web.session.SessionManagementFilter@4f8ad451, org.springframework.security.web.access.ExceptionTranslationFilter@454be9f6, org.springframework.security.web.access.intercept.AuthorizationFilter@2181e6b6]
-2023-08-06 18:58:13.412 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.412 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.413 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:13.418 [main] INFO  c.e.d.c.d.d.DefectImageControllerTest - Started DefectImageControllerTest in 0.319 seconds (process running for 11.641)
-2023-08-06 18:58:13.429 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.429 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.429 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.442 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.442 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.442 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.453 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.453 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.453 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.467 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.467 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.467 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.496 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.lot.material.MaterialControllerTest]: MaterialControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:13.510 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.lot.material.MaterialControllerTest
-2023-08-06 18:58:13.528 [main] INFO  c.e.d.c.l.m.MaterialControllerTest - Starting MaterialControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:13.528 [main] DEBUG c.e.d.c.l.m.MaterialControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:13.528 [main] INFO  c.e.d.c.l.m.MaterialControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:13.797 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@66e33cea, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b81d35c, org.springframework.security.web.context.SecurityContextHolderFilter@47fd0905, org.springframework.security.web.header.HeaderWriterFilter@2d8a4003, org.springframework.security.web.authentication.logout.LogoutFilter@71b99cc6, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@10c8abf0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6f3d6bb2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2676ac68, org.springframework.security.web.session.SessionManagementFilter@453e8239, org.springframework.security.web.access.ExceptionTranslationFilter@752448d2, org.springframework.security.web.access.intercept.AuthorizationFilter@209fa1fc]
-2023-08-06 18:58:13.841 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.841 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.842 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:13.849 [main] INFO  c.e.d.c.l.m.MaterialControllerTest - Started MaterialControllerTest in 0.336 seconds (process running for 12.072)
-2023-08-06 18:58:13.863 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.863 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.863 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.875 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.876 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.876 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.890 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.890 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.890 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.901 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.902 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.902 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.912 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:13.912 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:13.912 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:13.965 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.user.role.RoleControllerTest]: RoleControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:13.980 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.user.role.RoleControllerTest
-2023-08-06 18:58:13.998 [main] INFO  c.e.d.c.user.role.RoleControllerTest - Starting RoleControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:13.998 [main] DEBUG c.e.d.c.user.role.RoleControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:13.998 [main] INFO  c.e.d.c.user.role.RoleControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:14.292 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5e493feb, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@50a0404b, org.springframework.security.web.context.SecurityContextHolderFilter@54dc3d0a, org.springframework.security.web.header.HeaderWriterFilter@74e17634, org.springframework.security.web.authentication.logout.LogoutFilter@6cfc536a, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6bf9c657, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@14564dca, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@e328d88, org.springframework.security.web.session.SessionManagementFilter@6ea4784a, org.springframework.security.web.access.ExceptionTranslationFilter@2303832d, org.springframework.security.web.access.intercept.AuthorizationFilter@6f8cd739]
-2023-08-06 18:58:14.337 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.338 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.339 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
-2023-08-06 18:58:14.345 [main] INFO  c.e.d.c.user.role.RoleControllerTest - Started RoleControllerTest in 0.362 seconds (process running for 12.569)
-2023-08-06 18:58:14.356 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.356 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.357 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.370 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.370 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.370 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.378 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.defecttrackerserver.core.location.LocationControllerTest]: LocationControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-08-06 18:58:14.391 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.defecttrackerserver.DefectTrackerServerApplication for test class com.example.defecttrackerserver.core.location.LocationControllerTest
-2023-08-06 18:58:14.409 [main] INFO  c.e.d.c.l.LocationControllerTest - Starting LocationControllerTest using Java 20.0.2 with PID 18478 (started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 18:58:14.410 [main] DEBUG c.e.d.c.l.LocationControllerTest - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 18:58:14.410 [main] INFO  c.e.d.c.l.LocationControllerTest - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 18:58:14.715 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7af19dd0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7f03fef2, org.springframework.security.web.context.SecurityContextHolderFilter@18a7c1f6, org.springframework.security.web.header.HeaderWriterFilter@341a25da, org.springframework.security.web.authentication.logout.LogoutFilter@446833f7, jwtAuthenticationFilter bean, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@283b462d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4dea8205, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@495e5dbc, org.springframework.security.web.session.SessionManagementFilter@23519e4a, org.springframework.security.web.access.ExceptionTranslationFilter@482f0077, org.springframework.security.web.access.intercept.AuthorizationFilter@2ff35904]
-2023-08-06 18:58:14.758 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.759 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.759 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.766 [main] INFO  c.e.d.c.l.LocationControllerTest - Started LocationControllerTest in 0.372 seconds (process running for 12.989)
-2023-08-06 18:58:14.777 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.777 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.777 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.792 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.793 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.793 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.807 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.807 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.807 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.817 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.817 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.817 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 18:58:14.828 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
-2023-08-06 18:58:14.828 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-2023-08-06 18:58:14.828 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
-2023-08-06 19:54:11.477 [restartedMain] INFO  c.e.d.DefectTrackerServerApplication - Starting DefectTrackerServerApplication using Java 20.0.2 with PID 21107 (/home/kon/IdeaProjects/defect-tracker-server/target/classes started by kon in /home/kon/IdeaProjects/defect-tracker-server)
-2023-08-06 19:54:11.478 [restartedMain] DEBUG c.e.d.DefectTrackerServerApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
-2023-08-06 19:54:11.479 [restartedMain] INFO  c.e.d.DefectTrackerServerApplication - No active profile set, falling back to 1 default profile: "default"
-2023-08-06 19:54:11.519 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-08-06 19:54:11.521 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-08-06 19:54:12.327 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-08-06 19:54:12.406 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 13 JPA repository interfaces.
-2023-08-06 19:54:13.067 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-08-06 19:54:13.074 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2023-08-06 19:54:13.074 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
-2023-08-06 19:54:13.119 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2023-08-06 19:54:13.120 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1596 ms
-2023-08-06 19:54:13.167 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2023-08-06 19:54:13.318 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-2023-08-06 19:54:13.319 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2023-08-06 19:54:13.330 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-2023-08-06 19:54:13.464 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-08-06 19:54:13.507 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.2.Final
-2023-08-06 19:54:13.509 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
-2023-08-06 19:54:13.650 [restartedMain] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
-2023-08-06 19:54:13.741 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-08-06 19:54:13.769 [restartedMain] INFO  org.hibernate.orm.dialect - HHH035001: Using dialect: org.hibernate.dialect.H2Dialect, version: 2.1.214
-2023-08-06 19:54:13.990 [restartedMain] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
-2023-08-06 19:54:14.698 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-08-06 19:54:14.777 [restartedMain] INFO  o.h.t.s.i.e.GenerationTargetToDatabase - HHH000476: Executing script '[injected ScriptSourceInputNonExistentImpl script]'
-2023-08-06 19:54:14.780 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-08-06 19:54:15.066 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2023-08-06 19:54:15.351 [restartedMain] DEBUG c.e.d.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2023-08-06 19:54:16.199 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-08-06 19:54:16.544 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4e88a94f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4fb55e26, org.springframework.security.web.context.SecurityContextHolderFilter@43e89da7, org.springframework.security.web.header.HeaderWriterFilter@3c8e2ca8, org.springframework.security.web.authentication.logout.LogoutFilter@f322f64, com.example.defecttrackerserver.security.JwtAuthenticationFilter@517c8660, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7ed3e3e6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@232efe1e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6d574ac7, org.springframework.security.web.session.SessionManagementFilter@2f9a0f16, org.springframework.security.web.access.ExceptionTranslationFilter@40b03fc6, org.springframework.security.web.access.intercept.AuthorizationFilter@56ae8dca]
-2023-08-06 19:54:16.941 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-08-06 19:54:16.974 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-08-06 19:54:16.984 [restartedMain] INFO  c.e.d.DefectTrackerServerApplication - Started DefectTrackerServerApplication in 5.963 seconds (process running for 6.67)
-2023-08-06 19:54:22.795 [http-nio-8080-exec-6] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-08-06 19:54:22.796 [http-nio-8080-exec-6] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-08-06 19:54:22.800 [http-nio-8080-exec-6] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2023-08-06 20:04:55.962 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-08-06 20:04:55.963 [SpringApplicationShutdownHook] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
-2023-08-06 20:04:56.347 [SpringApplicationShutdownHook] WARN  o.s.b.f.s.DisposableBeanAdapter - Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
-2023-08-06 20:04:56.347 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2023-08-06 20:04:56.454 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-08-08 07:26:32.537 [main] INFO  c.e.d.c.action.ActionIntegrationTest - Starting ActionIntegrationTest using Java 17.0.2 with PID 13340 (started by kon28 in C:\Users\kon28\IdeaProjects\defect-tracker-server)
+2023-08-08 07:26:32.542 [main] DEBUG c.e.d.c.action.ActionIntegrationTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-08 07:26:32.543 [main] INFO  c.e.d.c.action.ActionIntegrationTest - The following 1 profile is active: "test"
+2023-08-08 07:26:34.439 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-08 07:26:34.671 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 211 ms. Found 13 JPA repository interfaces.
+2023-08-08 07:26:35.938 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 0 (http)
+2023-08-08 07:26:35.954 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2023-08-08 07:26:35.955 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-08-08 07:26:36.110 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-08-08 07:26:36.111 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3141 ms
+2023-08-08 07:26:36.233 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-08-08 07:26:36.550 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@33b2ba25
+2023-08-08 07:26:36.553 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-08-08 07:26:36.569 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:56557/test?loggerLevel=OFF'
+2023-08-08 07:26:36.593 [main] ERROR o.s.b.w.e.tomcat.TomcatStarter - Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\kon28\IdeaProjects\defect-tracker-server\target\classes\com\example\defecttrackerserver\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtService': Injection of autowired dependencies failed
+2023-08-08 07:26:36.655 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2023-08-08 07:26:36.662 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2023-08-08 07:26:36.663 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-08-08 07:26:36.670 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-08-08 07:26:36.701 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-08-08 07:26:36.733 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:602)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1405)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:545)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:184)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:118)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:127)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:141)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:97)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:241)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:377)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:382)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:377)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:376)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:289)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:288)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:278)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:277)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:105)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:104)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:142)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:489)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:211)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:183)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161)
+	... 86 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\kon28\IdeaProjects\defect-tracker-server\target\classes\com\example\defecttrackerserver\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtService': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:245)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:210)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:173)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:168)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:153)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:261)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:235)
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4882)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:846)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:241)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:428)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:913)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:485)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123)
+	... 91 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jwtService': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:488)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1416)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:597)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:888)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 132 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'SECRET.KEY' in value "${SECRET.KEY}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:191)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:920)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1358)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:710)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:693)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:133)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:482)
+	... 144 common frames omitted
+2023-08-08 07:26:36.829 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.test.context.support.DependencyInjectionTestExecutionListener] to prepare test instance [com.example.defecttrackerserver.core.action.ActionIntegrationTest@7f792530]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@52325940 testClass = com.example.defecttrackerserver.core.action.ActionIntegrationTest, locations = [], classes = [com.example.defecttrackerserver.DefectTrackerServerApplication], contextInitializerClasses = [], activeProfiles = ["test"], propertySourceLocations = ["classpath:application-test.properties"], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true", "server.port=0"], contextCustomizers = [org.springframework.test.context.support.DynamicPropertiesContextCustomizer@435282ab, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@15a04efb, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3336e6b6, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6f1c29b7, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@14a50707, org.springframework.boot.test.context.SpringBootTestAnnotation@60ba4cfd], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:142)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:127)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:141)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:97)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:241)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:377)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:382)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:377)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:376)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:289)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:288)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:278)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:277)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:105)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:104)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+Caused by: org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:602)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1405)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:545)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:184)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:118)
+	... 72 common frames omitted
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:142)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:489)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:211)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:183)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161)
+	... 86 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\kon28\IdeaProjects\defect-tracker-server\target\classes\com\example\defecttrackerserver\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtService': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:245)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:210)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:173)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:168)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:153)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:261)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:235)
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4882)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:846)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:241)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:428)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:913)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:485)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123)
+	... 91 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jwtService': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:488)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1416)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:597)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:888)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 132 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'SECRET.KEY' in value "${SECRET.KEY}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:191)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:920)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1358)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:710)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:693)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:133)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:482)
+	... 144 common frames omitted
+2023-08-08 07:29:47.447 [main] INFO  c.e.d.c.action.ActionIntegrationTest - Starting ActionIntegrationTest using Java 17.0.2 with PID 13000 (started by kon28 in C:\Users\kon28\IdeaProjects\defect-tracker-server)
+2023-08-08 07:29:47.448 [main] DEBUG c.e.d.c.action.ActionIntegrationTest - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-08-08 07:29:47.449 [main] INFO  c.e.d.c.action.ActionIntegrationTest - The following 1 profile is active: "test"
+2023-08-08 07:29:49.178 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-08 07:29:49.357 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 166 ms. Found 13 JPA repository interfaces.
+2023-08-08 07:29:50.963 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 0 (http)
+2023-08-08 07:29:50.980 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2023-08-08 07:29:50.981 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-08-08 07:29:51.160 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-08-08 07:29:51.162 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3279 ms
+2023-08-08 07:29:51.386 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-08-08 07:29:51.898 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@446cc036
+2023-08-08 07:29:51.901 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-08-08 07:29:51.918 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:57178/test?loggerLevel=OFF'
+2023-08-08 07:29:52.422 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-08 07:29:52.667 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-08-08 07:29:52.675 [main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2023-08-08 07:29:53.115 [main] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2023-08-08 07:29:53.380 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-08-08 07:29:53.495 [main] INFO  org.hibernate.orm.dialect - HHH035001: Using dialect: org.hibernate.dialect.H2Dialect, version: 15.3
+2023-08-08 07:29:53.579 [main] WARN  c.zaxxer.hikari.pool.ProxyConnection - HikariPool-1 - Connection org.postgresql.jdbc.PgConnection@446cc036 marked as broken because of SQLSTATE(0A000), ErrorCode(0)
+java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
+	at org.postgresql.Driver.notImplemented(Driver.java:740)
+	at org.postgresql.jdbc.PgConnection.createClob(PgConnection.java:1425)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.createClob(HikariProxyConnection.java)
+	at org.hibernate.engine.jdbc.env.internal.LobCreationHelper.canCreateClob(LobCreationHelper.java:86)
+	at org.hibernate.engine.jdbc.env.internal.LobCreationHelper.getSupportedContextualLobTypes(LobCreationHelper.java:71)
+	at org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.makeLobCreatorBuilder(LobCreatorBuilderImpl.java:51)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentImpl.<init>(JdbcEnvironmentImpl.java:306)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:224)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:34)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:119)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:264)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:239)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:216)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:229)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:197)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:166)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1380)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1451)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:376)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1816)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1766)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:693)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:517)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1682)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:597)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:888)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:245)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:888)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:245)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:210)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:173)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:168)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:153)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:261)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:235)
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4882)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:846)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:241)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:428)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:913)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:485)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:489)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:211)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:183)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:602)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1405)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:545)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:184)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:118)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:127)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:141)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:97)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:241)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:377)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:382)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:377)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:376)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:289)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:288)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:278)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:277)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:105)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:104)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+2023-08-08 07:29:54.648 [main] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2023-08-08 07:29:56.062 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-08 07:29:56.070 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-08 07:29:56.899 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-08-08 07:29:57.585 [main] DEBUG c.e.d.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2023-08-08 07:29:58.939 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-08 07:29:59.871 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@31201bf6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4159113f, org.springframework.security.web.context.SecurityContextHolderFilter@3676e04a, org.springframework.security.web.header.HeaderWriterFilter@7f4050f0, org.springframework.security.web.authentication.logout.LogoutFilter@3c7dbf1f, com.example.defecttrackerserver.security.JwtAuthenticationFilter@3268f664, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7df63a2d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2682fe42, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3333b099, org.springframework.security.web.session.SessionManagementFilter@33ea43a, org.springframework.security.web.access.ExceptionTranslationFilter@22f0d1e0, org.springframework.security.web.access.intercept.AuthorizationFilter@5c15d1bc]
+2023-08-08 07:30:00.828 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 57222 (http) with context path ''
+2023-08-08 07:30:00.849 [main] INFO  c.e.d.c.action.ActionIntegrationTest - Started ActionIntegrationTest in 13.942 seconds (process running for 22.825)
+2023-08-08 07:30:04.389 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-08 07:30:04.403 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-08-08 07:30:04.416 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

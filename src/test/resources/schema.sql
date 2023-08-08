@@ -1,3 +1,9 @@
+CREATE TABLE location (
+                          id SERIAL PRIMARY KEY,
+                          custom_id TEXT UNIQUE,
+                          name TEXT UNIQUE
+);
+
 CREATE TABLE role (
                       role_id SERIAL PRIMARY KEY,
                       name TEXT NOT NULL
@@ -31,25 +37,6 @@ CREATE TABLE user_roles (
                             FOREIGN KEY (role_id) REFERENCES role(role_id)
 );
 
-CREATE TABLE defect_comment (
-                                id SERIAL PRIMARY KEY,
-                                content TEXT,
-                                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                created_by_id INT,
-                                defect_id NOT NULL,
-
-                                FOREIGN KEY (defect_id) REFERENCES defect(id),
-                                FOREIGN KEY (created_by_id) REFERENCES "users"(id)
-);
-
-CREATE TABLE defect_image (
-                              id SERIAL PRIMARY KEY,
-                              path TEXT,
-                              defect_id NOT NULL,
-
-                              FOREIGN KEY (defect_id) REFERENCES defect(id)
-);
-
 CREATE TABLE defect_status (
                                id SERIAL PRIMARY KEY,
                                name TEXT UNIQUE
@@ -63,12 +50,6 @@ CREATE TABLE defect_type (
 CREATE TABLE process (
                          id SERIAL PRIMARY KEY,
                          name TEXT UNIQUE
-);
-
-CREATE TABLE location (
-                          id SERIAL PRIMARY KEY,
-                          custom_id TEXT UNIQUE,
-                          name TEXT UNIQUE
 );
 
 CREATE TABLE material (
@@ -115,8 +96,27 @@ CREATE TABLE defect (
                         FOREIGN KEY (changed_by_id) REFERENCES "users"(id)
 );
 
-CREATE TABLE action(
-    CREATE TABLE action (
+CREATE TABLE defect_comment (
+                                id SERIAL PRIMARY KEY,
+                                content TEXT,
+                                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                created_by_id INT,
+                                defect_id INT NOT NULL,
+
+                                FOREIGN KEY (defect_id) REFERENCES defect(id),
+                                FOREIGN KEY (created_by_id) REFERENCES "users"(id)
+);
+
+CREATE TABLE defect_image (
+                              id SERIAL PRIMARY KEY,
+                              path TEXT,
+                              defect_id INT
+                                  NOT NULL,
+
+                              FOREIGN KEY (defect_id) REFERENCES defect(id)
+);
+
+CREATE TABLE action (
         id SERIAL PRIMARY KEY,
         description TEXT,
         due_date DATE NOT NULL,
@@ -129,8 +129,8 @@ CREATE TABLE action(
         FOREIGN KEY (defect_id) REFERENCES defect(id),
         FOREIGN KEY (created_by_id) REFERENCES "users"(id),
         FOREIGN KEY (changed_by_id) REFERENCES "users"(id)
-        );
-)
+);
+
 
 CREATE TABLE user_actions (
                              user_id INT,
