@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
@@ -34,7 +35,9 @@ public class ActionServiceImpl implements ActionService{
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
         actionDto.setCreatedAt(LocalDateTime.now());
-        actionDto.setCreatedBy(userMapper.mapToDto(securityService.getUser()));
+
+        User currentUser = securityService.getUser();
+        actionDto.setCreatedBy(userMapper.mapToDto(currentUser));
         actionDto.setIsCompleted(false);
 
         Action newAction = actionMapper.map(actionDto, new Action());
