@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
@@ -26,6 +27,9 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
 
     @Query("SELECT DISTINCT d.defectStatus FROM Defect d WHERE d.id IN :defectIds")
     Set<DefectStatus> findDistinctDefectStatuses(@Param("defectIds") List<Integer> defectIds);
+
+    @Query("SELECT DISTINCT d.causationCategory FROM Defect d WHERE d.id IN :defectIds")
+    Set<CausationCategory> findDistinctCausationCategories(@Param("defectIds") List<Integer> defectIds);
 
     @Query("SELECT DISTINCT d.location FROM Defect d WHERE d.id IN :defectIds")
     Set<Location> findDistinctLocations(@Param("defectIds") List<Integer> defectIds);

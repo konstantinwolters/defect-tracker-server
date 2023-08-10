@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
@@ -57,6 +58,10 @@ public class Defect {
     @ManyToOne
     @JoinColumn(name = "defect_type_id", nullable = false)
     private DefectType defectType;
+
+    @ManyToOne
+    @JoinColumn(name = "causation_category_id", nullable = false)
+    private CausationCategory causationCategory;
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)

@@ -1,6 +1,9 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
@@ -38,12 +41,14 @@ import java.util.stream.Collectors;
 public class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
+    private final CausationCategoryRepository causationCategoryRepository;
     private final DefectMapper defectMapper;
     private final SecurityService securityService;
     private final MaterialMapper materialMapper;
     private final SupplierMapper supplierMapper;
     private final LocationMapper locationMapper;
     private final ProcessMapper processMapper;
+    private final CausationCategoryMapper causationCategoryMapper;
     private final UserMapper userMapper;
     private final DefectTypeMapper defectTypeMapper;
     private final DefectStatusMapper defectStatusMapper;
@@ -63,6 +68,10 @@ public class DefectServiceImpl implements DefectService{
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with name: 'New'"));
         newDefect.setDefectStatus(defectStatus);
 
+        CausationCategory causationCategory = causationCategoryRepository.findByName("Undefined")
+                .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with name: 'Undefined'"));
+        newDefect.setCausationCategory(causationCategory);
+
         return defectMapper.mapToDto(defectRepository.save(newDefect));
     }
 
@@ -79,6 +88,7 @@ public class DefectServiceImpl implements DefectService{
             List<Integer> materials,
             List<Integer> suppliers,
             List<Integer> defectStatusIds,
+            List<Integer> causationCategorysIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
@@ -106,6 +116,10 @@ public class DefectServiceImpl implements DefectService{
 
         if(defectStatusIds != null && !defectStatusIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("defectStatus").get("id").in(defectStatusIds));
+        }
+
+        if(causationCategorysIds != null && !causationCategorysIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("causationCategory").get("id").in(causationCategorysIds));
         }
 
         if (createdAtStart != null && createdAtEnd != null) {
@@ -199,6 +213,11 @@ public class DefectServiceImpl implements DefectService{
         defectFilterValues.setDefectStatuses(
                 defectRepository.findDistinctDefectStatuses(defectIds).stream()
                         .map(defectStatusMapper::mapToDto)
+                        .collect(Collectors.toSet())
+        );
+        defectFilterValues.setCausationCategories(
+                defectRepository.findDistinctCausationCategories(defectIds).stream()
+                        .map(causationCategoryMapper::mapToDto)
                         .collect(Collectors.toSet())
         );
         defectFilterValues.setDefectTypes(

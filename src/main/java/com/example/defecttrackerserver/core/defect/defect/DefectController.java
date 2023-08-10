@@ -67,6 +67,7 @@ public class DefectController {
             @RequestParam(required = false) String materialIds,
             @RequestParam(required = false) String supplierIds,
             @RequestParam(required = false) String defectStatusIds,
+            @RequestParam(required = false) String causationCategoryIds,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAtEnd,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate changedAtStart,
@@ -84,6 +85,7 @@ public class DefectController {
         List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
         List<Integer> supplierIdList = utils.convertStringToListOfInteger(supplierIds);
         List<Integer> defectStatusIdList = utils.convertStringToListOfInteger(defectStatusIds);
+        List<Integer> causationCategoryIdList = utils.convertStringToListOfInteger(causationCategoryIds);
         List<Integer> locationIdList = utils.convertStringToListOfInteger(locationIds);
         List<Integer> processIdList = utils.convertStringToListOfInteger(processIds);
         List<Integer> defectTypeIdList = utils.convertStringToListOfInteger(defectTypeIds);
@@ -99,9 +101,9 @@ public class DefectController {
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
-        return defectService.getDefects(lotIdList, materialIdList, supplierIdList, defectStatusIdList, createdAtStart, createdAtEnd,
-                changedAtStart, changedAtEnd, locationIdList, processIdList, defectTypeIdList, createdByIdList,
-                changedByIdList, pageable);
+        return defectService.getDefects(lotIdList, materialIdList, supplierIdList, defectStatusIdList,
+                causationCategoryIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                locationIdList, processIdList, defectTypeIdList, createdByIdList, changedByIdList, pageable);
     }
 
     @Operation(

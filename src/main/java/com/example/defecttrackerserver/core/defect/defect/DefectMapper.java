@@ -4,6 +4,8 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentMapper;
@@ -47,16 +49,19 @@ public class DefectMapper {
     private final DefectImageRepository defectImageRepository;
     private final ActionRepository actionRepository;
     private final UserRepository userRepository;
+    private final CausationCategoryRepository causationCategoryRepository;
     private final UserMapper userMapper;
     private final DefectCommentMapper defectCommentMapper;
     private final DefectImageMapper defectImageMapper;
     private final ActionMapper actionMapper;
+
 
     public Defect map (DefectDto defectDto, Defect defect){
         DefectStatus defectStatus = getDefectStatusByName(defectDto.getDefectStatus());
         Location location = getLocationByName(defectDto.getLocation());
         Process process = getProcessByName(defectDto.getProcess());
         DefectType defectType = getDefectTypeByName(defectDto.getDefectType());
+        CausationCategory causationCategory = getCausationCategoryByName(defectDto.getCausationCategory());
         User createdBy = getUserById(defectDto.getCreatedBy().getId());
         User changedBy = defectDto.getChangedBy() != null ? getUserById(defectDto.getChangedBy().getId()) : null;
 
@@ -89,6 +94,7 @@ public class DefectMapper {
         defect.setChangedAt(defectDto.getChangedAt());
         defect.setDescription(defectDto.getDescription());
         defect.setDefectStatus(defectStatus);
+        defect.setCausationCategory(causationCategory);
         defect.setLocation(location);
         defect.setProcess(process);
         defect.setDefectType(defectType);
@@ -132,6 +138,12 @@ public class DefectMapper {
     private DefectStatus getDefectStatusByName (String name){
         return defectStatusRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "
+                        + name));
+    }
+
+    private CausationCategory getCausationCategoryByName (String name){
+        return causationCategoryRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Causation category not found with name: "
                         + name));
     }
 
@@ -180,6 +192,7 @@ public class DefectMapper {
         defectDto.setCreatedAt(defect.getCreatedAt());
         defectDto.setChangedAt(defect.getChangedAt());
         defectDto.setDefectStatus(defect.getDefectStatus().getName());
+        defectDto.setCausationCategory(defect.getCausationCategory().getName());
         defectDto.setDefectComments(defectComments);
         defectDto.setLot(defect.getLot().getLotNumber());
         defectDto.setLocation(defect.getLocation().getName());
