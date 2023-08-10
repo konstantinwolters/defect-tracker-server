@@ -17,6 +17,7 @@ public interface DefectService {
             List<Integer> materialsIds,
             List<Integer> suppliersIds,
             List<Integer> defectStatusIds,
+            List<Integer> causationCategoryIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,

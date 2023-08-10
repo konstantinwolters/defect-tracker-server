@@ -23,6 +23,7 @@ public class DefectDto {
     private LocalDateTime createdAt;
     private LocalDateTime changedAt;
     private UserDto changedBy;
+    private String causationCategory;
 
     @NotNull(message = "Defect description must not be null.")
     @NotEmpty(message = "Defect description must not be empty.")

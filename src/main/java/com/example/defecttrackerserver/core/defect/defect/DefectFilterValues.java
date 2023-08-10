@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryDto;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
 import com.example.defecttrackerserver.core.defect.process.ProcessDto;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Setter
 public class DefectFilterValues {
     private Set<DefectStatusDto> defectStatuses;
+    private Set<CausationCategoryDto> causationCategories;
     private Set<LotInfo> lots;
     private Set<MaterialDto> materials;
     private Set<SupplierDto> suppliers;
