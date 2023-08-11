@@ -4,6 +4,8 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentMapper;
@@ -71,6 +73,9 @@ class DefectMapperTest {
     private DefectImageRepository defectImageRepository;
 
     @Mock
+    private CausationCategoryRepository causationCategoryRepository;
+
+    @Mock
     private DefectCommentMapper defectCommentMapper;
 
     @Mock
@@ -111,6 +116,7 @@ class DefectMapperTest {
         defectDto.setId(1);
         defectDto.setDescription("testDescription");
         defectDto.setDefectStatus("testStatus");
+        defectDto.setCausationCategory("testCategory");
         defectDto.setDefectComments(Set.of(defectCommentDto));
         defectDto.setLot("testLot");
         defectDto.setLocation("testCity");
@@ -127,6 +133,9 @@ class DefectMapperTest {
     void shouldReturnMappedDefect() {
         DefectStatus defectStatus = new DefectStatus();
         defectStatus.setName("testStatus");
+
+        CausationCategory causationCategory = new CausationCategory();
+        causationCategory.setName("testCategory");
 
         Lot lot = new Lot();
         lot.setId(1);
@@ -145,6 +154,7 @@ class DefectMapperTest {
         user.setId(1);
 
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(defectStatus));
+        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(causationCategory));
         when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
         when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(lot));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(location));
@@ -158,6 +168,7 @@ class DefectMapperTest {
         Defect mappedDefect = defectMapper.map(defectDto, defect);
 
         assertEquals(defectDto.getDefectStatus(), mappedDefect.getDefectStatus().getName());
+        assertEquals(defectDto.getCausationCategory(), mappedDefect.getCausationCategory().getName());
         assertEquals(defectDto.getDescription(), mappedDefect.getDescription());
         assertEquals(defectDto.getDefectComments().size(), mappedDefect.getDefectComments().size());
         assertEquals(defectDto.getLot(), mappedDefect.getLot().getLotNumber());
@@ -175,6 +186,7 @@ class DefectMapperTest {
 
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
+        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(new CausationCategory()));
         when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
@@ -195,6 +207,7 @@ class DefectMapperTest {
 
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
+        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(new CausationCategory()));
         when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
@@ -214,6 +227,7 @@ class DefectMapperTest {
         defectDto.setActions(null);
 
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
+        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(new CausationCategory()));
         when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
@@ -232,6 +246,13 @@ class DefectMapperTest {
     @Test
     void shouldThrowExceptionWhenDefectStatusNotFound() {
         when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCausationCategoryNotFound() {
+        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
@@ -330,39 +351,42 @@ class DefectMapperTest {
 
     @Test
     void shouldReturnMappedDefectDto() {
+
+        DefectStatus defectStatus = new DefectStatus();
+        defectStatus.setName("testStatus");
+
+        CausationCategory causationCategory = new CausationCategory();
+        causationCategory.setName("testCategory");
+
+        Lot lot = new Lot();
+        lot.setLotNumber("testLot");
+
+        Location location  = new Location();
+        location.setName("testLocation");
+
+        Process process = new Process();
+        process.setName("testProcess");
+
+        DefectType defectType = new DefectType();
+        defectType.setName("testType");
+
+        User user = new User();
+        user.setId(1);
+
         Defect defect = new Defect();
         defect.setId(1);
         defect.setDescription("testDescription");
         defect.setCreatedAt(LocalDateTime.now());
         defect.setChangedAt(LocalDateTime.now());
-
-        DefectStatus defectStatus = new DefectStatus();
-        defectStatus.setName("testStatus");
         defect.setDefectStatus(defectStatus);
-
+        defect.setCausationCategory(causationCategory);
         defect.setDefectComments(Set.of(new DefectComment()));
-
-        Lot lot = new Lot();
-        lot.setLotNumber("testLot");
         defect.setLot(lot);
-
-        Location location  = new Location();
-        location.setName("testLocation");
         defect.setLocation(location);
-
-        Process process = new Process();
-        process.setName("testProcess");
         defect.setProcess(process);
-
-        DefectType defectType = new DefectType();
-        defectType.setName("testType");
         defect.setDefectType(defectType);
-
         defect.setImages(Set.of(new DefectImage()));
         defect.setActions(Set.of(new Action()));
-
-        User user = new User();
-        user.setId(1);
         defect.setCreatedBy(user);
         defect.setChangedBy(user);
 

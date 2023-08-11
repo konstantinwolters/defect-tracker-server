@@ -1,5 +1,8 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
@@ -54,6 +57,9 @@ public class DefectServiceImplTest {
     private DefectStatusRepository defectStatusRepository;
 
     @Mock
+    private CausationCategoryRepository causationCategoryRepository;
+
+    @Mock
     private DefectMapper defectMapper;
 
     @Mock
@@ -73,6 +79,9 @@ public class DefectServiceImplTest {
 
     @Mock
     private DefectStatusMapper defectStatusMapper;
+
+    @Mock
+    private CausationCategoryMapper causationCategoryMapper;
 
     @Mock
     private DefectTypeMapper defectTypeMapper;
@@ -101,6 +110,7 @@ public class DefectServiceImplTest {
     void shouldSaveDefect() {
         when(defectRepository.save(defect)).thenReturn(defect);
         when(defectStatusRepository.findByName(anyString())).thenReturn(Optional.of(new DefectStatus()));
+        when(causationCategoryRepository.findByName(anyString())).thenReturn(Optional.of(new CausationCategory()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
         when(securityService.getUser()).thenReturn(new User());
@@ -129,6 +139,7 @@ public class DefectServiceImplTest {
         List<Integer> materialIds = Arrays.asList(1, 2);
         List<Integer> supplierIds = Arrays.asList(1, 2);
         List<Integer> defectStatusIds = Arrays.asList(1, 2);
+        List<Integer> causationCategoryIds = Arrays.asList(1, 2);
         LocalDate createdAtStart = LocalDate.now();
         LocalDate createdAtEnd = LocalDate.now();
         LocalDate changedAtStart = LocalDate.now();
@@ -145,7 +156,7 @@ public class DefectServiceImplTest {
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
         PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, materialIds, supplierIds,
-                defectStatusIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, locationIds,
+                defectStatusIds, causationCategoryIds ,createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, locationIds,
                 processIds, defectTypeIds, createdByIds, changedByIds, pageable);
 
         assertEquals(1, result.getContent().size());
