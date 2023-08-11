@@ -93,7 +93,7 @@ public class DefectControllerTest extends BaseControllerTest {
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
-        when(defectService.getDefects(anyList(),anyList(), anyList(), anyList(), any(), any(), any(), any(),
+        when(defectService.getDefects(anyList(),anyList(), anyList(), anyList(), anyList(), any(), any(), any(), any(),
                 anyList(), anyList(), anyList(), anyList(), anyList(), any(Pageable.class))).thenReturn(response);
 
         when(utils.convertStringToListOfInteger(anyString())).thenReturn(List.of(1,2));
@@ -103,6 +103,7 @@ public class DefectControllerTest extends BaseControllerTest {
                         .param("materialIds", "1", "2")
                         .param("supplierIds", "1", "2")
                         .param("defectStatusIds", "3", "4")
+                        .param("causationCategoryIds", "3", "4")
                         .param("createdAtStart", "2023-01-01")
                         .param("createdAtEnd", "2023-12-31")
                         .param("changedAtStart", "2023-01-31")
