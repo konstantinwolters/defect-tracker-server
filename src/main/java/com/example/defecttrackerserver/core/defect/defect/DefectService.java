@@ -13,6 +13,7 @@ public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto);
     DefectDto getDefectById(Integer id);
     PaginatedResponse<DefectDto> getDefects(
+            String searchTerm,
             List<Integer> lotIds,
             List<Integer> materialsIds,
             List<Integer> suppliersIds,

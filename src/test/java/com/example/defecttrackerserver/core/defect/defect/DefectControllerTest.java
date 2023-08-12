@@ -93,12 +93,14 @@ public class DefectControllerTest extends BaseControllerTest {
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
-        when(defectService.getDefects(anyList(),anyList(), anyList(), anyList(), anyList(), any(), any(), any(), any(),
-                anyList(), anyList(), anyList(), anyList(), anyList(), any(Pageable.class))).thenReturn(response);
+        when(defectService.getDefects(anyString(),anyList(),anyList(), anyList(), anyList(), anyList(), any(), any(),
+                any(), any(), anyList(), anyList(), anyList(), anyList(), anyList(), any(Pageable.class)))
+                .thenReturn(response);
 
         when(utils.convertStringToListOfInteger(anyString())).thenReturn(List.of(1,2));
 
         mockMvc.perform(get("/defects")
+                        .param("search", "Test")
                         .param("lotIds", "1", "2")
                         .param("materialIds", "1", "2")
                         .param("supplierIds", "1", "2")
