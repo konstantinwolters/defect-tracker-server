@@ -84,6 +84,7 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
    public PaginatedResponse<DefectDto> getDefects(
+            String searchTerm,
             List<Integer> lotIds,
             List<Integer> materials,
             List<Integer> suppliers,
@@ -101,6 +102,11 @@ public class DefectServiceImpl implements DefectService{
             Pageable pageable
     ){
         Specification<Defect> spec = Specification.where(null);
+
+        if(searchTerm != null && !searchTerm.isEmpty()){
+            spec = spec.and((root, query, cb) ->
+                    cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"));
+        }
 
         if(lotIds != null && !lotIds.isEmpty()){
             spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));

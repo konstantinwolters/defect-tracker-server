@@ -59,6 +59,7 @@ public class ActionController {
     )
     @GetMapping("")
     public PaginatedResponse<ActionDto> getFilteredActions(
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDateEnd,
             @RequestParam(required = false) Boolean isCompleted,
@@ -92,7 +93,7 @@ public class ActionController {
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
-        return actionService.getActions(dueDateStart, dueDateEnd, isCompleted, assignedUserIdList,
+        return actionService.getActions(search, dueDateStart, dueDateEnd, isCompleted, assignedUserIdList,
                 defectIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
                 createdByIdList, changedByIdList, pageable);
     }

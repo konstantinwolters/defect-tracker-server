@@ -63,6 +63,7 @@ public class DefectController {
     )
     @GetMapping()
     public PaginatedResponse<DefectDto> getFilteredDefects(
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) String lotsIds,
             @RequestParam(required = false) String materialIds,
             @RequestParam(required = false) String supplierIds,
@@ -101,7 +102,7 @@ public class DefectController {
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
-        return defectService.getDefects(lotIdList, materialIdList, supplierIdList, defectStatusIdList,
+        return defectService.getDefects(search, lotIdList, materialIdList, supplierIdList, defectStatusIdList,
                 causationCategoryIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
                 locationIdList, processIdList, defectTypeIdList, createdByIdList, changedByIdList, pageable);
     }

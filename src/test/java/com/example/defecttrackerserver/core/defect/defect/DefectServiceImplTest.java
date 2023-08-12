@@ -135,6 +135,7 @@ public class DefectServiceImplTest {
 
     @Test
     public void shouldReturnFilteredDefects() {
+        String searchTerm = "Test";
         List<Integer> lotIds = Arrays.asList(1, 2);
         List<Integer> materialIds = Arrays.asList(1, 2);
         List<Integer> supplierIds = Arrays.asList(1, 2);
@@ -155,9 +156,9 @@ public class DefectServiceImplTest {
         when(defectRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
 
-        PaginatedResponse<DefectDto> result = defectService.getDefects(lotIds, materialIds, supplierIds,
-                defectStatusIds, causationCategoryIds ,createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, locationIds,
-                processIds, defectTypeIds, createdByIds, changedByIds, pageable);
+        PaginatedResponse<DefectDto> result = defectService.getDefects(searchTerm, lotIds, materialIds, supplierIds,
+                defectStatusIds, causationCategoryIds ,createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                locationIds, processIds, defectTypeIds, createdByIds, changedByIds, pageable);
 
         assertEquals(1, result.getContent().size());
         assertTrue(result.getContent().contains(defectDto));

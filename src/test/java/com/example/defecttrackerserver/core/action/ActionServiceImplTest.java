@@ -92,6 +92,7 @@ public class ActionServiceImplTest {
 
     @Test
     void shouldReturnFilteredActions() {
+        String searchTerm = "test";
         LocalDate dueDateStart = LocalDate.now();
         LocalDate dueDateEnd = LocalDate.now();
         Boolean isComplete = true;
@@ -109,7 +110,7 @@ public class ActionServiceImplTest {
         when(actionRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
 
-        PaginatedResponse<ActionDto> result = actionService.getActions(dueDateStart, dueDateEnd, isComplete,
+        PaginatedResponse<ActionDto> result = actionService.getActions(searchTerm, dueDateStart, dueDateEnd, isComplete,
                 assignedUserIds, defectIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
                 createdByIds, changedByIds, pageable);
 
