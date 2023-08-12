@@ -54,6 +54,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public PaginatedResponse<ActionDto> getActions(
+            String searchTerm,
             LocalDate dueDateStart,
             LocalDate dueDateEnd,
             Boolean isCompleted,
@@ -68,6 +69,10 @@ public class ActionServiceImpl implements ActionService{
             Pageable pageable
     ){
         Specification<Action> spec = Specification.where(null);
+
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"));
+        }
 
         if (dueDateStart != null && dueDateEnd != null) {
             LocalDateTime startOfDay = dueDateStart.atStartOfDay();

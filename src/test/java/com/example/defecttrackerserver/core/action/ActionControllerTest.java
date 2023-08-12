@@ -84,6 +84,7 @@ public class ActionControllerTest extends BaseControllerTest {
 
     @Test
     public void shouldReturnFilteredActions() throws Exception {
+        String searchTerm = "test";
         LocalDate dueDateStart = LocalDate.now();
         LocalDate dueDateEnd = LocalDate.now();
         Boolean isComplete = true;
@@ -101,12 +102,13 @@ public class ActionControllerTest extends BaseControllerTest {
         PaginatedResponse<ActionDto> response = new PaginatedResponse<>(List.of(testactionDto), 1,
                 1, 0, new ActionFilterValues());
 
-        when(actionService.getActions(dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
+        when(actionService.getActions(searchTerm, dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
                 createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, createdByIds, changedByIds,
                 pageable)).thenReturn(response);
         when(utils.convertStringToListOfInteger(any(String.class))).thenReturn(Arrays.asList(1,2));
 
         mockMvc.perform(get("/actions")
+                        .param("search", searchTerm)
                         .param("dueDateStart", String.valueOf(dueDateStart))
                         .param("dueDateEnd", String.valueOf(dueDateEnd))
                         .param("isCompleted", String.valueOf(isComplete))

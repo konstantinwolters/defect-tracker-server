@@ -10,6 +10,7 @@ public interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);
     PaginatedResponse<ActionDto> getActions(
+            String searchTerm,
             LocalDate dueDateStart,
             LocalDate dueDateEnd,
             Boolean isCompleted,
