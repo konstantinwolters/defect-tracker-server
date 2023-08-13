@@ -64,4 +64,6 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
     Set<Defect> findByProcessId(Integer id);
 
     Set<Defect> findByLocationId(Integer id);
+
+    Set<Defect> findByCausationCategoryId(Integer id);
 }

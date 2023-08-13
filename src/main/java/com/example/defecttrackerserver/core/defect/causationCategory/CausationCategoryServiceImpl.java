@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.causationCategory;
 
 import com.example.defecttrackerserver.core.defect.causationCategory.causationCategoryException.CausationCategoryExistsException;
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CausationCategoryServiceImpl implements CausationCategoryService {
     private final CausationCategoryRepository causationCategoryRepository;
+    private final DefectRepository defectRepository;
     private final CausationCategoryMapper causationCategoryMapper;
 
     @Override
@@ -74,6 +76,9 @@ public class CausationCategoryServiceImpl implements CausationCategoryService {
     public void deleteCausationCategory(Integer id) {
         CausationCategory causationCategory = causationCategoryRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with id: " + id));
+
+        if(!defectRepository.findByCausationCategoryId(id).isEmpty())
+            throw new UnsupportedOperationException("CausationCategory cannot be deleted because it is used in Defects");
 
         causationCategoryRepository.delete(causationCategory);
     }
