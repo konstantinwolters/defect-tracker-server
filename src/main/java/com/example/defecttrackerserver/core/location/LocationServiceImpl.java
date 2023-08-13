@@ -1,6 +1,8 @@
 package com.example.defecttrackerserver.core.location;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.location.locationException.LocationExistsException;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository  locationRepository;
+    private final UserRepository userRepository;
+    private final DefectRepository defectRepository;
     private final LocationMapper locationMapper;
 
     @Override
@@ -75,6 +79,12 @@ public class LocationServiceImpl implements LocationService {
     public void deleteLocation(Integer id) {
         locationRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Location not found with id: " + id));
+
+        if(!defectRepository.findByLocationId(id).isEmpty())
+            throw new UnsupportedOperationException("Location cannot be deleted because it is used in Defects");
+
+        if(!userRepository.findByLocationId(id).isEmpty())
+            throw new UnsupportedOperationException("Process cannot be deleted because it is used in Users");
 
         locationRepository.deleteById(id);
     }

@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(String username);
@@ -14,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.id IN :userIds")
     List<User> findByIds(@Param("userIds") List<Integer> userIds);
 
+    Set<User> findByLocationId(Integer id);
 }
