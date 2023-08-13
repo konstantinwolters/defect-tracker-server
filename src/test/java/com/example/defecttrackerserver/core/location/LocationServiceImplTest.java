@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.location;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +13,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LocationServiceImplTest {
+
+    @Mock
+    private DefectRepository defectRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @Mock
     private LocationRepository locationRepository;
@@ -94,6 +103,8 @@ public class LocationServiceImplTest {
     @Test
     void shouldDeleteLocation() {
         when(locationRepository.findById(any(Integer.class))).thenReturn(Optional.of(location));
+        when(defectRepository.findByLocationId(any(Integer.class))).thenReturn(Set.of());
+        when(userRepository.findByLocationId(any(Integer.class))).thenReturn(Set.of());
 
         locationService.deleteLocation(1);
 

@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusServiceImpl;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.location.Location;
@@ -16,6 +17,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
@@ -54,4 +56,14 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
 
     @Query("SELECT DISTINCT d.changedBy FROM Defect d WHERE d.id IN :defectIds")
     Set<User> findDistinctChangedBy(@Param("defectIds") List<Integer> defectIds);
+
+    Set<Defect> findByDefectStatusId(Integer id);
+
+    Set<Defect> findByDefectTypeId(Integer id);
+
+    Set<Defect> findByProcessId(Integer id);
+
+    Set<Defect> findByLocationId(Integer id);
+
+    Set<Defect> findByCausationCategoryId(Integer id);
 }

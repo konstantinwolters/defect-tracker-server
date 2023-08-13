@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +12,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcessServiceImplTest {
+
+    @Mock
+    private DefectRepository defectRepository;
 
     @Mock
     private ProcessRepository processRepository;
@@ -94,6 +99,7 @@ public class ProcessServiceImplTest {
     @Test
     void shouldDeleteProcess() {
         when(processRepository.findById(any(Integer.class))).thenReturn(Optional.of(process));
+        when(defectRepository.findByProcessId(any(Integer.class))).thenReturn(Set.of());
 
         processService.deleteProcess(1);
 
