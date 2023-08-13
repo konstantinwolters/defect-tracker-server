@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.process.processException.processExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProcessServiceImpl implements ProcessService {
     private final ProcessRepository processRepository;
+    private final DefectRepository defectRepository;
     private final ProcessMapper processMapper;
 
     @Override
@@ -75,6 +77,9 @@ public class ProcessServiceImpl implements ProcessService {
     public void deleteProcess(Integer id) {
         Process process = processRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Process not found with id: " + id));
+
+        if(!defectRepository.findByProcessId(id).isEmpty())
+            throw new UnsupportedOperationException("Process cannot be deleted because it is used in Defects");
 
         processRepository.delete(process);
     }
