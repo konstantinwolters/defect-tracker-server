@@ -17,6 +17,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
@@ -57,4 +58,6 @@ public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpe
     Set<User> findDistinctChangedBy(@Param("defectIds") List<Integer> defectIds);
 
     Set<Defect> findByDefectStatusId(Integer id);
+
+    Set<Defect> findByDefectTypeId(Integer id);
 }

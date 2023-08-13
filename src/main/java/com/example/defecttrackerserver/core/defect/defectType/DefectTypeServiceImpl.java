@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefectTypeServiceImpl implements DefectTypeService {
     private final DefectTypeRepository defectTypeRepository;
+    private final DefectRepository defectRepository;
     private final DefectTypeMapper defectTypeMapper;
 
     @Override
@@ -74,6 +76,9 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     public void deleteDefectType(Integer id) {
         DefectType defectType = defectTypeRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: " + id));
+
+        if(!defectRepository.findByDefectTypeId(id).isEmpty())
+            throw new UnsupportedOperationException("DefectType cannot be deleted because it is used in Defects");
 
         defectTypeRepository.delete(defectType);
     }
