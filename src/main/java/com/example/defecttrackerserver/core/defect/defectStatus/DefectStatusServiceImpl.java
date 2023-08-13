@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defectStatus;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefectStatusServiceImpl implements DefectStatusService{
     private final DefectStatusRepository defectStatusRepository;
+    private final DefectRepository defectRepository;
     private final DefectStatusMapper defectStatusMapper;
 
     @Override
@@ -69,6 +72,9 @@ public class DefectStatusServiceImpl implements DefectStatusService{
     public void deleteDefectStatus(Integer id) {
         DefectStatus defectStatus = defectStatusRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with id: " + id));
+
+        if(!defectRepository.findByDefectStatusId(id).isEmpty())
+            throw new UnsupportedOperationException("DefectStatus cannot be deleted because it is used in Defects");
 
         defectStatusRepository.delete(defectStatus);
     }

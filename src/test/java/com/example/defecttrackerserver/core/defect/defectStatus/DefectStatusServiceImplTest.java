@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectStatus;
 
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,6 +22,9 @@ public class DefectStatusServiceImplTest {
 
     @Mock
     private DefectStatusRepository defectStatusRepository;
+
+    @Mock
+    private DefectRepository defectRepository;
 
     @Mock
     private DefectStatusMapper defectStatusMapper;
@@ -94,6 +99,7 @@ public class DefectStatusServiceImplTest {
     @Test
     void shouldDeleteDefectStatus() {
         when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectStatus));
+        when(defectRepository.findByDefectStatusId(any(Integer.class))).thenReturn(Set.of());
 
         defectStatusService.deleteDefectStatus(1);
 
