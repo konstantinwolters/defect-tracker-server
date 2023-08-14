@@ -71,7 +71,12 @@ public class ActionServiceImpl implements ActionService{
         Specification<Action> spec = Specification.where(null);
 
         if (searchTerm != null && !searchTerm.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"));
+            spec = spec.and((root, query, cb) ->
+                    cb.or(
+                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
+                    )
+            );
         }
 
         if (dueDateStart != null && dueDateEnd != null) {
