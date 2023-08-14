@@ -178,7 +178,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
-    public void closeAction(Integer actionId, Boolean isCompleted){
+    public void closeAction(Integer actionId){
         Action actionToUpdate = actionRepository.findById(actionId)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
 
@@ -190,7 +190,7 @@ public class ActionServiceImpl implements ActionService{
         }
         actionToUpdate.setChangedBy(securityService.getUser());
         actionToUpdate.setChangedAt(LocalDateTime.now());
-        actionToUpdate.setIsCompleted(isCompleted);
+        actionToUpdate.setIsCompleted(true);
     }
 
     @Override
