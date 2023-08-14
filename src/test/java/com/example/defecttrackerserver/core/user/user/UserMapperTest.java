@@ -96,7 +96,7 @@ class UserMapperTest {
         assertEquals(userDto.getIsActive(), mappedUser.getIsActive());
         assertEquals(userDto.getChangedAt(), mappedUser.getChangedAt());
         assertEquals(userDto.getCreatedAt(), mappedUser.getCreatedAt());
-        assertEquals(userDto.getCreatedBy(), mappedUser.getCreatedBy());
+        assertEquals(userDto.getCreatedBy(), mappedUser.getCreatedById());
         assertEquals(userDto.getRoles().size(), mappedUser.getRoles().size());
         assertEquals(userDto.getAssignedActions().size(), mappedUser.getAssignedActions().size());
     }
@@ -204,8 +204,8 @@ class UserMapperTest {
         user.setIsActive(true);
         user.setChangedAt(LocalDateTime.now());
         user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy(1);
-        user.setChangedBy(1);
+        user.setCreatedById(1);
+        user.setChangedById(1);
         user.setLocation(location);
         user.setRoles(Set.of(role));
         user.setAssignedActions(Set.of(action));
@@ -221,7 +221,7 @@ class UserMapperTest {
         assertEquals(user.getIsActive(), mappedUserDto.getIsActive());
         assertEquals(user.getChangedAt(), mappedUserDto.getChangedAt());
         assertEquals(user.getCreatedAt(), mappedUserDto.getCreatedAt());
-        assertEquals(user.getCreatedBy(), mappedUserDto.getCreatedBy());
+        assertEquals(user.getCreatedById(), mappedUserDto.getCreatedBy());
         assertEquals(user.getRoles().size(), mappedUserDto.getRoles().size());
         assertEquals(user.getAssignedActions().size(), mappedUserDto.getAssignedActions().size());
         assertEquals(user.getLocation().getName(), mappedUserDto.getLocation());

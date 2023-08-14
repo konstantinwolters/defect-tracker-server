@@ -1,12 +1,10 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
-import com.example.defecttrackerserver.core.user.role.RoleDto;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,8 +50,8 @@ public class UserMapper {
         user.setIsActive(userDto.getIsActive());
         user.setCreatedAt(userDto.getCreatedAt());
         user.setChangedAt(userDto.getChangedAt());
-        user.setCreatedBy(userDto.getCreatedBy());
-        user.setChangedBy(userDto.getChangedBy());
+        user.setCreatedById(userDto.getCreatedBy());
+        user.setChangedById(userDto.getChangedBy());
         user.setLocation(location);
         user.setRoles(roles);
         user.setAssignedActions(actions);
@@ -107,8 +104,8 @@ public class UserMapper {
         userDto.setIsActive(user.getIsActive());
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setChangedAt(user.getChangedAt());
-        userDto.setCreatedBy(user.getCreatedBy());
-        userDto.setChangedBy(user.getChangedBy());
+        userDto.setCreatedBy(user.getCreatedById());
+        userDto.setChangedBy(user.getChangedById());
         userDto.setRoles(roles);
         userDto.setAssignedActions(actions);
 

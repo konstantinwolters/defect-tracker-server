@@ -1,5 +1,8 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
@@ -17,12 +20,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
+
+    @Mock
+    private DefectRepository defectRepository;
+
+    @Mock
+    private DefectCommentRepository defectCommentRepository;
+
+    @Mock
+    private ActionRepository actionRepository;
 
     @Mock
     private UserRepository userRepository;
@@ -130,6 +143,14 @@ public class UserServiceImplTest {
     @Test
     void shouldDeleteUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(defectRepository.findByChangedById(anyInt())).thenReturn(Set.of());
+        when(defectRepository.findByCreatedById(anyInt())).thenReturn(Set.of());
+        when(defectCommentRepository.findByCreatedById(anyInt())).thenReturn(Set.of());
+        when(actionRepository.findByChangedById(anyInt())).thenReturn(Set.of());
+        when(actionRepository.findByCreatedById(anyInt())).thenReturn(Set.of());
+        when(actionRepository.findByAssignedUsersId(anyInt())).thenReturn(Set.of());
+        when(userRepository.findByChangedById(anyInt())).thenReturn(Set.of());
+        when(userRepository.findByChangedById(anyInt())).thenReturn(Set.of());
 
         userService.deleteUser(1);
 

@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByIds(@Param("userIds") List<Integer> userIds);
 
     Set<User> findByLocationId(Integer id);
+
+    Set<User> findByCreatedById(Integer id);
+    Set<User> findByChangedById(Integer id);
 }
