@@ -10,7 +10,7 @@ VALUES
     (12, 'San Jose'),
     (13, 'Duesseldorf');
 
-INSERT INTO USERS (ID, LOCATION_ID, FIRST_NAME, LAST_NAME, MAIL, PASSWORD, USERNAME, IS_ACTIVE, CREATED_BY, CREATED_AT)
+INSERT INTO USERS (ID, LOCATION_ID, FIRST_NAME, LAST_NAME, MAIL, PASSWORD, USERNAME, IS_ACTIVE, CREATED_BY_ID, CREATED_AT)
 VALUES
     (11, 11, null, null, 'bill@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bill', true, 12, '2023-07-09 17:17:49.45023'),
     (12, 12, null, null, 'bob@test.de', '$2a$10$UfUHZsNiorgvWlLig3y.DODxo0bRyGPCSptgkKgzW3dDDlIUkb5a6', 'bob', true, 11, '2023-07-09 17:17:49.45023');

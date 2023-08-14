@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.user.role.Role;
 import jakarta.persistence.*;
@@ -32,8 +31,8 @@ public class User {
     private String lastName;
     private LocalDateTime createdAt;
     private LocalDateTime changedAt;
-    private Integer createdBy;
-    private Integer changedBy;
+    private Integer createdById;
+    private Integer changedById;
 
     @Column(nullable = false)
     private Boolean isActive;

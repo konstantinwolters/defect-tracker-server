@@ -37,4 +37,9 @@ public interface ActionRepository extends JpaRepository<Action, Integer>, JpaSpe
 
     @Query("SELECT DISTINCT a.changedBy FROM Action a WHERE a.id IN :actionIds")
     Set<User> findDistinctChangedBy(@Param("actionIds") List<Integer> actionIds);
+
+    Set<Action> findByAssignedUsersId(Integer id);
+
+    Set<Action> findByCreatedById(Integer id);
+    Set<Action> findByChangedById(Integer id);
 }

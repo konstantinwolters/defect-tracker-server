@@ -24,7 +24,7 @@ public interface ActionService {
             List<Integer> changedByIds,
             Pageable pageable);
     ActionFilterValues getActionFilterValues(List<Action> actions);
-    void closeAction(Integer actionId, Boolean isCompleted);
+    void closeAction(Integer actionId);
     ActionDto updateAction(Integer actionId, ActionDto action);
     void deleteAction(Integer id);
 }

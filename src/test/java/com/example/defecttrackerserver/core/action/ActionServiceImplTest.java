@@ -126,7 +126,7 @@ public class ActionServiceImplTest {
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
         when(securityService.getUsername()).thenReturn("testUser");
 
-        actionService.closeAction(1, true);
+        actionService.closeAction(1);
         assertEquals(action.getIsCompleted(), true);
     }
 
@@ -136,7 +136,7 @@ public class ActionServiceImplTest {
         when(securityService.getUsername()).thenReturn("Bob");
 
         assertThrows(AccessDeniedException.class,
-                () -> actionService.closeAction(1, true));
+                () -> actionService.closeAction(1));
     }
     @Test
     void shouldUpdateAction() {

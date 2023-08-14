@@ -71,7 +71,12 @@ public class ActionServiceImpl implements ActionService{
         Specification<Action> spec = Specification.where(null);
 
         if (searchTerm != null && !searchTerm.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"));
+            spec = spec.and((root, query, cb) ->
+                    cb.or(
+                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
+                    )
+            );
         }
 
         if (dueDateStart != null && dueDateEnd != null) {
@@ -173,7 +178,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
-    public void closeAction(Integer actionId, Boolean isCompleted){
+    public void closeAction(Integer actionId){
         Action actionToUpdate = actionRepository.findById(actionId)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
 
@@ -185,7 +190,7 @@ public class ActionServiceImpl implements ActionService{
         }
         actionToUpdate.setChangedBy(securityService.getUser());
         actionToUpdate.setChangedAt(LocalDateTime.now());
-        actionToUpdate.setIsCompleted(isCompleted);
+        actionToUpdate.setIsCompleted(true);
     }
 
     @Override

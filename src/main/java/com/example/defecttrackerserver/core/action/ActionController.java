@@ -107,8 +107,8 @@ public class ActionController {
             }
     )
     @PatchMapping("/{id}")
-    public void closeAction(@PathVariable Integer id, @RequestParam Boolean isCompleted) {
-        actionService.closeAction(id, isCompleted);
+    public void closeAction(@PathVariable Integer id) {
+        actionService.closeAction(id);
     }
 
     @Operation(

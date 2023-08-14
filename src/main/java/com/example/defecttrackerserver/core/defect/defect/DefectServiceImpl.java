@@ -103,9 +103,13 @@ public class DefectServiceImpl implements DefectService{
     ){
         Specification<Defect> spec = Specification.where(null);
 
-        if(searchTerm != null && !searchTerm.isEmpty()){
+        if (searchTerm != null && !searchTerm.isEmpty()) {
             spec = spec.and((root, query, cb) ->
-                    cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"));
+                    cb.or(
+                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
+                    )
+            );
         }
 
         if(lotIds != null && !lotIds.isEmpty()){

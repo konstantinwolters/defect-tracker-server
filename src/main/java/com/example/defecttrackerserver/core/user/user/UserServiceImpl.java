@@ -1,5 +1,9 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.defect.defect.DefectController;
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
@@ -20,6 +24,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final DefectRepository defectRepository;
+    private final DefectCommentRepository defectCommentRepository;
+    private final ActionRepository actionRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
     private final SecurityService securityService;
@@ -40,7 +47,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Role not found with name: ROLE_USER"));
         newUser.addRole(role);
         newUser.setCreatedAt(LocalDateTime.now());
-        newUser.setCreatedBy(securityService.getUser().getId());
+        newUser.setCreatedById(securityService.getUser().getId());
 
         User savedUser = userRepository.save(newUser);
         return userMapper.mapToDto(savedUser);
@@ -79,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
         User userToUpdate = userMapper.mapToEntity(userDto, user);
         userToUpdate.setChangedAt(LocalDateTime.now());
-        userToUpdate.setChangedBy(securityService.getUser().getId());
+        userToUpdate.setChangedById(securityService.getUser().getId());
 
         User updatedUser = userRepository.save(userToUpdate);
         return userMapper.mapToDto(updatedUser);
@@ -87,10 +94,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional
     public void deleteUser(Integer id) {
         User userToDelete = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        userRepository.delete(userToDelete);
+
+        if(!defectRepository.findByChangedById(id).isEmpty()
+        || !defectRepository.findByCreatedById(id).isEmpty()
+        ||!defectCommentRepository.findByCreatedById(id).isEmpty()
+        || !actionRepository.findByChangedById(id).isEmpty()
+        || !actionRepository.findByCreatedById(id).isEmpty()
+        || !actionRepository.findByAssignedUsersId(id).isEmpty()
+        || !userRepository.findByChangedById(id).isEmpty()
+        || !userRepository.findByCreatedById(id).isEmpty()) {
+            deactivateUser(id);
+        }else {
+            userRepository.delete(userToDelete);
+        }
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deactivateUser(Integer id) {
+        User userToDeactivate = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
+        userToDeactivate.setIsActive(false);;
     }
 
     @Override

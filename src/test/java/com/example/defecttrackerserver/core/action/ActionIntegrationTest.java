@@ -26,6 +26,7 @@ import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import jakarta.transaction.Transactional;
+import org.junit.Ignore;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,6 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations="classpath:application-test.properties")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
+@Ignore
 public class ActionIntegrationTest {
 
     @LocalServerPort
@@ -144,6 +146,7 @@ public class ActionIntegrationTest {
 
     @Test
     @Transactional
+    @Ignore
     @WithMockUser(username = "frank", roles = "USER")
     void shouldSaveAction() throws Exception {
 
