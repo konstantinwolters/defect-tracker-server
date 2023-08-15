@@ -34,3 +34,5 @@ build/
 
 ## misc ##
 /logs
+/images
+/null

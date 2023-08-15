@@ -14,7 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -63,12 +66,22 @@ public class DefectControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldSaveDefect() throws Exception {
-        when(defectService.saveDefect(any(DefectDto.class))).thenReturn(testDefectDto);
+        when(defectService.saveDefect(any(DefectDto.class), any(MultipartFile[].class))).thenReturn(testDefectDto);
 
-        mockMvc.perform(post("/defects")
+        MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpg", "some-image-data".getBytes());
+        MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpg", "some-other-image-data".getBytes());
+
+        String defectDtoAsString = objectMapper.writeValueAsString(testDefectDto);
+
+        MockPart defectPart = new MockPart("defect", defectDtoAsString.getBytes());
+        defectPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(multipart("/defects")
+                        .file(image1)
+                        .file(image2)
+                        .part(defectPart)
                         .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testDefectDto)))
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.location").value("Texas"));

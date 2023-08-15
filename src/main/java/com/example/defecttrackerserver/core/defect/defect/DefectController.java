@@ -11,8 +11,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,8 +34,10 @@ public class DefectController {
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
             }
     )
-    @PostMapping()
-    public DefectDto saveDefect(@Valid @RequestBody DefectDto defectDto) { return defectService.saveDefect(defectDto);}
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public DefectDto saveDefect(@Valid @RequestPart("defect") DefectDto defectDto,
+                                @RequestPart("images")MultipartFile[] images) {
+        return defectService.saveDefect(defectDto, images);}
 
     @Operation(
             summary = "Get Defect by Id",

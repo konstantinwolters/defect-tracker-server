@@ -4,6 +4,8 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
@@ -18,19 +20,25 @@ import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
+import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,15 +57,21 @@ public class DefectServiceImpl implements DefectService{
     private final UserMapper userMapper;
     private final DefectTypeMapper defectTypeMapper;
     private final DefectStatusMapper defectStatusMapper;
+    private final Utils utils;
 
+    @Value("${IMAGE.UPLOAD-PATH}")
+    String imageFolderPath;
 
     @Override
     @Transactional
-    public DefectDto saveDefect(DefectDto defectDto) {
+    public DefectDto saveDefect(DefectDto defectDto, MultipartFile[] images) {
+
+        // First, save new Defect
         Defect defect = new Defect();
         defectDto.setId(null);
         defectDto.setCreatedAt(LocalDateTime.now());
         defectDto.setCreatedBy(userMapper.mapToDto(securityService.getUser()));
+        defectDto.setImages(new ArrayList<>());
 
         Defect newDefect = defectMapper.map(defectDto, defect);
 
@@ -69,7 +83,32 @@ public class DefectServiceImpl implements DefectService{
                 .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with name: 'Undefined'"));
         newDefect.setCausationCategory(causationCategory);
 
-        return defectMapper.mapToDto(defectRepository.save(newDefect));
+        Defect savedDefect = defectRepository.save(newDefect);
+
+        // Then add images to saved Defect
+        // 1. Create a folder with the defect's ID
+        String folderPath = imageFolderPath + File.separator + savedDefect.getId();
+        File directory = new File(folderPath);
+        if(!directory.exists()){
+            boolean success = directory.mkdirs();
+            if (!success) {
+                throw new RuntimeException("Failed to create image directory: " + directory.getAbsolutePath());
+            }
+        }
+
+        // 2. Save images to filesystem
+        for (int i = 0; i < images.length; i++) {
+            MultipartFile image = images[i];
+            utils.validateImage(image);
+            String path = utils.saveImageToFileSystem(image, folderPath, savedDefect.getId(), i + 1);
+            DefectImage defectImage = new DefectImage();
+            defectImage.setPath(path);
+            savedDefect.addDefectImage(defectImage);
+        }
+
+        Defect updatedDefect = defectRepository.save(savedDefect);
+
+        return defectMapper.mapToDto(updatedDefect);
     }
 
     @Override

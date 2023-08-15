@@ -2,12 +2,13 @@ package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface DefectService {
-    DefectDto saveDefect(DefectDto defectDto);
+    DefectDto saveDefect(DefectDto defectDto, MultipartFile[] images);
     DefectDto getDefectById(Integer id);
     PaginatedResponse<DefectDto> getDefects(
             String searchTerm,

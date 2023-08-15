@@ -36,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -122,7 +123,7 @@ class DefectMapperTest {
         defectDto.setLocation("testCity");
         defectDto.setProcess("testProcess");
         defectDto.setDefectType("testType");
-        defectDto.setImages(Set.of(defectImageDto));
+        defectDto.setImages(List.of(defectImageDto));
         defectDto.setActions(Set.of(actionDto));
         defectDto.setCreatedBy(userDto);
         defectDto.setCreatedAt(LocalDateTime.now());
@@ -385,7 +386,7 @@ class DefectMapperTest {
         defect.setLocation(location);
         defect.setProcess(process);
         defect.setDefectType(defectType);
-        defect.setImages(Set.of(new DefectImage()));
+        defect.setImages(List.of(new DefectImage()));
         defect.setActions(Set.of(new Action()));
         defect.setCreatedBy(user);
         defect.setChangedBy(user);
