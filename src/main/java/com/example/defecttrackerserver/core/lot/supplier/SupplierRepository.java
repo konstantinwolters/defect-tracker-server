@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
-import com.example.defecttrackerserver.core.lot.material.Material;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectStatus;
 
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
-import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.defectType.defectTypeException.DefectTypeExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

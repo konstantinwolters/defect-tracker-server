@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.ActionRepository;
-import com.example.defecttrackerserver.core.defect.defect.DefectController;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.user.role.Role;

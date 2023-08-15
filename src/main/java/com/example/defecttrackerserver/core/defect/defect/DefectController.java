@@ -1,11 +1,5 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
-import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotRepository;
-import com.example.defecttrackerserver.core.lot.material.Material;
-import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
-import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -54,7 +46,6 @@ public class DefectController {
     @GetMapping("/{id}")
     public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
 
-    //TODO: Fix issue with sorting
     @Operation(
             summary = "Get all Defects with filter values",
             responses = {
@@ -82,6 +73,7 @@ public class DefectController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String sort) {
 
+        //TODO: Move data manipulation to service layer
         List<Integer> lotIdList = utils.convertStringToListOfInteger(lotsIds);
         List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
         List<Integer> supplierIdList = utils.convertStringToListOfInteger(supplierIds);

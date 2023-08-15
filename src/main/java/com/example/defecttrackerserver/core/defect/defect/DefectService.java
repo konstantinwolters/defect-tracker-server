@@ -1,8 +1,5 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
-import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.material.Material;
-import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 

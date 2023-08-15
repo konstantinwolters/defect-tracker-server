@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.auth;
 
-import com.example.defecttrackerserver.auth.AuthenticationRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

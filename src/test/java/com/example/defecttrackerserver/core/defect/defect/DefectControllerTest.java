@@ -1,8 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseControllerTest;
-import com.example.defecttrackerserver.core.lot.material.Material;
-import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;

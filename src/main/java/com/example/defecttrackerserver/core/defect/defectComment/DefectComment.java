@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
-import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
