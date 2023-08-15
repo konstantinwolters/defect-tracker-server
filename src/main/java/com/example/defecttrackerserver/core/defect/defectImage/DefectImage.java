@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
-import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,4 +30,5 @@ public class DefectImage {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }}
+    }
+}

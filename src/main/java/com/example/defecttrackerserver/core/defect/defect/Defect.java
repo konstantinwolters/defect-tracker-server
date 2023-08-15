@@ -11,14 +11,11 @@ import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -66,7 +63,7 @@ public class Defect {
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
-    private Set<DefectImage> images = new HashSet<>();
+    private List<DefectImage> images = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)

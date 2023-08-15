@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -174,11 +175,11 @@ public class DefectMapper {
                 .map(defectCommentMapper::mapToDto)
                 .collect(Collectors.toSet());
 
-        Set<DefectImageDto> defectImages = Optional.ofNullable(defect.getImages())
-                .orElse(Collections.emptySet())
+        List<DefectImageDto> defectImages = Optional.ofNullable(defect.getImages())
+                .orElse(Collections.emptyList())
                 .stream()
                 .map(defectImageMapper::mapToDto)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         Set<ActionDto> actions = Optional.ofNullable(defect.getActions())
                 .orElse(Collections.emptySet())

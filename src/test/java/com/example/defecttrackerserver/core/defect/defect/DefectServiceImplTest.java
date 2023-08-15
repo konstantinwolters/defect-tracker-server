@@ -4,29 +4,19 @@ import com.example.defecttrackerserver.core.defect.causationCategory.CausationCa
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
-import com.example.defecttrackerserver.core.defect.defectType.DefectType;
-import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
-import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.defect.process.ProcessDto;
 import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
-import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.location.LocationDto;
 import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.material.Material;
-import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
-import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
+import com.example.defecttrackerserver.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +28,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +42,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DefectServiceImplTest {
+
+    @Mock
+    private Utils utils;
 
     @Mock
     private DefectRepository defectRepository;
@@ -114,12 +110,19 @@ public class DefectServiceImplTest {
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
         when(securityService.getUser()).thenReturn(new User());
+        when(utils.saveImageToFileSystem(any(MultipartFile.class), anyString(), anyInt(), anyInt())).thenReturn("randomString");
 
-        DefectDto result = defectService.saveDefect(defectDto);
+        MockMultipartFile[] mockFiles = {
+                new MockMultipartFile("image1", "image1.jpg", "image/jpg", "some-image-data".getBytes()),
+                new MockMultipartFile("image2", "image2.jpg", "image/jpg", "some-other-image-data".getBytes())
+        };
+
+        DefectDto result = defectService.saveDefect(defectDto, mockFiles);
 
         assertNotNull(result);
-        verify(defectRepository, times(1)).save(defect);
+        verify(defectRepository, times(2)).save(defect);
     }
+
 
     @Test
     void shouldReturnDefectById() {

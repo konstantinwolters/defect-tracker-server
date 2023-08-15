@@ -10,13 +10,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 public class DefectDto {
     private Integer id;
-    private Set<DefectImageDto> images;
+    private List<DefectImageDto> images;
     private Set<DefectCommentDto> defectComments;
     private Set<ActionDto> actions;
     private String defectStatus;

@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -75,6 +74,7 @@ public class ActionController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String sort) {
 
+        //TODO: Move data manipulation to service layer
         List<Integer> assignedUserIdList = utils.convertStringToListOfInteger(assignedUserIds);
         List<Integer> defectIdList = utils.convertStringToListOfInteger(defectIds);
         List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
@@ -86,10 +86,6 @@ public class ActionController {
                 Sort.Direction direction = Sort.Direction.fromString(split[1]);
                 sorting = Sort.by(direction, split[0]);
         }
-
-        // After Sort object creation
-        System.out.println("Sort object: " + sorting.toString());
-
 
         Pageable pageable = PageRequest.of(page, size, sorting);
 
