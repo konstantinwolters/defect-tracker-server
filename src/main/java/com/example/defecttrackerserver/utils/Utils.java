@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class Utils {
@@ -43,9 +44,9 @@ public class Utils {
         }
     }
 
-    public String saveImageToFileSystem(MultipartFile image, String folderPath, Integer defectId, Integer imageId) {
+    public String saveImageToFileSystem(MultipartFile image, String folderPath) {
 
-        String filename = LocalDate.now() + "_" + defectId + "_" + imageId + ".jpg";
+        String filename = UUID.randomUUID().toString() + ".jpg";
         String filePath = folderPath + File.separator + filename;
 
         try {

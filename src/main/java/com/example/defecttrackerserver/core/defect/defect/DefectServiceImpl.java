@@ -91,10 +91,9 @@ public class DefectServiceImpl implements DefectService{
         utils.createDirectory(folderPath);
 
         // 2. Save images to filesystem and add paths as DefectImages to Defect
-        for (int i = 0; i < images.length; i++) {
-            MultipartFile image = images[i];
+        for (MultipartFile image : images) {
             utils.validateImage(image);
-            String path = utils.saveImageToFileSystem(image, folderPath, savedDefect.getId(), i + 1);
+            String path = utils.saveImageToFileSystem(image, folderPath);
             DefectImage defectImage = new DefectImage();
             defectImage.setPath(path);
             savedDefect.addDefectImage(defectImage);
