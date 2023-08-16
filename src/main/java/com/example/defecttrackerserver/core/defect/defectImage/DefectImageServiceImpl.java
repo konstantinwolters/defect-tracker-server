@@ -39,19 +39,6 @@ public class DefectImageServiceImpl implements DefectImageService{
 
     @Override
     @Transactional
-    public DefectImageDto updateDefectImage(Integer defectImageId, DefectImageDto defectImageDto) {
-        DefectImage defectImage =  defectImageRepository.findById(defectImageId)
-                .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: "
-                        + defectImageId));
-
-        defectImage.setPath(defectImageDto.getPath());
-        DefectImage savedDefectImage = defectImageRepository.save(defectImage);
-
-        return defectImageMapper.mapToDto(savedDefectImage);
-    }
-
-    @Override
-    @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectImage(Integer defectId, Integer defectImageId) {
         Defect defect = defectRepository.findById(defectId)

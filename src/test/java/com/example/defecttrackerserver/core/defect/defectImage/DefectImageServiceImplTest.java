@@ -78,20 +78,6 @@ public class DefectImageServiceImplTest {
     }
 
     @Test
-    void shouldUpdateDefectImage() {
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectImage));
-        when(defectImageRepository.save(any(DefectImage.class))).thenReturn(defectImage);
-        when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
-
-        DefectImageDto result = defectImageService.updateDefectImage(1, defectImageDto);
-
-        assertNotNull(result);
-        assertEquals(defectImage.getId(), result.getId());
-        assertEquals(defectImage.getPath(), result.getPath());
-        verify(defectImageRepository, times(1)).save(defectImage);
-    }
-
-    @Test
     void shouldDeleteDefectImage() {
         Defect defectSpy = spy(new Defect());
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectSpy));

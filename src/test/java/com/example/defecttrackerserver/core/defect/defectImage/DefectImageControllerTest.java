@@ -64,19 +64,6 @@ public class DefectImageControllerTest extends BaseControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldUpdateDefectImage() throws Exception {
-        when(defectImageService.updateDefectImage(any(Integer.class), any(DefectImageDto.class)))
-                .thenReturn(testDefectImageDto);
-        mockMvc.perform(put("/defects/images/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testDefectImageDto)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.path").value("testPath"));
-    }
-
-    @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldDeleteDefectImage() throws Exception {
         doNothing().when(defectImageService).deleteDefectImage(any(Integer.class), any(Integer.class));
         mockMvc.perform(delete("/defects/1/images/1"))

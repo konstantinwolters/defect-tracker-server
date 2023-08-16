@@ -42,19 +42,6 @@ public class DefectImageController {
     }
 
     @Operation(
-            summary = "Update DefectImage",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "DefectImage updated successfully"),
-                    @ApiResponse(responseCode = "400", description = "Invalid input"),
-                    @ApiResponse(responseCode = "404", description = "Defect or DefectImage not found"),
-            }
-    )
-    @PutMapping("/images/{id}")
-    public DefectImageDto updateImage(@PathVariable Integer id, @Valid @RequestBody DefectImageDto defectImageDto) {
-        return defectImageService.updateDefectImage(id, defectImageDto);
-    }
-
-    @Operation(
             summary = "Delete DefectImage",
             responses = {
                     @ApiResponse(responseCode = "204", description = "DefectImage successfully deleted"),
