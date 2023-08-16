@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,9 @@ import java.util.List;
 public class Utils {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    @Value("${IMAGE.UPLOAD.MAX-FILE-SIZE}")
+    Integer MAX_FILE_SIZE;
+
     public LocalDateTime convertToDateTime(String date) {
         LocalDate dateObj = LocalDate.parse(date, FORMATTER);
         return dateObj.atStartOfDay();
@@ -34,13 +38,13 @@ public class Utils {
             throw new IllegalArgumentException("Only JPG or JPEG images are allowed.");
         }
 
-        if (image.getSize() > 5 * 1024 * 1024) {  // 5 MB in bytes
-            throw new IllegalArgumentException("Image size should be less than 5 MB.");
+        if (image.getSize() > MAX_FILE_SIZE) {
+            throw new IllegalArgumentException("Image size has to be less than 3 MB per image.");
         }
     }
 
     public String saveImageToFileSystem(MultipartFile image, String folderPath, Integer defectId, Integer imageId) {
-        // Construct filename using date and defect ID
+
         String filename = LocalDate.now() + "_" + defectId + "_" + imageId + ".jpg";
         String filePath = folderPath + File.separator + filename;
 
@@ -55,5 +59,13 @@ public class Utils {
         return filePath;
     }
 
-
+    public void createDirectory(String folderPath) {
+        File directory = new File(folderPath);
+        if(!directory.exists()){
+            boolean success = directory.mkdirs();
+            if (!success) {
+                throw new RuntimeException("Failed to create image directory: " + directory.getAbsolutePath());
+            }
+        }
+    }
 }

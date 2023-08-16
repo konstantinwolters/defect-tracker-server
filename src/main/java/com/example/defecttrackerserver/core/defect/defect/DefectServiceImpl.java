@@ -86,17 +86,11 @@ public class DefectServiceImpl implements DefectService{
         Defect savedDefect = defectRepository.save(newDefect);
 
         // Then add images to saved Defect
-        // 1. Create a folder with the defect's ID
+        // 1. Create a folder with the defect's ID as name
         String folderPath = imageFolderPath + File.separator + savedDefect.getId();
-        File directory = new File(folderPath);
-        if(!directory.exists()){
-            boolean success = directory.mkdirs();
-            if (!success) {
-                throw new RuntimeException("Failed to create image directory: " + directory.getAbsolutePath());
-            }
-        }
+        utils.createDirectory(folderPath);
 
-        // 2. Save images to filesystem
+        // 2. Save images to filesystem and add paths as DefectImages to Defect
         for (int i = 0; i < images.length; i++) {
             MultipartFile image = images[i];
             utils.validateImage(image);
@@ -125,7 +119,7 @@ public class DefectServiceImpl implements DefectService{
             List<Integer> materials,
             List<Integer> suppliers,
             List<Integer> defectStatusIds,
-            List<Integer> causationCategorysIds,
+            List<Integer> causationCategoriesIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
@@ -164,8 +158,8 @@ public class DefectServiceImpl implements DefectService{
             spec = spec.and((root, query, cb) -> root.get("defectStatus").get("id").in(defectStatusIds));
         }
 
-        if(causationCategorysIds != null && !causationCategorysIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("causationCategory").get("id").in(causationCategorysIds));
+        if(causationCategoriesIds != null && !causationCategoriesIds.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("causationCategory").get("id").in(causationCategoriesIds));
         }
 
         if (createdAtStart != null && createdAtEnd != null) {
