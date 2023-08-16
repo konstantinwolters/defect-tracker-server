@@ -34,9 +34,6 @@ public class ActionControllerTest extends BaseControllerTest {
     private ActionController actionController;
 
     @MockBean
-    private Utils utils;
-
-    @MockBean
     private ActionService actionService;
 
     private ActionDto testactionDto;
@@ -87,41 +84,40 @@ public class ActionControllerTest extends BaseControllerTest {
         LocalDate dueDateStart = LocalDate.now();
         LocalDate dueDateEnd = LocalDate.now();
         Boolean isComplete = true;
-        List<Integer> assignedUserIds = Arrays.asList(1,2);
-        List<Integer> defectIds = Arrays.asList(1,2);
+        String assignedUserIds = "1,2";
+        String defectIds = "1,2";
         LocalDate createdAtStart = LocalDate.now();
         LocalDate createdAtEnd = LocalDate.now();
         LocalDate changedAtStart = LocalDate.now();
         LocalDate changedAtEnd = LocalDate.now();
-        List<Integer> createdByIds = Arrays.asList(1,2);
-        List<Integer> changedByIds = Arrays.asList(1,2);
-        Pageable pageable = PageRequest.of(0,10, Sort.Direction.DESC, "id");
-
+        Integer page = 0;
+        Integer size = 10;
+        String createdByIds = "1,2";
+        String changedByIds = "1,2";
+        String sort = "id,desc";
 
         PaginatedResponse<ActionDto> response = new PaginatedResponse<>(List.of(testactionDto), 1,
                 1, 0, new ActionFilterValues());
 
         when(actionService.getActions(searchTerm, dueDateStart, dueDateEnd, isComplete, assignedUserIds, defectIds,
-                createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, createdByIds, changedByIds,
-                pageable)).thenReturn(response);
-        when(utils.convertStringToListOfInteger(any(String.class))).thenReturn(Arrays.asList(1,2));
+                createdAtStart, createdAtEnd, changedAtStart, changedAtEnd, createdByIds, changedByIds, page, size, sort)).thenReturn(response);
 
         mockMvc.perform(get("/actions")
                         .param("search", searchTerm)
                         .param("dueDateStart", String.valueOf(dueDateStart))
                         .param("dueDateEnd", String.valueOf(dueDateEnd))
                         .param("isCompleted", String.valueOf(isComplete))
-                        .param("assignedUserIds", assignedUserIds.stream().map(Object::toString).toArray(String[]::new))
-                        .param("defectIds", defectIds.stream().map(Object::toString).toArray(String[]::new))
+                        .param("assignedUserIds", assignedUserIds)
+                        .param("defectIds", defectIds)
                         .param("createdAtStart", String.valueOf(createdAtStart))
                         .param("createdAtEnd", String.valueOf(createdAtEnd))
                         .param("changedAtStart", String.valueOf(createdAtStart))
                         .param("changedAtEnd", String.valueOf(createdAtEnd))
-                        .param("createdByIds", createdByIds.stream().map(Object::toString).toArray(String[]::new))
-                        .param("changedByIds", changedByIds.stream().map(Object::toString).toArray(String[]::new))
-                        .param("page", "0")
-                        .param("size", "10")
-                        .param("sort", "id,desc"))
+                        .param("createdByIds", createdByIds)
+                        .param("changedByIds", changedByIds)
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                        .param("sort", sort))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].description").value(testactionDto.getDescription()))
                 .andExpect(jsonPath("$.totalPages").value(response.getTotalPages()))
