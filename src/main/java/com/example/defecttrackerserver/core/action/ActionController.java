@@ -1,21 +1,16 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
-import com.example.defecttrackerserver.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +18,6 @@ import java.util.List;
 @Tag(name = "Actions")
 public class ActionController {
     private final ActionService actionService;
-    private final Utils utils;
 
     @Operation(
             summary = "Save Action",
@@ -74,24 +68,9 @@ public class ActionController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String sort) {
 
-        //TODO: Move data manipulation to service layer
-        List<Integer> assignedUserIdList = utils.convertStringToListOfInteger(assignedUserIds);
-        List<Integer> defectIdList = utils.convertStringToListOfInteger(defectIds);
-        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
-        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
-
-        Sort sorting = Sort.unsorted();
-        if (sort != null && !sort.isEmpty()) {
-            String[] split = sort.split(",");
-                Sort.Direction direction = Sort.Direction.fromString(split[1]);
-                sorting = Sort.by(direction, split[0]);
-        }
-
-        Pageable pageable = PageRequest.of(page, size, sorting);
-
-        return actionService.getActions(search, dueDateStart, dueDateEnd, isCompleted, assignedUserIdList,
-                defectIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
-                createdByIdList, changedByIdList, pageable);
+        return actionService.getActions(search, dueDateStart, dueDateEnd, isCompleted, assignedUserIds,
+                defectIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                createdByIds, changedByIds, page, size, sort);
     }
 
     @Operation(

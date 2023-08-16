@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,10 +14,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class Utils {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Value("${IMAGE.UPLOAD.MAX-FILE-SIZE}")
+    Integer MAX_FILE_SIZE;
 
     public LocalDateTime convertToDateTime(String date) {
         LocalDate dateObj = LocalDate.parse(date, FORMATTER);
@@ -34,14 +39,14 @@ public class Utils {
             throw new IllegalArgumentException("Only JPG or JPEG images are allowed.");
         }
 
-        if (image.getSize() > 5 * 1024 * 1024) {  // 5 MB in bytes
-            throw new IllegalArgumentException("Image size should be less than 5 MB.");
+        if (image.getSize() > MAX_FILE_SIZE) {
+            throw new IllegalArgumentException("Image size has to be less than 3 MB per image.");
         }
     }
 
-    public String saveImageToFileSystem(MultipartFile image, String folderPath, Integer defectId, Integer imageId) {
-        // Construct filename using date and defect ID
-        String filename = LocalDate.now() + "_" + defectId + "_" + imageId + ".jpg";
+    public String saveImageToFileSystem(MultipartFile image, String folderPath) {
+
+        String filename = UUID.randomUUID().toString() + ".jpg";
         String filePath = folderPath + File.separator + filename;
 
         try {
@@ -55,5 +60,25 @@ public class Utils {
         return filePath;
     }
 
+    public void removeFileFromFileSystem(String path){
+        File imageFile = new File(path);
+        if (!imageFile.exists()) {
+            throw new RuntimeException("File not found at path: " + path);
+        }
 
+        boolean deleted = imageFile.delete();
+        if (!deleted) {
+            throw new RuntimeException("Failed to delete file at path: " + path);
+        }
+    }
+
+    public void createDirectory(String folderPath) {
+        File directory = new File(folderPath);
+        if(!directory.exists()){
+            boolean success = directory.mkdirs();
+            if (!success) {
+                throw new RuntimeException("Failed to create image directory: " + directory.getAbsolutePath());
+            }
+        }
+    }
 }

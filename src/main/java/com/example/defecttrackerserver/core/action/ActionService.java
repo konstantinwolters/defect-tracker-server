@@ -14,15 +14,17 @@ public interface ActionService {
             LocalDate dueDateStart,
             LocalDate dueDateEnd,
             Boolean isCompleted,
-            List<Integer> assignedUserIds,
-            List<Integer> defectIds,
+            String assignedUserIds,
+            String defectIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
             LocalDate changedEnd,
-            List<Integer> createdByIds,
-            List<Integer> changedByIds,
-            Pageable pageable);
+            String createdByIds,
+            String changedByIds,
+            Integer page,
+            Integer size,
+            String sort);
     ActionFilterValues getActionFilterValues(List<Action> actions);
     void closeAction(Integer actionId);
     ActionDto updateAction(Integer actionId, ActionDto action);

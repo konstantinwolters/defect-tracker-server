@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class DefectImageController {
             }
     )
     @PostMapping("/{defectId}/images")
-    public DefectImageDto addImageToDefect(@PathVariable Integer defectId, @Valid @RequestBody DefectImageDto defectImageDto) {
-        return defectImageService.saveDefectImageToDefect(defectId, defectImageDto);
+    public DefectImageDto addImageToDefect(@PathVariable Integer defectId, @RequestParam("image") MultipartFile image) {
+        return defectImageService.saveDefectImageToDefect(defectId, image);
     }
 
     @Operation(
@@ -39,19 +40,6 @@ public class DefectImageController {
     @GetMapping("/images/{id}")
     public DefectImageDto getImageById(@PathVariable Integer id) {
         return defectImageService.getDefectImageById(id);
-    }
-
-    @Operation(
-            summary = "Update DefectImage",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "DefectImage updated successfully"),
-                    @ApiResponse(responseCode = "400", description = "Invalid input"),
-                    @ApiResponse(responseCode = "404", description = "Defect or DefectImage not found"),
-            }
-    )
-    @PutMapping("/images/{id}")
-    public DefectImageDto updateImage(@PathVariable Integer id, @Valid @RequestBody DefectImageDto defectImageDto) {
-        return defectImageService.updateDefectImage(id, defectImageDto);
     }
 
     @Operation(

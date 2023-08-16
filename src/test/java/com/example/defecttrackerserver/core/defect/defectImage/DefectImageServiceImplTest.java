@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectImage;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.Optional;
 
@@ -17,6 +19,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DefectImageServiceImplTest {
+
+    @Mock
+    private Utils utils;
 
     @Mock
     private DefectImageRepository defectImageRepository;
@@ -51,10 +56,13 @@ public class DefectImageServiceImplTest {
 
     @Test
     void shouldAddDefectImageToDefect() {
+        // Create a mock MultipartFile
+        MockMultipartFile image = new MockMultipartFile("image", "test.jpg", "image/jpg", "some-image-data".getBytes());
+
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
         when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
 
-        DefectImageDto result = defectImageService.saveDefectImageToDefect(1, defectImageDto);
+        DefectImageDto result = defectImageService.saveDefectImageToDefect(1, image);
 
         assertNotNull(result);
         assertEquals(defectImage.getPath(), result.getPath());
@@ -71,20 +79,6 @@ public class DefectImageServiceImplTest {
         assertNotNull(result);
         assertEquals(defectImage.getId(), result.getId());
         assertEquals(defectImage.getPath(), result.getPath());
-    }
-
-    @Test
-    void shouldUpdateDefectImage() {
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectImage));
-        when(defectImageRepository.save(any(DefectImage.class))).thenReturn(defectImage);
-        when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
-
-        DefectImageDto result = defectImageService.updateDefectImage(1, defectImageDto);
-
-        assertNotNull(result);
-        assertEquals(defectImage.getId(), result.getId());
-        assertEquals(defectImage.getPath(), result.getPath());
-        verify(defectImageRepository, times(1)).save(defectImage);
     }
 
     @Test

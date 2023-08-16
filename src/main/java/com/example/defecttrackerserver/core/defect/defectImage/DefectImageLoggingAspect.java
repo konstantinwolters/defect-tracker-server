@@ -17,11 +17,6 @@ import java.util.Arrays;
 public class DefectImageLoggingAspect {
     private final SecurityService securityService;
 
-    @Around("execution(* com.example.defecttrackerserver.core.defect.defectImage.DefectImageService.updateDefectImage(..))")
-    public Object logUpdateDefectImage(ProceedingJoinPoint joinPoint) throws Throwable {
-        return logDefectImage("updateDefectImage", joinPoint);
-    }
-
     @Around("execution(* com.example.defecttrackerserver.core.defect.defectImage.DefectImageService.deleteDefectImage(..))")
     public Object logDeleteDefectImage(ProceedingJoinPoint joinPoint) throws Throwable {
         return logDefectImage("deleteDefectImage", joinPoint);

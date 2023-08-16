@@ -6,11 +6,14 @@ import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
+import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +30,10 @@ public class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
     private final ActionMapper actionMapper;
+    private final ActionSpecification actionSpecification;
     private final SecurityService securityService;
     private final UserMapper userMapper;
+    private final Utils utils;
 
     @Override
     @Transactional
@@ -58,67 +63,45 @@ public class ActionServiceImpl implements ActionService{
             LocalDate dueDateStart,
             LocalDate dueDateEnd,
             Boolean isCompleted,
-            List<Integer> assignedUserIds,
-            List<Integer> defectIds,
+            String assignedUserIds,
+            String defectIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
             LocalDate changedAtEnd,
-            List<Integer> createdByIds,
-            List<Integer> changedByIds,
-            Pageable pageable
+            String createdByIds,
+            String changedByIds,
+            Integer page,
+            Integer size,
+            String sort
     ){
-        Specification<Action> spec = Specification.where(null);
+        List<Integer> assignedUserIdList = utils.convertStringToListOfInteger(assignedUserIds);
+        List<Integer> defectIdList = utils.convertStringToListOfInteger(defectIds);
+        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
+        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
 
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            spec = spec.and((root, query, cb) ->
-                    cb.or(
-                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
-                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
-                    )
-            );
+        Sort sorting = Sort.unsorted();
+        if (sort != null && !sort.isEmpty()) {
+            String[] split = sort.split(",");
+            Sort.Direction direction = Sort.Direction.fromString(split[1]);
+            sorting = Sort.by(direction, split[0]);
         }
 
-        if (dueDateStart != null && dueDateEnd != null) {
-            LocalDateTime startOfDay = dueDateStart.atStartOfDay();
-            LocalDateTime endOfDay = dueDateEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("dueDate"), startOfDay, endOfDay));
-        }
-
-        if(isCompleted != null){
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("isCompleted"), isCompleted));
-        }
-
-        if(assignedUserIds != null && !assignedUserIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("assignedUsers").get("id").in(assignedUserIds));
-        }
-
-        if(defectIds != null && !defectIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("defect").get("id").in(defectIds));
-        }
-
-        if (createdAtStart != null && createdAtEnd != null) {
-            LocalDateTime startOfDay = createdAtStart.atStartOfDay();
-            LocalDateTime endOfDay = createdAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
-        }
-
-        if (changedAtStart != null && changedAtEnd != null) {
-            LocalDateTime startOfDay = changedAtStart.atStartOfDay();
-            LocalDateTime endOfDay = changedAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
-        }
-
-        if(createdByIds != null && !createdByIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
-        }
-
-        if(changedByIds != null && !changedByIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("changedBy").get("id").in(changedByIds));
-        }
+        Pageable pageable = PageRequest.of(page, size, sorting);
+        Specification<Action> spec = actionSpecification.createSpecification(
+                searchTerm,
+                dueDateStart,
+                dueDateEnd,
+                isCompleted,
+                assignedUserIdList,
+                defectIdList,
+                createdAtStart,
+                createdAtEnd,
+                changedAtStart,
+                changedAtEnd,
+                createdByIdList,
+                changedByIdList
+        );
 
         Page<Action> actions = actionRepository.findAll(spec, pageable);
         List<ActionDto> actionDtos = actions.stream().map(actionMapper::mapToDto).toList();
@@ -130,10 +113,11 @@ public class ActionServiceImpl implements ActionService{
                 actions.getTotalPages(),
                 (int) actions.getTotalElements(),
                 actions.getNumber(),
-                getActionFilterValues(filteredActions)
+                getActionFilterValues(filteredActions) // provide distinct filter values for Actions meeting the filter criteria
         );
     }
 
+    //Returns distinct filter values for Actions meeting the filter criteria
     @Override
     public ActionFilterValues getActionFilterValues(List<Action> actions){
         List<Integer> actionIds = actions.stream().map(Action::getId).toList();

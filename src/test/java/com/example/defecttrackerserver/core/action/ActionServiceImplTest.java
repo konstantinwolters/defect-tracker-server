@@ -6,16 +6,18 @@ import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
+import com.example.defecttrackerserver.utils.Utils;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -38,7 +40,13 @@ public class ActionServiceImplTest {
     private ActionMapper actionMapper;
 
     @Mock
+    private ActionSpecification actionSpecification;
+
+    @Mock
     private UserMapper userMapper;
+
+    @Mock
+    private Utils utils;
 
     @InjectMocks
     private ActionServiceImpl actionService;
@@ -96,29 +104,41 @@ public class ActionServiceImplTest {
         LocalDate dueDateStart = LocalDate.now();
         LocalDate dueDateEnd = LocalDate.now();
         Boolean isComplete = true;
-        List<Integer> assignedUserIds = Arrays.asList(1,2);
-        List<Integer> defectIds = Arrays.asList(1,2);
+        String assignedUserIds = "1,2";
+        String defectIds = "1,2";
         LocalDate createdAtStart = LocalDate.now();
         LocalDate createdAtEnd = LocalDate.now();
         LocalDate changedAtStart = LocalDate.now();
         LocalDate changedAtEnd = LocalDate.now();
-        List<Integer> createdByIds = Arrays.asList(1,2);
-        List<Integer> changedByIds = Arrays.asList(1,2);
-        Pageable pageable = PageRequest.of(0,10);
-        Page<Action> page = new PageImpl<>(List.of(action));
+        Integer page = 0;
+        Integer size = 10;
+        String createdByIds = "1,2";
+        String changedByIds = "1,2";
+        String sort = "id,desc";
+        Pageable pageable = PageRequest.of(0,10, Sort.Direction.DESC, "id");
+        Page<Action> pageObject = new PageImpl<>(List.of(action));
 
-        when(actionRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(page);
+        Specification<Action> spec = mock(Specification.class);
+
+        when(actionSpecification.createSpecification(
+                eq(searchTerm), eq(dueDateStart), eq(dueDateEnd), eq(isComplete),
+                anyList(), anyList(), eq(createdAtStart), eq(createdAtEnd),
+                eq(changedAtStart), eq(changedAtEnd), anyList(), anyList()
+        )).thenReturn(spec);
+        when(actionRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pageObject);
         when(actionMapper.mapToDto(action)).thenReturn(actionDto);
+        when(utils.convertStringToListOfInteger(any(String.class))).thenReturn(Arrays.asList(1,2));
+
 
         PaginatedResponse<ActionDto> result = actionService.getActions(searchTerm, dueDateStart, dueDateEnd, isComplete,
                 assignedUserIds, defectIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
-                createdByIds, changedByIds, pageable);
+                createdByIds, changedByIds, page, size, sort);
 
         assertEquals(1, result.getContent().size());
         assertTrue(result.getContent().contains(actionDto));
-        assertEquals(page.getTotalPages(), result.getTotalPages());
-        assertEquals((int) page.getTotalElements(),result.getTotalElements());
-        assertEquals(page.getNumber(), result.getCurrentPage());
+        assertEquals(pageObject.getTotalPages(), result.getTotalPages());
+        assertEquals((int) pageObject.getTotalElements(),result.getTotalElements());
+        assertEquals(pageObject.getNumber(), result.getCurrentPage());
     }
 
     @Test

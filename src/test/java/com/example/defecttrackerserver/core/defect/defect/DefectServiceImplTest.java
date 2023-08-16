@@ -110,7 +110,7 @@ public class DefectServiceImplTest {
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
         when(securityService.getUser()).thenReturn(new User());
-        when(utils.saveImageToFileSystem(any(MultipartFile.class), anyString(), anyInt(), anyInt())).thenReturn("randomString");
+        when(utils.saveImageToFileSystem(any(MultipartFile.class), anyString())).thenReturn("randomString");
 
         MockMultipartFile[] mockFiles = {
                 new MockMultipartFile("image1", "image1.jpg", "image/jpg", "some-image-data".getBytes()),
