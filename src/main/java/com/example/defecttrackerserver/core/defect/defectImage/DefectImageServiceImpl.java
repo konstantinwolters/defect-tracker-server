@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectImage;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class DefectImageServiceImpl implements DefectImageService{
     private final DefectRepository defectRepository;
     private final DefectImageRepository defectImageRepository;
+    private final Utils utils;
     private final DefectImageMapper defectImageMapper;
 
     @Override
@@ -58,6 +60,7 @@ public class DefectImageServiceImpl implements DefectImageService{
         DefectImage defectImage = defectImageRepository.findById(defectImageId)
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: " + defectImageId));
 
+        utils.removeFileFromFileSystem(defectImage.getPath());
         defect.deleteDefectImage(defectImage);
     }
 }

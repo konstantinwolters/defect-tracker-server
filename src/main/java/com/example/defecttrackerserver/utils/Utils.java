@@ -59,6 +59,18 @@ public class Utils {
         return filePath;
     }
 
+    public void removeFileFromFileSystem(String path){
+        File imageFile = new File(path);
+        if (!imageFile.exists()) {
+            throw new RuntimeException("File not found at path: " + path);
+        }
+
+        boolean deleted = imageFile.delete();
+        if (!deleted) {
+            throw new RuntimeException("Failed to delete file at path: " + path);
+        }
+    }
+
     public void createDirectory(String folderPath) {
         File directory = new File(folderPath);
         if(!directory.exists()){

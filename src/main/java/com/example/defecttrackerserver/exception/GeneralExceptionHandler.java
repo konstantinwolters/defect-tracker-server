@@ -59,7 +59,7 @@ public class GeneralExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         log.error("Max upload size exceeded: ", e);
-        return createResponse(e, HttpStatus.METHOD_NOT_ALLOWED);
+        return createResponse(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

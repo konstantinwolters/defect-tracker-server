@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.defect.defectImage;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DefectImageServiceImplTest {
+
+    @Mock
+    private Utils utils;
 
     @Mock
     private DefectImageRepository defectImageRepository;
