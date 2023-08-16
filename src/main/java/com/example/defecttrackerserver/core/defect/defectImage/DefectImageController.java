@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class DefectImageController {
             }
     )
     @PostMapping("/{defectId}/images")
-    public DefectImageDto addImageToDefect(@PathVariable Integer defectId, @Valid @RequestBody DefectImageDto defectImageDto) {
-        return defectImageService.saveDefectImageToDefect(defectId, defectImageDto);
+    public DefectImageDto addImageToDefect(@PathVariable Integer defectId, @RequestParam("image") MultipartFile image) {
+        return defectImageService.saveDefectImageToDefect(defectId, image);
     }
 
     @Operation(

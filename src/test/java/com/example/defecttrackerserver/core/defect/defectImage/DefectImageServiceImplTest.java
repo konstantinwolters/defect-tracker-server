@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.Optional;
 
@@ -55,10 +56,13 @@ public class DefectImageServiceImplTest {
 
     @Test
     void shouldAddDefectImageToDefect() {
+        // Create a mock MultipartFile
+        MockMultipartFile image = new MockMultipartFile("image", "test.jpg", "image/jpg", "some-image-data".getBytes());
+
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
         when(defectImageMapper.mapToDto(any(DefectImage.class))).thenReturn(defectImageDto);
 
-        DefectImageDto result = defectImageService.saveDefectImageToDefect(1, defectImageDto);
+        DefectImageDto result = defectImageService.saveDefectImageToDefect(1, image);
 
         assertNotNull(result);
         assertEquals(defectImage.getPath(), result.getPath());

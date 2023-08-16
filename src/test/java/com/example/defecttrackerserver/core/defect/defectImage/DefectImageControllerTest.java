@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -41,11 +43,13 @@ public class DefectImageControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldAddImageToDefect() throws Exception {
-        when(defectImageService.saveDefectImageToDefect(any(Integer.class), any(DefectImageDto.class))).thenReturn(testDefectImageDto);
+        MockMultipartFile image = new MockMultipartFile("image", "test.jpg", "image/jpg", "some-image-data".getBytes());
 
-        mockMvc.perform(post("/defects/1/images")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testDefectImageDto)))
+        when(defectImageService.saveDefectImageToDefect(any(Integer.class), any(MultipartFile.class))).thenReturn(testDefectImageDto);
+
+        mockMvc.perform(multipart("/defects/1/images")
+                        .file(image)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.path").value("testPath"));
