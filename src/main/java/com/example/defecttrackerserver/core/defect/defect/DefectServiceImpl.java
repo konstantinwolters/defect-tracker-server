@@ -26,7 +26,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -36,8 +38,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,7 @@ import java.util.stream.Collectors;
 public class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
+    private final DefectSpecification defectSpecification;
     private final CausationCategoryRepository causationCategoryRepository;
     private final DefectMapper defectMapper;
     private final SecurityService securityService;
@@ -77,123 +80,72 @@ public class DefectServiceImpl implements DefectService{
 
         DefectStatus defectStatus = defectStatusRepository.findByName("New")
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with name: 'New'"));
-        newDefect.setDefectStatus(defectStatus);
 
         CausationCategory causationCategory = causationCategoryRepository.findByName("Undefined")
                 .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with name: 'Undefined'"));
+
+        newDefect.setDefectStatus(defectStatus);
         newDefect.setCausationCategory(causationCategory);
 
         Defect savedDefect = defectRepository.save(newDefect);
 
-        // Then add images to saved Defect
-        // 1. Create a folder with the defect's ID as name
-        String folderPath = imageFolderPath + File.separator + savedDefect.getId();
-        utils.createDirectory(folderPath);
-
-        // 2. Save images to filesystem and add paths as DefectImages to Defect
-        for (MultipartFile image : images) {
-            utils.validateImage(image);
-            String path = utils.saveImageToFileSystem(image, folderPath);
-            DefectImage defectImage = new DefectImage();
-            defectImage.setPath(path);
-            savedDefect.addDefectImage(defectImage);
-        }
+        //Save images to file system and associate with Defect:
+        addImages(savedDefect, images);
 
         Defect updatedDefect = defectRepository.save(savedDefect);
-
         return defectMapper.mapToDto(updatedDefect);
     }
 
     @Override
     public DefectDto getDefectById(Integer id) {
-        Defect defect = defectRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
+        Defect defect = findDefectById(id);
         return defectMapper.mapToDto(defect);
     }
 
     @Override
    public PaginatedResponse<DefectDto> getDefects(
-            String searchTerm,
-            List<Integer> lotIds,
-            List<Integer> materials,
-            List<Integer> suppliers,
-            List<Integer> defectStatusIds,
-            List<Integer> causationCategoriesIds,
+            String search,
+            String lotIds,
+            String materialIds,
+            String supplierIds,
+            String defectStatusIds,
+            String causationCategoryIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
             LocalDate changedAtEnd,
-            List<Integer> locationIds,
-            List<Integer> processIds,
-            List<Integer> defectTypeIds,
-            List<Integer> createdByIds,
-            List<Integer> changedByIds,
-            Pageable pageable
+            String locationIds,
+            String processIds,
+            String defectTypeIds,
+            String createdByIds,
+            String changedByIds,
+            Integer page,
+            Integer size,
+            String sort
     ){
-        Specification<Defect> spec = Specification.where(null);
 
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            spec = spec.and((root, query, cb) ->
-                    cb.or(
-                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
-                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
-                    )
-            );
+        List<Integer> lotIdList = utils.convertStringToListOfInteger(lotIds);
+        List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
+        List<Integer> supplierIdList = utils.convertStringToListOfInteger(supplierIds);
+        List<Integer> defectStatusIdList = utils.convertStringToListOfInteger(defectStatusIds);
+        List<Integer> causationCategoryIdList = utils.convertStringToListOfInteger(causationCategoryIds);
+        List<Integer> locationIdList = utils.convertStringToListOfInteger(locationIds);
+        List<Integer> processIdList = utils.convertStringToListOfInteger(processIds);
+        List<Integer> defectTypeIdList = utils.convertStringToListOfInteger(defectTypeIds);
+        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
+        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
+
+        Sort sorting = Sort.unsorted();
+        if (sort != null && !sort.isEmpty()) {
+            String[] split = sort.split(",");
+            Sort.Direction direction = Sort.Direction.fromString(split[1]);
+            sorting = Sort.by(direction, split[0]);
         }
 
-        if(lotIds != null && !lotIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));
-        }
-
-        if(materials != null && !materials.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("material").get("id").in(materials));
-        }
-
-        if(suppliers != null && !suppliers.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").get("id").in(suppliers));
-        }
-
-        if(defectStatusIds != null && !defectStatusIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("defectStatus").get("id").in(defectStatusIds));
-        }
-
-        if(causationCategoriesIds != null && !causationCategoriesIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("causationCategory").get("id").in(causationCategoriesIds));
-        }
-
-        if (createdAtStart != null && createdAtEnd != null) {
-            LocalDateTime startOfDay = createdAtStart.atStartOfDay();
-            LocalDateTime endOfDay = createdAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
-        }
-
-        if (changedAtStart != null && changedAtEnd != null) {
-            LocalDateTime startOfDay = changedAtStart.atStartOfDay();
-            LocalDateTime endOfDay = changedAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("changedAt"), startOfDay, endOfDay));
-        }
-
-        if(locationIds != null && !locationIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("location").get("id").in(locationIds));
-        }
-
-        if(processIds != null && !processIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("process").get("id").in(processIds));
-        }
-
-        if(defectTypeIds != null && !defectTypeIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("defectType").get("id").in(defectTypeIds));
-        }
-
-        if(createdByIds != null && !createdByIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
-        }
-
-        if(changedByIds != null && !changedByIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("changedBy").get("id").in(changedByIds));
-        }
+        Pageable pageable = PageRequest.of(page, size, sorting);
+        Specification<Defect> spec = defectSpecification.createSpecification( search, lotIdList, materialIdList, supplierIdList,
+                defectStatusIdList, causationCategoryIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                locationIdList, processIdList, defectTypeIdList, createdByIdList, changedByIdList);
 
         Page<Defect> defects = defectRepository.findAll(spec, pageable);
         List<DefectDto> defectDtos =  defects.stream().map(defectMapper::mapToDto).toList();
@@ -205,9 +157,12 @@ public class DefectServiceImpl implements DefectService{
                 defects.getTotalPages(),
                 (int) defects.getTotalElements(),
                 defects.getNumber(),
-                getDefectFilterValues(filteredDefects)
+                getDefectFilterValues(filteredDefects) // provide distinct filter values for Defects meeting the filter criteria
         );
     }
+
+
+    //Returns distinct filter values for Defects meeting the filter criteria
 
     @Override
     public DefectFilterValues getDefectFilterValues(List<Defect> defects) {
@@ -269,38 +224,77 @@ public class DefectServiceImpl implements DefectService{
                         .map(LocalDateTime::toLocalDate)
                         .collect(Collectors.toSet())
         );
-        defectFilterValues.setChangedDates(
-                defectRepository.findDistinctChangedAt(defectIds).stream()
-                        .map(LocalDateTime::toLocalDate)
-                        .collect(Collectors.toSet())
-        );
+
+        Set<LocalDateTime> changedDates = defectRepository.findDistinctChangedAt(defectIds);
+        if(changedDates != null) {
+            defectFilterValues.setChangedDates(
+                    changedDates.stream()
+                            .filter(Objects::nonNull) // filter out any null dates
+                            .map(LocalDateTime::toLocalDate)
+                            .collect(Collectors.toSet())
+            );
+        } else {
+            defectFilterValues.setChangedDates(null);
+        }
+
         return defectFilterValues;
     }
 
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectDto updateDefect(Integer defectId, DefectDto defectDto) {
-        Defect defectToUpdate = defectRepository.findById(defectId)
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
+    public DefectDto updateDefect(Integer defectId, DefectDto defectDto, MultipartFile[] images) {
+        Defect defectToUpdate = findDefectById(defectId);
 
-        defectToUpdate.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
-                .orElseThrow(() -> new EntityNotFoundException("Defect Status not found with name: "
-                        + defectDto.getDefectStatus())));
-        defectToUpdate.setChangedBy(securityService.getUser());
-        defectToUpdate.setChangedAt(LocalDateTime.now());
-        Defect mappedDefect = defectMapper.map(defectDto, defectToUpdate);
+        //Check if images have been removed:
+        List<Integer> dtoImageIds = defectDto.getImages().stream()
+                .map(DefectImageDto::getId)
+                .toList();
 
-        Defect updatedDefect = defectRepository.save(mappedDefect);
-        return defectMapper.mapToDto(updatedDefect);
+        List<DefectImage> imagesToRemove = defectToUpdate.getImages().stream()
+                .filter(image -> !dtoImageIds.contains(image.getId()))
+                .toList();
+
+        //If yes, remove from filesystem:
+        for(DefectImage image : imagesToRemove){
+            utils.removeFileFromFileSystem(image.getPath());
+        }
+
+        //Map and update Defect
+        Defect updatedDefect = defectMapper.map(defectDto, defectToUpdate);
+
+        updatedDefect.setChangedBy(securityService.getUser());
+        updatedDefect.setChangedAt(LocalDateTime.now());
+
+        // If images have been added, save to filesystem and associate with Defect:
+        if(images != null){
+            addImages(updatedDefect, images);
+        }
+
+        Defect savedDefect = defectRepository.save(updatedDefect);
+        return defectMapper.mapToDto(savedDefect);
+    }
+
+    private void addImages(Defect defect, MultipartFile[] images) {
+        // 1. Create a folder with the defect's ID as name
+        String folderPath = imageFolderPath + File.separator + defect.getId();
+        utils.createDirectory(folderPath);
+
+        // 2. Save images to filesystem and associate with Defect
+        for (MultipartFile image : images) {
+            utils.validateImage(image);
+            String path = utils.saveImageToFileSystem(image, folderPath);
+            DefectImage defectImage = new DefectImage();
+            defectImage.setPath(path);
+            defect.addDefectImage(defectImage);
+        }
     }
 
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefect(Integer id) {
-        Defect defectToDelete = defectRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
+        Defect defectToDelete = findDefectById(id);
 
         Lot lot = defectToDelete.getLot();
         lot.removeDefect(defectToDelete);
@@ -309,5 +303,10 @@ public class DefectServiceImpl implements DefectService{
             defectToDelete.deleteAction(action);
         }
         defectRepository.delete(defectToDelete);
+    }
+
+    Defect findDefectById(Integer id){
+        return defectRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
     }
 }

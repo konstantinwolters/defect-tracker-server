@@ -25,6 +25,8 @@ public class DefectDto {
     private LocalDateTime changedAt;
     private UserDto changedBy;
     private String causationCategory;
+    private String location;
+    private String defectType;
 
     @NotNull(message = "Defect description must not be null.")
     @NotEmpty(message = "Defect description must not be empty.")
@@ -34,17 +36,9 @@ public class DefectDto {
     @NotEmpty(message = "Lot must not be empty.")
     private String lot;
 
-    @NotNull(message = "Location must not be null.")
-    @NotEmpty(message = "Location must not be empty.")
-    private String location;
-
     @NotNull(message = "Process must not be null.")
     @NotEmpty(message = "Process must not be empty.")
     private String process;
-
-    @NotNull(message = "DefectType must not be null.")
-    @NotEmpty(message = "DefectType must not be empty.")
-    private String defectType;
 
     @NotNull(message = "CreatedBy must not be null.")
     private UserDto createdBy;

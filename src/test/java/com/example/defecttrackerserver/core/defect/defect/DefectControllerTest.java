@@ -104,8 +104,8 @@ public class DefectControllerTest extends BaseControllerTest {
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
-        when(defectService.getDefects(anyString(),anyList(),anyList(), anyList(), anyList(), anyList(), any(), any(),
-                any(), any(), anyList(), anyList(), anyList(), anyList(), anyList(), any(Pageable.class)))
+        when(defectService.getDefects(anyString(), anyString(),anyString(), anyString(), anyString(), anyString(), any(), any(),
+                any(), any(), anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString()))
                 .thenReturn(response);
 
         when(utils.convertStringToListOfInteger(anyString())).thenReturn(List.of(1,2));
@@ -140,11 +140,26 @@ public class DefectControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldUpdateDefect() throws Exception {
-        when(defectService.updateDefect(any(Integer.class), any(DefectDto.class))).thenReturn(testDefectDto);
-        mockMvc.perform(put("/defects/1")
+        when(defectService.updateDefect(any(Integer.class), any(DefectDto.class), any(MultipartFile[].class))).thenReturn(testDefectDto);
+
+        MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpg", "some-image-data".getBytes());
+        MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpg", "some-other-image-data".getBytes());
+
+        String defectDtoAsString = objectMapper.writeValueAsString(testDefectDto);
+
+        MockPart defectPart = new MockPart("defect", defectDtoAsString.getBytes());
+        defectPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(multipart("/defects/1")
+                        .file(image1)
+                        .file(image2)
+                        .part(defectPart)
                         .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testDefectDto)))
+                        .with(request -> {
+                            request.setMethod("PUT");
+                            return request;
+                        })
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.location").value("Texas"));

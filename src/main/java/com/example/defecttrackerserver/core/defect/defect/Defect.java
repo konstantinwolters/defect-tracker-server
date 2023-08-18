@@ -25,8 +25,10 @@ public class Defect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String description;
     private LocalDateTime changedAt;
+
+    @Column(nullable = false)
+    private String description;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

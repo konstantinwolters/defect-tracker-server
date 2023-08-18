@@ -11,24 +11,26 @@ public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto, MultipartFile[] images);
     DefectDto getDefectById(Integer id);
     PaginatedResponse<DefectDto> getDefects(
-            String searchTerm,
-            List<Integer> lotIds,
-            List<Integer> materialsIds,
-            List<Integer> suppliersIds,
-            List<Integer> defectStatusIds,
-            List<Integer> causationCategoryIds,
+            String search,
+            String lotIds,
+            String materialsIds,
+            String suppliersIds,
+            String defectStatusIds,
+            String causationCategoryIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
             LocalDate changedAtEnd,
-            List<Integer> locationIds,
-            List<Integer> processIds,
-            List<Integer> defectTypeIds,
-            List<Integer> createdByIds,
-            List<Integer> changedByIds,
-            Pageable pageable
+            String locationIds,
+            String processIds,
+            String defectTypeIds,
+            String createdByIds,
+            String changedByIds,
+            Integer page,
+            Integer size,
+            String sort
             );
     DefectFilterValues getDefectFilterValues(List<Defect> defects);
-    DefectDto updateDefect(Integer defectId, DefectDto defectDto);
+    DefectDto updateDefect(Integer defectId, DefectDto defectDto, MultipartFile[] images);
     void deleteDefect(Integer id);
 }
