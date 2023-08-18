@@ -104,8 +104,8 @@ public class DefectControllerTest extends BaseControllerTest {
         PaginatedResponse<DefectDto> response = new PaginatedResponse<>(List.of(testDefectDto), 1,
                 1, 0, new DefectFilterValues());
 
-        when(defectService.getDefects(anyString(),anyList(),anyList(), anyList(), anyList(), anyList(), any(), any(),
-                any(), any(), anyList(), anyList(), anyList(), anyList(), anyList(), any(Pageable.class)))
+        when(defectService.getDefects(anyString(), anyString(),anyString(), anyString(), anyString(), anyString(), any(), any(),
+                any(), any(), anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString()))
                 .thenReturn(response);
 
         when(utils.convertStringToListOfInteger(anyString())).thenReturn(List.of(1,2));

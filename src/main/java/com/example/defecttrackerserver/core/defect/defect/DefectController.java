@@ -59,7 +59,7 @@ public class DefectController {
     @GetMapping()
     public PaginatedResponse<DefectDto> getFilteredDefects(
             @RequestParam(required = false) String search,
-            @RequestParam(required = false) String lotsIds,
+            @RequestParam(required = false) String lotIds,
             @RequestParam(required = false) String materialIds,
             @RequestParam(required = false) String supplierIds,
             @RequestParam(required = false) String defectStatusIds,
@@ -78,29 +78,11 @@ public class DefectController {
             @RequestParam(required = false) String sort) {
 
         //TODO: Move data manipulation to service layer
-        List<Integer> lotIdList = utils.convertStringToListOfInteger(lotsIds);
-        List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
-        List<Integer> supplierIdList = utils.convertStringToListOfInteger(supplierIds);
-        List<Integer> defectStatusIdList = utils.convertStringToListOfInteger(defectStatusIds);
-        List<Integer> causationCategoryIdList = utils.convertStringToListOfInteger(causationCategoryIds);
-        List<Integer> locationIdList = utils.convertStringToListOfInteger(locationIds);
-        List<Integer> processIdList = utils.convertStringToListOfInteger(processIds);
-        List<Integer> defectTypeIdList = utils.convertStringToListOfInteger(defectTypeIds);
-        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
-        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
 
-        Sort sorting = Sort.unsorted();
-        if (sort != null && !sort.isEmpty()) {
-            String[] split = sort.split(",");
-            Sort.Direction direction = Sort.Direction.fromString(split[1]);
-            sorting = Sort.by(direction, split[0]);
-        }
 
-        Pageable pageable = PageRequest.of(page, size, sorting);
-
-        return defectService.getDefects(search, lotIdList, materialIdList, supplierIdList, defectStatusIdList,
-                causationCategoryIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
-                locationIdList, processIdList, defectTypeIdList, createdByIdList, changedByIdList, pageable);
+        return defectService.getDefects(search, lotIds, materialIds, supplierIds, defectStatusIds,
+                causationCategoryIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                locationIds, processIds, defectTypeIds, createdByIds, changedByIds, page, size, sort);
     }
 
     @Operation(

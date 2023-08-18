@@ -26,7 +26,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,7 @@ import java.util.stream.Collectors;
 public class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
+    private final DefectSpecification defectSpecification;
     private final CausationCategoryRepository causationCategoryRepository;
     private final DefectMapper defectMapper;
     private final SecurityService securityService;
@@ -101,87 +104,48 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
    public PaginatedResponse<DefectDto> getDefects(
-            String searchTerm,
-            List<Integer> lotIds,
-            List<Integer> materials,
-            List<Integer> suppliers,
-            List<Integer> defectStatusIds,
-            List<Integer> causationCategoriesIds,
+            String search,
+            String lotIds,
+            String materialIds,
+            String supplierIds,
+            String defectStatusIds,
+            String causationCategoryIds,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
             LocalDate changedAtEnd,
-            List<Integer> locationIds,
-            List<Integer> processIds,
-            List<Integer> defectTypeIds,
-            List<Integer> createdByIds,
-            List<Integer> changedByIds,
-            Pageable pageable
+            String locationIds,
+            String processIds,
+            String defectTypeIds,
+            String createdByIds,
+            String changedByIds,
+            Integer page,
+            Integer size,
+            String sort
     ){
-        Specification<Defect> spec = Specification.where(null);
 
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            spec = spec.and((root, query, cb) ->
-                    cb.or(
-                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
-                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
-                    )
-            );
+        List<Integer> lotIdList = utils.convertStringToListOfInteger(lotIds);
+        List<Integer> materialIdList = utils.convertStringToListOfInteger(materialIds);
+        List<Integer> supplierIdList = utils.convertStringToListOfInteger(supplierIds);
+        List<Integer> defectStatusIdList = utils.convertStringToListOfInteger(defectStatusIds);
+        List<Integer> causationCategoryIdList = utils.convertStringToListOfInteger(causationCategoryIds);
+        List<Integer> locationIdList = utils.convertStringToListOfInteger(locationIds);
+        List<Integer> processIdList = utils.convertStringToListOfInteger(processIds);
+        List<Integer> defectTypeIdList = utils.convertStringToListOfInteger(defectTypeIds);
+        List<Integer> createdByIdList = utils.convertStringToListOfInteger(createdByIds);
+        List<Integer> changedByIdList = utils.convertStringToListOfInteger(changedByIds);
+
+        Sort sorting = Sort.unsorted();
+        if (sort != null && !sort.isEmpty()) {
+            String[] split = sort.split(",");
+            Sort.Direction direction = Sort.Direction.fromString(split[1]);
+            sorting = Sort.by(direction, split[0]);
         }
 
-        if(lotIds != null && !lotIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));
-        }
-
-        if(materials != null && !materials.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("material").get("id").in(materials));
-        }
-
-        if(suppliers != null && !suppliers.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").get("id").in(suppliers));
-        }
-
-        if(defectStatusIds != null && !defectStatusIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("defectStatus").get("id").in(defectStatusIds));
-        }
-
-        if(causationCategoriesIds != null && !causationCategoriesIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("causationCategory").get("id").in(causationCategoriesIds));
-        }
-
-        if (createdAtStart != null && createdAtEnd != null) {
-            LocalDateTime startOfDay = createdAtStart.atStartOfDay();
-            LocalDateTime endOfDay = createdAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startOfDay, endOfDay));
-        }
-
-        if (changedAtStart != null && changedAtEnd != null) {
-            LocalDateTime startOfDay = changedAtStart.atStartOfDay();
-            LocalDateTime endOfDay = changedAtEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("changedAt"), startOfDay, endOfDay));
-        }
-
-        if(locationIds != null && !locationIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("location").get("id").in(locationIds));
-        }
-
-        if(processIds != null && !processIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("process").get("id").in(processIds));
-        }
-
-        if(defectTypeIds != null && !defectTypeIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("defectType").get("id").in(defectTypeIds));
-        }
-
-        if(createdByIds != null && !createdByIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIds));
-        }
-
-        if(changedByIds != null && !changedByIds.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("changedBy").get("id").in(changedByIds));
-        }
+        Pageable pageable = PageRequest.of(page, size, sorting);
+        Specification<Defect> spec = defectSpecification.createSpecification( search, lotIdList, materialIdList, supplierIdList,
+                defectStatusIdList, causationCategoryIdList, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                locationIdList, processIdList, defectTypeIdList, createdByIdList, changedByIdList);
 
         Page<Defect> defects = defectRepository.findAll(spec, pageable);
         List<DefectDto> defectDtos =  defects.stream().map(defectMapper::mapToDto).toList();
@@ -193,9 +157,12 @@ public class DefectServiceImpl implements DefectService{
                 defects.getTotalPages(),
                 (int) defects.getTotalElements(),
                 defects.getNumber(),
-                getDefectFilterValues(filteredDefects)
+                getDefectFilterValues(filteredDefects) // provide distinct filter values for Defects meeting the filter criteria
         );
     }
+
+
+    //Returns distinct filter values for Defects meeting the filter criteria
 
     @Override
     public DefectFilterValues getDefectFilterValues(List<Defect> defects) {
