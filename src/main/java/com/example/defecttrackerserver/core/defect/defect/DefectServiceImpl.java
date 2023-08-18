@@ -36,8 +36,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -77,37 +77,25 @@ public class DefectServiceImpl implements DefectService{
 
         DefectStatus defectStatus = defectStatusRepository.findByName("New")
                 .orElseThrow(()-> new EntityNotFoundException("DefectStatus not found with name: 'New'"));
-        newDefect.setDefectStatus(defectStatus);
 
         CausationCategory causationCategory = causationCategoryRepository.findByName("Undefined")
                 .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with name: 'Undefined'"));
+
+        newDefect.setDefectStatus(defectStatus);
         newDefect.setCausationCategory(causationCategory);
 
         Defect savedDefect = defectRepository.save(newDefect);
 
-        // Then add images to saved Defect
-        // 1. Create a folder with the defect's ID as name
-        String folderPath = imageFolderPath + File.separator + savedDefect.getId();
-        utils.createDirectory(folderPath);
-
-        // 2. Save images to filesystem and add paths as DefectImages to Defect
-        for (MultipartFile image : images) {
-            utils.validateImage(image);
-            String path = utils.saveImageToFileSystem(image, folderPath);
-            DefectImage defectImage = new DefectImage();
-            defectImage.setPath(path);
-            savedDefect.addDefectImage(defectImage);
-        }
+        //Save images to file system and associate with Defect:
+        addImages(savedDefect, images);
 
         Defect updatedDefect = defectRepository.save(savedDefect);
-
         return defectMapper.mapToDto(updatedDefect);
     }
 
     @Override
     public DefectDto getDefectById(Integer id) {
-        Defect defect = defectRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
+        Defect defect = findDefectById(id);
         return defectMapper.mapToDto(defect);
     }
 
@@ -269,38 +257,77 @@ public class DefectServiceImpl implements DefectService{
                         .map(LocalDateTime::toLocalDate)
                         .collect(Collectors.toSet())
         );
-        defectFilterValues.setChangedDates(
-                defectRepository.findDistinctChangedAt(defectIds).stream()
-                        .map(LocalDateTime::toLocalDate)
-                        .collect(Collectors.toSet())
-        );
+
+        Set<LocalDateTime> changedDates = defectRepository.findDistinctChangedAt(defectIds);
+        if(changedDates != null) {
+            defectFilterValues.setChangedDates(
+                    changedDates.stream()
+                            .filter(Objects::nonNull) // filter out any null dates
+                            .map(LocalDateTime::toLocalDate)
+                            .collect(Collectors.toSet())
+            );
+        } else {
+            defectFilterValues.setChangedDates(null);
+        }
+
         return defectFilterValues;
     }
 
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public DefectDto updateDefect(Integer defectId, DefectDto defectDto) {
-        Defect defectToUpdate = defectRepository.findById(defectId)
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
+    public DefectDto updateDefect(Integer defectId, DefectDto defectDto, MultipartFile[] images) {
+        Defect defectToUpdate = findDefectById(defectId);
 
-        defectToUpdate.setDefectStatus(defectStatusRepository.findByName(defectDto.getDefectStatus())
-                .orElseThrow(() -> new EntityNotFoundException("Defect Status not found with name: "
-                        + defectDto.getDefectStatus())));
-        defectToUpdate.setChangedBy(securityService.getUser());
-        defectToUpdate.setChangedAt(LocalDateTime.now());
-        Defect mappedDefect = defectMapper.map(defectDto, defectToUpdate);
+        //Check if images have been removed:
+        List<Integer> dtoImageIds = defectDto.getImages().stream()
+                .map(DefectImageDto::getId)
+                .toList();
 
-        Defect updatedDefect = defectRepository.save(mappedDefect);
-        return defectMapper.mapToDto(updatedDefect);
+        List<DefectImage> imagesToRemove = defectToUpdate.getImages().stream()
+                .filter(image -> !dtoImageIds.contains(image.getId()))
+                .toList();
+
+        //If yes, remove from filesystem:
+        for(DefectImage image : imagesToRemove){
+            utils.removeFileFromFileSystem(image.getPath());
+        }
+
+        //Map and update Defect
+        Defect updatedDefect = defectMapper.map(defectDto, defectToUpdate);
+
+        updatedDefect.setChangedBy(securityService.getUser());
+        updatedDefect.setChangedAt(LocalDateTime.now());
+
+        // If images have been added, save to filesystem and associate with Defect:
+        if(images != null){
+            addImages(updatedDefect, images);
+        }
+
+        Defect savedDefect = defectRepository.save(updatedDefect);
+        return defectMapper.mapToDto(savedDefect);
+    }
+
+    private void addImages(Defect defect, MultipartFile[] images) {
+        // 1. Create a folder with the defect's ID as name
+        String folderPath = imageFolderPath + File.separator + defect.getId();
+        utils.createDirectory(folderPath);
+
+        // 2. Save images to filesystem and associate with Defect
+        for (MultipartFile image : images) {
+            utils.validateImage(image);
+            String path = utils.saveImageToFileSystem(image, folderPath);
+            DefectImage defectImage = new DefectImage();
+            defectImage.setPath(path);
+            defect.addDefectImage(defectImage);
+        }
     }
 
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefect(Integer id) {
-        Defect defectToDelete = defectRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
+        Defect defectToDelete = findDefectById(id);
 
         Lot lot = defectToDelete.getLot();
         lot.removeDefect(defectToDelete);
@@ -309,5 +336,10 @@ public class DefectServiceImpl implements DefectService{
             defectToDelete.deleteAction(action);
         }
         defectRepository.delete(defectToDelete);
+    }
+
+    Defect findDefectById(Integer id){
+        return defectRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
     }
 }

@@ -29,6 +29,6 @@ public interface DefectService {
             Pageable pageable
             );
     DefectFilterValues getDefectFilterValues(List<Defect> defects);
-    DefectDto updateDefect(Integer defectId, DefectDto defectDto);
+    DefectDto updateDefect(Integer defectId, DefectDto defectDto, MultipartFile[] images);
     void deleteDefect(Integer id);
 }

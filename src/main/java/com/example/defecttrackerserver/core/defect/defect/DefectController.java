@@ -111,9 +111,12 @@ public class DefectController {
                     @ApiResponse(responseCode = "404", description = "Defect not found"),
             }
     )
-    @PutMapping("/{id}")
-    public DefectDto updateDefect(@PathVariable Integer id, @Valid @RequestBody DefectDto defectDto) {
-        return defectService.updateDefect(id, defectDto); }
+    @PutMapping(path = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public DefectDto updateDefect(@PathVariable Integer id, @Valid @RequestPart("defect") DefectDto defectDto,
+                                  @RequestPart(name = "images", required = false)MultipartFile[] images) {
+
+        return defectService.updateDefect(id, defectDto, images);
+    }
 
     @Operation(
             summary = "Delete Defect by id",

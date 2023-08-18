@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
@@ -31,8 +32,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -172,18 +173,30 @@ public class DefectServiceImplTest {
 
     @Test
     void shouldUpdateDefect() {
-        when(defectRepository.save(any(Defect.class))).thenReturn(defect);
+        // Setup test data
+        DefectImage testImage = new DefectImage();
+        testImage.setId(100);
+        List<DefectImage> imageList = new ArrayList<>();
+        imageList.add(testImage);
+
+        defect.setImages(imageList);
+        defectDto.setImages(new ArrayList<>());
+
+        // Mocking
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
+        when(defectRepository.save(any(Defect.class))).thenReturn(defect);
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(any(Defect.class))).thenReturn(defectDto);
         when(securityService.getUser()).thenReturn(new User());
 
-        DefectDto result = defectService.updateDefect(1, defectDto);
+        // Test execution
+        DefectDto result = defectService.updateDefect(1, defectDto, null);
 
+        // Verifications
         assertNotNull(result);
         assertEquals(defect.getId(), result.getId());
         verify(defectRepository, times(1)).save(defect);
+        verify(utils, times(1)).removeFileFromFileSystem(testImage.getPath());
     }
 
     @Test
