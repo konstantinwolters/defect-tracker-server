@@ -12,9 +12,9 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class Utils {
@@ -42,6 +42,13 @@ public class Utils {
         if (image.getSize() > MAX_FILE_SIZE) {
             throw new IllegalArgumentException("Image size has to be less than 3 MB per image.");
         }
+    }
+
+    public <T, R> Set<R> mapToSet(Collection<T> collection, Function<T, R> mapper) {
+        return collection.stream()
+                .filter(Objects::nonNull)
+                .map(mapper)
+                .collect(Collectors.toSet());
     }
 
     public String saveImageToFileSystem(MultipartFile image, String folderPath) {

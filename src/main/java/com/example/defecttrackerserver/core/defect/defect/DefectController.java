@@ -51,7 +51,7 @@ public class DefectController {
     public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
 
     @Operation(
-            summary = "Get all Defects with filter values",
+            summary = "Get all Defects with search, filter and sort values",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Defects found"),
             }
@@ -76,9 +76,6 @@ public class DefectController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String sort) {
-
-        //TODO: Move data manipulation to service layer
-
 
         return defectService.getDefects(search, lotIds, materialIds, supplierIds, defectStatusIds,
                 causationCategoryIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,

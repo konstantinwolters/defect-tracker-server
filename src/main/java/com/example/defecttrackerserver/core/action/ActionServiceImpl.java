@@ -130,13 +130,17 @@ public class ActionServiceImpl implements ActionService{
         actionFilterValues.setIsCompleted(actionRepository.findDistinctIsCompleted(actionIds));
         actionFilterValues.setAssignedUsers(utils.mapToSet(
                 actionRepository.findDistinctAssignedUsers(actionIds), UserInfo::new));
+
         actionFilterValues.setDefects(actionRepository.findDistinctDefect(actionIds));
         actionFilterValues.setCreatedDates(utils.mapToSet(
                 actionRepository.findDistinctCreatedAt(actionIds), LocalDateTime::toLocalDate));
+
         actionFilterValues.setChangedDates(utils.mapToSet(
                 actionRepository.findDistinctChangedAt(actionIds), LocalDateTime::toLocalDate));
+
         actionFilterValues.setCreatedByUsers(utils.mapToSet(
                 actionRepository.findDistinctCreatedBy(actionIds), UserInfo::new));
+
         actionFilterValues.setChangedByUsers(utils.mapToSet(
                 actionRepository.findDistinctChangedBy(actionIds), UserInfo::new));
 

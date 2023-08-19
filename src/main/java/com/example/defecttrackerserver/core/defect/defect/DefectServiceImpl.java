@@ -170,24 +170,34 @@ public class DefectServiceImpl implements DefectService{
 
         defectFilterValues.setLots(utils.mapToSet(
                 defectRepository.findDistinctLots(defectIds), LotInfo::new));
+
         defectFilterValues.setMaterials(utils.mapToSet(
                 defectRepository.findDistinctMaterials(defectIds), materialMapper::mapToDto));
+
         defectFilterValues.setSuppliers(utils.mapToSet(
                 defectRepository.findDistinctSuppliers(defectIds), supplierMapper::mapToDto));
+
         defectFilterValues.setLocations(utils.mapToSet(
                 defectRepository.findDistinctLocations(defectIds), locationMapper::mapToDto));
+
         defectFilterValues.setProcesses(utils.mapToSet(
                 defectRepository.findDistinctProcesses(defectIds), processMapper::mapToDto));
+
         defectFilterValues.setCreatedByUsers(utils.mapToSet(
                 defectRepository.findDistinctCreatedBy(defectIds), UserInfo::new));
+
         defectFilterValues.setChangedByUsers(utils.mapToSet(
                 defectRepository.findDistinctChangedBy(defectIds), UserInfo::new));
+
         defectFilterValues.setDefectStatuses(utils.mapToSet(
                 defectRepository.findDistinctDefectStatuses(defectIds), defectStatusMapper::mapToDto));
+
         defectFilterValues.setCausationCategories(utils.mapToSet(
                 defectRepository.findDistinctCausationCategories(defectIds), causationCategoryMapper::mapToDto));
+
         defectFilterValues.setDefectTypes(utils.mapToSet(
                 defectRepository.findDistinctDefectTypes(defectIds), defectTypeMapper::mapToDto));
+
         defectFilterValues.setCreatedDates(utils.mapToSet(
                 defectRepository.findDistinctCreatedAt(defectIds), LocalDateTime::toLocalDate));
 
