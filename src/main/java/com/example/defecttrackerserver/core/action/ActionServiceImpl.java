@@ -10,6 +10,7 @@ import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,43 +122,23 @@ public class ActionServiceImpl implements ActionService{
 
     //Returns distinct filter values for Actions meeting the filter criteria
     @Override
-    public ActionFilterValues getActionFilterValues(List<Action> actions){
+    public ActionFilterValues getActionFilterValues(List<Action> actions) {
         List<Integer> actionIds = actions.stream().map(Action::getId).toList();
 
         ActionFilterValues actionFilterValues = new ActionFilterValues();
-
-        actionFilterValues.setDueDates(
-                actionRepository.findDistinctDueDate(actionIds)
-        );
-        actionFilterValues.setIsCompleted(
-                actionRepository.findDistinctIsCompleted(actionIds)
-        );
-        actionFilterValues.setAssignedUsers(
-                actionRepository.findDistinctAssignedUsers(actionIds).stream()
-                        .map(UserInfo::new)
-                        .collect(Collectors.toSet())
-        );
-        actionFilterValues.setDefects(
-                actionRepository.findDistinctDefect(actionIds)
-        );
-        actionFilterValues.setCreatedDates(
-                actionRepository.findDistinctCreatedAt(actionIds).stream()
-                        .map(LocalDateTime::toLocalDate)
-                        .collect(Collectors.toSet())
-        );
-        actionFilterValues.setChangedDates(
-                actionRepository.findDistinctChangedAt(actionIds).stream()
-                        .map(LocalDateTime::toLocalDate)
-                        .collect(Collectors.toSet())
-        );
-        actionFilterValues.setCreatedByUsers(
-                actionRepository.findDistinctCreatedBy(actionIds).stream()
-                        .map(UserInfo::new)
-                        .collect(Collectors.toSet()));
-        actionFilterValues.setChangedByUsers(
-                actionRepository.findDistinctChangedBy(actionIds).stream()
-                        .map(UserInfo::new)
-                        .collect(Collectors.toSet()));
+        actionFilterValues.setDueDates(actionRepository.findDistinctDueDate(actionIds));
+        actionFilterValues.setIsCompleted(actionRepository.findDistinctIsCompleted(actionIds));
+        actionFilterValues.setAssignedUsers(utils.mapToSet(
+                actionRepository.findDistinctAssignedUsers(actionIds), UserInfo::new));
+        actionFilterValues.setDefects(actionRepository.findDistinctDefect(actionIds));
+        actionFilterValues.setCreatedDates(utils.mapToSet(
+                actionRepository.findDistinctCreatedAt(actionIds), LocalDateTime::toLocalDate));
+        actionFilterValues.setChangedDates(utils.mapToSet(
+                actionRepository.findDistinctChangedAt(actionIds), LocalDateTime::toLocalDate));
+        actionFilterValues.setCreatedByUsers(utils.mapToSet(
+                actionRepository.findDistinctCreatedBy(actionIds), UserInfo::new));
+        actionFilterValues.setChangedByUsers(utils.mapToSet(
+                actionRepository.findDistinctChangedBy(actionIds), UserInfo::new));
 
         return actionFilterValues;
     }
