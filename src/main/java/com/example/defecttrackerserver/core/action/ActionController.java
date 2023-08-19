@@ -45,7 +45,7 @@ public class ActionController {
     }
 
     @Operation(
-            summary = "Get all Actions with filter values",
+            summary = "Get all Actions with search, filter and sort values",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Actions found"),
             }

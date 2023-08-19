@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.action;
+package com.example.defecttrackerserver.core.user.user;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -8,15 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ActionSpecification {
+public class UserSpecification {
 
-    public Specification<Action> createSpecification(
+    public Specification<User> createSpecification(
             String searchTerm,
-            LocalDate dueDateStart,
-            LocalDate dueDateEnd,
-            Boolean isCompleted,
-            List<Integer> assignedUserIdList,
-            List<Integer> defectIdList,
+            Boolean isActive,
+            List<Integer> locationIdList,
+            List<Integer> roleIdList,
             LocalDate createdAtStart,
             LocalDate createdAtEnd,
             LocalDate changedAtStart,
@@ -24,34 +22,34 @@ public class ActionSpecification {
             List<Integer> createdByIdList,
             List<Integer> changedByIdList
     ){
-        Specification<Action> spec = Specification.where(null);
+        Specification<User> spec = Specification.where(null);
 
         if (searchTerm != null && !searchTerm.isEmpty()) {
             spec = spec.and((root, query, cb) ->
                     cb.or(
-                            cb.like(cb.lower(root.get("description")), "%" + searchTerm.toLowerCase() + "%"),
-                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%")
+                            cb.like(cb.lower(root.get("firstName")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("lastName")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("mail")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("username")), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.like(cb.lower(root.get("id").as(String.class)), "%" + searchTerm.toLowerCase() + "%"),
+                            cb.and(
+                                    cb.isNotNull(root.get("customId")),
+                                    cb.like(cb.lower(root.get("customId")), "%" + searchTerm.toLowerCase() + "%")
+                            )
                     )
             );
         }
 
-        if (dueDateStart != null && dueDateEnd != null) {
-            LocalDateTime startOfDay = dueDateStart.atStartOfDay();
-            LocalDateTime endOfDay = dueDateEnd.atStartOfDay().plusDays(1).minusSeconds(1);
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("dueDate"), startOfDay, endOfDay));
+        if(isActive != null){
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("isActive"), isActive));
         }
 
-        if(isCompleted != null){
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("isCompleted"), isCompleted));
+        if(locationIdList != null && !locationIdList.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("location").get("id").in(locationIdList));
         }
 
-        if(assignedUserIdList != null && !assignedUserIdList.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("assignedUsers").get("id").in(assignedUserIdList));
-        }
-
-        if(defectIdList != null && !defectIdList.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("defect").get("id").in(defectIdList));
+        if(roleIdList != null && !roleIdList.isEmpty()){
+            spec = spec.and((root, query, cb) -> root.get("defect").get("id").in(roleIdList));
         }
 
         if (createdAtStart != null && createdAtEnd != null) {
@@ -69,11 +67,11 @@ public class ActionSpecification {
         }
 
         if(createdByIdList != null && !createdByIdList.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("createdBy").get("id").in(createdByIdList));
+            spec = spec.and((root, query, cb) -> root.get("createdById").in(createdByIdList));
         }
 
         if(changedByIdList != null && !changedByIdList.isEmpty()){
-            spec = spec.and((root, query, cb) -> root.get("changedBy").get("id").in(changedByIdList));
+            spec = spec.and((root, query, cb) -> root.get("changedById").in(changedByIdList));
         }
 
         return spec;
