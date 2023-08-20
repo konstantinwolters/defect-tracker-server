@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,11 @@ import java.util.Arrays;
 @Slf4j
 public class ProcessLoggingAspect {
     private final SecurityService securityService;
+
+    @Around("execution(* com.example.defecttrackerserver.core.defect.process.ProcessService.saveProcess(..))")
+    public Object logSavedProcess(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logSave(joinPoint);
+    }
 
     @Around("execution(* com.example.defecttrackerserver.core.defect.process.ProcessService.updateProcess(..))")
     public Object logUpdateProcess(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -37,5 +43,17 @@ public class ProcessLoggingAspect {
 
         log.info("User {} successfully executed {} in {} ms", userId, process, totalTime);
         return retVal;
+    }
+
+    private Object logSave(ProceedingJoinPoint joinPoint) throws Throwable {
+        Integer userId = securityService.getUser().getId();
+        log.info("User {} is trying to save an object with params: {}", userId, Arrays.toString(joinPoint.getArgs()));
+
+        long startTime = System.currentTimeMillis();
+        ProcessDto savedProcessDto = (ProcessDto) joinPoint.proceed();
+        long totalTime = System.currentTimeMillis() - startTime;
+
+        log.info("User {} successfully saved an object with id {} in {} ms", userId, savedProcessDto.getId(), totalTime);
+        return savedProcessDto;
     }
 }
