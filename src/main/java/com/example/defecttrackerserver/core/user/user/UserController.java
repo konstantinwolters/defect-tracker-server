@@ -55,7 +55,7 @@ public class UserController {
     )
     @GetMapping()
     PaginatedResponse<UserDto> getUsers(
-            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isActive,
             @RequestParam(required = false) String locationIds,
             @RequestParam(required = false) String roleIds,
@@ -69,7 +69,7 @@ public class UserController {
             @RequestParam(required = false, defaultValue = "10")Integer size,
             @RequestParam(required = false) String sort
     ){
-        return userService.getUsers(searchTerm, isActive, locationIds, roleIds, createdAtStart,
+        return userService.getUsers(search, isActive, locationIds, roleIds, createdAtStart,
                 createdAtEnd, changedAtStart, changedAtEnd, createdByIds, changedByIds, page,
                 size, sort);
     }
