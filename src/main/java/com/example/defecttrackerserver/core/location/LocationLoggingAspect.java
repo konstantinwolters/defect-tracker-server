@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.location;
 
+import com.example.defecttrackerserver.core.defect.process.ProcessDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +18,18 @@ import java.util.Arrays;
 public class LocationLoggingAspect {
     private final SecurityService securityService;
 
+    @Around("execution(* com.example.defecttrackerserver.core.location.LocationService.saveLocation(..))")
+    public Object logSaveLocation(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logSave(joinPoint);
+    }
+
     @Around("execution(* com.example.defecttrackerserver.core.location.LocationService.updateLocation(..))")
-    public Object logUpdateLot(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logUpdateLocation(ProceedingJoinPoint joinPoint) throws Throwable {
         return logLocation("updateLocation", joinPoint);
     }
 
     @Around("execution(* com.example.defecttrackerserver.core.location.LocationService.deleteLocation(..))")
-    public Object logDeleteDefectType(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logDeleteLocation(ProceedingJoinPoint joinPoint) throws Throwable {
         return logLocation("deleteLocation", joinPoint);
     }
 
@@ -37,5 +43,17 @@ public class LocationLoggingAspect {
 
         log.info("User {} successfully executed {} in {} ms", userId, location, totalTime);
         return retVal;
+    }
+
+    private Object logSave(ProceedingJoinPoint joinPoint) throws Throwable {
+        Integer userId = securityService.getUser().getId();
+        log.info("User {} is trying to save an object with params: {}", userId, Arrays.toString(joinPoint.getArgs()));
+
+        long startTime = System.currentTimeMillis();
+        LocationDto savedLocationDto = (LocationDto) joinPoint.proceed();
+        long totalTime = System.currentTimeMillis() - startTime;
+
+        log.info("User {} successfully saved an object with id {} in {} ms", userId, savedLocationDto.getId(), totalTime);
+        return savedLocationDto;
     }
 }

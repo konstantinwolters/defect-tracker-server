@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +18,18 @@ import java.util.Arrays;
 public class LotLoggingAspect {
     private final SecurityService securityService;
 
+    @Around("execution(* com.example.defecttrackerserver.core.lot.lot.LotService.saveLot(..))")
+    public Object logSaveLot(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logSave(joinPoint);
+    }
+
     @Around("execution(* com.example.defecttrackerserver.core.lot.lot.LotService.updateLot(..))")
     public Object logUpdateLot(ProceedingJoinPoint joinPoint) throws Throwable {
         return logLot("updateLot", joinPoint);
     }
 
     @Around("execution(* com.example.defecttrackerserver.core.lot.lot.LotService.deleteLot(..))")
-    public Object logDeleteDefectType(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logDeleteLot(ProceedingJoinPoint joinPoint) throws Throwable {
         return logLot("deleteLot", joinPoint);
     }
 
@@ -38,4 +44,17 @@ public class LotLoggingAspect {
         log.info("User {} successfully executed {} in {} ms", userId, lot, totalTime);
         return retVal;
     }
+
+    private Object logSave(ProceedingJoinPoint joinPoint) throws Throwable {
+        Integer userId = securityService.getUser().getId();
+        log.info("User {} is trying to save an object with params: {}", userId, Arrays.toString(joinPoint.getArgs()));
+
+        long startTime = System.currentTimeMillis();
+        LotDto savedLotDto = (LotDto) joinPoint.proceed();
+        long totalTime = System.currentTimeMillis() - startTime;
+
+        log.info("User {} successfully saved an object with id {} in {} ms", userId, savedLotDto.getId(), totalTime);
+        return savedLotDto;
+    }
+
 }
