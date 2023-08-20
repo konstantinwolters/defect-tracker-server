@@ -1,13 +1,18 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleMapper;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
+import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +20,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -41,13 +49,25 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
+    private UserSpecification userSpecification;
+
+    @Mock
     private RoleRepository roleRepository;
 
     @Mock
     private UserMapper userMapper;
 
     @Mock
+    private LocationMapper locationMapper;
+
+    @Mock
+    private RoleMapper roleMapper;
+
+    @Mock
     private SecurityService securityService;
+
+    @Mock
+    private Utils utils;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -109,19 +129,48 @@ public class UserServiceImplTest {
         assertEquals(user.getPassword(), result.getPassword());
         assertEquals(user.getMail(), result.getMail());
     }
+
     @Test
-    void shouldReturnAllUsers(){
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+    void shouldReturnFilteredUsers() {
+        String searchTerm = "test";
+        Boolean isActive = true;
+        String locationIds = "1,2";
+        String roleIds = "1,2";
+        LocalDate createdAtStart = LocalDate.now();
+        LocalDate createdAtEnd = LocalDate.now();
+        LocalDate changedAtStart = LocalDate.now();
+        LocalDate changedAtEnd = LocalDate.now();
+        Integer page = 0;
+        Integer size = 10;
+        String createdByIds = "1,2";
+        String changedByIds = "1,2";
+        String sort = "id,desc";
+        Pageable pageable = PageRequest.of(0,10, Sort.Direction.DESC, "id");
+        Page<User> pageObject = new PageImpl<>(List.of(user));
+
+        Specification<User> spec = mock(Specification.class);
+
+        when(userSpecification.createSpecification(
+                eq(searchTerm), eq(isActive),
+                anyList(), anyList(), eq(createdAtStart), eq(createdAtEnd),
+                eq(changedAtStart), eq(changedAtEnd), anyList(), anyList()
+        )).thenReturn(spec);
+        when(userRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pageObject);
         when(userMapper.mapToDto(user)).thenReturn(userDto);
+        when(utils.convertStringToListOfInteger(any(String.class))).thenReturn(Arrays.asList(1,2));
 
-        List<UserDto> result = userService.getAllUsers();
 
-        assertNotNull(result);
-        assertEquals(user.getId(), result.get(0).getId());
-        assertEquals(user.getUsername(), result.get(0).getUsername());
-        assertEquals(user.getPassword(), result.get(0).getPassword());
-        assertEquals(user.getMail(), result.get(0).getMail());
+        PaginatedResponse<UserDto> result = userService.getUsers(searchTerm, isActive,
+                locationIds, roleIds, createdAtStart, createdAtEnd, changedAtStart, changedAtEnd,
+                createdByIds, changedByIds, page, size, sort);
+
+        assertEquals(1, result.getContent().size());
+        assertTrue(result.getContent().contains(userDto));
+        assertEquals(pageObject.getTotalPages(), result.getTotalPages());
+        assertEquals((int) pageObject.getTotalElements(),result.getTotalElements());
+        assertEquals(pageObject.getNumber(), result.getCurrentPage());
     }
+
 
     @Test
     void shouldUpdateUser(){

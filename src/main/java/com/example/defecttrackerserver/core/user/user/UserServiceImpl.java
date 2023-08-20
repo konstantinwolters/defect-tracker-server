@@ -1,11 +1,8 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionFilterValues;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
-import com.example.defecttrackerserver.core.location.LocationDto;
 import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleMapper;
@@ -31,7 +28,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -73,8 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Integer id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        User user = findUserById(id);
         return userMapper.mapToDto(user);
     }
 
@@ -167,8 +162,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto updateUser(Integer userId, UserDto userDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        User user = findUserById(userId);
 
         if(!securityService.getUsername().equals(user.getUsername())
         && !securityService.hasRole("ROLE_ADMIN")){
@@ -193,12 +187,11 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public void deleteUser(Integer id) {
-        User userToDelete = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        User userToDelete = findUserById(id);
 
         if(!defectRepository.findByChangedById(id).isEmpty()
         || !defectRepository.findByCreatedById(id).isEmpty()
-        ||!defectCommentRepository.findByCreatedById(id).isEmpty()
+        || !defectCommentRepository.findByCreatedById(id).isEmpty()
         || !actionRepository.findByChangedById(id).isEmpty()
         || !actionRepository.findByCreatedById(id).isEmpty()
         || !actionRepository.findByAssignedUsersId(id).isEmpty()
@@ -213,8 +206,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deactivateUser(Integer id) {
-        User userToDeactivate = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        User userToDeactivate = findUserById(id);
 
         userToDeactivate.setIsActive(false);;
     }
@@ -224,5 +216,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
         return userMapper.mapToDto(user);
+    }
+
+    private User findUserById(Integer id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 }

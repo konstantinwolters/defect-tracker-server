@@ -1,7 +1,10 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.core.action.ActionDto;
+import com.example.defecttrackerserver.core.action.ActionFilterValues;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
+import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +13,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
@@ -71,14 +77,46 @@ public class UserControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldGetAllUsers() throws Exception {
-        when(userService.getAllUsers()).thenReturn(Arrays.asList(testuserDto));
+    public void shouldReturnFilteredUsers() throws Exception {
+        String search = "test";
+        Boolean isActive = true;
+        String locationIds = "1,2";
+        String roleIds = "1,2";
+        LocalDate createdAtStart = LocalDate.now();
+        LocalDate createdAtEnd = LocalDate.now();
+        LocalDate changedAtStart = LocalDate.now();
+        LocalDate changedAtEnd = LocalDate.now();
+        Integer page = 0;
+        Integer size = 10;
+        String createdByIds = "1,2";
+        String changedByIds = "1,2";
+        String sort = "id,desc";
+
+        PaginatedResponse<UserDto> response = new PaginatedResponse<>(List.of(testuserDto), 1,
+                1, 0, new UserFilterValues());
+
+        when(userService.getUsers(search, isActive, locationIds, roleIds, createdAtStart, createdAtEnd,
+                changedAtStart, changedAtEnd, createdByIds, changedByIds, page, size, sort)).thenReturn(response);
 
         mockMvc.perform(get("/users")
-                    .contentType(MediaType.APPLICATION_JSON))
+                        .param("search", search)
+                        .param("isActive", String.valueOf(isActive))
+                        .param("locationIds", locationIds)
+                        .param("roleIds", roleIds)
+                        .param("createdAtStart", String.valueOf(createdAtStart))
+                        .param("createdAtEnd", String.valueOf(createdAtEnd))
+                        .param("changedAtStart", String.valueOf(createdAtStart))
+                        .param("changedAtEnd", String.valueOf(createdAtEnd))
+                        .param("createdByIds", createdByIds)
+                        .param("changedByIds", changedByIds)
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                        .param("sort", sort))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].username").value("bill"));
+                .andExpect(jsonPath("$.content[0].username").value(testuserDto.getUsername()))
+                .andExpect(jsonPath("$.totalPages").value(response.getTotalPages()))
+                .andExpect(jsonPath("$.totalElements").value(response.getTotalElements()))
+                .andExpect(jsonPath("$.currentPage").value(response.getCurrentPage()));
     }
 
     @Test
