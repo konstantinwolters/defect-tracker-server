@@ -211,7 +211,7 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public DefectDto updateDefect(Integer defectId, DefectDto defectDto, MultipartFile[] images) {
         Defect defectToUpdate = findDefectById(defectId);
 

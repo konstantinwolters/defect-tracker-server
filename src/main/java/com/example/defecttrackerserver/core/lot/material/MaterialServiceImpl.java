@@ -18,7 +18,7 @@ public class MaterialServiceImpl implements MaterialService {
     private final MaterialMapper materialMapper;
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_QA') or hasRole('ROLE_ADMIN') ")
     public MaterialDto saveMaterial(MaterialDto materialDto) {
         if(materialRepository.findByName(materialDto.getName()).isPresent())
             throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
@@ -47,7 +47,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public MaterialDto updateMaterial(Integer materialId, MaterialDto materialDto) {
         if(materialDto.getId() == null)
             throw new IllegalArgumentException("Material id must not be null");
