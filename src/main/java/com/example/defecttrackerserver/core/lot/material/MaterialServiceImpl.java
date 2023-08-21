@@ -23,11 +23,9 @@ public class MaterialServiceImpl implements MaterialService {
         if(materialRepository.findByName(materialDto.getName()).isPresent())
             throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
 
-        Material material = new Material();
-        material.setName(materialDto.getName());
-        material.setCustomId(materialDto.getCustomId());
+        Material newMaterial = materialMapper.map(materialDto, new Material());
 
-        Material savedMaterial = materialRepository.save(material);
+        Material savedMaterial = materialRepository.save(newMaterial);
 
         return materialMapper.mapToDto(savedMaterial);
     }
@@ -62,9 +60,8 @@ public class MaterialServiceImpl implements MaterialService {
         if(materialExists.isPresent() && !materialExists.get().getId().equals(material.getId()))
             throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
 
-        material.setName(materialDto.getName());
-        material.setCustomId(materialDto.getCustomId());
-        Material savedMaterial = materialRepository.save(material);
+        Material updatedMaterial = materialMapper.map(materialDto, material);
+        Material savedMaterial = materialRepository.save(updatedMaterial);
 
         return materialMapper.mapToDto(savedMaterial);
     }

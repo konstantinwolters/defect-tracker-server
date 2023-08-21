@@ -50,6 +50,12 @@ VALUES
     (11, 'Chocolate'),
     (12, 'Beer');
 
+INSERT INTO MATERIAL_RESPONSIBLE_USERS (MATERIAL_ID, USER_ID)
+VALUES
+    (12, 11),
+    (12, 12),
+    (11, 12);
+
 INSERT INTO SUPPLIER (ID, NAME)
 VALUES
     (11, 'Lindt'),
