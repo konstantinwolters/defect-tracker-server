@@ -1,10 +1,13 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,6 +23,14 @@ public class Material {
 
     @Column(unique = true)
     private String name;
+
+    @ManyToMany
+    @JoinTable(
+            name = "material_responsible_users",
+            joinColumns = @JoinColumn(name = "material_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> responsibleUsers = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

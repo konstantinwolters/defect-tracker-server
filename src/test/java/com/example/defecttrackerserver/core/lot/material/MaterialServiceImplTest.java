@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.core.action.Action;
+import com.example.defecttrackerserver.core.action.ActionDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +46,8 @@ public class MaterialServiceImplTest {
     @Test
     void shouldSaveMaterial() {
         when(materialRepository.save(any(Material.class))).thenReturn(material);
+        when(materialMapper.map(any(MaterialDto.class), any(Material.class))).thenReturn(material);
+
         when(materialMapper.mapToDto(any(Material.class))).thenReturn(materialDto);
 
         MaterialDto result = materialService.saveMaterial(materialDto);
@@ -81,6 +85,7 @@ public class MaterialServiceImplTest {
     void shouldUpdateMaterial() {
         when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.of(material));
         when(materialRepository.save(any(Material.class))).thenReturn(material);
+        when(materialMapper.map(any(MaterialDto.class), any(Material.class))).thenReturn(material);
         when(materialMapper.mapToDto(any(Material.class))).thenReturn(materialDto);
 
         MaterialDto result = materialService.updateMaterial(1, materialDto);
