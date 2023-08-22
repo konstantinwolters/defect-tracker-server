@@ -40,6 +40,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);
         actionDto.setCreatedAt(LocalDateTime.now());
@@ -166,7 +167,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public ActionDto updateAction(Integer actionId, ActionDto actionDto) {
         Action actionToUpdate = actionRepository.findById(actionId)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
@@ -179,7 +180,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public void deleteAction(Integer id) {
         Action action = actionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));

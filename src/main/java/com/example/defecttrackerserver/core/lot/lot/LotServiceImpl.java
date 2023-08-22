@@ -19,7 +19,7 @@ public class LotServiceImpl implements LotService{
     private final LotMapper lotMapper;
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_QA') or hasRole('ROLE_ADMIN') ")
     public LotDto saveLot(LotDto lotDto) {
         if(lotRepository.findByLotNumber(lotDto.getLotNumber()).isPresent())
             throw new LotExistsException("Lot already exists with lot number: " + lotDto.getLotNumber());
@@ -43,7 +43,7 @@ public class LotServiceImpl implements LotService{
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PURCHASER') and hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public LotDto updateLot(Integer lotId, LotDto lotDto) {
         Lot lot = lotRepository.findById(lotId)
                 .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + lotId));

@@ -18,7 +18,7 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierMapper supplierMapper;
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_QA') or hasRole('ROLE_ADMIN') ")
     public SupplierDto saveSupplier(SupplierDto supplierDto) {
 
         if(supplierRepository.findByName(supplierDto.getName()).isPresent())
@@ -50,7 +50,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public SupplierDto updateSupplier(Integer supplierId, SupplierDto supplierDto) {
         if(supplierDto.getId() == null)
             throw new IllegalArgumentException("Supplier id must not be null");
