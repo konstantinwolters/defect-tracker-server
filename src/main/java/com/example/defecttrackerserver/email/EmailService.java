@@ -13,10 +13,11 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     @Value("${sender.mail-address}")
+    String sendFrom;
 
     public void sendSimpleEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("your_email@gmail.com"); // or any other email you want as a sender
+        message.setFrom(sendFrom);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
