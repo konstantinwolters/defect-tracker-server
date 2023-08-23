@@ -4,6 +4,7 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
+import com.example.defecttrackerserver.email.NotifyUsers;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.Utils;
@@ -40,6 +41,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
+    @NotifyUsers
     @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public ActionDto saveAction(ActionDto actionDto) {
         actionDto.setId(null);

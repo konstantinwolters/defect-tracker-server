@@ -18,6 +18,7 @@ import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
+import com.example.defecttrackerserver.email.NotifyUsers;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.Utils;
@@ -67,6 +68,7 @@ public class DefectServiceImpl implements DefectService{
 
     @Override
     @Transactional
+    @NotifyUsers
     public DefectDto saveDefect(DefectDto defectDto, MultipartFile[] images) {
 
         // First, save new Defect

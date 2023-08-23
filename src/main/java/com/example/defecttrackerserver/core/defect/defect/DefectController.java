@@ -25,7 +25,6 @@ import java.util.List;
 @Tag(name = "Defects")
 public class DefectController {
     private final DefectService defectService;
-    private final Utils utils;
 
     @Operation(
             summary = "Save Defect",
