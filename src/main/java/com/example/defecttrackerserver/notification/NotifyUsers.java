@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.email;
+package com.example.defecttrackerserver.notification;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -26,7 +26,7 @@ public class RoleController {
             }
     )
     @GetMapping("/{id}")
-    public Role getRole(@PathVariable Integer id) {
+    public RoleDto getRole(@PathVariable Integer id) {
         return roleService.getRoleById(id);
     }
 
@@ -39,7 +39,7 @@ public class RoleController {
             }
     )
     @GetMapping()
-    public List<Role> getRoles() {
+    public List<RoleDto> getRoles() {
         return roleService.getRoles();
     }
 }

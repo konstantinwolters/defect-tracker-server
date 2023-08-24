@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.material;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -38,6 +40,7 @@ public class MaterialControllerTest extends BaseControllerTest {
         super.setUp();
         testMaterialDto = new MaterialDto();
         testMaterialDto.setName("testName");
+        testMaterialDto.setResponsibleUsers(Set.of(new UserDto()));
     }
 
     @Test
