@@ -1,10 +1,10 @@
 package com.example.defecttrackerserver.core.defect.process;
 
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
-import com.example.defecttrackerserver.core.defect.process.processException.processExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class ProcessServiceImpl implements ProcessService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProcessDto saveProcess(ProcessDto processDto) {
         if(processRepository.findByName(processDto.getName()).isPresent())
-            throw new processExistsException("Process already exists with name: " + processDto.getName());
+            throw new DuplicateKeyException("Process already exists with name: " + processDto.getName());
 
         Process process = new Process();
         process.setName(processDto.getName());
@@ -56,7 +56,7 @@ public class ProcessServiceImpl implements ProcessService {
 
         Optional<Process> processExists = processRepository.findByName(processDto.getName());
         if(processExists.isPresent() && !processExists.get().getId().equals(process.getId()))
-            throw new processExistsException("Process already exists with name: " + processDto.getName());
+            throw new DuplicateKeyException("Process already exists with name: " + processDto.getName());
 
         process.setName(processDto.getName());
         process.setCustomId(processDto.getCustomId());

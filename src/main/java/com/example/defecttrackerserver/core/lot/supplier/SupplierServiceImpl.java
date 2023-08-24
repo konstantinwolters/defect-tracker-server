@@ -1,9 +1,9 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
-import com.example.defecttrackerserver.core.lot.supplier.supplierException.SupplierExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierDto saveSupplier(SupplierDto supplierDto) {
 
         if(supplierRepository.findByName(supplierDto.getName()).isPresent())
-            throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
+            throw new DuplicateKeyException("Supplier already exists with name: " + supplierDto.getName());
 
         Supplier supplier = new Supplier();
         supplier.setName(supplierDto.getName());
@@ -56,7 +56,7 @@ public class SupplierServiceImpl implements SupplierService {
 
         Optional<Supplier> supplierExists = supplierRepository.findByName(supplierDto.getName());
         if(supplierExists.isPresent() && !supplierExists.get().getId().equals(supplier.getId()))
-            throw new SupplierExistsException("Supplier already exists with name: " + supplierDto.getName());
+            throw new DuplicateKeyException("Supplier already exists with name: " + supplierDto.getName());
 
         supplier.setName(supplierDto.getName());
         supplier.setCustomId(supplierDto.getCustomId());

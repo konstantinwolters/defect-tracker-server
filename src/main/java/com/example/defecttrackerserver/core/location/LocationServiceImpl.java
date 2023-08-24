@@ -1,11 +1,11 @@
 package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
-import com.example.defecttrackerserver.core.location.locationException.LocationExistsException;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class LocationServiceImpl implements LocationService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public LocationDto saveLocation(LocationDto locationDto) {
         if(locationRepository.findByName(locationDto.getName()).isPresent())
-            throw new LocationExistsException("Location already exists with name: " + locationDto.getName());
+            throw new DuplicateKeyException("Location already exists with name: " + locationDto.getName());
 
         Location location = new Location();
         location.setName(locationDto.getName());
@@ -58,7 +58,7 @@ public class LocationServiceImpl implements LocationService {
 
         Optional<Location> locationExists = locationRepository.findByName(locationDto.getName());
         if(locationExists.isPresent() && !locationExists.get().getId().equals(location.getId()))
-            throw new LocationExistsException("Location already exists with name: " + locationDto.getName());
+            throw new DuplicateKeyException("Location already exists with name: " + locationDto.getName());
 
         location.setName(locationDto.getName());
         location.setCustomId(locationDto.getCustomId());

@@ -10,13 +10,13 @@ import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleDto;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -162,10 +162,10 @@ class UserMapperTest {
 
         when(userRepository.findById(any())).thenReturn(Optional.empty());
         when(userRepository.findByUsername(any())).thenReturn(Optional.of(duplicateUser));
-        assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
+        assertThrows(DuplicateKeyException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
 
         when(userRepository.findByMail(any())).thenReturn(Optional.of(new User()));
-        assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
+        assertThrows(DuplicateKeyException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
     }
 
     @Test
@@ -179,7 +179,7 @@ class UserMapperTest {
         when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
         when(userRepository.findByMail(any())).thenReturn(Optional.of(duplicateUser));
 
-        assertThrows(UserExistsException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
+        assertThrows(DuplicateKeyException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
     }
 
     @Test

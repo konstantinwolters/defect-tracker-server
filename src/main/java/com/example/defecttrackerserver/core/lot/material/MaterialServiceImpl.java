@@ -1,9 +1,9 @@
 package com.example.defecttrackerserver.core.lot.material;
 
-import com.example.defecttrackerserver.core.lot.material.materialException.MaterialExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class MaterialServiceImpl implements MaterialService {
     @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_QA') or hasRole('ROLE_ADMIN') ")
     public MaterialDto saveMaterial(MaterialDto materialDto) {
         if(materialRepository.findByName(materialDto.getName()).isPresent())
-            throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
+            throw new DuplicateKeyException("Material already exists with name: " + materialDto.getName());
 
         Material newMaterial = materialMapper.map(materialDto, new Material());
 
@@ -52,7 +52,7 @@ public class MaterialServiceImpl implements MaterialService {
 
         Optional<Material> materialExists = materialRepository.findByName(materialDto.getName());
         if(materialExists.isPresent() && !materialExists.get().getId().equals(material.getId()))
-            throw new MaterialExistsException("Material already exists with name: " + materialDto.getName());
+            throw new DuplicateKeyException("Material already exists with name: " + materialDto.getName());
 
         Material updatedMaterial = materialMapper.map(materialDto, material);
         Material savedMaterial = materialRepository.save(updatedMaterial);

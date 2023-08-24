@@ -7,9 +7,9 @@ import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import com.example.defecttrackerserver.core.user.user.userException.UserExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -132,11 +132,11 @@ public class UserMapper {
         Optional<User> existingUserByMail = userRepository.findByMail(userDto.getMail());
 
         if(existingUserByUsername.isPresent() && !existingUserByUsername.get().getId().equals(userId)) {
-            throw new UserExistsException("Username already exists: " + userDto.getUsername());
+            throw new DuplicateKeyException("Username already exists: " + userDto.getUsername());
         }
 
         if(existingUserByMail.isPresent() && !existingUserByMail.get().getId().equals(userId)) {
-            throw new UserExistsException("Mail already exists: " + userDto.getMail());
+            throw new DuplicateKeyException("Mail already exists: " + userDto.getMail());
         }
     }
 }

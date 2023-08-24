@@ -1,10 +1,10 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.core.defect.defect.Defect;
-import com.example.defecttrackerserver.core.lot.lot.lotException.LotExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class LotServiceImpl implements LotService{
     @PreAuthorize("hasRole('ROLE_PURCHASER') or hasRole('ROLE_QA') or hasRole('ROLE_ADMIN') ")
     public LotDto saveLot(LotDto lotDto) {
         if(lotRepository.findByLotNumber(lotDto.getLotNumber()).isPresent())
-            throw new LotExistsException("Lot already exists with lot number: " + lotDto.getLotNumber());
+            throw new DuplicateKeyException("Lot already exists with lot number: " + lotDto.getLotNumber());
 
         Lot newLot = lotMapper.map(lotDto, new Lot());
 
@@ -47,7 +47,7 @@ public class LotServiceImpl implements LotService{
 
         Optional<Lot> lotExists = lotRepository.findByLotNumber(lotDto.getLotNumber());
         if(lotExists.isPresent() && !lotExists.get().getId().equals(lotDto.getId()))
-            throw new LotExistsException("Lot already exists with lot number: " + lotDto.getLotNumber());
+            throw new DuplicateKeyException("Lot already exists with lot number: " + lotDto.getLotNumber());
 
         Lot mappedLot = lotMapper.map(lotDto, lot);
 
