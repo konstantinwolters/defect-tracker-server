@@ -36,9 +36,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public ProcessDto getProcessById(Integer id) {
-        return processRepository.findById(id)
-                .map(processMapper::mapToDto)
-                .orElseThrow(() -> new IllegalArgumentException("Process not found with id: " + id));
+        Process process = findProcessById(id);
+        return processMapper.mapToDto(process);
     }
 
     @Override
@@ -53,12 +52,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProcessDto updateProcess(Integer processId, ProcessDto processDto) {
-        if(processDto.getId() == null)
-            throw new IllegalArgumentException("Process id must not be null");
-
-        Process process = processRepository.findById(processId)
-                .orElseThrow(()-> new EntityNotFoundException("Process not found with id: "
-                        + processId));
+        Process process = findProcessById(processId);
 
         Optional<Process> processExists = processRepository.findByName(processDto.getName());
         if(processExists.isPresent() && !processExists.get().getId().equals(process.getId()))
@@ -75,12 +69,16 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProcess(Integer id) {
-        Process process = processRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Process not found with id: " + id));
+        Process process = findProcessById(id);
 
         if(!defectRepository.findByProcessId(id).isEmpty())
             throw new UnsupportedOperationException("Process cannot be deleted because it is used in Defects");
 
         processRepository.delete(process);
+    }
+
+    private Process findProcessById(Integer id) {
+        return processRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Process not found with id: " + id));
     }
 }

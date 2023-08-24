@@ -36,9 +36,8 @@ public class CausationCategoryServiceImpl implements CausationCategoryService {
 
     @Override
     public CausationCategoryDto getCausationCategoryById(Integer id) {
-        return causationCategoryRepository.findById(id)
-                .map(causationCategoryMapper::mapToDto)
-                .orElseThrow(() -> new IllegalArgumentException("CausationCategory not found with id: " + id));
+        CausationCategory causationCategory = findCausationCategoryById(id);
+        return causationCategoryMapper.mapToDto(causationCategory);
     }
 
     @Override
@@ -53,12 +52,7 @@ public class CausationCategoryServiceImpl implements CausationCategoryService {
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public CausationCategoryDto updateCausationCategory(Integer causationCategoryId, @Valid CausationCategoryDto causationCategoryDto) {
-        if(causationCategoryDto.getId() == null)
-            throw new IllegalArgumentException("CausationCategory id must not be null");
-
-        CausationCategory causationCategory = causationCategoryRepository.findById(causationCategoryId)
-                .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with id: "
-                        + causationCategoryId));
+        CausationCategory causationCategory = findCausationCategoryById(causationCategoryId);
 
         Optional<CausationCategory> causationCategoryExists = causationCategoryRepository.findByName(causationCategoryDto.getName());
         if(causationCategoryExists.isPresent() && !causationCategoryExists.get().getId().equals(causationCategory.getId()))
@@ -74,12 +68,16 @@ public class CausationCategoryServiceImpl implements CausationCategoryService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteCausationCategory(Integer id) {
-        CausationCategory causationCategory = causationCategoryRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with id: " + id));
+        CausationCategory causationCategory = findCausationCategoryById(id);
 
         if(!defectRepository.findByCausationCategoryId(id).isEmpty())
             throw new UnsupportedOperationException("CausationCategory cannot be deleted because it is used in Defects");
 
         causationCategoryRepository.delete(causationCategory);
+    }
+
+    private CausationCategory findCausationCategoryById(Integer id) {
+        return causationCategoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("CausationCategory not found with id: " + id));
     }
 }

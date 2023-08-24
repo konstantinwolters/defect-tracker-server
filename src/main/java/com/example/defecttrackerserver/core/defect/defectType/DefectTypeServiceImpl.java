@@ -36,9 +36,8 @@ public class DefectTypeServiceImpl implements DefectTypeService {
 
     @Override
     public DefectTypeDto getDefectTypeById(Integer id) {
-        return defectTypeRepository.findById(id)
-                .map(defectTypeMapper::mapToDto)
-                .orElseThrow(() -> new IllegalArgumentException("DefectType not found with id: " + id));
+        DefectType defectType = findDefectTypeById(id);
+        return defectTypeMapper.mapToDto(defectType);
     }
 
     @Override
@@ -53,12 +52,8 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectTypeDto updateDefectType(Integer defectTypeId, @Valid DefectTypeDto defectTypeDto) {
-        if(defectTypeDto.getId() == null)
-            throw new IllegalArgumentException("DefectType id must not be null");
 
-        DefectType defectType = defectTypeRepository.findById(defectTypeId)
-                .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: "
-                        + defectTypeId));
+        DefectType defectType = findDefectTypeById(defectTypeId);
 
         Optional<DefectType> defectTypeExists = defectTypeRepository.findByName(defectTypeDto.getName());
         if(defectTypeExists.isPresent() && !defectTypeExists.get().getId().equals(defectType.getId()))
@@ -74,12 +69,16 @@ public class DefectTypeServiceImpl implements DefectTypeService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectType(Integer id) {
-        DefectType defectType = defectTypeRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("DefectType not found with id: " + id));
+        DefectType defectType = findDefectTypeById(id);
 
         if(!defectRepository.findByDefectTypeId(id).isEmpty())
             throw new UnsupportedOperationException("DefectType cannot be deleted because it is used in Defects");
 
         defectTypeRepository.delete(defectType);
+    }
+
+    private DefectType findDefectTypeById(Integer id) {
+        return defectTypeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("DefectType not found with id: " + id));
     }
 }

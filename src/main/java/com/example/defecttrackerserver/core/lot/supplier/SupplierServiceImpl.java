@@ -35,9 +35,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public SupplierDto getSupplierById(Integer id) {
-        return supplierRepository.findById(id)
-                .map(supplierMapper::mapToDto)
-                .orElseThrow(() -> new EntityNotFoundException("Supplier not found with id: " + id));
+        Supplier supplier = findSupplierById(id);
+        return supplierMapper.mapToDto(supplier);
     }
 
     @Override
@@ -52,12 +51,8 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional
     @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public SupplierDto updateSupplier(Integer supplierId, SupplierDto supplierDto) {
-        if(supplierDto.getId() == null)
-            throw new IllegalArgumentException("Supplier id must not be null");
 
-        Supplier supplier = supplierRepository.findById(supplierId)
-                .orElseThrow(()-> new EntityNotFoundException("Supplier not found with id: "
-                        + supplierId));
+        Supplier supplier = findSupplierById(supplierId);
 
         Optional<Supplier> supplierExists = supplierRepository.findByName(supplierDto.getName());
         if(supplierExists.isPresent() && !supplierExists.get().getId().equals(supplier.getId()))
@@ -74,9 +69,13 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteSupplier(Integer id) {
-        Supplier supplier = supplierRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Supplier not found with id: " + id));
+        Supplier supplier = findSupplierById(id);
 
         supplierRepository.delete(supplier);
+    }
+
+    private Supplier findSupplierById(Integer id){
+        return supplierRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Supplier not found with id: " + id));
     }
 }

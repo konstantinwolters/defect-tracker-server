@@ -32,9 +32,8 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public MaterialDto getMaterialById(Integer id) {
-        return materialRepository.findById(id)
-                .map(materialMapper::mapToDto)
-                .orElseThrow(() -> new IllegalArgumentException("Material not found with id: " + id));
+        Material material = findMaterialById(id);
+        return materialMapper.mapToDto(material);
     }
 
     @Override
@@ -49,12 +48,7 @@ public class MaterialServiceImpl implements MaterialService {
     @Transactional
     @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public MaterialDto updateMaterial(Integer materialId, MaterialDto materialDto) {
-        if(materialDto.getId() == null)
-            throw new IllegalArgumentException("Material id must not be null");
-
-        Material material = materialRepository.findById(materialId)
-                .orElseThrow(()-> new EntityNotFoundException("Material not found with id: "
-                        + materialId));
+        Material material = findMaterialById(materialId);
 
         Optional<Material> materialExists = materialRepository.findByName(materialDto.getName());
         if(materialExists.isPresent() && !materialExists.get().getId().equals(material.getId()))
@@ -69,9 +63,12 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteMaterial(Integer id) {
-        Material material = materialRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Material not found with id: " + id));
-
+        Material material = findMaterialById(id);
         materialRepository.delete(material);
+    }
+
+    private Material findMaterialById(Integer id){
+        return materialRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Material not found with id: " + id));
     }
 }

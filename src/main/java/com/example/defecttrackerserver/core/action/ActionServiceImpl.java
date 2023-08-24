@@ -54,8 +54,8 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     public ActionDto getActionById(Integer id) {
-        Action action = actionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
+        Action action = findActionById(id);
+
         return actionMapper.mapToDto(action);
     }
 
@@ -149,8 +149,7 @@ public class ActionServiceImpl implements ActionService{
     @Override
     @Transactional
     public void closeAction(Integer actionId){
-        Action actionToUpdate = actionRepository.findById(actionId)
-                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
+        Action actionToUpdate = findActionById(actionId);
 
         boolean isAuthorized = actionToUpdate.getAssignedUsers()
                 .stream().anyMatch(user -> user.getUsername().equals(securityService.getUsername()));
@@ -167,12 +166,14 @@ public class ActionServiceImpl implements ActionService{
     @Transactional
     @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public ActionDto updateAction(Integer actionId, ActionDto actionDto) {
-        Action actionToUpdate = actionRepository.findById(actionId)
-                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + actionId));
+        Action actionToUpdate = findActionById(actionId);
+
         actionToUpdate.setChangedBy(securityService.getUser());
         actionToUpdate.setChangedAt(LocalDateTime.now());
+
         Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
         Action updatedAction = actionRepository.save(mappedAction);
+
         return actionMapper.mapToDto(updatedAction);
     }
 
@@ -180,12 +181,16 @@ public class ActionServiceImpl implements ActionService{
     @Transactional
     @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public void deleteAction(Integer id) {
-        Action action = actionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
+        Action action = findActionById(id);
 
         Defect defect = action.getDefect();
         defect.deleteAction(action);
 
         actionRepository.delete(action);
+    }
+
+    private Action findActionById(Integer id) {
+        return actionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
     }
 }

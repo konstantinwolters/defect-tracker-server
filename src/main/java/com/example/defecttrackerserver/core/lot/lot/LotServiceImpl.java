@@ -31,9 +31,7 @@ public class LotServiceImpl implements LotService{
 
     @Override
     public LotDto getLotById(Integer id) {
-        Lot lot = lotRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
-
+        Lot lot = findLotById(id);
         return lotMapper.mapToDto(lot);
     }
 
@@ -45,8 +43,7 @@ public class LotServiceImpl implements LotService{
     @Override
     @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
     public LotDto updateLot(Integer lotId, LotDto lotDto) {
-        Lot lot = lotRepository.findById(lotId)
-                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + lotId));
+        Lot lot = findLotById(lotId);
 
         Optional<Lot> lotExists = lotRepository.findByLotNumber(lotDto.getLotNumber());
         if(lotExists.isPresent() && !lotExists.get().getId().equals(lotDto.getId()))
@@ -61,13 +58,17 @@ public class LotServiceImpl implements LotService{
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteLot(Integer id) {
-        Lot lot = lotRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
+        Lot lot = findLotById(id);
 
         for (Defect defect : new ArrayList<>(lot.getDefects())) {
             lot.removeDefect(defect);
         }
 
         lotRepository.delete(lot);
+    }
+
+    private Lot findLotById(Integer id){
+        return lotRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
     }
 }
