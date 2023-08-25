@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectMapper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
@@ -26,7 +28,6 @@ import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import jakarta.transaction.Transactional;
-import org.junit.Ignore;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +57,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations="classpath:application-test.properties")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Ignore
 public class ActionIntegrationTest {
 
     @LocalServerPort
@@ -109,6 +109,9 @@ public class ActionIntegrationTest {
     private DefectTypeRepository defectTypeRepository;
 
     @Autowired
+    private CausationCategoryRepository causationCategoryRepository;
+
+    @Autowired
     private DefectStatusRepository defectStatusRepository;
 
     @Autowired
@@ -140,12 +143,10 @@ public class ActionIntegrationTest {
         userRepository.deleteAll();
         defectTypeRepository.deleteAll();
         defectStatusRepository.deleteAll();
-
     }
 
     @Test
     @Transactional
-    @Ignore
     @WithMockUser(username = "frank", roles = "USER")
     void shouldSaveAction() throws Exception {
 
@@ -188,13 +189,19 @@ public class ActionIntegrationTest {
         defectType.setName("defectType");
         defectTypeRepository.save(defectType);
 
+        CausationCategory causationCategory = new CausationCategory();
+        causationCategory.setName("testCategory");
+        causationCategoryRepository.save(causationCategory);
+
         DefectStatus defectStatus = new DefectStatus();
         defectStatus.setName("defectStatus");
         defectStatusRepository.save(defectStatus);
 
         Defect defect = new Defect();
+        defect.setDescription("test");
         defect.setLot(lot);
         defect.setDefectType(defectType);
+        defect.setCausationCategory(causationCategory);
         defect.setDefectStatus(defectStatus);
         defect.setProcess(process);
         defect.setLocation(location);

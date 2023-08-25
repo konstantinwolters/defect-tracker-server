@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.auth;
 
 import com.example.defecttrackerserver.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,9 +33,6 @@ public class AuthenticationServiceImplTest {
 
     @Mock
     private HttpServletRequest request;
-
-    @Mock
-    private HttpServletResponse response;
 
     @Mock
     private AuthenticationManager authenticationManager;
@@ -81,7 +77,7 @@ public class AuthenticationServiceImplTest {
         when(jwtService.isTokenValid("refreshToken", userDetails)).thenReturn(true);
         when(jwtService.generateToken(userDetails)).thenReturn(accessToken);
 
-        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request, response);
+        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request);
 
         assertTrue(result.isPresent());
         assertEquals(accessToken, result.get().getAccessToken());
@@ -92,7 +88,7 @@ public class AuthenticationServiceImplTest {
     void testRefreshTokenWithInvalidHeader() throws IOException {
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(null);
 
-        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request, response);
+        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request);
 
         assertFalse(result.isPresent());
     }
@@ -102,7 +98,7 @@ public class AuthenticationServiceImplTest {
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authHeader);
         when(jwtService.getUsernameFromToken("refreshToken")).thenReturn(null);
 
-        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request, response);
+        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request);
 
         assertFalse(result.isPresent());
     }
@@ -114,7 +110,7 @@ public class AuthenticationServiceImplTest {
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(jwtService.isTokenValid("refreshToken", userDetails)).thenReturn(false);
 
-        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request, response);
+        Optional<AuthenticationResponse> result = authenticationService.refreshToken(request);
 
         assertFalse(result.isPresent());
     }

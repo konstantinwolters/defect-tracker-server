@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.location;
 
-import com.example.defecttrackerserver.core.defect.process.ProcessDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
