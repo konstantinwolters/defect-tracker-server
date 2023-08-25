@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,25 +39,31 @@ public class AuthenticationService {
                 .build();
     }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Optional<AuthenticationResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken;
         final String username;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
+            return Optional.empty();
         }
+
         refreshToken = authHeader.substring(7);
         username = jwtService.getUsernameFromToken(refreshToken);
-        if (username != null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if(jwtService.isTokenValid(refreshToken, userDetails)){
-                var accessToken = jwtService.generateToken(userDetails);
-                var authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
+        if (username == null) {
+            return Optional.empty();
         }
+
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        if(!jwtService.isTokenValid(refreshToken, userDetails)){
+            return Optional.empty();
+        }
+
+        var accessToken = jwtService.generateToken(userDetails);
+        return Optional.of(AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build());
     }
 }
+
+

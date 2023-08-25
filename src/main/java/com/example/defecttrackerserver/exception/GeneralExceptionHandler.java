@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.exception;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -59,6 +60,12 @@ public class GeneralExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         log.error("Max upload size exceeded: ", e);
+        return createResponse(e, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<Object> handleMaxUploadSizeExceededException(DuplicateKeyException e) {
+        log.error("Entity already exists: ", e);
         return createResponse(e, HttpStatus.BAD_REQUEST);
     }
 

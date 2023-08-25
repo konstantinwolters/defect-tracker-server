@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.email;
+package com.example.defecttrackerserver.notification;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
@@ -21,10 +21,10 @@ import java.util.Locale;
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationAspect {
-    private final EmailService emailService;
+    //private final EmailService emailService;
     private final MessageSource messageSource;
 
-    @AfterReturning(value = "@annotation(com.example.defecttrackerserver.email.NotifyUsers)", returning = "result")
+    @AfterReturning(value = "@annotation(com.example.defecttrackerserver.notification.NotifyUsers)", returning = "result")
     public void afterActionCreated(JoinPoint joinPoint, Object result) {
         Locale currentLocale = LocaleContextHolder.getLocale();
 
@@ -68,7 +68,7 @@ public class NotificationAspect {
         List<String> failedRecipients = new ArrayList<>();
         for (String recipient : recipients) {
             try {
-                emailService.sendSimpleEmail(recipient, subject, body);
+                //emailService.sendSimpleEmail(recipient, subject, body);
             } catch (Exception e) {
                 failedRecipients.add(recipient);
             }

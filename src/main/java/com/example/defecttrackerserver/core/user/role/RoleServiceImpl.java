@@ -11,14 +11,17 @@ import java.util.NoSuchElementException;
 public class RoleServiceImpl implements RoleService{
 
     private final RoleRepository roleRepository;
+    private final RoleMapper roleMapper;
 
     @Override
-    public Role getRoleById(Integer id) {
-        return roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Role not found"));
+    public RoleDto getRoleById(Integer id) {
+        Role role = roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Role not found"));
+        return roleMapper.mapToDto(role);
     }
 
     @Override
-    public List<Role> getRoles() {
-        return roleRepository.findAll();
+    public List<RoleDto> getRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return roles.stream().map(roleMapper::mapToDto).toList();
     }
 }

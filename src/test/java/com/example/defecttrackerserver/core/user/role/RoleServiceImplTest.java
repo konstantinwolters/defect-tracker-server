@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -22,23 +23,32 @@ public class RoleServiceImplTest {
     @Mock
     private RoleRepository roleRepository;
 
+    @Mock
+    private RoleMapper roleMapper;
+
     @InjectMocks
     private RoleServiceImpl roleService;
 
     private Role role;
+    private RoleDto roleDto;
 
     @BeforeEach
     void setUp() {
         role = new Role();
         role.setId(1);
-        role.setName("TEST");
+        role.setName("testRole");
+
+        roleDto = new RoleDto();
+        roleDto.setId(1);
+        roleDto.setName("testRole");
     }
 
     @Test
     void shouldReturnRoleById() {
         when(roleRepository.findById(anyInt())).thenReturn(Optional.of(role));
+        when(roleMapper.mapToDto(any(Role.class))).thenReturn(roleDto);
 
-        Role result = roleService.getRoleById(1);
+        RoleDto result = roleService.getRoleById(1);
 
         assertNotNull(result);
         assertEquals(role.getId(), result.getId());
@@ -48,8 +58,9 @@ public class RoleServiceImplTest {
     @Test
     void shouldReturnALlRoles() {
         when(roleRepository.findAll()).thenReturn(Arrays.asList(role));
+        when(roleMapper.mapToDto(any(Role.class))).thenReturn(roleDto);
 
-        List<Role> result = roleService.getRoles();
+        List<RoleDto> result = roleService.getRoles();
 
         assertNotNull(result);
         assertEquals(role.getId(), result.get(0).getId());

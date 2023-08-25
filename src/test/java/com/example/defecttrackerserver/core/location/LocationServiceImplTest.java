@@ -108,7 +108,7 @@ public class LocationServiceImplTest {
 
         locationService.deleteLocation(1);
 
-        verify(locationRepository, times(1)).deleteById(1);
+        verify(locationRepository, times(1)).delete(any(Location.class));
     }
 
     @Test

@@ -25,6 +25,7 @@ public class RoleControllerTest extends BaseControllerTest {
     private RoleService roleService;
 
     private Role role;
+    private RoleDto roleDto;
 
     @Override
     protected Object getController() {
@@ -35,28 +36,31 @@ public class RoleControllerTest extends BaseControllerTest {
     public void setUp(){
         super.setUp();
         role = new Role();
-        role.setName("ADMIN");
+        role.setName("testRole");
+
+        roleDto = new RoleDto();
+        roleDto.setName("testRole");
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldReturnRoleById() throws Exception {
-        when(roleService.getRoleById(1)).thenReturn(role);
+        when(roleService.getRoleById(1)).thenReturn(roleDto);
 
         mockMvc.perform(get("/roles/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("ADMIN"));
+                .andExpect(jsonPath("$.name").value("testRole"));
     }
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
     public void shouldReturnAllRoles() throws Exception {
-        when(roleService.getRoles()).thenReturn(Arrays.asList(role));
+        when(roleService.getRoles()).thenReturn(Arrays.asList(roleDto));
 
         mockMvc.perform(get("/roles"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("ADMIN"));
+                .andExpect(jsonPath("$[0].name").value("testRole"));
     }
 }
