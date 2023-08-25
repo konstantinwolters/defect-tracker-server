@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
@@ -86,6 +85,7 @@ public class UserServiceImplTest {
 
         userDto = new UserDto();
         userDto.setId(1);
+        userDto.setIsActive(true);
         userDto.setUsername("test");
         userDto.setPassword("test");
         userDto.setMail("test");
@@ -93,6 +93,7 @@ public class UserServiceImplTest {
 
         user = new User();
         user.setId(1);
+        user.setIsActive(true);
         user.setUsername("test");
         user.setPassword("test");
         user.setMail("test");
@@ -169,6 +170,15 @@ public class UserServiceImplTest {
         assertEquals(pageObject.getTotalPages(), result.getTotalPages());
         assertEquals((int) pageObject.getTotalElements(),result.getTotalElements());
         assertEquals(pageObject.getNumber(), result.getCurrentPage());
+    }
+
+    @Test
+    void shouldDeactivateUserById(){
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+
+        userService.deactivateUser(1);
+
+        assertFalse(user.getIsActive());
     }
 
 

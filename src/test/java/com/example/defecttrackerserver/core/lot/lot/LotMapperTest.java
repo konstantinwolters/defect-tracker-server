@@ -4,11 +4,14 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
+import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.validator.constraints.Mod10Check;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -37,29 +40,41 @@ class LotMapperTest {
     @Mock
     private DefectRepository defectRepository;
 
+    @Mock
+    private SupplierMapper supplierMapper;
+
+    @Mock
+    private MaterialMapper materialMapper;
+
     LotDto lotDto;
+    Lot lot;
 
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
+        MaterialDto materialDto = new MaterialDto();
+        materialDto.setId(1);
+
+        SupplierDto supplierDto = new SupplierDto();
+        supplierDto.setId(1);
 
         lotDto = new LotDto();
         lotDto.setId(1);
         lotDto.setLotNumber("lotNumber");
-
-        MaterialDto materialDto = new MaterialDto();
-        materialDto.setId(1);
         lotDto.setMaterial(materialDto);
-
-        SupplierDto supplierDto = new SupplierDto();
-        supplierDto.setId(1);
         lotDto.setSupplier(supplierDto);
-
         lotDto.setDefects(Set.of(1));
+
+        lot = new Lot();
+        lot.setId(1);
+        lot.setLotNumber("lotNumber");
+        lot.setMaterial(new Material());
+        lot.setSupplier(new Supplier());
+        lot.setDefects(Set.of(new Defect()));
     }
 
     @Test
-    void shouldReturnMappedAction() {
+    void shouldReturnMappedLot() {
         Material material = new Material();
         material.setId(1);
 
@@ -105,6 +120,16 @@ class LotMapperTest {
         assertThrows(EntityNotFoundException.class, () -> lotMapper.map(lotDto, new Lot()));
     }
 
+    @Test
+    void shouldReturnMappedLotDto() {
+        when(supplierMapper.mapToDto(any(Supplier.class))).thenReturn(new SupplierDto());
+        when(materialMapper.mapToDto(any(Material.class))).thenReturn(new MaterialDto());
 
+        LotDto mappedLotDto = lotMapper.mapToDto(lot);
+
+        assertEquals(lot.getId(), mappedLotDto.getId());
+        assertEquals(lot.getLotNumber(), mappedLotDto.getLotNumber());
+        assertEquals(lot.getDefects().size(), mappedLotDto.getDefects().size());
+    }
 }
 

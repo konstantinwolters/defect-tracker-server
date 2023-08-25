@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.user.user;
 
-import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import lombok.RequiredArgsConstructor;

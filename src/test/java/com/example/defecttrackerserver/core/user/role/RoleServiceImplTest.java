@@ -56,7 +56,7 @@ public class RoleServiceImplTest {
     }
 
     @Test
-    void shouldReturnALlRoles() {
+    void shouldReturnAllRoles() {
         when(roleRepository.findAll()).thenReturn(Arrays.asList(role));
         when(roleMapper.mapToDto(any(Role.class))).thenReturn(roleDto);
 

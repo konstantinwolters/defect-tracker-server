@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.response.PaginatedResponse;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;

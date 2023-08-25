@@ -1,7 +1,5 @@
 package com.example.defecttrackerserver.core.lot.material;
 
-import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.action.ActionDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

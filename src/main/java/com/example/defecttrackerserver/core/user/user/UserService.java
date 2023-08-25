@@ -4,7 +4,6 @@ import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public interface UserService {
     UserDto saveUser(UserDto userDto);

@@ -1,8 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.BaseControllerTest;
-import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionFilterValues;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,13 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)

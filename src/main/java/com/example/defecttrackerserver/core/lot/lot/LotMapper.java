@@ -47,6 +47,7 @@ public class LotMapper {
 
     public LotDto mapToDto(Lot lot){
         LotDto lotDto = new LotDto();
+        lotDto.setId(lot.getId());
         lotDto.setLotNumber(lot.getLotNumber());
         lotDto.setMaterial(materialMapper.mapToDto(lot.getMaterial()));
         lotDto.setSupplier(supplierMapper.mapToDto(lot.getSupplier()));

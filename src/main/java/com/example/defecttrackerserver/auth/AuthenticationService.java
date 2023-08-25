@@ -1,9 +1,7 @@
 package com.example.defecttrackerserver.auth;
 
 import com.example.defecttrackerserver.security.JwtService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +27,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         var user = userDetailsService.loadUserByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
@@ -39,10 +38,11 @@ public class AuthenticationService {
                 .build();
     }
 
-    public Optional<AuthenticationResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Optional<AuthenticationResponse> refreshToken(HttpServletRequest request) throws IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken;
         final String username;
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return Optional.empty();
         }

@@ -58,7 +58,7 @@ public class AuthenticationControllerTest extends BaseControllerTest {
                 .refreshToken("refreshToken")
                 .build();
 
-        when(authenticationService.refreshToken(any(), any())).thenReturn(Optional.of(authResponse));
+        when(authenticationService.refreshToken(any())).thenReturn(Optional.of(authResponse));
 
         mockMvc.perform(post("/auth/refresh-token")
                         .header("Authorization", "Bearer refreshToken"))
@@ -69,7 +69,7 @@ public class AuthenticationControllerTest extends BaseControllerTest {
 
     @Test
     public void testRefreshTokenWithInvalidToken() throws Exception {
-        when(authenticationService.refreshToken(any(), any())).thenReturn(Optional.empty());
+        when(authenticationService.refreshToken(any())).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/auth/refresh-token")
                         .header("Authorization", "Bearer refreshToken"))
