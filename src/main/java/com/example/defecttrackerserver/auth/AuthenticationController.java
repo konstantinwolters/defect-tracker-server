@@ -32,6 +32,6 @@ public class AuthenticationController {
     public ResponseEntity<Object> refreshToken(HttpServletRequest request) throws IOException {
         Optional<AuthenticationResponse> authResponse = authenticationService.refreshToken(request);
         return authResponse.<ResponseEntity<Object>>map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body((Object) "Unauthorized"));
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized"));
     }
 }

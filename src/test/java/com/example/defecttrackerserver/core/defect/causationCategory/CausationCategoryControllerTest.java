@@ -94,7 +94,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
 
     @Test
     @WithMockUser(username = "bill", roles = "ADMIN")
-    public void shouldDeleteDefectStatus() throws Exception {
+    public void shouldDeleteCausationCategory() throws Exception {
         doNothing().when(causationCategoryService).deleteCausationCategory(any(Integer.class));
 
         mockMvc.perform(delete("/causationcategory/1"))
