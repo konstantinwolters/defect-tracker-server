@@ -4,6 +4,8 @@ import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
+import com.example.defecttrackerserver.security.BucketService;
+import com.example.defecttrackerserver.security.JwtService;
 import com.example.defecttrackerserver.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,7 +94,7 @@ public class DefectControllerTest extends BaseControllerTest {
     public void shouldGetDefectById() throws Exception {
         when(defectService.getDefectById(any(Integer.class))).thenReturn(testDefectDto);
 
-        mockMvc.perform(get("/defects/1").with(csrf()).with(csrf()))
+        mockMvc.perform(get("/defects/1").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.location").value("Texas"));

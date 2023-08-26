@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.exception;
 
+import com.example.defecttrackerserver.exception.customExceptions.MaxConcurrentRequestsExceededException;
+import com.example.defecttrackerserver.exception.customExceptions.MaxUserRequestExceededException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -61,6 +63,18 @@ public class GeneralExceptionHandler {
     public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         log.error("Max upload size exceeded: ", e);
         return createResponse(e, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MaxUserRequestExceededException.class)
+    public ResponseEntity<Object> handleMaxRequestsLimitExceededException(MaxUserRequestExceededException e) {
+        log.error("Max user request limit exceeded: ", e);
+        return createResponse(e, HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    @ExceptionHandler(MaxConcurrentRequestsExceededException.class)
+    public ResponseEntity<Object> handleMaxConcurrentRequestsExceededException(MaxConcurrentRequestsExceededException e) {
+        log.error("Max concurrent request limit exceeded: ", e);
+        return createResponse(e, HttpStatus.TOO_MANY_REQUESTS);
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
