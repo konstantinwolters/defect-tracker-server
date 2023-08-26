@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.auth;
 
-import com.example.defecttrackerserver.security.JwtService;
+import com.example.defecttrackerserver.security.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

@@ -92,7 +92,7 @@ public class DefectControllerTest extends BaseControllerTest {
     public void shouldGetDefectById() throws Exception {
         when(defectService.getDefectById(any(Integer.class))).thenReturn(testDefectDto);
 
-        mockMvc.perform(get("/defects/1").with(csrf()).with(csrf()))
+        mockMvc.perform(get("/defects/1").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.location").value("Texas"));
