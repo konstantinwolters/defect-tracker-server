@@ -1,7 +1,7 @@
-package com.example.defecttrackerserver.security;
+package com.example.defecttrackerserver.security.rateLimiting;
 
-import com.example.defecttrackerserver.exception.customExceptions.MaxConcurrentRequestsExceededException;
-import com.example.defecttrackerserver.exception.customExceptions.MaxUserRequestExceededException;
+import com.example.defecttrackerserver.security.jwt.JwtService;
+import io.github.bucket4j.Bucket;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -56,7 +56,11 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         if (username == null)
             throw new IllegalArgumentException("Username missing.");
 
-        if(!bucketService.isTokenBucketEmpty(username)) {
+        Bucket bucket = bucketService.resolveBucket(username);
+
+        if(bucket.tryConsume(1)){
+            filterChain.doFilter(request, response);
+        }else {
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             String responseBody = "{ \"message\": \"" +
                     "User rate limit exceeded. Please try again later."

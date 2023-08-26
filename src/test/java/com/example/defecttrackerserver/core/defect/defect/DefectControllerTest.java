@@ -4,8 +4,6 @@ import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
-import com.example.defecttrackerserver.security.BucketService;
-import com.example.defecttrackerserver.security.JwtService;
 import com.example.defecttrackerserver.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

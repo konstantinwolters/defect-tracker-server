@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.security;
+package com.example.defecttrackerserver.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

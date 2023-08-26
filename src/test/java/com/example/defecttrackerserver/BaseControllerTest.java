@@ -1,11 +1,12 @@
 package com.example.defecttrackerserver;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
-import com.example.defecttrackerserver.security.BucketService;
-import com.example.defecttrackerserver.security.JwtAuthenticationFilter;
-import com.example.defecttrackerserver.security.JwtService;
-import com.example.defecttrackerserver.security.RateLimitingFilter;
+import com.example.defecttrackerserver.security.rateLimiting.BucketService;
+import com.example.defecttrackerserver.security.jwt.JwtAuthenticationFilter;
+import com.example.defecttrackerserver.security.jwt.JwtService;
+import com.example.defecttrackerserver.security.rateLimiting.RateLimitingFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.bucket4j.Bucket;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,6 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @Import({SecurityConfig.class})
@@ -27,9 +30,6 @@ public abstract class BaseControllerTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
-
-    @MockBean
-    UserDetailsService userDetailsService;
 
     @MockBean
     protected JwtService jwtService;
@@ -53,7 +53,7 @@ public abstract class BaseControllerTest {
                 .build();
 
         when(jwtService.getUsernameFromToken(any())).thenReturn("bill");
-        when(bucketService.isTokenBucketEmpty("bill")).thenReturn(false);
+        when(bucketService.resolveBucket(anyString())).thenReturn(mock(Bucket.class));
     }
 
     protected abstract Object getController();

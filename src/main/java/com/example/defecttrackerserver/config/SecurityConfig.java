@@ -1,7 +1,7 @@
 package com.example.defecttrackerserver.config;
 
-import com.example.defecttrackerserver.security.JwtAuthenticationFilter;
-import com.example.defecttrackerserver.security.RateLimitingFilter;
+import com.example.defecttrackerserver.security.jwt.JwtAuthenticationFilter;
+import com.example.defecttrackerserver.security.rateLimiting.RateLimitingFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
