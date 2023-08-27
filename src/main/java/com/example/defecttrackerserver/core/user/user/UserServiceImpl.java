@@ -161,14 +161,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDto updateUser(Integer userId, UserDto userDto) {
         User user = findUserById(userId);
-
-        if(!securityService.getUsername().equals(user.getUsername())
-        && !securityService.hasRole("ROLE_ADMIN")){
-            throw new AccessDeniedException("You are not authorized to update this user's data");
-        }
-
+        
         if(userDto.getPassword() == null) {
             userDto.setPassword(user.getPassword());
         }else{

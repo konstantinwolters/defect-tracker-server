@@ -185,7 +185,6 @@ public class UserServiceImplTest {
     @Test
     void shouldUpdateUser(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
-        when(securityService.getUsername()).thenReturn("test");
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(userMapper.mapToDto(user)).thenReturn(userDto);
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
