@@ -91,7 +91,6 @@ public class DefectCommentServiceImplTest {
         when(defectCommentRepository.save(any(DefectComment.class))).thenReturn(defectComment);
         when(defectCommentMapper.map(any(DefectCommentDto.class), any(DefectComment.class))).thenReturn(defectComment);
         when(defectCommentMapper.mapToDto(any(DefectComment.class))).thenReturn(defectCommentDto);
-        when(securityService.getUsername()).thenReturn("testUser");
 
         DefectCommentDto result = defectCommentService.updateDefectComment(1, defectCommentDto);
 

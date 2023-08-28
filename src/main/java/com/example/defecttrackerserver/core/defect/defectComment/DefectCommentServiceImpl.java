@@ -45,15 +45,11 @@ public class DefectCommentServiceImpl implements DefectCommentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DefectCommentDto updateDefectComment(Integer defectCommentId, DefectCommentDto defectComment) {
         DefectComment defectCommentToUpdate = defectCommentRepository.findById(defectCommentId)
                 .orElseThrow(() -> new EntityNotFoundException("DefectComment not found with id: "
                         + defectCommentId));
-
-        if(!securityService.getUsername().equals(defectCommentToUpdate.getCreatedBy().getUsername())
-        && !securityService.hasRole("ROLE_ADMIN")){
-            throw new AccessDeniedException("You are not authorized to update this defect comment");
-        }
 
         DefectComment mappedDefectComment = defectCommentMapper.map(defectComment, defectCommentToUpdate);
         DefectComment updatedDefectComment = defectCommentRepository.save(mappedDefectComment);
