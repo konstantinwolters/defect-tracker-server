@@ -68,7 +68,7 @@ public class AuthenticationServiceImplTest {
     }
 
     @Test
-    void testRefreshTokenWithValidHeader() throws IOException {
+    void shouldReturnRefreshTokenWithValidHeader() throws IOException {
         String accessToken = "newAccessToken";
 
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authHeader);
@@ -85,7 +85,7 @@ public class AuthenticationServiceImplTest {
     }
 
     @Test
-    void testRefreshTokenWithInvalidHeader() throws IOException {
+    void shouldNotReturnRefreshTokenWithInvalidHeader() throws IOException {
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(null);
 
         Optional<AuthenticationResponse> result = authenticationService.refreshToken(request);
@@ -94,7 +94,7 @@ public class AuthenticationServiceImplTest {
     }
 
     @Test
-    void testRefreshTokenWithInvalidToken() throws IOException {
+    void shouldNotReturnRefreshTokenWithInvalidToken() throws IOException {
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authHeader);
         when(jwtService.getUsernameFromToken("refreshToken")).thenReturn(null);
 
@@ -104,7 +104,7 @@ public class AuthenticationServiceImplTest {
     }
 
     @Test
-    void testRefreshTokenWithInvalidUser() throws IOException {
+    void shouldNotReturnRefreshTokenWithInvalidUser() throws IOException {
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authHeader);
         when(jwtService.getUsernameFromToken("refreshToken")).thenReturn(username);
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
