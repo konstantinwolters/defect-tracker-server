@@ -164,7 +164,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ActionDto updateAction(Integer actionId, ActionDto actionDto) {
         Action actionToUpdate = findActionById(actionId);
 
@@ -179,7 +179,7 @@ public class ActionServiceImpl implements ActionService{
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_QA') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteAction(Integer id) {
         Action action = findActionById(id);
 

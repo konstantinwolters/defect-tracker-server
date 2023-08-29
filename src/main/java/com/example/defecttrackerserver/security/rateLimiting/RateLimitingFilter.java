@@ -58,6 +58,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
         Bucket bucket = bucketService.resolveBucket(username);
 
+        // Limit requests per user
         if(bucket.tryConsume(1)){
             filterChain.doFilter(request, response);
         }else {
