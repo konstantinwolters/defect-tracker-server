@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.BaseIntegrationTest;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
@@ -25,6 +26,7 @@ import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
+import com.example.defecttrackerserver.security.SecurityUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import jakarta.transaction.Transactional;
@@ -37,6 +39,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -50,6 +54,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,101 +62,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations="classpath:application-test.properties")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class ActionIntegrationTest {
+public class ActionIntegrationTest extends BaseIntegrationTest {
 
-    @LocalServerPort
-    private Integer port;
-
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            "postgres:15-alpine"
-    );
-
-    @BeforeAll
-    static void start() {postgres.start();}
-
-    @AfterAll
-    static void stop() {
-        postgres.stop();
-    }
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private DefectMapper defectMapper;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private ActionRepository actionRepository;
-
-    @Autowired
-    private ProcessRepository processRepository;
-
-    @Autowired
-    private DefectTypeRepository defectTypeRepository;
-
-    @Autowired
-    private CausationCategoryRepository causationCategoryRepository;
-
-    @Autowired
-    private DefectStatusRepository defectStatusRepository;
-
-    @Autowired
-    private LocationRepository locationRepository;
-
-    @Autowired
-    private LotRepository lotRepository;
-
-    @Autowired
-    private MaterialRepository materialRepository;
-
-    @Autowired
-    private SupplierRepository supplierRepository;
-
-    @Autowired
-    private DefectRepository defectRepository;
+    ActionDto actionDto;
 
     @BeforeEach
     void setUp() {
-        RestAssured.baseURI = "http://localhost:" + port;
-        actionRepository.deleteAll();
-        defectRepository.deleteAll();
-        lotRepository.deleteAll();
-        materialRepository.deleteAll();
-        supplierRepository.deleteAll();
-        processRepository.deleteAll();
-        locationRepository.deleteAll();
-        roleRepository.deleteAll();
-        userRepository.deleteAll();
-        defectTypeRepository.deleteAll();
-        defectStatusRepository.deleteAll();
-    }
-
-    @Test
-    @Transactional
-    @WithMockUser(username = "frank", roles = "USER")
-    void shouldSaveAction() throws Exception {
+        super.commonSetup();
 
         Role role = new Role();
-        role.setName("ROLE_USER");
+        role.setName("ROLE_QA");
+        roleRepository.save(role);
 
         Location location = new Location();
         location.setName("location");
@@ -210,12 +131,17 @@ public class ActionIntegrationTest {
 
         defect = defectRepository.save(defect);
 
-        ActionDto actionDto = new ActionDto();
+        actionDto = new ActionDto();
         actionDto.setDescription("description");
         actionDto.setDueDate(LocalDate.now());
         actionDto.setAssignedUsers(Set.of(userDto));
         actionDto.setCreatedBy(userDto);
         actionDto.setDefect(defect.getId());
+    }
+
+    @Test
+    @Transactional
+    void shouldSaveAction() throws Exception {
 
         mockMvc.perform(post("/actions")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -226,5 +152,9 @@ public class ActionIntegrationTest {
 
         assertEquals(actionDto.getDescription(), action.getDescription());
         assertEquals(actionDto.getDueDate(), action.getDueDate());
+        assertEquals(actionDto.getAssignedUsers().size(), action.getAssignedUsers().size());
+        assertEquals(actionDto.getCreatedBy().getUsername(), action.getCreatedBy().getUsername());
+        assertEquals(actionDto.getDefect(), action.getDefect().getId());
+
     }
 }

@@ -34,7 +34,8 @@ public class SecurityService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null
                 || !authentication.isAuthenticated()
-                || !(authentication.getPrincipal() instanceof SecurityUser securityUser)) {
+                || !(authentication.getPrincipal() instanceof SecurityUser securityUser)
+        ) {
             return null;
         }
 
