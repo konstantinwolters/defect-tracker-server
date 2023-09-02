@@ -55,7 +55,9 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -67,70 +69,25 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
     ActionDto actionDto;
 
     @BeforeEach
+    @Transactional
     void setUp() {
         super.commonSetup();
 
-        Role role = new Role();
-        role.setName("ROLE_QA");
-        roleRepository.save(role);
+        Role role = setUpRole();
+        Location location = setUpLocation();
+        User user = setUpUser(role, location);
+        Material material = setUpMaterial();
+        Supplier supplier = setUpSupplier();
+        Lot lot = setUpLot(material, supplier);
+        Process process = setUpProcess();
+        DefectType defectType = setUpDefectType();
+        CausationCategory causationCategory = setUpCausationCategory();
+        DefectStatus defectStatus = setUpDefectStatus();
+        Defect defect = setUpDefect(lot, defectType, defectStatus, causationCategory, process, location, user);
 
-        Location location = new Location();
-        location.setName("location");
-        locationRepository.save(location);
+        setAuthentication(user);
 
-        User user = new User();
-        user.setUsername("frank");
-        user.setMail("email");
-        user.setPassword("password");
-        user.setLocation(location);
-        user.setIsActive(true);
-        user.setRoles(Set.of(role));
-
-        UserDto userDto = userMapper.mapToDto(userRepository.save(user));
-
-        Material material = new Material();
-        material.setName("material");
-        materialRepository.save(material);
-
-        Supplier supplier = new Supplier();
-        supplier.setName("supplier");
-        supplierRepository.save(supplier);
-
-        Lot lot = new Lot();
-        lot.setLotNumber("lotNumber");
-        lot.setMaterial(material);
-        lot.setSupplier(supplier);
-        lotRepository.save(lot);
-
-        Process process = new Process();
-        process.setName("process");
-        processRepository.save(process);
-
-        DefectType defectType = new DefectType();
-        defectType.setName("defectType");
-        defectTypeRepository.save(defectType);
-
-        CausationCategory causationCategory = new CausationCategory();
-        causationCategory.setName("testCategory");
-        causationCategoryRepository.save(causationCategory);
-
-        DefectStatus defectStatus = new DefectStatus();
-        defectStatus.setName("defectStatus");
-        defectStatusRepository.save(defectStatus);
-
-        Defect defect = new Defect();
-        defect.setDescription("test");
-        defect.setLot(lot);
-        defect.setDefectType(defectType);
-        defect.setCausationCategory(causationCategory);
-        defect.setDefectStatus(defectStatus);
-        defect.setProcess(process);
-        defect.setLocation(location);
-        defect.setCreatedBy(user);
-        defect.setCreatedAt(LocalDateTime.now());
-
-        defect = defectRepository.save(defect);
-
+        UserDto userDto = userMapper.mapToDto(user);
         actionDto = new ActionDto();
         actionDto.setDescription("description");
         actionDto.setDueDate(LocalDate.now());
@@ -143,6 +100,33 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
     @Transactional
     void shouldSaveAction() throws Exception {
 
+        mockMvc.perform(post("/actions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(actionDto)))
+                .andExpect(status().isOk());
+
+        Action action = actionRepository.findAll().get(0);
+
+        assertEquals(actionDto.getDescription(), action.getDescription());
+        assertEquals(actionDto.getDueDate(), action.getDueDate());
+        assertEquals(actionDto.getAssignedUsers().size(), action.getAssignedUsers().size());
+        assertEquals(actionDto.getCreatedBy().getUsername(), action.getCreatedBy().getUsername());
+        assertEquals(actionDto.getDefect(), action.getDefect().getId());
+    }
+
+    @Test
+    @Transactional
+    void shouldNotSaveActionAndReturn4xx() throws Exception{
+        actionDto.setAssignedUsers(null);
+        mockMvc.perform(post("/actions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(actionDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void shouldGetActionById() throws Exception{
         mockMvc.perform(post("/actions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(actionDto)))
