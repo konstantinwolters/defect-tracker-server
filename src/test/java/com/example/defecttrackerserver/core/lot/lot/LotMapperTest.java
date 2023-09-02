@@ -11,7 +11,6 @@ import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.validator.constraints.Mod10Check;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
