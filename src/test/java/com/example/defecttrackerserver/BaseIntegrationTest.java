@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
@@ -28,41 +29,34 @@ import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.security.SecurityUser;
-import com.example.defecttrackerserver.security.jwt.JwtAuthenticationFilter;
-import com.example.defecttrackerserver.security.jwt.JwtService;
-import com.example.defecttrackerserver.security.rateLimiting.BucketService;
-import com.example.defecttrackerserver.security.rateLimiting.RateLimitingFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bucket4j.Bucket;
 import io.restassured.RestAssured;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 @Import({SecurityConfig.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations="classpath:application-test.properties")
+@ActiveProfiles("test")
+@AutoConfigureMockMvc
 public abstract class BaseIntegrationTest {
 
     @LocalServerPort
@@ -165,22 +159,22 @@ public abstract class BaseIntegrationTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    protected Role setUpRole(){
+    protected Role setUpRole(String name){
         Role role = new Role();
-        role.setName("ROLE_QA");
+        role.setName(name);
         return roleRepository.save(role);
     }
 
-    protected Location setUpLocation(){
+    protected Location setUpLocation(String name){
         Location location = new Location();
-        location.setName("TestLocation");
+        location.setName(name);
         return locationRepository.save(location);
     }
 
-    protected User setUpUser(Role role, Location location){
+    protected User setUpUser(String username, String mail, Role role, Location location){
         User user = new User();
-        user.setUsername("frank");
-        user.setMail("email");
+        user.setUsername(username);
+        user.setMail(mail);
         user.setPassword("password");
         user.setLocation(location);
         user.setIsActive(true);
@@ -188,51 +182,52 @@ public abstract class BaseIntegrationTest {
         return userRepository.save(user);
     }
 
-    protected Material setUpMaterial(){
+    protected Material setUpMaterial(String name){
         Material material = new Material();
-        material.setName("material");
+        material.setName(name);
         return materialRepository.save(material);
     }
 
-    protected Supplier setUpSupplier(){
+    protected Supplier setUpSupplier(String name){
         Supplier supplier = new Supplier();
-        supplier.setName("supplier");
+        supplier.setName(name);
         return supplierRepository.save(supplier);
     }
 
-    protected Lot setUpLot(Material material, Supplier supplier){
+    protected Lot setUpLot(String lotNumber, Material material, Supplier supplier){
         Lot lot = new Lot();
-        lot.setLotNumber("lotNumber");
+        lot.setLotNumber(lotNumber);
         lot.setMaterial(material);
         lot.setSupplier(supplier);
         return lotRepository.save(lot);
     }
 
-    protected Process setUpProcess(){
+    protected Process setUpProcess(String name){
         Process process = new Process();
-        process.setName("process");
+        process.setName(name);
         return processRepository.save(process);
     }
 
-    protected DefectType setUpDefectType() {
+    protected DefectType setUpDefectType(String name) {
         DefectType defectType = new DefectType();
-        defectType.setName("defectType");
+        defectType.setName(name);
         return defectTypeRepository.save(defectType);
     }
 
-    protected CausationCategory setUpCausationCategory() {
+    protected CausationCategory setUpCausationCategory(String name) {
         CausationCategory causationCategory = new CausationCategory();
-        causationCategory.setName("testCategory");
+        causationCategory.setName(name);
         return causationCategoryRepository.save(causationCategory);
     }
 
-    protected DefectStatus setUpDefectStatus() {
+    protected DefectStatus setUpDefectStatus(String name) {
         DefectStatus defectStatus = new DefectStatus();
-        defectStatus.setName("defectStatus");
+        defectStatus.setName(name);
         return defectStatusRepository.save(defectStatus);
     }
 
-    protected Defect setUpDefect(Lot lot,
+    protected Defect setUpDefect(String description,
+                                 Lot lot,
                                  DefectType defectType,
                                  DefectStatus defectStatus,
                                  CausationCategory causationCategory,
@@ -240,7 +235,7 @@ public abstract class BaseIntegrationTest {
                                  Location location,
                                  User user){
         Defect defect = new Defect();
-        defect.setDescription("test");
+        defect.setDescription(description);
         defect.setLot(lot);
         defect.setDefectType(defectType);
         defect.setCausationCategory(causationCategory);
@@ -252,5 +247,17 @@ public abstract class BaseIntegrationTest {
         return defectRepository.save(defect);
     }
 
-
+    protected Action setUpAction(String description, User user, Defect defect){
+        Action action = new Action();
+        action.setDescription(description);
+        action.setDueDate(LocalDate.now());
+        action.setIsCompleted(true);
+        user.addAssignedAction(action);
+        action.setDefect(defect);
+        action.setCreatedAt(LocalDateTime.now());
+        action.setChangedAt(LocalDateTime.now());
+        action.setCreatedBy(user);
+        action.setChangedBy(user);
+        return actionRepository.save(action);
+    }
 }

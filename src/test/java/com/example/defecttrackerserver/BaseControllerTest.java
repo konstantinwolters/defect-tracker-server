@@ -1,9 +1,9 @@
 package com.example.defecttrackerserver;
 
 import com.example.defecttrackerserver.config.SecurityConfig;
-import com.example.defecttrackerserver.security.rateLimiting.BucketService;
 import com.example.defecttrackerserver.security.jwt.JwtAuthenticationFilter;
 import com.example.defecttrackerserver.security.jwt.JwtService;
+import com.example.defecttrackerserver.security.rateLimiting.BucketService;
 import com.example.defecttrackerserver.security.rateLimiting.RateLimitingFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bucket4j.Bucket;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
