@@ -5,19 +5,25 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectMapper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.process.Process;
+import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
 import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.Location;
+import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotMapper;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
@@ -92,6 +98,24 @@ public abstract class BaseIntegrationTest {
 
     @Autowired
     protected ActionMapper actionMapper;
+
+    @Autowired
+    protected DefectStatusMapper defectStatusMapper;
+
+    @Autowired
+    protected DefectTypeMapper defectTypeMapper;
+
+    @Autowired
+    protected ProcessMapper processMapper;
+
+    @Autowired
+    protected LocationMapper locationMapper;
+
+    @Autowired
+    protected CausationCategoryMapper causationCategoryMapper;
+
+    @Autowired
+    protected LotMapper lotMapper;
 
     @Autowired
     protected ObjectMapper objectMapper;

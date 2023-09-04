@@ -74,6 +74,7 @@ public class DefectServiceImpl implements DefectService{
         defectDto.setId(null);
         defectDto.setCreatedAt(LocalDateTime.now());
         defectDto.setCreatedBy(userMapper.mapToDto(securityService.getUser()));
+        defectDto.setLocation(defectDto.getCreatedBy().getLocation());
         defectDto.setImages(new ArrayList<>());
 
         Defect newDefect = defectMapper.map(defectDto, defect);
