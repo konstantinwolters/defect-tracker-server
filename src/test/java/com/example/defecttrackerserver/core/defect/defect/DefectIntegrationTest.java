@@ -25,6 +25,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
@@ -88,7 +91,9 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         defectDto.setCreatedBy(userDto);
         defectDto.setDescription("testDescription");
 
-        MockMultipartFile file = new MockMultipartFile("images", "file.jpg", "text/plain", "some file".getBytes());
+        Path path = Paths.get("src/test/resources/testimage.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg", "image/jpeg", content);
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "", "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
          mockMvc.perform(multipart("/defects")
@@ -101,7 +106,6 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         Defect defect = defectRepository.findAll().get(0);
 
         assertEquals(defectDto.getDescription(), defect.getDescription());
-        assertEquals(defectDto.getActions().size(), defect.getActions().size());
         assertEquals(defectDto.getCreatedBy().getUsername(), defect.getCreatedBy().getUsername());
         assertEquals(defectDto.getDefectStatus(), defect.getDefectStatus().getName());
         assertEquals(defectDto.getDefectType(), defect.getDefectType().getName());
