@@ -10,8 +10,8 @@
 
 ## ✨ Features
 
-- Feature 1
-- Feature 2
+- Authentication/Authorization (Spring Security)
+- Rate Limiting (Token Bucket + Concurrent Requests limiting)
 - Feature 3
 
 ## 🚀 Getting Started
@@ -20,22 +20,23 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- ...
+- Environment variables needed:
+- 
 
 ### Installation
 
 ...
 
-# Clone the repository
+#### Clone the repository
 git clone https://github.com/konstantinwolters/defect-tracker-server.git
 
-# Navigate into the project directory
+#### Navigate into the project directory
 ...
 
-# Install dependencies
+#### Install dependencies
 ...
 
-# Start the application
+#### Start the application
 ...
 
 ## 🛠 Usage & Examples
@@ -52,5 +53,3 @@ You can find the API documentation [here](link-to-your-api-documentation).
 - ...
 
 ---
-
-_This README was generated with ❤️ by [Your Name](https://github.com/konstantinwolters)_
