@@ -9,12 +9,14 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapp
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
 import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
+import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.Utils;
@@ -90,6 +92,7 @@ public class DefectServiceImplTest {
 
     private DefectDto defectDto;
     private Defect defect;
+    private UserDto userDto;
 
     @BeforeEach
     void setUp() {
@@ -104,12 +107,18 @@ public class DefectServiceImplTest {
 
     @Test
     void shouldSaveDefect() {
+        Location location = new Location();
+        location.setName("TestLocation");
+
+        User user = new User();
+        user.setLocation(location);
+
         when(defectRepository.save(defect)).thenReturn(defect);
         when(defectStatusRepository.findByName(anyString())).thenReturn(Optional.of(new DefectStatus()));
         when(causationCategoryRepository.findByName(anyString())).thenReturn(Optional.of(new CausationCategory()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
-        when(securityService.getUser()).thenReturn(new User());
+        when(securityService.getUser()).thenReturn(user);
         when(utils.saveImageToFileSystem(any(MultipartFile.class), anyString())).thenReturn("randomString");
 
         MockMultipartFile[] mockFiles = {

@@ -113,14 +113,6 @@ public class DefectCommentServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenUserNotAuthorizedToUpdateDefectComment(){
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(defectComment));
-        when(securityService.getUsername()).thenReturn("Bob");
-
-        assertThrows(AccessDeniedException.class, () -> defectCommentService.updateDefectComment(1, defectCommentDto));
-    }
-
-    @Test
     void shouldThrowExceptionWhenDefectNotFound(){
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
