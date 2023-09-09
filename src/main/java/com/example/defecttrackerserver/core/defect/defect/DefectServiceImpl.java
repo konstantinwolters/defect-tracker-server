@@ -16,6 +16,7 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotInfo;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;
 import com.example.defecttrackerserver.notification.NotifyUsers;
@@ -68,13 +69,14 @@ public class DefectServiceImpl implements DefectService{
     @Transactional
     @NotifyUsers
     public DefectDto saveDefect(DefectDto defectDto, MultipartFile[] images) {
+        User createdBy = securityService.getUser();
 
         // First, save new Defect
         Defect defect = new Defect();
         defectDto.setId(null);
         defectDto.setCreatedAt(LocalDateTime.now());
-        defectDto.setCreatedBy(userMapper.mapToDto(securityService.getUser()));
-        defectDto.setLocation(defectDto.getCreatedBy().getLocation());
+        defectDto.setCreatedBy(userMapper.mapToDto(createdBy));
+        defectDto.setLocation(createdBy.getLocation().getName());
         defectDto.setImages(new ArrayList<>());
 
         Defect newDefect = defectMapper.map(defectDto, defect);
