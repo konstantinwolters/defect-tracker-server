@@ -1,7 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseControllerTest;
-import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.utils.Utils;
@@ -38,9 +37,6 @@ public class DefectControllerTest extends BaseControllerTest {
     private Utils utils;
 
     @MockBean
-    private MaterialMapper materialMapper;
-
-    @MockBean
     private DefectService defectService;
 
     private DefectDto testDefectDto;
@@ -60,7 +56,6 @@ public class DefectControllerTest extends BaseControllerTest {
         testDefectDto.setLot("TestLot");
         testDefectDto.setProcess("TestProcess");
         testDefectDto.setCreatedBy(new UserDto());
-
     }
 
     @Test
