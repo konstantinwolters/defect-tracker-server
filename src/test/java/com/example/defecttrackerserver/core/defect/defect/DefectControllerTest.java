@@ -1,9 +1,11 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.utils.Utils;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DefectController.class)
+@RequiredArgsConstructor
 public class DefectControllerTest extends BaseControllerTest {
 
     @Autowired
@@ -49,13 +52,7 @@ public class DefectControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testDefectDto = new DefectDto();
-        testDefectDto.setLocation("Texas");
-        testDefectDto.setDescription("Test");
-        testDefectDto.setDefectType("TestType");
-        testDefectDto.setLot("TestLot");
-        testDefectDto.setProcess("TestProcess");
-        testDefectDto.setCreatedBy(new UserDto());
+        testDefectDto = TestHelper.setUpDefectDto();
     }
 
     @Test
@@ -79,7 +76,7 @@ public class DefectControllerTest extends BaseControllerTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.location").value("Texas"));
+                .andExpect(jsonPath("$.location").value("testLocation"));
     }
 
     @Test
@@ -90,7 +87,7 @@ public class DefectControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/defects/1").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.location").value("Texas"));
+                .andExpect(jsonPath("$.location").value("testLocation"));
     }
 
     @Test
@@ -157,7 +154,7 @@ public class DefectControllerTest extends BaseControllerTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.location").value("Texas"));
+                .andExpect(jsonPath("$.location").value("testLocation"));
     }
 
     @Test
