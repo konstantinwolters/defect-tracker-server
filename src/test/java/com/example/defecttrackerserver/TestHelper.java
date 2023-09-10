@@ -1,18 +1,32 @@
 package com.example.defecttrackerserver;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryDto;
+import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectDto;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
+import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
 import com.example.defecttrackerserver.core.defect.process.ProcessDto;
+import com.example.defecttrackerserver.core.defect.process.Process;
+import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationDto;
+import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotDto;
+import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
+import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleDto;
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +74,7 @@ public class TestHelper {
         return userDto;
     }
 
-    public CausationCategoryDto setUpCausationCategory(String name){
+    public CausationCategoryDto setUpCausationCategoryDto(String name){
         CausationCategoryDto causationCategoryDto = new CausationCategoryDto();
         causationCategoryDto.setId(1);
         causationCategoryDto.setName(name);
@@ -147,7 +161,7 @@ public class TestHelper {
         defectDto.setDefectType(defectType);
         defectDto.setProcess(process);
         defectDto.setCausationCategory(causationCategory);
-        defectDto.setLot(location);
+        defectDto.setLocation(location);
         defectDto.setCreatedBy(user);
         defectDto.setChangedBy(user);
         defectDto.setCreatedAt(LocalDateTime.now());
@@ -172,4 +186,150 @@ public class TestHelper {
         return actionDto;
     }
 
+
+    public Role setUpRole(String name){
+        Role role = new Role();
+        role.setId(1);
+        role.setName(name);
+        return role;
+    }
+
+    public Location setUpLocation(String name){
+        Location location = new Location();
+        location.setId(1);
+        location.setName(name);
+        return location;
+    }
+
+    public User setUpUser(String username, String mail, Role role, Location location){
+        User user = new User();
+        user.setId(1);
+        user.setUsername(username);
+        user.setMail(mail);
+        user.setRoles(new HashSet<>(Set.of(role)));
+        user.setLocation(location);
+        user.setIsActive(true);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setChangedAt(LocalDateTime.now());
+        user.setCreatedById(2);
+        user.setChangedById(2);
+        user.setAssignedActions(new HashSet<>(Set.of(new Action())));
+        user.setFirstName("testFirstName");
+        user.setLastName("testLastName");
+        user.setCustomId("testCustomId");
+        user.setPassword("testPassword");
+        return user;
+    }
+
+    public CausationCategory setUpCausationCategory(String name){
+        CausationCategory causationCategory = new CausationCategory();
+        causationCategory.setId(1);
+        causationCategory.setName(name);
+        return causationCategory;
+    }
+
+    public DefectComment setUpDefectComment (String content, User createdBy){
+        DefectComment defectComment = new DefectComment();
+        defectComment.setId(1);
+        defectComment.setCreatedBy(createdBy);
+        defectComment.setCreatedAt(LocalDateTime.now());
+        return defectComment;
+    }
+
+    public DefectImage setUpDefectImage(){
+        DefectImage defectImage = new DefectImage();
+        defectImage.setId(1);
+        defectImage.setPath("testPath");
+        return defectImage;
+    }
+
+    public DefectStatus setUpDefectStatus(String name){
+        DefectStatus defectStatus = new DefectStatus();
+        defectStatus.setId(1);
+        defectStatus.setName(name);
+        return defectStatus;
+    }
+
+    public DefectType setUpDefectType(String name){
+        DefectType defectTypeDto = new DefectType();
+        defectTypeDto.setId(1);
+        defectTypeDto.setName(name);
+        return defectTypeDto;
+    }
+
+    public Process setUpProcess(String name){
+        Process process = new Process();
+        process.setId(1);
+        process.setName(name);
+        return process;
+    }
+
+    public Material setUpMaterial(String name, Set<User> responsibleUsers){
+        Material material = new Material();
+        material.setId(1);
+        material.setResponsibleUsers(responsibleUsers);
+        material.setCustomId("testCustomId");
+        return material;
+    }
+
+    public Supplier setUpSupplier(String name){
+        Supplier supplier = new Supplier();
+        supplier.setId(1);
+        supplier.setName(name);
+        supplier.setCustomId("testCustomId");
+        return supplier;
+    }
+
+    public Lot setUpLot(String lotNumber, Material material, Supplier supplier){
+        Lot lotDto = new Lot();
+        lotDto.setId(1);
+        lotDto.setLotNumber(lotNumber);
+        lotDto.setMaterial(material);
+        lotDto.setSupplier(supplier);
+        return lotDto;
+    }
+
+    public Defect setUpDefect(String description,
+                              Lot lot,
+                              DefectType defectType,
+                              DefectStatus defectStatus,
+                              CausationCategory causationCategory,
+                              Process process,
+                              Location location,
+                              User user){
+        DefectImage defectImage = setUpDefectImage();
+        DefectComment defectComment = setUpDefectComment("testDescription", user);
+
+        Defect defect = new Defect();
+        defect.setId(1);
+        defect.setDescription(description);
+        defect.setDefectStatus(defectStatus);
+        defect.setDefectType(defectType);
+        defect.setProcess(process);
+        defect.setCausationCategory(causationCategory);
+        defect.setLot(lot);
+        defect.setLocation(location);
+        defect.setCreatedBy(user);
+        defect.setChangedBy(user);
+        defect.setCreatedAt(LocalDateTime.now());
+        defect.setChangedAt(LocalDateTime.now());
+        defect.setImages(new ArrayList<>(List.of(defectImage)));
+        defect.setDefectComments(new HashSet<>(Set.of(defectComment)));
+        return defect;
+    }
+
+    public Action setUpAction(String description, User user, Defect defect){
+        Action action = new Action();
+        action.setId(1);
+        action.setIsCompleted(false);
+        action.setDescription(description);
+        action.setAssignedUsers(new HashSet<>(Set.of(user)));
+        action.setDefect(defect);
+        action.setCreatedBy(user);
+        action.setChangedBy(user);
+        action.setCreatedAt(LocalDateTime.now());
+        action.setChangedAt(LocalDateTime.now());
+        action.setDueDate(LocalDate.now());
+        return action;
+    }
 }
