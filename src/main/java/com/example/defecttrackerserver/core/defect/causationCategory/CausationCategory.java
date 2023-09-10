@@ -22,8 +22,8 @@ public class CausationCategory {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CausationCategory defectType = (CausationCategory) o;
-        return Objects.equals(id, defectType.id);
+        CausationCategory causationCategory = (CausationCategory) o;
+        return Objects.equals(id, causationCategory.id);
     }
 
     @Override
