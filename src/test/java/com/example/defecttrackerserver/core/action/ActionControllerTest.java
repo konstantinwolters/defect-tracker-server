@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,12 +42,7 @@ public class ActionControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testactionDto = new ActionDto();
-        testactionDto.setDescription("test");
-        testactionDto.setDueDate(LocalDate.now());
-        testactionDto.setAssignedUsers(Set.of(new UserDto()));
-        testactionDto.setDefect(1);
-        testactionDto.setCreatedBy(new UserDto());
+        testactionDto = TestHelper.setUpActionDto();
     }
 
     @Test
@@ -59,7 +55,7 @@ public class ActionControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testactionDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.description").value("test"));
+                .andExpect(jsonPath("$.description").value("testDescription"));
     }
 
     @Test
@@ -70,7 +66,7 @@ public class ActionControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/actions/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.description").value("test"));
+                .andExpect(jsonPath("$.description").value("testDescription"));
     }
 
     @Test
@@ -139,7 +135,7 @@ public class ActionControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testactionDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.description").value("test"));
+                .andExpect(jsonPath("$.description").value("testDescription"));
     }
 
     @Test

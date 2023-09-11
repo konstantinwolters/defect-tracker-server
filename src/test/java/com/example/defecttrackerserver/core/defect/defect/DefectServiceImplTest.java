@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
@@ -92,26 +93,16 @@ public class DefectServiceImplTest {
 
     private DefectDto defectDto;
     private Defect defect;
-    private UserDto userDto;
 
     @BeforeEach
     void setUp() {
-        defectDto = new DefectDto();
-        defectDto.setId(1);
-        defectDto.setDefectStatus("testStatus");
-
-        defect = new Defect();
-        defect.setId(1);
-        defect.setLot(new Lot());
+        defectDto = TestHelper.setUpDefectDto();
+        defect = TestHelper.setUpDefect();
     }
 
     @Test
     void shouldSaveDefect() {
-        Location location = new Location();
-        location.setName("TestLocation");
-
-        User user = new User();
-        user.setLocation(location);
+        User user = TestHelper.setUpUser();
 
         when(defectRepository.save(defect)).thenReturn(defect);
         when(defectStatusRepository.findByName(anyString())).thenReturn(Optional.of(new DefectStatus()));
