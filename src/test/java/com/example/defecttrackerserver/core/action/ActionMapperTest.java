@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,36 +45,22 @@ class ActionMapperTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
 
-        userDto = new UserDto();
-        userDto.setId(1);
-        userDto.setUsername("testName");
-
-        actionDto = new ActionDto();
-        actionDto.setId(1);
-        actionDto.setDescription("testDescription");
-        actionDto.setDueDate(LocalDate.of(2023,1,1));
-        actionDto.setIsCompleted(true);
-        actionDto.setCreatedAt(LocalDateTime.now());
-        actionDto.setChangedAt(LocalDateTime.now());
-        actionDto.setAssignedUsers(Set.of(userDto));
+        userDto = TestHelper.setUpUserDto();
+        actionDto = TestHelper.setUpActionDto();
         actionDto.setCreatedBy(userDto);
         actionDto.setChangedBy(userDto);
-        actionDto.setDefect(1);
+        actionDto.setAssignedUsers(new HashSet<>(Set.of(userDto)));
     }
 
     @Test
     void shouldReturnMappedAction() {
-        User user = new User();
-        user.setId(1);
-
-        Defect defect = new Defect();
-        defect.setId(1);
+        User user = TestHelper.setUpUser();
+        Defect defect = TestHelper.setUpDefect();
 
         when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(user));
 
-        Action action = new Action();
-        Action mappedAction = actionMapper.map(actionDto, action);
+        Action mappedAction = actionMapper.map(actionDto, new Action());
 
         assertEquals(actionDto.getDescription(), mappedAction.getDescription());
         assertEquals(actionDto.getIsCompleted(), mappedAction.getIsCompleted());
@@ -99,21 +87,11 @@ class ActionMapperTest {
 
     @Test
     void shouldReturnMappedActionDto() {
-        User user = new User();
-        user.setId(1);
+        User user = TestHelper.setUpUser();
+        Defect defect = TestHelper.setUpDefect();
 
-        Defect defect = new Defect();
-        defect.setId(1);
-
-        Action action = new Action();
-        action.setId(1);
-        action.setDescription("testDescription");
-        action.setDueDate(LocalDate.of(2023,1,1));
-        action.setIsCompleted(true);
-        action.setCreatedAt(LocalDateTime.now());
-        action.setChangedAt(LocalDateTime.now());
+        Action action = TestHelper.setUpAction();
         action.setCreatedBy(user);
-        action.setAssignedUsers(Set.of(user));
         action.setChangedBy(user);
         action.setDefect(defect);
 

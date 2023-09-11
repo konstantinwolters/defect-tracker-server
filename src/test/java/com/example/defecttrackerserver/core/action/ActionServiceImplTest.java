@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
@@ -52,19 +53,10 @@ public class ActionServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        actionDto = new ActionDto();
-        actionDto.setId(1);
-        actionDto.setAssignedUsers(Set.of(new UserDto()));
-        actionDto.setDescription("test");
-        actionDto.setCreatedBy(new UserDto());
 
-        action = new Action();
-        action.setId(1);
-        action.setDefect(new Defect());
-        action.setDescription("test");
-
-        User user = new User();
-        user.setUsername("testUser");
+        User user = TestHelper.setUpUser();
+        actionDto = TestHelper.setUpActionDto();
+        action = TestHelper.setUpAction();
         action.setAssignedUsers(new HashSet<>(Set.of(user)));
     }
 
@@ -140,7 +132,7 @@ public class ActionServiceImplTest {
     @Test
     void shouldCloseAction(){
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(action));
-        when(securityService.getUsername()).thenReturn("testUser");
+        when(securityService.getUsername()).thenReturn("testUsername");
 
         actionService.closeAction(1);
         assertEquals(action.getIsCompleted(), true);
