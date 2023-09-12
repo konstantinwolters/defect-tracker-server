@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.causationCategory;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,13 +38,9 @@ public class CausationCategoryServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        causationCategoryDto = new CausationCategoryDto();
-        causationCategoryDto.setId(1);
-        causationCategoryDto.setName("testName");
+        causationCategoryDto = TestHelper.setUpCausationCategoryDto();
 
-        causationCategory = new CausationCategory();
-        causationCategory.setId(1);
-        causationCategory.setName("testName");
+        causationCategory = TestHelper.setUpCausationCategory();
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.causationCategory;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +18,7 @@ class CausationCategoryMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        causationCategory  = new CausationCategory();
-        causationCategory.setId(1);
-        causationCategory.setName("Test");
+        causationCategory  = TestHelper.setUpCausationCategory();
     }
 
     @Test

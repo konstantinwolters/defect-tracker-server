@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.causationCategory;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testCausationCategoryDto = new CausationCategoryDto();
-        testCausationCategoryDto.setName("testName");
+        testCausationCategoryDto = TestHelper.setUpCausationCategoryDto();
     }
 
     @Test
@@ -51,7 +51,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testCausationCategoryDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testCausationCategory"));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/causationcategory/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testCausationCategory"));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/causationcategory"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("testName"));
+                .andExpect(jsonPath("$[0].name").value("testCausationCategory"));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testCausationCategoryDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testCausationCategory"));
     }
 
     @Test
