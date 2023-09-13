@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.lot.material.Material;
@@ -51,25 +52,13 @@ class LotMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        MaterialDto materialDto = new MaterialDto();
-        materialDto.setId(1);
+        MaterialDto materialDto = TestHelper.setUpMaterialDto();
+        SupplierDto supplierDto = TestHelper.setUpSupplierDto();
 
-        SupplierDto supplierDto = new SupplierDto();
-        supplierDto.setId(1);
-
-        lotDto = new LotDto();
-        lotDto.setId(1);
-        lotDto.setLotNumber("lotNumber");
+        lotDto = TestHelper.setUpLotDto();
         lotDto.setMaterial(materialDto);
         lotDto.setSupplier(supplierDto);
-        lotDto.setDefects(Set.of(1));
-
-        lot = new Lot();
-        lot.setId(1);
-        lot.setLotNumber("lotNumber");
-        lot.setMaterial(new Material());
-        lot.setSupplier(new Supplier());
-        lot.setDefects(Set.of(new Defect()));
+        lot = TestHelper.setUpLot();
     }
 
     @Test

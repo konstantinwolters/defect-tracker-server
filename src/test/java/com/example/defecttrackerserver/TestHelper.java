@@ -139,6 +139,7 @@ public class TestHelper {
         lotDto.setLotNumber("testNumber");
         lotDto.setMaterial(new MaterialDto());
         lotDto.setSupplier(new SupplierDto());
+        lotDto.setDefects(new HashSet<>(Set.of(1)));
         return lotDto;
     }
 
@@ -279,6 +280,7 @@ public class TestHelper {
         lotDto.setLotNumber("testNumber");
         lotDto.setMaterial(new Material());
         lotDto.setSupplier(new Supplier());
+        lotDto.setDefects(new HashSet<>(Set.of(new Defect())));
         return lotDto;
     }
 
