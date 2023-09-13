@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class LocationControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testLocationDto = new LocationDto();
-        testLocationDto.setName("testName");
+        testLocationDto = TestHelper.setUpLocationDto();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class LocationControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testLocationDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testLocation"));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class LocationControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/locations/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testLocation"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class LocationControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/locations"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("testName"));
+                .andExpect(jsonPath("$[0].name").value("testLocation"));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class LocationControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testLocationDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testLocation"));
     }
 
     @Test

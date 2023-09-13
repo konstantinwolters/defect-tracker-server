@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.location;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,13 +42,8 @@ public class LocationServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        locationDto = new LocationDto();
-        locationDto.setId(1);
-        locationDto.setName("testName");
-
-        location = new Location();
-        location.setId(1);
-        location.setName("testName");
+        locationDto = TestHelper.setUpLocationDto();
+        location = TestHelper.setUpLocation();
     }
 
     @Test
