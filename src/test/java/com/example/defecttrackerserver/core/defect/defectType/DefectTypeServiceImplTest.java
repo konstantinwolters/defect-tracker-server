@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,13 +38,8 @@ public class DefectTypeServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        defectTypeDto = new DefectTypeDto();
-        defectTypeDto.setId(1);
-        defectTypeDto.setName("testName");
-
-        defectType = new DefectType();
-        defectType.setId(1);
-        defectType.setName("testName");
+        defectTypeDto = TestHelper.setUpDefectTypeDto();
+        defectType = TestHelper.setUpDefectType();
     }
 
     @Test

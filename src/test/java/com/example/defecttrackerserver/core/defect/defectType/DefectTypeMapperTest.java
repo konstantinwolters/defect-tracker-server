@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +18,7 @@ class DefectTypeMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        defectType  = new DefectType();
-        defectType.setId(1);
-        defectType.setName("Test");
+        defectType  = TestHelper.setUpDefectType();
     }
 
     @Test
