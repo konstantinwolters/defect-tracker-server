@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.TestHelper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,8 @@ public class MaterialServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        materialDto = new MaterialDto();
-        materialDto.setId(1);
-        materialDto.setName("testName");
-
-        material = new Material();
-        material.setId(1);
-        material.setName("testName");
+        materialDto = TestHelper.setUpMaterialDto();
+        material = TestHelper.setUpMaterial();
     }
 
     @Test
