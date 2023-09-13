@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.utils.Utils;
@@ -42,16 +43,9 @@ public class DefectImageServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        defectImageDto = new DefectImageDto();
-        defectImageDto.setId(1);
-        defectImageDto.setPath("testPath");
-
-        defectImage = new DefectImage();
-        defectImage.setId(1);
-        defectImage.setPath("testPath");
-
-        defect = new Defect();
-        defect.setId(1);
+        defectImageDto = TestHelper.setUpDefectImageDto();
+        defectImage = TestHelper.setUpDefectImage();
+        defect = TestHelper.setUpDefect();
     }
 
     @Test
@@ -66,7 +60,7 @@ public class DefectImageServiceImplTest {
 
         assertNotNull(result);
         assertEquals(defectImage.getPath(), result.getPath());
-        assertEquals(1, defect.getImages().size());
+        assertEquals(2, defect.getImages().size());
     }
 
     @Test
