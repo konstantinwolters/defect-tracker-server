@@ -1,10 +1,8 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.TestHelper;
-import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.utils.Utils;

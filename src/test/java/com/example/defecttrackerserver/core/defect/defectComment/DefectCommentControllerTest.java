@@ -2,7 +2,6 @@ package com.example.defecttrackerserver.core.defect.defectComment;
 
 import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.TestHelper;
-import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
