@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class DefectImageControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testDefectImageDto = new DefectImageDto();
-        testDefectImageDto.setPath("testPath");
+        testDefectImageDto = TestHelper.setUpDefectImageDto();
     }
 
     @Test

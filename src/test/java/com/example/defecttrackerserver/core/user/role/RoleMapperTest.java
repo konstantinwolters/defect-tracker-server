@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.role;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +18,7 @@ class RoleMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        role = new Role();
-        role.setId(1);
-        role.setName("Test");
+        role = TestHelper.setUpRole();
     }
 
     @Test

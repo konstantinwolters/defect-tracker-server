@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,12 +39,10 @@ public class LotControllerTest extends BaseControllerTest{
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testLotDto = new LotDto();
-        testLotDto.setLotNumber("testLotNumber");
-        MaterialDto materialDto = new MaterialDto();
-        materialDto.setName("testMaterial");
-        SupplierDto supplierDto = new SupplierDto();
-        supplierDto.setName("testSupplier");
+        MaterialDto materialDto = TestHelper.setUpMaterialDto();
+        SupplierDto supplierDto = TestHelper.setUpSupplierDto();
+
+        testLotDto = TestHelper.setUpLotDto();
         testLotDto.setMaterial(materialDto);
         testLotDto.setSupplier(supplierDto);
     }

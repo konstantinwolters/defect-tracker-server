@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectImage;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,9 +17,7 @@ class DefectImageMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        defectImage  = new DefectImage();
-        defectImage.setId(1);
-        defectImage.setPath("Test");
+        defectImage  = TestHelper.setUpDefectImage();
     }
 
     @Test

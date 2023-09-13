@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,13 +38,8 @@ public class ProcessServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        processDto = new ProcessDto();
-        processDto.setId(1);
-        processDto.setName("testName");
-
-        process = new Process();
-        process.setId(1);
-        process.setName("testName");
+        processDto = TestHelper.setUpProcessDto();
+        process = TestHelper.setUpProcess();
     }
 
     @Test

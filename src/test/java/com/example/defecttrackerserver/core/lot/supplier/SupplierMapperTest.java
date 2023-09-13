@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +18,7 @@ class SupplierMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        supplier = new Supplier();
-        supplier.setId(1);
-        supplier.setName("Test");
+        supplier = TestHelper.setUpSupplier();
     }
 
     @Test

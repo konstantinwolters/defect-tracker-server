@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.user.role;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,8 @@ public class RoleControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp(){
         super.setUp();
-        role = new Role();
-        role.setName("testRole");
-
-        roleDto = new RoleDto();
-        roleDto.setName("testRole");
+        role = TestHelper.setUpRole();
+        roleDto = TestHelper.setUpRoleDto();
     }
 
     @Test

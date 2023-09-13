@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectStatus;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,13 +38,8 @@ public class DefectStatusServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        defectStatusDto = new DefectStatusDto();
-        defectStatusDto.setId(1);
-        defectStatusDto.setName("testName");
-
-        defectStatus = new DefectStatus();
-        defectStatus.setId(1);
-        defectStatus.setName("testName");
+        defectStatusDto = TestHelper.setUpDefectStatusDto();
+        defectStatus = TestHelper.setUpDefectStatus();
     }
 
     @Test

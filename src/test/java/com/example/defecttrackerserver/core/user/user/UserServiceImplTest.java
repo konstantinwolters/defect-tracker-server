@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
@@ -79,25 +80,10 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        Location location = new Location();
-        location.setId(1);
-        location.setName("Texas");
+        Location location = TestHelper.setUpLocation();
 
-        userDto = new UserDto();
-        userDto.setId(1);
-        userDto.setIsActive(true);
-        userDto.setUsername("test");
-        userDto.setPassword("test");
-        userDto.setMail("test");
-        userDto.setLocation("Texas");
-
-        user = new User();
-        user.setId(1);
-        user.setIsActive(true);
-        user.setUsername("test");
-        user.setPassword("test");
-        user.setMail("test");
-        user.setLocation(location);
+        userDto = TestHelper.setUpUserDto();
+        user = TestHelper.setUpUser();
     }
 
     @Test
@@ -105,7 +91,7 @@ public class UserServiceImplTest {
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(roleRepository.findByName(anyString())).thenReturn(Optional.of(new Role()));
         when(userMapper.mapToDto(user)).thenReturn(userDto);
-        when(passwordEncoder.encode(any())).thenReturn("test");
+        when(passwordEncoder.encode(any())).thenReturn("testPassword");
         when(userMapper.mapToEntity(any(UserDto.class), any(User.class))).thenReturn(user);
         when(securityService.getUser()).thenReturn(user);
 

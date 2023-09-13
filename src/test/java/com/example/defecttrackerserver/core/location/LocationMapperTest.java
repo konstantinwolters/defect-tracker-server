@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.location;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +18,7 @@ class LocationMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        location = new Location();
-        location.setId(1);
-        location.setName("Test");
+        location = TestHelper.setUpLocation();
     }
 
     @Test

@@ -1,9 +1,8 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
-import com.example.defecttrackerserver.core.user.user.User;
-import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.security.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,21 +41,9 @@ public class DefectCommentServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        defectCommentDto = new DefectCommentDto();
-        defectCommentDto.setId(1);
-        defectCommentDto.setContent("testContent");
-        defectCommentDto.setCreatedBy(new UserDto());
-
-        User user = new User();
-        user.setUsername("testUser");
-
-        defectComment = new DefectComment();
-        defectComment.setId(1);
-        defectComment.setContent("testContent");
-        defectComment.setCreatedBy(user);
-
-        defect = new Defect();
-        defect.setId(1);
+        defectComment = TestHelper.setUpDefectComment();
+        defectCommentDto = TestHelper.setUpDefectCommentDto();
+        defect = TestHelper.setUpDefect();
     }
 
     @Test

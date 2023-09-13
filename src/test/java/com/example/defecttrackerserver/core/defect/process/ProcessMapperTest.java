@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.process;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +18,7 @@ class ProcessMapperTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        process = new Process();
-        process.setId(1);
-        process.setName("Test");
+        process = TestHelper.setUpProcess();
     }
 
     @Test

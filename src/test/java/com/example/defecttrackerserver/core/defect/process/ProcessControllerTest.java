@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.process;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class ProcessControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testProcessDto = new ProcessDto();
-        testProcessDto.setName("testName");
+        testProcessDto = TestHelper.setUpProcessDto();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ProcessControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testProcessDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testProcess"));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ProcessControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/processes/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testProcess"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ProcessControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/processes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("testName"));
+                .andExpect(jsonPath("$[0].name").value("testProcess"));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ProcessControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testProcessDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testProcess"));
     }
 
     @Test

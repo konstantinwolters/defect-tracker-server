@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,39 +33,22 @@ class MaterialMapperTest {
     @Mock
     private UserRepository userRepository;
 
-    private User user;
-    private UserDto userDto;
-
     private Material material;
     private MaterialDto materialDto;
 
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
+        UserDto userDto = TestHelper.setUpUserDto();
 
-        user = new User();
-        user.setId(1);
-
-        material = new Material();
-        material.setId(1);
-        material.setName("Test");
-        material.setCustomId("TestCustomId");
-        material.setResponsibleUsers(Set.of(user));
-
-
-        userDto = new UserDto();
-        userDto.setId(1);
-
-        materialDto = new MaterialDto();
-        materialDto.setName("Test");
-        materialDto.setCustomId("TestCustomId");
-        materialDto.setResponsibleUsers(Set.of(userDto));
+        material = TestHelper.setUpMaterial();
+        materialDto = TestHelper.setUpMaterialDto();
+        materialDto.setResponsibleUsers(new HashSet<>(Set.of(userDto)));
     }
 
     @Test
     void shouldReturnMappedMaterial() {
-
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(new User()));
         Material mappedMaterial = materialMapper.map(materialDto, material);
 
         assertEquals(material.getId(), mappedMaterial.getId());

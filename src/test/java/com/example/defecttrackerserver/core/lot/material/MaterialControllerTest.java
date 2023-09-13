@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.material;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,9 +39,7 @@ public class MaterialControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testMaterialDto = new MaterialDto();
-        testMaterialDto.setName("testName");
-        testMaterialDto.setResponsibleUsers(Set.of(new UserDto()));
+        testMaterialDto = TestHelper.setUpMaterialDto();
     }
 
     @Test
@@ -53,7 +52,7 @@ public class MaterialControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testMaterialDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testMaterial"));
     }
 
     @Test
@@ -64,7 +63,7 @@ public class MaterialControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/materials/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testMaterial"));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class MaterialControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/materials"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("testName"));
+                .andExpect(jsonPath("$[0].name").value("testMaterial"));
     }
 
     @Test
@@ -87,7 +86,7 @@ public class MaterialControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testMaterialDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testMaterial"));
     }
 
     @Test

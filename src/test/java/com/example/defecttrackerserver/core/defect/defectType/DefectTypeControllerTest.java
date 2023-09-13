@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.defect.defectType;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,7 @@ public class DefectTypeControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testDefectTypeDto = new DefectTypeDto();
-        testDefectTypeDto.setName("testName");
+        testDefectTypeDto = TestHelper.setUpDefectTypeDto();
     }
 
     @Test
@@ -49,7 +49,7 @@ public class DefectTypeControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testDefectTypeDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testDefectType"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class DefectTypeControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/defecttypes/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testDefectType"));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class DefectTypeControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/defecttypes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("testName"));
+                .andExpect(jsonPath("$[0].name").value("testDefectType"));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class DefectTypeControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testDefectTypeDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testDefectType"));
     }
 
     @Test

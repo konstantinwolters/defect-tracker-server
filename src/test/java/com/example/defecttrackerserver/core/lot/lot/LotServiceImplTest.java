@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.TestHelper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,8 @@ public class LotServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        lotDto = new LotDto();
-        lotDto.setId(1);
-
-        lot = new Lot();
-        lot.setId(1);
+        lotDto = TestHelper.setUpLotDto();
+        lot = TestHelper.setUpLot();
     }
 
     @Test
