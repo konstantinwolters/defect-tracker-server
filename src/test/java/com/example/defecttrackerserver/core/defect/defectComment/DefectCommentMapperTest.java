@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -39,36 +40,19 @@ class DefectCommentMapperTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
 
-        user = new User();
-        user.setId(1);
-        user.setUsername("testName");
-
-        userDto = new UserDto();
-        userDto.setId(1);
-        userDto.setUsername("testName");
-
-        defectComment = new DefectComment();
-        defectComment.setId(1);
-        defectComment.setContent("testContent");
-        defectComment.setCreatedAt(LocalDateTime.now());
-        defectComment.setCreatedBy(user);
-
-        defectCommentDto = new DefectCommentDto();
-        defectCommentDto.setId(1);
-        defectCommentDto.setContent("testContent");
-        defectCommentDto.setCreatedAt(LocalDateTime.now());
+        user = TestHelper.setUpUser();
+        userDto = TestHelper.setUpUserDto();
+        defectComment = TestHelper.setUpDefectComment();
+        defectCommentDto = TestHelper.setUpDefectCommentDto();
         defectCommentDto.setCreatedBy(userDto);
     }
 
     @Test
     void shouldReturnMappedDefectComment() {
-        User user = new User();
-        user.setId(1);
 
         when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(user));
 
-        DefectComment defectComment = new DefectComment();
-        DefectComment mappedDefectComment = defectCommentMapper.map(defectCommentDto, defectComment);
+        DefectComment mappedDefectComment = defectCommentMapper.map(defectCommentDto, new DefectComment());
 
         assertEquals(defectCommentDto.getContent(), mappedDefectComment.getContent());
         assertEquals(defectCommentDto.getCreatedAt(), mappedDefectComment.getCreatedAt());
