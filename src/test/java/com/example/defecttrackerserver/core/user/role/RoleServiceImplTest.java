@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.role;
 
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,13 +35,8 @@ public class RoleServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        role = new Role();
-        role.setId(1);
-        role.setName("testRole");
-
-        roleDto = new RoleDto();
-        roleDto.setId(1);
-        roleDto.setName("testRole");
+        role = TestHelper.setUpRole();
+        roleDto = TestHelper.setUpRoleDto();
     }
 
     @Test
