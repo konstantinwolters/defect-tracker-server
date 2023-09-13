@@ -55,7 +55,7 @@ public class TestHelper {
     public static UserDto setUpUserDto(){
         UserDto userDto = new UserDto();
         userDto.setId(1);
-        userDto.setUsername("testUserName");
+        userDto.setUsername("testUsername");
         userDto.setMail("testMail");
         userDto.setRoles(new HashSet<>(Set.of("testRole")));
         userDto.setLocation("testLocation");
@@ -64,7 +64,7 @@ public class TestHelper {
         userDto.setChangedAt(LocalDateTime.now());
         userDto.setCreatedBy(2);
         userDto.setChangedBy(2);
-        userDto.setAssignedActions(new HashSet<>(Set.of(1,2,3)));
+        userDto.setAssignedActions(new HashSet<>(Set.of(1)));
         userDto.setFirstName("testFirstName");
         userDto.setLastName("testLastName");
         userDto.setCustomId("testCustomId");

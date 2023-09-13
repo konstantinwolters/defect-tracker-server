@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.user;
 
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
@@ -50,43 +51,19 @@ class UserMapperTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
 
-        locationDto = new LocationDto();
-        locationDto.setId(1);
-
-        RoleDto roleDto = new RoleDto();
-        roleDto.setId(1);
-
-        ActionDto actionDto = new ActionDto();
-        actionDto.setId(1);
-
-        userDto = new UserDto();
-        userDto.setId(1);
-        userDto.setUsername("testUsername");
-        userDto.setPassword("testPassword");
-        userDto.setMail("test@mail.com");
-        userDto.setFirstName("testFirstName");
-        userDto.setLastName("testLastName");
-        userDto.setIsActive(true);
-        userDto.setChangedAt(LocalDateTime.now());
-        userDto.setCreatedAt(LocalDateTime.now());
-        userDto.setCreatedBy(1);
-        userDto.setChangedBy(1);
-        userDto.setLocation("testLocation");
-        userDto.setRoles(Set.of("ROLE_ADMIN"));
-        userDto.setAssignedActions(Set.of(1));
+        locationDto = TestHelper.setUpLocationDto();
+        userDto = TestHelper.setUpUserDto();
     }
 
     @Test
     void shouldReturnMappedUser() {
-        Location locationStub = new Location();
-        locationStub.setId(locationDto.getId());
+        Location locationStub = TestHelper.setUpLocation();
 
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(locationStub));
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
-        User user = new User();
-        User mappedUser = userMapper.mapToEntity(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, new User());
 
         assertEquals(userDto.getUsername(), mappedUser.getUsername());
         assertEquals(userDto.getPassword(), mappedUser.getPassword());
@@ -108,8 +85,7 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
 
-        User user = new User();
-        User mappedUser = userMapper.mapToEntity(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, new User());
 
         assertNotNull(mappedUser.getRoles());
         assertTrue(mappedUser.getRoles().isEmpty());
@@ -122,8 +98,7 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
 
-        User user = new User();
-        User mappedUser = userMapper.mapToEntity(userDto, user);
+        User mappedUser = userMapper.mapToEntity(userDto, new User());
 
         assertNotNull(mappedUser.getAssignedActions());
         assertTrue(mappedUser.getAssignedActions().isEmpty());
@@ -133,8 +108,7 @@ class UserMapperTest {
     void shouldThrowExceptionWhenLocationNotFound() {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, new User()));
     }
 
     @Test
@@ -142,8 +116,7 @@ class UserMapperTest {
         when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
-        User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, new User()));
     }
     @Test
     void shouldThrowExceptionWhenActionNotFound() {
@@ -151,14 +124,12 @@ class UserMapperTest {
         when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
         when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
-        User user = new User();
-        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, user));
+        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, new User()));
     }
 
     @Test
     void shouldThrowExceptionWhenDuplicateUserEntriesOnSave() {
-        User duplicateUser = new User();
-        duplicateUser.setId(1);
+        User duplicateUser = TestHelper.setUpUser();
 
         when(userRepository.findById(any())).thenReturn(Optional.empty());
         when(userRepository.findByUsername(any())).thenReturn(Optional.of(duplicateUser));
@@ -170,9 +141,8 @@ class UserMapperTest {
 
     @Test
     void shouldThrowExceptionWhenDuplicateUserEntriesOnUpdate() {
-        User existingUser = new User();
-        existingUser.setId(1);
-        User duplicateUser = new User();
+        User existingUser = TestHelper.setUpUser();
+        User duplicateUser = TestHelper.setUpUser();
         duplicateUser.setId(2);
 
         when(userRepository.findById(any())).thenReturn(Optional.of(existingUser));
@@ -184,38 +154,14 @@ class UserMapperTest {
 
     @Test
     void shouldReturnMappedUserDto() {
-        Location location = new Location();
-        location.setId(1);
-        location.setName("testLocation");
-
-        Role role = new Role();
-        role.setId(1);
-        role.setName("ROLE_ADMIN");
-
-        Action action = new Action();
-        action.setId(1);
-
-        User user = new User();
-        user.setId(1);
-        user.setUsername("testUsername");
-        user.setMail("test@mail.com");
-        user.setFirstName("testFirstName");
-        user.setLastName("testLastName");
-        user.setIsActive(true);
-        user.setChangedAt(LocalDateTime.now());
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedById(1);
-        user.setChangedById(1);
-        user.setLocation(location);
-        user.setRoles(Set.of(role));
-        user.setAssignedActions(Set.of(action));
+        User user = TestHelper.setUpUser();
 
         UserDto mappedUserDto = userMapper.mapToDto(user);
 
         assertEquals(user.getId(), mappedUserDto.getId());
         assertEquals(user.getUsername(), mappedUserDto.getUsername());
         assertEquals(user.getMail(), mappedUserDto.getMail());
-        assertNull(user.getPassword());
+        assertNull(mappedUserDto.getPassword());
         assertEquals(user.getFirstName(), mappedUserDto.getFirstName());
         assertEquals(user.getLastName(), mappedUserDto.getLastName());
         assertEquals(user.getIsActive(), mappedUserDto.getIsActive());

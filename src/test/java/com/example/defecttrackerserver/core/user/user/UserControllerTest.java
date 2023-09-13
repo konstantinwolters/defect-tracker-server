@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,11 +39,7 @@ public class UserControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testuserDto = new UserDto();
-        testuserDto.setUsername("bill");
-        testuserDto.setMail("test@mail.com");
-        testuserDto.setLocation("testLocation");
-        testuserDto.setIsActive(true);
+        testuserDto = TestHelper.setUpUserDto();
     }
 
     @Test
@@ -55,7 +52,7 @@ public class UserControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testuserDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value("bill"));
+                .andExpect(jsonPath("$.username").value("testUsername"));
 
         verify(userService, times(1)).saveUser(any(UserDto.class));
     }
@@ -67,7 +64,7 @@ public class UserControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value("bill"));
+                .andExpect(jsonPath("$.username").value("testUsername"));
 
         verify(userService, times(1)).getUserById(anyInt());
     }
@@ -125,7 +122,7 @@ public class UserControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testuserDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value("bill"));
+                .andExpect(jsonPath("$.username").value("testUsername"));
 
         verify(userService, times(1)).updateUser(any(Integer.class), any(UserDto.class));
     }
