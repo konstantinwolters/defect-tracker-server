@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
 import com.example.defecttrackerserver.BaseControllerTest;
+import com.example.defecttrackerserver.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class SupplierControllerTest extends BaseControllerTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        testSupplierDto = new SupplierDto();
-        testSupplierDto.setName("testName");
+        testSupplierDto = TestHelper.setUpSupplierDto();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class SupplierControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(testSupplierDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testSupplier"));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class SupplierControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/suppliers/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testSupplier"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class SupplierControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/suppliers"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("testName"));
+                .andExpect(jsonPath("$[0].name").value("testSupplier"));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class SupplierControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(testSupplierDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("testName"));
+                .andExpect(jsonPath("$.name").value("testSupplier"));
     }
 
     @Test

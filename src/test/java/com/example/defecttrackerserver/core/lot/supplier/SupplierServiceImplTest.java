@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
+import com.example.defecttrackerserver.TestHelper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,8 @@ public class SupplierServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        supperDto = new SupplierDto();
-        supperDto.setId(1);
-        supperDto.setName("testName");
-
-        supplier = new Supplier();
-        supplier.setId(1);
-        supplier.setName("testName");
+        supperDto = TestHelper.setUpSupplierDto();
+        supplier = TestHelper.setUpSupplier();
     }
 
     @Test
