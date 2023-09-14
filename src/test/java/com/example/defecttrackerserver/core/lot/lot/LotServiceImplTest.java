@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.TestHelper;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

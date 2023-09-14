@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.lot.lot;
 import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
@@ -19,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

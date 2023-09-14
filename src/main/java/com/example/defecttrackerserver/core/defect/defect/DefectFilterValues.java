@@ -5,7 +5,7 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusDto;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
 import com.example.defecttrackerserver.core.defect.process.ProcessDto;
 import com.example.defecttrackerserver.core.location.LocationDto;
-import com.example.defecttrackerserver.core.lot.lot.LotInfo;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotInfo;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserInfo;

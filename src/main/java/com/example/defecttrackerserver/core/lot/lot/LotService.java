@@ -1,5 +1,7 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
+
 import java.util.List;
 
 public interface LotService {

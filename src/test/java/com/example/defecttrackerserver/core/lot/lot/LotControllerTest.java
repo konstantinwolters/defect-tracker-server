@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.BaseControllerTest;
 import com.example.defecttrackerserver.TestHelper;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import org.junit.jupiter.api.BeforeEach;
