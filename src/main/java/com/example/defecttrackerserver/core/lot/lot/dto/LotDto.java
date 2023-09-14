@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.lot.lot;
+package com.example.defecttrackerserver.core.lot.lot.dto;
 
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;

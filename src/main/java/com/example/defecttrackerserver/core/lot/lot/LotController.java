@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -13,7 +13,7 @@ import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
 import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
 import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotInfo;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotInfo;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.user.user.User;
