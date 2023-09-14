@@ -144,6 +144,7 @@ public class ActionServiceImplTest {
         assertThrows(AccessDeniedException.class,
                 () -> actionService.closeAction(1));
     }
+
     @Test
     void shouldUpdateAction() {
         when(actionRepository.save(any(Action.class))).thenReturn(action);
