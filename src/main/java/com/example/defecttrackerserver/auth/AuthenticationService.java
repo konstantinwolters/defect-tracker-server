@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Provides authentication functionality and generates authentication response with JWT token and refresh token.
+ *
+ * @author Konstantin Wolters
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {

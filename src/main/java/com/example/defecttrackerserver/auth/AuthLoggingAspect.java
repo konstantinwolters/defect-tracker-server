@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+/**
+ * Logs successful and unsuccessful authentications.
+ *
+ * @author Konstantin Wolters
+ */
 @Aspect
 @Component
 @RequiredArgsConstructor
