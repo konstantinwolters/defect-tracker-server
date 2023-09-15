@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
+/**
+ * Apsect that sends email notifications for different methods.
+ *
+ * @author Konstantin Wolters
+ */
 @Component
 @Aspect
 @RequiredArgsConstructor
@@ -73,6 +79,7 @@ public class NotificationAspect {
                 failedRecipients.add(recipient);
             }
         }
+
         if (!failedRecipients.isEmpty()) {
             log.error("Failed to send emails to recipients: {}", String.join(", ", failedRecipients));
         }

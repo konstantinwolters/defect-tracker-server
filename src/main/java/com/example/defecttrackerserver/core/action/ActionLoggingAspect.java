@@ -10,6 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+/**
+ * Logs all mutating operations on Actions.
+ *
+ * @author Konstantin Wolters
+ */
 @Aspect
 @Component
 @RequiredArgsConstructor

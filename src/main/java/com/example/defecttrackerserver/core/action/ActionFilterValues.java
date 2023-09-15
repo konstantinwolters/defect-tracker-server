@@ -7,6 +7,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * This class contains distinct filter values for the endpoint /getFilteredDefects. It is part of PaginatedResponse.
+ *
+ * @author Konstantin Wolters
+ */
 @Getter
 @Setter
 public class ActionFilterValues {
