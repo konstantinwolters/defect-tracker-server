@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * Logs all mutating operations on Actions.
- *
- * @author Konstantin Wolters
+ * Logging aspect for all mutating operations on actions.
  */
 @Aspect
 @Component

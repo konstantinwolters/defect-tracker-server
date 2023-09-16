@@ -12,6 +12,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Entity representing an action item.
+ *
+ * @author Konstantin Wolters
+ */
 @Entity
 @Getter
 @Setter

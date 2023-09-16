@@ -2,6 +2,9 @@ package com.example.defecttrackerserver.core.defect.process;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides methods to map entity objects to DTOs and vice versa.
+ */
 @Component
 public class ProcessMapper {
     public ProcessDto mapToDto(Process process) {

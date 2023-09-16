@@ -17,6 +17,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Entity representing a defect item.
+ */
 @Entity
 @Getter
 @Setter

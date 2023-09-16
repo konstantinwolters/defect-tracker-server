@@ -9,6 +9,11 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Entity representing a comment item that can be added to a defect.
+ *
+ * @author Konstantin Wolters
+ */
 @Entity
 @Getter
 @Setter

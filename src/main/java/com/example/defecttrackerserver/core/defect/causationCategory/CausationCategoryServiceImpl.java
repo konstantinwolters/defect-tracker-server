@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link CausationCategoryService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class CausationCategoryServiceImpl implements CausationCategoryService {

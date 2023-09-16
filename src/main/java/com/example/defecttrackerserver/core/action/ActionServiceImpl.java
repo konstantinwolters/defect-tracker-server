@@ -24,6 +24,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Implementation of service interface {@link ActionService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class ActionServiceImpl implements ActionService{

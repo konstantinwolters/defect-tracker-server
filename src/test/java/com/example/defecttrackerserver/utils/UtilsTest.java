@@ -8,8 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -64,5 +68,22 @@ class UtilsTest {
         when(mockFile.getSize()).thenReturn(4 * 1024 * 1024L); // 4 MB
 
         assertThrows(IllegalArgumentException.class, () -> utils.validateImage(mockFile));
+    }
+
+    @Test
+    public void shouldMapToSetWithLocalDateTime() {
+        List<LocalDateTime> list = Arrays.asList(
+                LocalDateTime.of(2023, 9, 14, 12, 0),
+                LocalDateTime.of(2023, 9, 15, 12, 0),
+                LocalDateTime.of(2023, 9, 16, 12, 0)
+        );
+
+        Set<LocalDate> result = utils.mapToSet(list, LocalDateTime::toLocalDate);
+
+        assertEquals(new HashSet<>(Arrays.asList(
+                LocalDate.of(2023, 9, 14),
+                LocalDate.of(2023, 9, 15),
+                LocalDate.of(2023, 9, 16)
+        )), result);
     }
 }

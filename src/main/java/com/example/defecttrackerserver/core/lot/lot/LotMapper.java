@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Provides methods to map entity objects to DTOs and vice versa.
+ */
 @Component
 @RequiredArgsConstructor
 public class LotMapper {

@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * Logs all mutating operations on Causation Categories.
- *
- * @author Konstantin Wolters
+ * Logging aspect that logs all mutating operations on Causation Categories.
  */
 @Aspect
 @Component

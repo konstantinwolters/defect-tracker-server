@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 /**
  * Swagger configuration.
- *
- * @author Konstantin Wolters
  */
 @OpenAPIDefinition(
         info = @Info(

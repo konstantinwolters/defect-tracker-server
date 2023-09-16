@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Controller for managing authentication.
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

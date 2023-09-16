@@ -14,6 +14,11 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Set;
+/**
+ *
+ * Transfer object for distinct filter values for the endpoint /getFilteredDefects.
+ * It is part of {@link com.example.defecttrackerserver.response.PaginatedResponse}.
+ */
 
 @Getter
 @Setter

@@ -7,14 +7,37 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service for creating JPA Specifications for filtering Defect entities.
+ */
 @Service
 public class DefectSpecification {
 
+    /**
+     * Creates a JPA Specification based on various filter criteria.
+     *
+     * @param lotIds List of IDs of selected lots.
+     * @param materialIds List of IDs of selected materials.
+     * @param supplierIds List of IDs of selected suppliers.
+     * @param defectStatusIds List of IDs of selected defect statuses.
+     * @param causationCategoriesIds List of IDs of selected causation categories.
+     * @param searchTerm Search term for description or ID.
+     * @param createdAtStart Start date for creation timestamp range.
+     * @param createdAtEnd End date for creation timestamp range.
+     * @param changedAtStart Start date for last modification timestamp range.
+     * @param changedAtEnd End date for last modification timestamp range.
+     * @param locationIds List of IDs of selected locations.
+     * @param processIds List of IDs of selected processes.
+     * @param defectTypeIds List of IDs of selected defect types.
+     * @param createdByIds List of user IDs who created the action.
+     * @param changedByIds List of user IDs who last modified the action.
+     * @return A JPA Specification for filtering Action entities.
+     */
     public Specification<Defect> createSpecification(
             String searchTerm,
             List<Integer> lotIds,
-            List<Integer> materials,
-            List<Integer> suppliers,
+            List<Integer> materialIds,
+            List<Integer> supplierIds,
             List<Integer> defectStatusIds,
             List<Integer> causationCategoriesIds,
             LocalDate createdAtStart,
@@ -42,12 +65,12 @@ public class DefectSpecification {
             spec = spec.and((root, query, cb) -> root.get("lot").get("id").in(lotIds));
         }
 
-        if (materials != null && !materials.isEmpty()) {
-            spec = spec.and((root, query, cb) -> root.get("lot").get("material").get("id").in(materials));
+        if (materialIds != null && !materialIds.isEmpty()) {
+            spec = spec.and((root, query, cb) -> root.get("lot").get("material").get("id").in(materialIds));
         }
 
-        if (suppliers != null && !suppliers.isEmpty()) {
-            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").get("id").in(suppliers));
+        if (supplierIds != null && !supplierIds.isEmpty()) {
+            spec = spec.and((root, query, cb) -> root.get("lot").get("suppliers").get("id").in(supplierIds));
         }
 
         if (defectStatusIds != null && !defectStatusIds.isEmpty()) {

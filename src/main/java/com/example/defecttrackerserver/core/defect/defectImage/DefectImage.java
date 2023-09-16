@@ -9,6 +9,11 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+/**
+ * Entity representing a image item that can be added to a defect.
+ *
+ * @author Konstantin Wolters
+ */
 @Entity
 @Getter
 @Setter

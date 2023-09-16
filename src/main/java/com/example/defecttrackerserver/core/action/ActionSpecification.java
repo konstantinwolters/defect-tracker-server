@@ -7,9 +7,29 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service for creating JPA Specifications for filtering Action entities.
+ */
 @Service
 public class ActionSpecification {
 
+    /**
+     * Creates a JPA Specification based on various filter criteria.
+     *
+     * @param searchTerm Search term for description or ID.
+     * @param dueDateStart Start date for due date range.
+     * @param dueDateEnd End date for due date range.
+     * @param isCompleted Completion status.
+     * @param assignedUserIdList List of user IDs assigned to the action.
+     * @param defectIdList List of defect IDs associated with the action.
+     * @param createdAtStart Start date for creation timestamp range.
+     * @param createdAtEnd End date for creation timestamp range.
+     * @param changedAtStart Start date for last modification timestamp range.
+     * @param changedAtEnd End date for last modification timestamp range.
+     * @param createdByIdList List of user IDs who created the action.
+     * @param changedByIdList List of user IDs who last modified the action.
+     * @return A JPA Specification for filtering Action entities.
+     */
     public Specification<Action> createSpecification(
             String searchTerm,
             LocalDate dueDateStart,

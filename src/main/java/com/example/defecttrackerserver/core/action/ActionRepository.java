@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Repository interface for managing {@link Action} entities.
+ */
 public interface ActionRepository extends JpaRepository<Action, Integer>, JpaSpecificationExecutor<Action> {
     List<Action> findByCreatedBy_Id(Integer userId);
 

@@ -43,6 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implementation of {@link DefectService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class DefectServiceImpl implements DefectService{
