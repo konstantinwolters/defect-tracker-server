@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+/**
+ * Controller for managing {@link Action} entities.
+ * Provides endpoints for creating, updating, deleting, and retrieving actions.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/actions")

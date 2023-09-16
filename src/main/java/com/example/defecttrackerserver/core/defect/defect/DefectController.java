@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
+import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.response.PaginatedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,6 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
+/**
+ * Controller managing {@link Defect}.
+ * Provides endpoints for creating, updating, deleting, and retrieving defects.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/defects")

@@ -12,8 +12,6 @@ import java.util.Arrays;
 
 /**
  * Logs all mutating operations on Defects.
- *
- * @author Konstantin Wolters
  */
 @Aspect
 @Component

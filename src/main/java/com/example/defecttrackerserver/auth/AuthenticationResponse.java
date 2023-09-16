@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Transfer object for returning jwt token and refresh token.
+ */
 @Data
 @Builder
 @AllArgsConstructor

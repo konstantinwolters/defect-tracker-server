@@ -14,9 +14,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
+ * Service for authentication.
  * Provides authentication functionality and generates authentication response with JWT token and refresh token.
- *
- * @author Konstantin Wolters
  */
 @Service
 @RequiredArgsConstructor

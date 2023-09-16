@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+/**
+ * Data transfer object for {@link Action}.
+ */
 @Getter
 @Setter
 public class ActionDto {

@@ -18,6 +18,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Repository for managing {@link Defect}.
+ */
 public interface DefectRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
     @Query("SELECT DISTINCT d.createdAt FROM Defect d WHERE d.id IN :defectIds")
     Set<LocalDateTime> findDistinctCreatedAt(@Param("defectIds") List<Integer> defectIds);

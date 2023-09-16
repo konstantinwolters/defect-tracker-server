@@ -12,9 +12,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * Logs successful and unsuccessful authentications.
- *
- * @author Konstantin Wolters
+ * Logging aspect for successful and unsuccessful authentications.
  */
 @Aspect
 @Component

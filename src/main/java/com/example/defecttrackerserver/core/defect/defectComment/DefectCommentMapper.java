@@ -6,6 +6,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides methods to map entity objects to DTOs and vice versa.
+ */
 @Component
 @RequiredArgsConstructor
 public class DefectCommentMapper {

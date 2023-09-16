@@ -5,6 +5,9 @@ import com.example.defecttrackerserver.response.PaginatedResponse;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service interface for managing {@link Action} entities.
+ */
 public interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);

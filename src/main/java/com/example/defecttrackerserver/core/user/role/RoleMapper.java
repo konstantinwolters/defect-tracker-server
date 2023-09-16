@@ -2,6 +2,9 @@ package com.example.defecttrackerserver.core.user.role;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides methods to map entity objects to DTOs and vice versa.
+ */
 @Component
 public class RoleMapper {
     public RoleDto mapToDto(Role role) {

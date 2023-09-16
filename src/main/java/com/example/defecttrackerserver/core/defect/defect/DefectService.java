@@ -6,6 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service interface for managing {@link Defect}.
+ */
 public interface DefectService {
     DefectDto saveDefect(DefectDto defectDto, MultipartFile[] images);
     DefectDto getDefectById(Integer id);

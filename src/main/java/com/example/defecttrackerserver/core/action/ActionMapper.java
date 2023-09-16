@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Provides methods to map entity ojects to DTOs and vice versa.
+ * Mapper that provides methods for mapping entity objects to DTOs and vice versa.
  */
 @Component
 @RequiredArgsConstructor

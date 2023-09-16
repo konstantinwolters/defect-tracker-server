@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Data transfer object for {@link Defect}.
+ */
 @Getter
 @Setter
 public class DefectDto {
