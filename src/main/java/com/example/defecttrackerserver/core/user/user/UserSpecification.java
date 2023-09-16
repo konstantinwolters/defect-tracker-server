@@ -7,9 +7,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service for creating JPA Specifications for filtering Action entities.
+ */
 @Service
 public class UserSpecification {
 
+    /**
+     * Creates a JPA Specification based on various filter criteria.
+     *
+     * @param searchTerm Search term for description or ID.
+     * @param isActive Activity status of a user.
+     * @param locationIdList List of location IDs where user is located.
+     * @param roleIdList List of role IDs of roles assigned to a user.
+     * @param createdAtStart Start date for creation timestamp range.
+     * @param createdAtEnd End date for creation timestamp range.
+     * @param changedAtStart Start date for last modification timestamp range.
+     * @param changedAtEnd End date for last modification timestamp range.
+     * @param createdByIdList List of user IDs who created the action.
+     * @param changedByIdList List of user IDs who last modified the action.
+     * @return A JPA Specification for filtering Action entities.
+     */
     public Specification<User> createSpecification(
             String searchTerm,
             Boolean isActive,

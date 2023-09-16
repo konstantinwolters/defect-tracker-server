@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Data transfer object for {@link Process}.
+ */
 @Getter
 @Setter
 public class ProcessDto {

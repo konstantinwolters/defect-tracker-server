@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Data transfer object for {@link DefectImage}.
+ */
 @Getter
 @Setter
 public class DefectImageDto {

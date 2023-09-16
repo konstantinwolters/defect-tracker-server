@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data transfer object for {@link DefectComment}.
+ */
 @Getter
 @Setter
 public class DefectCommentDto {

@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link DefectTypeService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class DefectTypeServiceImpl implements DefectTypeService {

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for managing {@link DefectType}.
+ * Provides endpoints for creating, updating, deleting, and retrieving defect types.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/defecttypes")

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of {@link DefectCommentService}
+ */
 @Service
 @RequiredArgsConstructor
 public class DefectCommentServiceImpl implements DefectCommentService {

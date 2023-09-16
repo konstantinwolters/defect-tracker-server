@@ -9,6 +9,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * Transfer object for distinct filter values for the endpoint /getFilteredUsers
+ * It is part of {@link com.example.defecttrackerserver.response.PaginatedResponse}.
+ */
 @Getter
 @Setter
 public class UserFilterValues {

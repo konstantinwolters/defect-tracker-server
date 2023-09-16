@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Controller for managing {@link DefectImage}.
+ * Provides endpoints for creating, updating, deleting, and retrieving defect images.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/defects")

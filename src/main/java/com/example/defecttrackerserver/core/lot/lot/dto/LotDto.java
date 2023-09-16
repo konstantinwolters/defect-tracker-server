@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.util.Set;
 
+/**
+ * Data transfer object for all information of {@link com.example.defecttrackerserver.core.lot.lot.Lot}.
+ */
 @Getter
 @Setter
 public class LotDto {

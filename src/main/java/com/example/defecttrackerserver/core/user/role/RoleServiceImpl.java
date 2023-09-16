@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Implementation of {@link RoleService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService{

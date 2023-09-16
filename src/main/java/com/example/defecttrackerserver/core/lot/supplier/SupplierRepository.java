@@ -7,6 +7,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for managing {@link Supplier}.
+ */
 public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
     Optional<Supplier> findByName(String name);
 

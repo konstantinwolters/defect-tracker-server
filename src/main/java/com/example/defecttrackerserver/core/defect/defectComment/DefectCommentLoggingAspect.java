@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * Logs all mutating operations on Defect Comments.
- *
- * @author Konstantin Wolters
+ * Aspect that logs all mutating operations on Defect Comments.
  */
 @Aspect
 @Component

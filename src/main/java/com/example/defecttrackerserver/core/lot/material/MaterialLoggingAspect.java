@@ -12,9 +12,7 @@ import java.util.Arrays;
 
 
 /**
- * Logs all mutating operations on Materials.
- *
- * @author Konstantin Wolters
+ * Aspect that logs all mutating operations on Materials.
  */
 @Aspect
 @Component

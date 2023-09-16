@@ -13,9 +13,7 @@ import java.util.Arrays;
 
 
 /**
- * Logs all mutating operations on Users.
- *
- * @author Konstantin Wolters
+ * Aspect that logs all mutating operations on Users.
  */
 @Aspect
 @Component

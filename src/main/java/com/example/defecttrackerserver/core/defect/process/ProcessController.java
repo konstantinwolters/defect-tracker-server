@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for managing {@link Process}.
+ * Provides endpoints for creating, updating, deleting, and retrieving processes
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/processes")
