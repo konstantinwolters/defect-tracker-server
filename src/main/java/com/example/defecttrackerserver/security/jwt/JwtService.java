@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Service for managing JWT authentication.
+ * Provides methods for token checking and generation.
+ */
 @Service
 public class JwtService {
 

@@ -10,8 +10,6 @@ import java.util.List;
 
 /**
  * Custom exception details for API response.
- *
- * @author Konstantin Wolters
  */
 @AllArgsConstructor
 @Getter

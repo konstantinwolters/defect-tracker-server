@@ -18,9 +18,7 @@ import java.util.Locale;
 
 
 /**
- * Apsect that sends email notifications for different methods.
- *
- * @author Konstantin Wolters
+ * Aspect that sends email notifications for different methods.
  */
 @Component
 @Aspect

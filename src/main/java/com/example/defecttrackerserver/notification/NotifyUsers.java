@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * Custom annotation to mark methods that should trigger notification.
- *
- * @author Konstantin Wolters
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

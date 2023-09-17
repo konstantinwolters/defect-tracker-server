@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Implementation of token bucket rate limiting.
+ */
 @Service
 public class BucketService {
 
