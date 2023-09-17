@@ -2,6 +2,9 @@ package com.example.defecttrackerserver.core.defect.process;
 
 import java.util.List;
 
+/**
+ * Service interface for managing {@link Process}.
+ */
 public interface ProcessService {
     ProcessDto saveProcess(ProcessDto processDto);
     ProcessDto getProcessById(Integer id);

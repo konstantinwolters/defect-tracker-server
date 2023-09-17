@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link LocationService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {

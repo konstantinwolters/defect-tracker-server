@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * Entity representing a comment item that can be added to a defect.
- *
- * @author Konstantin Wolters
+ * Entity representing a comment item that can be added to {@link com.example.defecttrackerserver.core.defect.defect.Defect}.
  */
 @Entity
 @Getter

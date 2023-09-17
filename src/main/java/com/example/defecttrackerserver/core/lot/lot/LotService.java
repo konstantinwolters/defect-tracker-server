@@ -4,6 +4,9 @@ import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 
 import java.util.List;
 
+/**
+ * Service interface for managingt {@link Lot}.
+ */
 public interface LotService {
     LotDto saveLot(LotDto lotDto);
     LotDto getLotById(Integer id);

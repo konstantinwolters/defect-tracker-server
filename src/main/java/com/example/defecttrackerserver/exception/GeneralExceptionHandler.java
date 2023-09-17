@@ -17,6 +17,9 @@ import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Controller advice with exception handlers for all expected exceptions.
+ */
 @ControllerAdvice
 @Slf4j
 public class GeneralExceptionHandler {

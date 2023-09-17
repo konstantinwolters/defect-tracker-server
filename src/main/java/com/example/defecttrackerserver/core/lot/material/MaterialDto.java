@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.util.Set;
 
+/**
+ * Data transfer object for {@link Material}.
+ */
 @Getter
 @Setter
 public class MaterialDto {

@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+/**
+ * Data transfer object for all information of {@link com.example.defecttrackerserver.core.user.user.User}.
+ */
 @Getter
 @Setter
 public class UserDto  {

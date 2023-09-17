@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for managing {@link DefectComment}.
+ * Provides endpoints for creating, updating, deleting, and retrieving comments.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/defects")

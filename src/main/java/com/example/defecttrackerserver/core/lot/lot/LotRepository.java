@@ -7,6 +7,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for managing {@link Lot}.
+ */
 public interface LotRepository extends JpaRepository<Lot, Integer> {
     Optional<Lot> findByLotNumber(String lotNumber);
 

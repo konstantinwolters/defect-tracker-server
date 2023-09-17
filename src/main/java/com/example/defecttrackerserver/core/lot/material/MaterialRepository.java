@@ -7,6 +7,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for managing {@link Material}.
+ */
 public interface MaterialRepository extends JpaRepository<Material, Integer> {
     Optional<Material> findByName(String name);
 

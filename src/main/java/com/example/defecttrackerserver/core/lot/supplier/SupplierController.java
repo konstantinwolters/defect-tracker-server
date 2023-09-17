@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.supplier;
 
+import com.example.defecttrackerserver.core.lot.material.Material;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for managing {@link Supplier}.
+ * Provides endpoints for creating, updating, deleting, and retrieving suppliers.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/suppliers")

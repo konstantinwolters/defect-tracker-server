@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
+/**
+ * Implementation of {@link DefectImageService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class DefectImageServiceImpl implements DefectImageService{

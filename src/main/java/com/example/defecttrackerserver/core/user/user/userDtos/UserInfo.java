@@ -4,6 +4,9 @@ import com.example.defecttrackerserver.core.user.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Data transfer object for all information of {@link User}.
+ */
 @Getter
 @Setter
 public class UserInfo {

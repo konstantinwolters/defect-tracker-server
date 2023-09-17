@@ -2,6 +2,9 @@ package com.example.defecttrackerserver.core.location;
 
 import java.util.List;
 
+/**
+ * Service interface for managing {@link Location}.
+ */
 public interface LocationService {
     LocationDto saveLocation(LocationDto locationDto);
     LocationDto getLocationById(Integer id);

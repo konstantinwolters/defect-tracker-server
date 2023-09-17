@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.user.role;
 
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller for managing {@link Role}.
+ * Provides endpoints for retrieving roles.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/roles")

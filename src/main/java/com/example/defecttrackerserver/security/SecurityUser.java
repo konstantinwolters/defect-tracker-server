@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of Spring Security {@link UserDetails}
+ */
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
 

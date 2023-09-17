@@ -28,6 +28,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Implementation of {@link UserService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {

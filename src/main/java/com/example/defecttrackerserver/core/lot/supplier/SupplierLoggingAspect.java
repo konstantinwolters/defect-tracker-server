@@ -12,9 +12,7 @@ import java.util.Arrays;
 
 
 /**
- * Logs all mutating operations on Suppliers.
- *
- * @author Konstantin Wolters
+ * Aspect that logs all mutating operations on Suppliers.
  */
 @Aspect
 @Component

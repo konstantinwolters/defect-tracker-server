@@ -5,6 +5,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Response entity for filtered actions, defects and users.
+ * Returns content, total pages, total elements, current page and distinct filter values.
+ */
 @Getter
 @Setter
 public class PaginatedResponse<T> {

@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+/**
+ * Entity representing a user role.
+ */
 @Entity
 @Getter
 @Setter

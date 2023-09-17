@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link LotService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class LotServiceImpl implements LotService{

@@ -17,6 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
+/**
+ * Spring security configuration.
+ */
 
 @Configuration
 @EnableWebSecurity

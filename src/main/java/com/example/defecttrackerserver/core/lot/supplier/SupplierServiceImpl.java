@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link SupplierService}.
+ */
 @Service
 @RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {

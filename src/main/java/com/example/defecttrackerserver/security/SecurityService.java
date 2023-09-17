@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+/**
+ * Service for managing security related tasks like getting a username or a user or check if a user has a specific role.
+ */
 @Service
 @RequiredArgsConstructor
 public class SecurityService {

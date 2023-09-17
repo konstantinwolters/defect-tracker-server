@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Application configuration that sets up necessary beans for authentication, password encoding and notification.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
