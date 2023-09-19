@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -49,22 +50,23 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         response.setContentType("application/json");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            String responseBody = "{ \"message\": \"" +
+                    "Unauthorized."
+                    + "\", \"status\": 401 }";
+            response.getWriter().write(responseBody);
             return;
         }
 
         String jwtToken = authHeader.substring(7);
         username = jwtService.getUsernameFromToken(jwtToken);
-        
+
         if (username == null)
             throw new IllegalArgumentException("Username missing.");
 
         Bucket bucket = bucketService.resolveBucket(username);
 
         // Limit requests per user
-        if(bucket.tryConsume(1)){
-            filterChain.doFilter(request, response);
-        }else {
+        if(!bucket.tryConsume(1)){
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             String responseBody = "{ \"message\": \"" +
                     "User rate limit exceeded. Please try again later."
@@ -83,15 +85,12 @@ public class RateLimitingFilter extends OncePerRequestFilter {
                 response.getWriter().write(responseBody);
                 return;
             }
-
-            filterChain.doFilter(request, response);
-
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            
         } finally {
             semaphore.release();
         }
+        filterChain.doFilter(request, response);
     }
 }
