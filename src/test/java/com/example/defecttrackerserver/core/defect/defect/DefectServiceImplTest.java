@@ -8,7 +8,9 @@ import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
 import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
@@ -54,6 +56,9 @@ public class DefectServiceImplTest {
 
     @Mock
     private CausationCategoryRepository causationCategoryRepository;
+
+    @Mock
+    private DefectTypeRepository defectTypeRepository;
 
     @Mock
     private DefectMapper defectMapper;
@@ -104,6 +109,7 @@ public class DefectServiceImplTest {
         when(defectRepository.save(defect)).thenReturn(defect);
         when(defectStatusRepository.findByName(anyString())).thenReturn(Optional.of(new DefectStatus()));
         when(causationCategoryRepository.findByName(anyString())).thenReturn(Optional.of(new CausationCategory()));
+        when(defectTypeRepository.findByName(anyString())).thenReturn(Optional.of(new DefectType()));
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
         when(securityService.getUser()).thenReturn(user);

@@ -32,14 +32,16 @@ INSERT INTO DEFECT_TYPE (ID, NAME)
 VALUES
     (11, 'Foreign Body'),
     (12, 'Pest'),
-    (13, 'Quality Issue');
+    (13, 'Quality Issue'),
+    (13, 'Undefined');
 
 INSERT INTO CAUSATION_CATEGORY (ID, NAME)
 VALUES
     (11, 'Undefined'),
     (12, 'Supplier-caused'),
     (13, 'Internal error'),
-    (14, 'False report');
+    (14, 'False report'),
+    (14, 'Undefined');
 
 INSERT INTO PROCESS (ID, NAME)
 VALUES

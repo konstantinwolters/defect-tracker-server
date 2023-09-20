@@ -76,6 +76,11 @@ public class CausationCategoryServiceImpl implements CausationCategoryService {
         if(!defectRepository.findByCausationCategoryId(id).isEmpty())
             throw new UnsupportedOperationException("CausationCategory cannot be deleted because it is used in Defects");
 
+        //'Undefined' must not be deleted because it is a default value
+        if(causationCategory.getName().equals("Undefined"))
+            throw new UnsupportedOperationException("CausationCategory 'Undefined' cannot be deleted because" +
+                    "it is a default value.");
+
         causationCategoryRepository.delete(causationCategory);
     }
 

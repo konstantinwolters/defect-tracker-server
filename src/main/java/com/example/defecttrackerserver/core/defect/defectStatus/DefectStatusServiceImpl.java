@@ -71,6 +71,11 @@ public class DefectStatusServiceImpl implements DefectStatusService{
         if(!defectRepository.findByDefectStatusId(id).isEmpty())
             throw new UnsupportedOperationException("DefectStatus cannot be deleted because it is used in Defects");
 
+        //'New' must not be deleted because it is a default value
+        if(defectStatus.getName().equals("New"))
+            throw new UnsupportedOperationException("DefectStatus 'New' cannot be deleted because it " +
+                    "is a default value.");
+
         defectStatusRepository.delete(defectStatus);
     }
 
