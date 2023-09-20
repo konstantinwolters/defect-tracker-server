@@ -103,6 +103,18 @@ public class DefectTypeServiceImplTest {
     }
 
     @Test
+    void shouldNotDeleteDefaultDefectType(){
+        DefectType defectType = TestHelper.setUpDefectType();
+        defectType.setName("Undefined");
+
+        when(defectTypeRepository.findById(anyInt())).thenReturn(Optional.of(defectType));
+        when(defectRepository.findByDefectTypeId(any(Integer.class))).thenReturn(Set.of());
+
+        assertThrows(UnsupportedOperationException.class,
+                ()->defectTypeService.deleteDefectType(1));
+    }
+
+    @Test
     void shouldThrowExceptionWhenDefectTypeNotFound(){
         when(defectTypeRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 

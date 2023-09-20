@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.location;
 
-import com.example.defecttrackerserver.core.defect.process.Process;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
