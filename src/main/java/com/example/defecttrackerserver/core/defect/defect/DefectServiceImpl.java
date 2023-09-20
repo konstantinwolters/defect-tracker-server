@@ -9,7 +9,10 @@ import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
+import com.example.defecttrackerserver.core.defect.defectType.DefectType;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeDto;
 import com.example.defecttrackerserver.core.defect.defectType.DefectTypeMapper;
+import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.process.ProcessMapper;
 import com.example.defecttrackerserver.core.location.LocationMapper;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
@@ -51,8 +54,9 @@ import java.util.Set;
 public class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
-    private final DefectSpecification defectSpecification;
     private final CausationCategoryRepository causationCategoryRepository;
+    private final DefectTypeRepository defectTypeRepository;
+    private final DefectSpecification defectSpecification;
     private final DefectMapper defectMapper;
     private final SecurityService securityService;
     private final MaterialMapper materialMapper;
@@ -90,8 +94,12 @@ public class DefectServiceImpl implements DefectService{
         CausationCategory causationCategory = causationCategoryRepository.findByName("Undefined")
                 .orElseThrow(()-> new EntityNotFoundException("CausationCategory not found with name: 'Undefined'"));
 
+        DefectType defectType = defectTypeRepository.findByName("Undefined")
+                .orElseThrow(()-> new EntityNotFoundException("DefectType not found: 'Undefined'"));
+
         newDefect.setDefectStatus(defectStatus);
         newDefect.setCausationCategory(causationCategory);
+        newDefect.setDefectType(defectType);
 
         Defect savedDefect = defectRepository.save(newDefect);
 
@@ -166,7 +174,6 @@ public class DefectServiceImpl implements DefectService{
                 getDefectFilterValues(filteredDefects) // provide distinct filter values for Defects meeting the filter criteria
         );
     }
-
 
     //Returns distinct filter values for Defects meeting the filter criteria
     @Override

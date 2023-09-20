@@ -77,6 +77,10 @@ public class DefectTypeServiceImpl implements DefectTypeService {
         if(!defectRepository.findByDefectTypeId(id).isEmpty())
             throw new UnsupportedOperationException("DefectType cannot be deleted because it is used in Defects");
 
+        if(defectType.getName().equals("Undefined"))
+            throw new UnsupportedOperationException("DefectType 'Undefined' cannot be deleted " +
+                    "because it is a default value.");
+
         defectTypeRepository.delete(defectType);
     }
 
