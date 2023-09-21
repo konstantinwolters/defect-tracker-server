@@ -103,6 +103,18 @@ public class DefectStatusServiceImplTest {
     }
 
     @Test
+    void shouldNotDeleteDefaultDefectStatus(){
+        DefectStatus defectStatus = TestHelper.setUpDefectStatus();
+        defectStatus.setName("New");
+
+        when(defectStatusRepository.findById(anyInt())).thenReturn(Optional.of(defectStatus));
+        when(defectRepository.findByDefectStatusId(any(Integer.class))).thenReturn(Set.of());
+
+        assertThrows(UnsupportedOperationException.class,
+                ()->defectStatusService.deleteDefectStatus(1));
+    }
+
+    @Test
     void shouldThrowExceptionWhenDefectStatusNotFound(){
         when(defectStatusRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 

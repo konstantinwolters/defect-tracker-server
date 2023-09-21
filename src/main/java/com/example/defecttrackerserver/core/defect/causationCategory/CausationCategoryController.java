@@ -1,6 +1,5 @@
 package com.example.defecttrackerserver.core.defect.causationCategory;
 
-import com.example.defecttrackerserver.core.defect.defect.Defect;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

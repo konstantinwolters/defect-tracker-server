@@ -44,7 +44,7 @@ public class CausationCategoryServiceImplTest {
     }
 
     @Test
-    void shouldSaveDefectStatus() {
+    void shouldSaveCausationCategory() {
         when(causationCategoryRepository.save(any(CausationCategory.class))).thenReturn(causationCategory);
         when(causationCategoryMapper.mapToDto(any(CausationCategory.class))).thenReturn(causationCategoryDto);
 
@@ -56,7 +56,7 @@ public class CausationCategoryServiceImplTest {
     }
 
     @Test
-    void shouldReturnDefectStatusById() {
+    void shouldReturnCausationCategoryById() {
         when(causationCategoryRepository.findById(any(Integer.class))).thenReturn(Optional.of(causationCategory));
         when(causationCategoryMapper.mapToDto(causationCategory)).thenReturn(causationCategoryDto);
 
@@ -68,7 +68,7 @@ public class CausationCategoryServiceImplTest {
     }
 
     @Test
-    void shouldReturnAllDefectStatus(){
+    void shouldReturnAllCausationCategories(){
         when(causationCategoryRepository.findAll()).thenReturn(Arrays.asList(causationCategory));
         when(causationCategoryMapper.mapToDto(causationCategory)).thenReturn(causationCategoryDto);
 
@@ -80,7 +80,7 @@ public class CausationCategoryServiceImplTest {
     }
 
     @Test
-    void shouldUpdateDefectStatus() {
+    void shouldUpdateCausationCategory() {
         when(causationCategoryRepository.findById(any(Integer.class))).thenReturn(Optional.of(causationCategory));
         when(causationCategoryRepository.save(any(CausationCategory.class))).thenReturn(causationCategory);
         when(causationCategoryMapper.mapToDto(any(CausationCategory.class))).thenReturn(causationCategoryDto);
@@ -95,7 +95,7 @@ public class CausationCategoryServiceImplTest {
     }
 
     @Test
-    void shouldDeleteDefectStatus() {
+    void shouldDeleteCausationCategory() {
         when(causationCategoryRepository.findById(any(Integer.class))).thenReturn(Optional.of(causationCategory));
         when(defectRepository.findByCausationCategoryId(any(Integer.class))).thenReturn(Set.of());
 
@@ -105,7 +105,20 @@ public class CausationCategoryServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenDefectStatusNotFound(){
+    void shouldNotDeleteDefaultCausationCategory(){
+        CausationCategory causationCategory = TestHelper.setUpCausationCategory();
+        causationCategory.setName("Undefined");
+
+        when(causationCategoryRepository.findById(anyInt())).thenReturn(Optional.of(causationCategory));
+        when(defectRepository.findByCausationCategoryId(any(Integer.class))).thenReturn(Set.of());
+
+        assertThrows(UnsupportedOperationException.class,
+                ()->causationCategoryService.deleteCausationCategory(1));
+
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCausationCategoryNotFound(){
         when(causationCategoryRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> causationCategoryService.deleteCausationCategory(1));
