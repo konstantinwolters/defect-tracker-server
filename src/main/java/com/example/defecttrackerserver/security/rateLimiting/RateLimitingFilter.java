@@ -49,10 +49,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         response.setContentType("application/json");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            String responseBody = "{ \"message\": \"" +
-                    "Unauthorized."
-                    + "\", \"status\": 401 }";
-            response.getWriter().write(responseBody);
+            filterChain.doFilter(request, response);
             return;
         }
 

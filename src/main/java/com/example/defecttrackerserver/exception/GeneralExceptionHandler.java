@@ -2,10 +2,10 @@ package com.example.defecttrackerserver.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ProblemDetail;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,8 +14,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.nio.file.AccessDeniedException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Controller advice with exception handlers for all expected exceptions.
@@ -24,72 +22,63 @@ import java.util.List;
 @Slf4j
 public class GeneralExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllExceptions(Exception e) {
+    @ExceptionHandler
+    public ProblemDetail handleAllExceptions(Exception e) {
         log.error("Exception occurred: ", e);
-        return createResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+    @ExceptionHandler
+    public ProblemDetail handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("Invalid argument provided: ", e);
-        return createResponse(e, HttpStatus.BAD_REQUEST);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
+    @ExceptionHandler
+    public ProblemDetail handleEntityNotFoundException(EntityNotFoundException e) {
         log.error("Entity not found: ", e);
-        return createResponse(e, HttpStatus.NOT_FOUND);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
+    @ExceptionHandler
+    public ProblemDetail handleAccessDeniedException(AccessDeniedException e) {
         log.error("Access denied: ", e);
-        return createResponse(e, HttpStatus.UNAUTHORIZED);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+    @ExceptionHandler
+    public ProblemDetail handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         log.error("Invalid arguments: ", e);
-        return createResponse(e, HttpStatus.BAD_REQUEST);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    @ExceptionHandler
+    public ProblemDetail handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("Method not supported: ", e);
-        return createResponse(e, HttpStatus.METHOD_NOT_ALLOWED);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.METHOD_NOT_ALLOWED, e.getMessage());
     }
 
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+    @ExceptionHandler
+    public ProblemDetail handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         log.error("Max upload size exceeded: ", e);
-        return createResponse(e, HttpStatus.BAD_REQUEST);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<Object> handleMaxUploadSizeExceededException(DuplicateKeyException e) {
+    @ExceptionHandler
+    public ProblemDetail handleMaxUploadSizeExceededException(DuplicateKeyException e) {
         log.error("Entity already exists: ", e);
-        return createResponse(e, HttpStatus.BAD_REQUEST);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    @ExceptionHandler
+    public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException ex) {
         log.error("Invalid arguments: ", ex);
-        List<String> errors = ex.getBindingResult()
+        String errors = ex.getBindingResult()
                 .getAllErrors()
                 .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .toList();
-        return new ResponseEntity<>(new ExceptionDetails(errors, null, HttpStatus.BAD_REQUEST)
-                , HttpStatus.BAD_REQUEST);
-    }
-
-    private ResponseEntity<Object> createResponse(Exception e, HttpStatus status) {
-        ExceptionDetails exceptionDetails = new ExceptionDetails(
-                Arrays.asList(e.getMessage()),
-                e.getCause(),
-                status
-        );
-        return new ResponseEntity<>(exceptionDetails, exceptionDetails.getHttpStatus());
+                .map(ObjectError::getDefaultMessage)
+                .toList()
+                .toString();
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errors);
     }
 }
