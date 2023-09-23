@@ -8,6 +8,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -16,7 +20,9 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UtilsTest {
@@ -24,11 +30,14 @@ class UtilsTest {
     @Mock
     private MultipartFile mockFile;
 
+    @Mock
+    private DefaultFileSystemOperations fileSystemOperations;
+
     @InjectMocks
     private Utils utils;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         utils.MAX_FILE_SIZE = 3 * 1024 * 1024;
     }
 
@@ -36,8 +45,8 @@ class UtilsTest {
     public void shouldConvertDateToTime() {
         LocalDateTime result = utils.convertToDateTime("2023-09-09");
         assertEquals(
-                LocalDateTime.of(2023, 9 , 9 , 0 , 0)
-                ,result
+                LocalDateTime.of(2023, 9, 9, 0, 0)
+                , result
         );
     }
 
@@ -85,5 +94,41 @@ class UtilsTest {
                 LocalDate.of(2023, 9, 15),
                 LocalDate.of(2023, 9, 16)
         )), result);
+    }
+
+    @Test
+    public void shouldSaveImageToFileSystem() throws IOException {
+        when(mockFile.getBytes()).thenReturn(new byte[]{1, 2, 3, 4});
+
+        String folderPath = "/images";
+        String filePath = utils.saveImageToFileSystem(mockFile, folderPath);
+
+        Path expectedPath = Paths.get(filePath.replace("/", File.separator));
+        verify(fileSystemOperations).write(eq(expectedPath), eq(new byte[]{1, 2, 3, 4}));
+    }
+
+    @Test
+    public void shouldRemoveFileFromFileSystem() {
+        String filePathString = "/images/file.jpg";
+        Path filePath = Paths.get(filePathString);
+        when(fileSystemOperations.exists(filePath)).thenReturn(true);
+        when(fileSystemOperations.delete(filePath)).thenReturn(true);
+
+        utils.removeFileFromFileSystem(filePathString);
+        verify(fileSystemOperations).exists(filePath);
+        verify(fileSystemOperations).delete(filePath);
+    }
+
+
+    @Test
+    public void shouldCreateDirectory() {
+        String directoryPathString = "/images";
+        Path directoryPath = Paths.get(directoryPathString);
+
+        when(fileSystemOperations.createDirectories(directoryPath)).thenReturn(true);
+
+        utils.createDirectory(directoryPathString);
+
+        verify(fileSystemOperations).createDirectories(directoryPath);
     }
 }

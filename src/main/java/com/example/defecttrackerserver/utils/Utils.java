@@ -1,12 +1,12 @@
 package com.example.defecttrackerserver.utils;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -20,8 +20,10 @@ import java.util.stream.Collectors;
  * Contains different utilities for data conversion and file operations.
  */
 @Component
+@RequiredArgsConstructor
 public class Utils {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DefaultFileSystemOperations fileOpertions;
 
     @Value("${IMAGE.UPLOAD.MAX-FILE-SIZE}")
     Integer MAX_FILE_SIZE;
@@ -62,33 +64,32 @@ public class Utils {
         try {
             byte[] bytes = image.getBytes();
             Path path = Paths.get(filePath);
-            Files.write(path, bytes);
+            fileOpertions.write(path,bytes);
         } catch (IOException e) {
             throw new RuntimeException("Failed to store image " + filename, e);
         }
-
         return filePath;
     }
 
-    public void removeFileFromFileSystem(String path){
-        File imageFile = new File(path);
-        if (!imageFile.exists()) {
+    public void removeFileFromFileSystem(String path) {
+        Path filePath = Paths.get(path);
+        if (!fileOpertions.exists(filePath)) {
             throw new RuntimeException("File not found at path: " + path);
         }
 
-        boolean deleted = imageFile.delete();
+        boolean deleted = fileOpertions.delete(filePath);
         if (!deleted) {
             throw new RuntimeException("Failed to delete file at path: " + path);
         }
     }
 
     public void createDirectory(String folderPath) {
-        File directory = new File(folderPath);
-        if(!directory.exists()){
-            boolean success = directory.mkdirs();
-            if (!success) {
-                throw new RuntimeException("Failed to create image directory: " + directory.getAbsolutePath());
-            }
+        Path directoryPath = Paths.get(folderPath);
+        if (!fileOpertions.exists(directoryPath)) {
+                boolean success = fileOpertions.createDirectories(directoryPath);
+                if (!success) {
+                    throw new RuntimeException("Failed to create image directory: " + directoryPath.toAbsolutePath());
+                }
         }
     }
 }
