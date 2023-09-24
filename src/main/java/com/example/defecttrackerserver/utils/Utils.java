@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Utils {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final DefaultFileSystemOperations fileOpertions;
+    private final DefaultFileSystemOperations fileSystemOperations;
 
     @Value("${IMAGE.UPLOAD.MAX-FILE-SIZE}")
     Integer MAX_FILE_SIZE;
@@ -64,7 +64,7 @@ public class Utils {
         try {
             byte[] bytes = image.getBytes();
             Path path = Paths.get(filePath);
-            fileOpertions.write(path,bytes);
+            fileSystemOperations.write(path,bytes);
         } catch (IOException e) {
             throw new RuntimeException("Failed to store image " + filename, e);
         }
@@ -73,11 +73,11 @@ public class Utils {
 
     public void removeFileFromFileSystem(String path) {
         Path filePath = Paths.get(path);
-        if (!fileOpertions.exists(filePath)) {
+        if (!fileSystemOperations.exists(filePath)) {
             throw new RuntimeException("File not found at path: " + path);
         }
 
-        boolean deleted = fileOpertions.delete(filePath);
+        boolean deleted = fileSystemOperations.delete(filePath);
         if (!deleted) {
             throw new RuntimeException("Failed to delete file at path: " + path);
         }
@@ -85,8 +85,8 @@ public class Utils {
 
     public void createDirectory(String folderPath) {
         Path directoryPath = Paths.get(folderPath);
-        if (!fileOpertions.exists(directoryPath)) {
-                boolean success = fileOpertions.createDirectories(directoryPath);
+        if (!fileSystemOperations.exists(directoryPath)) {
+                boolean success = fileSystemOperations.createDirectories(directoryPath);
                 if (!success) {
                     throw new RuntimeException("Failed to create image directory: " + directoryPath.toAbsolutePath());
                 }

@@ -36,3 +36,4 @@ build/
 /logs
 /images
 /null
+secrets.properties
