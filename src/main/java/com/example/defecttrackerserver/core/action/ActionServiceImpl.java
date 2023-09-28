@@ -171,10 +171,9 @@ public class ActionServiceImpl implements ActionService{
     public ActionDto updateAction(Integer actionId, ActionDto actionDto) {
         Action actionToUpdate = findActionById(actionId);
 
+        Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
         actionToUpdate.setChangedBy(securityService.getUser());
         actionToUpdate.setChangedAt(LocalDateTime.now());
-
-        Action mappedAction = actionMapper.map(actionDto, actionToUpdate);
         Action updatedAction = actionRepository.save(mappedAction);
 
         return actionMapper.mapToDto(updatedAction);

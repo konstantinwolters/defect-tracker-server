@@ -26,7 +26,7 @@ public class ActionMapper {
     public Action map(ActionDto actionDto, Action action){
         Defect defect = getDefectById(actionDto.getDefect());
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
-        User changedBy = action.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
+        User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
         Set<User> assignedUsers = actionDto.getAssignedUsers().stream()
                 .map(userDto -> getUserById(userDto.getId()))
