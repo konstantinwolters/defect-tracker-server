@@ -93,14 +93,16 @@ public class UserController {
     @Operation(
             summary = "Delete User",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "User successfully deleted"),
+                    @ApiResponse(responseCode = "200", description = "User was deactivated"),
+                    @ApiResponse(responseCode = "204", description = "User successfully deleted"),
                     @ApiResponse(responseCode = "400", description = "Invalid input"),
-                    @ApiResponse(responseCode = "404", description = "User not found"),
+                    @ApiResponse(responseCode = "404", description = "User not found")
             }
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        boolean isDeleted = userService.deleteUser(id);
+
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.ok().build();
     }
 }

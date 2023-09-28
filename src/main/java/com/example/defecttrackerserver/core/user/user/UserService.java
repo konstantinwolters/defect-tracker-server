@@ -27,7 +27,7 @@ public interface UserService {
             String sort
     );
     UserDto updateUser(Integer userId, UserDto userDto);
-    void deleteUser(Integer id);
+    boolean deleteUser(Integer id);
     void deactivateUser(Integer id);
     UserDto getUserByUsername(String username);
 }
