@@ -184,7 +184,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
-    public void deleteUser(Integer id) {
+    public boolean deleteUser(Integer id) {
+        boolean isDeleted;
+
         User userToDelete = findUserById(id);
 
         if(!defectRepository.findByChangedById(id).isEmpty()
@@ -196,9 +198,13 @@ public class UserServiceImpl implements UserService {
         || !userRepository.findByChangedById(id).isEmpty()
         || !userRepository.findByCreatedById(id).isEmpty()) {
             deactivateUser(id);
+            isDeleted = false;
         }else {
             userRepository.delete(userToDelete);
+            isDeleted = true;
         }
+
+        return isDeleted;
     }
 
     @Override
