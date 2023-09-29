@@ -35,6 +35,7 @@ public class DefectImageServiceImpl implements DefectImageService{
 
         String folderPath = imageFolderPath + File.separator + defect.getId();
 
+        utils.createDirectory(folderPath);
         String imagePath = utils.saveImageToFileSystem(image, folderPath);
 
         DefectImage defectImage = new DefectImage();
