@@ -30,6 +30,8 @@ public class DefectDto {
     private String causationCategory;
     private String location;
     private String defectType;
+    private UserDto createdBy;
+
 
     @NotNull(message = "Defect description must not be null.")
     @NotEmpty(message = "Defect description must not be empty.")
@@ -42,7 +44,4 @@ public class DefectDto {
     @NotNull(message = "Process must not be null.")
     @NotEmpty(message = "Process must not be empty.")
     private String process;
-
-    @NotNull(message = "CreatedBy must not be null.")
-    private UserDto createdBy;
 }

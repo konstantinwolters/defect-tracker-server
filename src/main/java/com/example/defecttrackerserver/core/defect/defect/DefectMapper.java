@@ -61,15 +61,15 @@ public class DefectMapper {
 
 
     public Defect map (DefectDto defectDto, Defect defect){
-        DefectStatus defectStatus = getDefectStatusByName(defectDto.getDefectStatus());
+        DefectStatus defectStatus = defectDto.getDefectStatus() != null ? getDefectStatusByName(defectDto.getDefectStatus()) : null;
+        CausationCategory causationCategory = defectDto.getCausationCategory() != null ? getCausationCategoryByName(defectDto.getCausationCategory()) : null;
+        DefectType defectType = defectDto.getDefectType() != null ? getDefectTypeByName(defectDto.getDefectType()) : null;
         Location location = getLocationByName(defectDto.getLocation());
         Process process = getProcessByName(defectDto.getProcess());
-        DefectType defectType = getDefectTypeByName(defectDto.getDefectType());
-        CausationCategory causationCategory = getCausationCategoryByName(defectDto.getCausationCategory());
         User createdBy = getUserById(defectDto.getCreatedBy().getId());
         User changedBy = defectDto.getChangedBy() != null ? getUserById(defectDto.getChangedBy().getId()) : null;
 
-        if(defectDto.getDefectComments() != null && !defectDto.getDefectComments().isEmpty()){
+        if(defectDto.getDefectComments() != null){
             Set<DefectComment> defectComments = defectDto.getDefectComments().stream()
                     .map(defectComment -> getDefectCommentById(defectComment.getId()))
                     .collect(Collectors.toSet());
@@ -77,7 +77,7 @@ public class DefectMapper {
             defect.getDefectComments().addAll(defectComments);
         }
 
-        if(defectDto.getImages() != null && !defectDto.getImages().isEmpty()){
+        if(defectDto.getImages() != null){
             Set<DefectImage> defectImages = defectDto.getImages().stream()
                     .map(defectImage -> getDefectImageById(defectImage.getId()))
                     .collect(Collectors.toSet());
@@ -85,7 +85,7 @@ public class DefectMapper {
             defect.getImages().addAll(defectImages);
         }
 
-        if(defectDto.getActions() != null && !defectDto.getActions().isEmpty()){
+        if(defectDto.getActions() != null){
             Set<Action> actions = defectDto.getActions().stream()
                     .map(action -> getActionById(action.getId()))
                     .collect(Collectors.toSet());
