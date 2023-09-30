@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defectComment;
 
+import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,12 +17,16 @@ public class DefectCommentMapper {
     private final UserMapper userMapper;
 
     public DefectComment map(DefectCommentDto defectCommentDto, DefectComment defectComment){
+        User createdBy = defectCommentDto.getCreatedBy() != null ?
+                userRepository.findById(defectCommentDto.getCreatedBy().getId())
+                .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
+                        + defectCommentDto.getCreatedBy().getId())) :
+                null;
+
         defectComment.setContent(defectCommentDto.getContent());
         defectComment.setCreatedAt(defectCommentDto.getCreatedAt());
 
-        defectComment.setCreatedBy(userRepository.findById(defectCommentDto.getCreatedBy().getId())
-                .orElseThrow(()-> new EntityNotFoundException("User not found with id: "
-                        + defectCommentDto.getCreatedBy().getId())));
+        defectComment.setCreatedBy(createdBy);
 
         return defectComment;
     }

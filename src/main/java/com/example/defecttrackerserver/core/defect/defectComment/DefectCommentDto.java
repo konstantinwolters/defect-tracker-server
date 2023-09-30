@@ -16,11 +16,9 @@ import java.time.LocalDateTime;
 public class DefectCommentDto {
     private Integer id;
     private LocalDateTime createdAt;
+    private UserDto createdBy;
 
     @NotNull(message = "DefectComment content must not be null.")
     @NotEmpty(message = "DefectComment content must not be empty.")
     private String content;
-
-    @NotNull(message = "DefectComment createdBy must not be null.")
-    private UserDto createdBy;
 }

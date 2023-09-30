@@ -29,9 +29,9 @@ public class DefectCommentServiceImpl implements DefectCommentService {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + defectId));
 
-        defectCommentDto.setCreatedAt(LocalDateTime.now());
-
         DefectComment newDefectComment = defectCommentMapper.map(defectCommentDto, new DefectComment());
+        newDefectComment.setCreatedBy(securityService.getUser());
+        newDefectComment.setCreatedAt(LocalDateTime.now());
         defect.addDefectComment(newDefectComment);
 
         return defectCommentMapper.mapToDto(newDefectComment);
