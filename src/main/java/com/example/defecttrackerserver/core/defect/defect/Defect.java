@@ -45,7 +45,7 @@ public class Defect {
     @JoinColumn(name = "defect_id")
     private Set<DefectComment> defectComments = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lot_id", nullable = false)
     private Lot lot;
 
@@ -79,7 +79,7 @@ public class Defect {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "changed_by_id")
     private User changedBy;
 

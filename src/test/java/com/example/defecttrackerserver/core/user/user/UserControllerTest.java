@@ -129,9 +129,22 @@ public class UserControllerTest extends BaseControllerTest {
 
     @Test
     @WithMockUser(username = "XXXX", roles = "ADMIN")
-    public void shouldDeleteUser() throws Exception {
+    public void shouldDeleteUserWhenUserIsNotReferenced() throws Exception {
+
+        when(userService.deleteUser(anyInt())).thenReturn(true);
         mockMvc.perform(delete("/users/1"))
                 .andExpect(status().isNoContent());
+
+        verify(userService, times(1)).deleteUser(anyInt());
+    }
+
+    @Test
+    @WithMockUser(username = "XXXX", roles = "ADMIN")
+    public void shouldDeactivateUserWhenUserIsReferenced() throws Exception {
+
+        when(userService.deleteUser(anyInt())).thenReturn(false);
+        mockMvc.perform(delete("/users/1"))
+                .andExpect(status().isOk());
 
         verify(userService, times(1)).deleteUser(anyInt());
     }
