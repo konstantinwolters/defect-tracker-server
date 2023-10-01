@@ -21,8 +21,8 @@ public class MaterialDto {
     @NotEmpty(message = "Material name cannot be empty")
     private String name;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Material responsibleUsers cannot be null")
+    @NotEmpty(message = "Material responsibleUsers cannot be empty")
     private Set<UserDto> responsibleUsers;
 
 }
