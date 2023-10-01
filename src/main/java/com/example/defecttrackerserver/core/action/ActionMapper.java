@@ -10,6 +10,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,8 +25,16 @@ public class ActionMapper {
     private final DefectRepository defectRepository;
     private final UserMapper userMapper;
 
+    private Map<Integer, User> userCache = new HashMap<>();
+
     public Action map(ActionDto actionDto, Action action){
+        long start = System.currentTimeMillis();
+        System.out.println("Starting action map method.");
         Defect defect = getDefectById(actionDto.getDefect());
+
+        long timeDefect = System.currentTimeMillis();
+        System.out.println("Time taken to get defect: " + (timeDefect - start) + " ms");
+
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
         User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
@@ -46,20 +56,15 @@ public class ActionMapper {
         defect.addAction(action);
         assignedUsers.forEach(user -> user.addAssignedAction(action));
 
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken in map method: " + (end - start) + " ms");
+
         return action;
     }
 
-    private User getUserById(Integer id){
-        return userRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("User not found with id: " + id));
-    }
-
-    private Defect getDefectById(Integer id){
-        return defectRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
-    }
-
     public ActionDto mapToDto(Action action){
+        long start = System.currentTimeMillis();
+
         Set<UserDto> assignedUsers = action.getAssignedUsers().stream()
                 .map(userMapper::mapToDto)
                 .collect(Collectors.toSet());
@@ -78,6 +83,22 @@ public class ActionMapper {
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));
         actionDto.setChangedBy(changedBy);
 
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken in mapToDto method: " + (end - start) + " ms");
+
         return actionDto;
     }
+
+    private User getUserById(Integer id){
+        return userCache.computeIfAbsent(id,
+                key -> userRepository.findById(id)
+                        .orElseThrow(()-> new EntityNotFoundException("User not found with id: " + id))
+        );
+    }
+
+    private Defect getDefectById(Integer id){
+        return defectRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
+    }
+
 }
