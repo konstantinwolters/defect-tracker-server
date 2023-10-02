@@ -9,6 +9,7 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.SecondaryTable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 
 /**
@@ -37,61 +39,77 @@ public class NotificationAspect {
     private final ActionRepository actionRepository;
 
     @AfterReturning(value = "@annotation(com.example.defecttrackerserver.notification.NotifyUsers)", returning = "result")
-    public void afterActionCreated(JoinPoint joinPoint, Object result) {
-        Locale currentLocale = LocaleContextHolder.getLocale();
-
-        String[] recipients = new String[0];
-        String subject = "";
-        String body = "";
-
+    public void afterNotificationTriggered(JoinPoint joinPoint, Object result) {
         if (result instanceof DefectDto defect) {
-
-            Lot lot = lotRepository.findByLotNumber(defect.getLot()).orElseThrow(
-                    () -> new EntityNotFoundException("Lot does not exist" +
-                    "with LotNumber:" + defect.getLot()));
-
-            recipients = lot.getMaterial().getResponsibleUsers().stream()
-                    .map(User::getMail)
-                    .toArray(String[]::new);
-
-            String subjectTemplate = messageSource.getMessage("email.subject.newDefect", null, currentLocale);
-            subject = subjectTemplate.formatted(defect.getId());
-
-            String bodyTemplate = messageSource.getMessage("email.body.newDefect", null, currentLocale);
-            body = bodyTemplate.formatted(
-                            defect.getId(),
-                            defect.getDescription(),
-                            defect.getProcess());
-
+            handleDefectNotification(defect);
         } else if (result instanceof ActionDto action) {
-            Action newAction = actionRepository.findById(action.getId()).orElseThrow(
-                    () -> new EntityNotFoundException("Action does not exist with id: " + action.getId()));
-
-            recipients = newAction.getAssignedUsers().stream()
-                    .map(User::getMail)
-                    .toArray(String[]::new);
-
-            String subjectTemplate = messageSource.getMessage("email.subject.newAction", null, currentLocale);
-            subject = subjectTemplate.formatted(action.getId());
-
-            String bodyTemplate = messageSource.getMessage("email.body.newAction", null, currentLocale);
-            body = bodyTemplate.formatted(
-                    action.getId(),
-                    action.getDescription(),
-                    action.getDueDate());
+            handleActionNotification(action);
         }
+    }
 
+    private void handleDefectNotification(DefectDto defect){
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        Lot lot = findLotByLotNumber(defect.getLot());
+        String[] recipients = fetchRecipientsEmailAddresses(lot.getMaterial().getResponsibleUsers());
+        String subject = prepareSubject("email.subject.newDefect", defect.getId(), currentLocale);
+
+        String body = prepareBody("email.body.newDefect",
+                new Object[]{defect.getId(), defect.getDescription(), defect.getProcess()},
+                currentLocale);
+
+        sendEmails(recipients, subject, body);
+    }
+
+    private void handleActionNotification(ActionDto action){
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        Action newAction = findActionById(action.getId());
+        String[] recipients = fetchRecipientsEmailAddresses(newAction.getAssignedUsers());
+        String subject = prepareSubject("email.subject.newAction", action.getId(), currentLocale);
+
+        String body = prepareBody("email.body.newAction",
+                new Object[]{action.getId(), action.getDescription(), action.getDueDate()},
+                currentLocale);
+
+        sendEmails(recipients, subject, body);
+    }
+
+    private String[] fetchRecipientsEmailAddresses(Set<User> recipients){
+        return recipients.stream()
+                .map(User::getMail)
+                .toArray(String[]::new);
+    }
+
+    private String prepareSubject(String messageKey, Object arg, Locale locale){
+        String subjectTemplate = messageSource.getMessage(messageKey, null, locale);
+        return subjectTemplate.formatted(arg);
+    }
+
+    private String prepareBody(String messageKey, Object[] args, Locale locale){
+        String bodyTemplate = messageSource.getMessage(messageKey, null, locale);
+        return bodyTemplate.formatted(args);
+    }
+
+    private void sendEmails(String[] recipients, String subject, String body){
         List<String> failedRecipients = new ArrayList<>();
-        for (String recipient : recipients) {
+        for(String recipient : recipients){
             try {
                 emailService.sendSimpleEmail(recipient, subject, body);
             } catch (Exception e) {
                 failedRecipients.add(recipient);
             }
         }
-
-        if (!failedRecipients.isEmpty()) {
+        if (!failedRecipients.isEmpty()){
             log.error("Failed to send emails to recipients: {}", String.join(", ", failedRecipients));
         }
+    }
+
+    private Lot findLotByLotNumber(String lotNumber){
+        return lotRepository.findByLotNumber(lotNumber).orElseThrow(
+                () -> new EntityNotFoundException("Lot does not exist with LotNumber:" + lotNumber));
+    }
+
+    private Action findActionById(Integer id) {
+        return actionRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Action does not exist with id: " + id));
     }
 }
