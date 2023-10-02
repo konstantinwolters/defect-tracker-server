@@ -36,11 +36,12 @@ public class Defect {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "defect_status_id", nullable = false)
     private DefectStatus defectStatus;
 
-    @OneToMany(cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private Set<DefectComment> defectComments = new HashSet<>();
@@ -49,33 +50,35 @@ public class Defect {
     @JoinColumn(name = "lot_id", nullable = false)
     private Lot lot;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id", nullable = false)
     private Process process;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "defect_type_id", nullable = false)
     private DefectType defectType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "causation_category_id", nullable = false)
     private CausationCategory causationCategory;
 
-    @OneToMany(cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private List<DefectImage> images = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private Set<Action> actions = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 

@@ -61,9 +61,13 @@ public class DefectMapper {
 
 
     public Defect map (DefectDto defectDto, Defect defect){
-        DefectStatus defectStatus = defectDto.getDefectStatus() != null ? getDefectStatusByName(defectDto.getDefectStatus()) : null;
-        CausationCategory causationCategory = defectDto.getCausationCategory() != null ? getCausationCategoryByName(defectDto.getCausationCategory()) : null;
-        DefectType defectType = defectDto.getDefectType() != null ? getDefectTypeByName(defectDto.getDefectType()) : null;
+        DefectStatus defectStatus = defectDto.getDefectStatus() != null ?
+                getDefectStatusByName(defectDto.getDefectStatus()) : null;
+        CausationCategory causationCategory = defectDto.getCausationCategory() != null ?
+                getCausationCategoryByName(defectDto.getCausationCategory()) :
+                null;
+        DefectType defectType = defectDto.getDefectType() != null ?
+                getDefectTypeByName(defectDto.getDefectType()) : null;
         Location location = getLocationByName(defectDto.getLocation());
         Process process = getProcessByName(defectDto.getProcess());
         User createdBy = getUserById(defectDto.getCreatedBy().getId());
@@ -110,6 +114,48 @@ public class DefectMapper {
         lot.addDefect(defect);
 
         return defect;
+    }
+
+    public DefectDto mapToDto(Defect defect){
+        UserDto createdBy = userMapper.mapToDto(defect.getCreatedBy());
+        UserDto changedBy = defect.getChangedBy() != null ? userMapper.mapToDto(defect.getChangedBy()) : null;
+
+        Set<DefectCommentDto> defectComments = Optional.ofNullable(defect.getDefectComments())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(defectCommentMapper::mapToDto)
+                .collect(Collectors.toSet());
+
+        List<DefectImageDto> defectImages = Optional.ofNullable(defect.getImages())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(defectImageMapper::mapToDto)
+                .collect(Collectors.toList());
+
+        Set<ActionDto> actions = Optional.ofNullable(defect.getActions())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(actionMapper::mapToDto)
+                .collect(Collectors.toSet());
+
+        DefectDto defectDto = new DefectDto();
+        defectDto.setId(defect.getId());
+        defectDto.setDescription(defect.getDescription());
+        defectDto.setCreatedAt(defect.getCreatedAt());
+        defectDto.setChangedAt(defect.getChangedAt());
+        defectDto.setDefectStatus(defect.getDefectStatus().getName());
+        defectDto.setCausationCategory(defect.getCausationCategory().getName());
+        defectDto.setDefectComments(defectComments);
+        defectDto.setLot(defect.getLot().getLotNumber());
+        defectDto.setLocation(defect.getLocation().getName());
+        defectDto.setProcess(defect.getProcess().getName());
+        defectDto.setDefectType(defect.getDefectType().getName());
+        defectDto.setImages(defectImages);
+        defectDto.setActions(actions);
+        defectDto.setCreatedBy(createdBy);
+        defectDto.setChangedBy(changedBy);
+
+        return defectDto;
     }
 
     private User getUserById(Integer id) {
@@ -166,47 +212,5 @@ public class DefectMapper {
         return locationRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Location not found with name: "
                         + name));
-    }
-
-    public DefectDto mapToDto(Defect defect){
-        UserDto createdBy = userMapper.mapToDto(defect.getCreatedBy());
-        UserDto changedBy = defect.getChangedBy() != null ? userMapper.mapToDto(defect.getChangedBy()) : null;
-
-        Set<DefectCommentDto> defectComments = Optional.ofNullable(defect.getDefectComments())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(defectCommentMapper::mapToDto)
-                .collect(Collectors.toSet());
-
-        List<DefectImageDto> defectImages = Optional.ofNullable(defect.getImages())
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(defectImageMapper::mapToDto)
-                .collect(Collectors.toList());
-
-        Set<ActionDto> actions = Optional.ofNullable(defect.getActions())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(actionMapper::mapToDto)
-                .collect(Collectors.toSet());
-
-        DefectDto defectDto = new DefectDto();
-        defectDto.setId(defect.getId());
-        defectDto.setDescription(defect.getDescription());
-        defectDto.setCreatedAt(defect.getCreatedAt());
-        defectDto.setChangedAt(defect.getChangedAt());
-        defectDto.setDefectStatus(defect.getDefectStatus().getName());
-        defectDto.setCausationCategory(defect.getCausationCategory().getName());
-        defectDto.setDefectComments(defectComments);
-        defectDto.setLot(defect.getLot().getLotNumber());
-        defectDto.setLocation(defect.getLocation().getName());
-        defectDto.setProcess(defect.getProcess().getName());
-        defectDto.setDefectType(defect.getDefectType().getName());
-        defectDto.setImages(defectImages);
-        defectDto.setActions(actions);
-        defectDto.setCreatedBy(createdBy);
-        defectDto.setChangedBy(changedBy);
-
-        return defectDto;
     }
 }

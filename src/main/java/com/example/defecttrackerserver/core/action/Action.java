@@ -33,7 +33,8 @@ public class Action {
     @Column(nullable = false)
     private Boolean isCompleted;
 
-    @ManyToMany(mappedBy = "assignedActions")
+    @ManyToMany(fetch = FetchType.LAZY,
+            mappedBy = "assignedActions")
     private Set<User> assignedUsers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,11 +45,11 @@ public class Action {
 
     private LocalDateTime changedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, updatable = false)
     private User createdBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User changedBy;
 
     @Override
