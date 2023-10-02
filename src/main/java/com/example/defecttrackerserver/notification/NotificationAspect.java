@@ -47,7 +47,7 @@ public class NotificationAspect {
         }
     }
 
-    private void handleDefectNotification(DefectDto defect){
+    void handleDefectNotification(DefectDto defect){
         Locale currentLocale = LocaleContextHolder.getLocale();
         Lot lot = findLotByLotNumber(defect.getLot());
         String[] recipients = fetchRecipientsEmailAddresses(lot.getMaterial().getResponsibleUsers());
@@ -60,7 +60,7 @@ public class NotificationAspect {
         sendEmails(recipients, subject, body);
     }
 
-    private void handleActionNotification(ActionDto action){
+    void handleActionNotification(ActionDto action){
         Locale currentLocale = LocaleContextHolder.getLocale();
         Action newAction = findActionById(action.getId());
         String[] recipients = fetchRecipientsEmailAddresses(newAction.getAssignedUsers());
@@ -73,23 +73,23 @@ public class NotificationAspect {
         sendEmails(recipients, subject, body);
     }
 
-    private String[] fetchRecipientsEmailAddresses(Set<User> recipients){
+    String[] fetchRecipientsEmailAddresses(Set<User> recipients){
         return recipients.stream()
                 .map(User::getMail)
                 .toArray(String[]::new);
     }
 
-    private String prepareSubject(String messageKey, Object arg, Locale locale){
+    String prepareSubject(String messageKey, Object arg, Locale locale){
         String subjectTemplate = messageSource.getMessage(messageKey, null, locale);
         return subjectTemplate.formatted(arg);
     }
 
-    private String prepareBody(String messageKey, Object[] args, Locale locale){
+    String prepareBody(String messageKey, Object[] args, Locale locale){
         String bodyTemplate = messageSource.getMessage(messageKey, null, locale);
         return bodyTemplate.formatted(args);
     }
 
-    private void sendEmails(String[] recipients, String subject, String body){
+    void sendEmails(String[] recipients, String subject, String body){
         List<String> failedRecipients = new ArrayList<>();
         for(String recipient : recipients){
             try {
@@ -103,12 +103,12 @@ public class NotificationAspect {
         }
     }
 
-    private Lot findLotByLotNumber(String lotNumber){
+    Lot findLotByLotNumber(String lotNumber){
         return lotRepository.findByLotNumber(lotNumber).orElseThrow(
                 () -> new EntityNotFoundException("Lot does not exist with LotNumber:" + lotNumber));
     }
 
-    private Action findActionById(Integer id) {
+    Action findActionById(Integer id) {
         return actionRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Action does not exist with id: " + id));
     }
