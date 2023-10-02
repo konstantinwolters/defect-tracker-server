@@ -28,13 +28,7 @@ public class ActionMapper {
     private Map<Integer, User> userCache = new HashMap<>();
 
     public Action map(ActionDto actionDto, Action action){
-        long start = System.currentTimeMillis();
-        System.out.println("Starting action map method.");
         Defect defect = getDefectById(actionDto.getDefect());
-
-        long timeDefect = System.currentTimeMillis();
-        System.out.println("Time taken to get defect: " + (timeDefect - start) + " ms");
-
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
         User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
@@ -52,12 +46,9 @@ public class ActionMapper {
         action.setDefect(defect);
         action.setAssignedUsers(assignedUsers);
 
-        //Set up relationships
+        //Maintain relationships
         defect.addAction(action);
         assignedUsers.forEach(user -> user.addAssignedAction(action));
-
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken in map method: " + (end - start) + " ms");
 
         return action;
     }
@@ -83,9 +74,6 @@ public class ActionMapper {
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));
         actionDto.setChangedBy(changedBy);
 
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken in mapToDto method: " + (end - start) + " ms");
-
         return actionDto;
     }
 
@@ -100,5 +88,4 @@ public class ActionMapper {
         return defectRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
     }
-
 }
