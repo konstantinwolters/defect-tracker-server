@@ -46,7 +46,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String mail;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -57,7 +57,7 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_actions",
             joinColumns = @JoinColumn(name = "user_id"),
