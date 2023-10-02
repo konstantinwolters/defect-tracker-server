@@ -36,7 +36,6 @@ import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.security.SecurityUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -158,7 +157,6 @@ public abstract class BaseIntegrationTest {
 
     @BeforeEach
     public void commonSetup() {
-        RestAssured.baseURI = "http://localhost:" + port;
         actionRepository.deleteAll();
         defectRepository.deleteAll();
         lotRepository.deleteAll();
