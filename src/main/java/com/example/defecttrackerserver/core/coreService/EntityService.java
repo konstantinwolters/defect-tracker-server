@@ -20,6 +20,8 @@ import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
+import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,6 +43,7 @@ public class EntityService {
     private final LotRepository lotRepository;
     private final LocationRepository locationRepository;
     private final DefectRepository defectRepository;
+    private final RoleRepository roleRepository;
 
     public User getUserById(Integer id) {
         return userRepository.findById(id)
@@ -101,5 +104,11 @@ public class EntityService {
     public Defect getDefectById(Integer id){
         return defectRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
+    }
+
+    public Role getRoleByName(String roleName) {
+        return roleRepository.findByName(roleName)
+                .orElseThrow(()-> new EntityNotFoundException("Role not found with name: "
+                        + roleName));
     }
 }

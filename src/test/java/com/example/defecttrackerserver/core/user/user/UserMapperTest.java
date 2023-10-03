@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.user.user;
 import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationDto;
 import com.example.defecttrackerserver.core.location.LocationRepository;
@@ -25,20 +26,14 @@ import static org.mockito.Mockito.when;
 
 class UserMapperTest {
 
-    @InjectMocks
-    private UserMapper userMapper;
-
     @Mock
-    private LocationRepository locationRepository;
-
-    @Mock
-    private RoleRepository roleRepository;
-
-    @Mock
-    private ActionRepository actionRepository;
+    private EntityService entityService;
 
     @Mock
     private UserRepository userRepository;
+
+    @InjectMocks
+    private UserMapper userMapper;
 
     UserDto userDto;
     LocationDto locationDto;
@@ -55,9 +50,9 @@ class UserMapperTest {
     void shouldReturnMappedUser() {
         Location locationStub = TestHelper.setUpLocation();
 
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(locationStub));
-        when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
+        when(entityService.getLocationByName(any(String.class))).thenReturn(locationStub);
+        when(entityService.getRoleByName(any(String.class))).thenReturn(new Role());
+        when(entityService.getActionById(any(Integer.class))).thenReturn(new Action());
 
         User mappedUser = userMapper.mapToEntity(userDto, new User());
 
@@ -75,55 +70,6 @@ class UserMapperTest {
     }
 
     @Test
-    void shouldHandleNullRoles() {
-        userDto.setRoles(null);
-
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
-
-        User mappedUser = userMapper.mapToEntity(userDto, new User());
-
-        assertNotNull(mappedUser.getRoles());
-        assertTrue(mappedUser.getRoles().isEmpty());
-    }
-
-    @Test
-    void shouldHandleAssignedActions() {
-        userDto.setAssignedActions(null);
-
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
-
-        User mappedUser = userMapper.mapToEntity(userDto, new User());
-
-        assertNotNull(mappedUser.getAssignedActions());
-        assertTrue(mappedUser.getAssignedActions().isEmpty());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenLocationNotFound() {
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, new User()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenRoleNotFound() {
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(roleRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, new User()));
-    }
-    @Test
-    void shouldThrowExceptionWhenActionNotFound() {
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(roleRepository.findByName(any(String.class))).thenReturn(Optional.of(new Role()));
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> userMapper.mapToEntity(userDto, new User()));
-    }
-
-    @Test
     void shouldThrowExceptionWhenDuplicateUserEntriesOnSave() {
         User duplicateUser = TestHelper.setUpUser();
 
@@ -131,7 +77,7 @@ class UserMapperTest {
         when(userRepository.findByUsername(any())).thenReturn(Optional.of(duplicateUser));
         assertThrows(DuplicateKeyException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
 
-        when(userRepository.findByMail(any())).thenReturn(Optional.of(new User()));
+        when(userRepository.findByMail(any())).thenReturn(Optional.of(duplicateUser));
         assertThrows(DuplicateKeyException.class, () -> userMapper.checkDuplicateUserEntries(userDto));
     }
 

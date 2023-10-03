@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
@@ -23,25 +24,23 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
-    private final LocationRepository locationRepository;
-    private final RoleRepository roleRepository;
-    private final ActionRepository actionRepository;
     private final UserRepository userRepository;
+    private final EntityService entityService;
 
     public User mapToEntity(UserDto userDto, User user){
         checkDuplicateUserEntries(userDto);
 
-        Location location = getLocationByName(userDto.getLocation());
+        Location location = entityService.getLocationByName(userDto.getLocation());
         Set<Role> roles = Optional.ofNullable(userDto.getRoles())
                 .orElse(Collections.emptySet())
                 .stream()
-                .map(this::getRoleByName)
+                .map(entityService::getRoleByName)
                 .collect(Collectors.toSet());
 
         Set<Action> actions =  Optional.ofNullable(userDto.getAssignedActions())
                 .orElse(Collections.emptySet())
                 .stream()
-                .map(this::getActionById)
+                .map(entityService::getActionById)
                 .collect(Collectors.toSet());
 
         user.setCustomId(userDto.getCustomId());
@@ -60,26 +59,6 @@ public class UserMapper {
         user.setAssignedActions(actions);
 
         return user;
-    }
-
-    private Role getRoleByName(String roleName) {
-        return roleRepository.findByName(roleName)
-                .orElseThrow(()-> new EntityNotFoundException("Role not found with name: "
-                        + roleName));
-    }
-
-
-    private Action getActionById(Integer actionId) {
-        return actionRepository.findById(actionId)
-                .orElseThrow(()-> new EntityNotFoundException("Action not found with id: "
-                        + actionId));
-
-    }
-
-    private Location getLocationByName(String name){
-        return locationRepository.findByName(name)
-                .orElseThrow(()-> new EntityNotFoundException("Location not found with name: "
-                        + name));
     }
 
     public UserDto mapToDto(User user){
@@ -116,30 +95,35 @@ public class UserMapper {
     }
 
     public void checkDuplicateUserEntries(UserDto userDto) {
-
         if(userDto.getId() == null) {
-            checkForUsernameAndMailUsage(userDto, null);
+            checkForMailUsage(userDto, null);
+            checkForUsernameUsage(userDto, null);
         }else {
             Optional<User> existingUser = userRepository.findById(userDto.getId());
             //if user exists = update operation, otherwise = save operation
             if (existingUser.isPresent()) {
-                checkForUsernameAndMailUsage(userDto, existingUser.get().getId());
+                checkForMailUsage(userDto, existingUser.get().getId());
+                checkForUsernameUsage(userDto, existingUser.get().getId());
             } else {
-                checkForUsernameAndMailUsage(userDto, null);
+                checkForMailUsage(userDto, null);
+                checkForUsernameUsage(userDto, null);
             }
         }
     }
 
-    public void checkForUsernameAndMailUsage(UserDto userDto, Integer userId) {
-        Optional<User> existingUserByUsername = userRepository.findByUsername(userDto.getUsername());
+    public void checkForMailUsage(UserDto userDto, Integer userId) {
         Optional<User> existingUserByMail = userRepository.findByMail(userDto.getMail());
-
-        if(existingUserByUsername.isPresent() && !existingUserByUsername.get().getId().equals(userId)) {
-            throw new DuplicateKeyException("Username already exists: " + userDto.getUsername());
-        }
 
         if(existingUserByMail.isPresent() && !existingUserByMail.get().getId().equals(userId)) {
             throw new DuplicateKeyException("Mail already exists: " + userDto.getMail());
+        }
+    }
+
+    public void checkForUsernameUsage(UserDto userDto, Integer userId){
+        Optional<User> existingUserByUsername = userRepository.findByUsername(userDto.getUsername());
+
+        if(existingUserByUsername.isPresent() && !existingUserByUsername.get().getId().equals(userId)) {
+            throw new DuplicateKeyException("Username already exists: " + userDto.getUsername());
         }
     }
 }
