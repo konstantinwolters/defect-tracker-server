@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.TestHelper;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
@@ -32,13 +33,7 @@ class LotMapperTest {
     private LotMapper lotMapper;
 
     @Mock
-    private MaterialRepository materialRepository;
-
-    @Mock
-    private SupplierRepository supplierRepository;
-
-    @Mock
-    private DefectRepository defectRepository;
+    private EntityService entityService;
 
     @Mock
     private SupplierMapper supplierMapper;
@@ -63,49 +58,19 @@ class LotMapperTest {
 
     @Test
     void shouldReturnMappedLot() {
-        Material material = new Material();
-        material.setId(1);
+        Material material = TestHelper.setUpMaterial();
+        Supplier supplier = TestHelper.setUpSupplier();
+        Defect defect = TestHelper.setUpDefect();
 
-        Supplier supplier = new Supplier();
-        supplier.setId(1);
+        when(entityService.getMaterialById(any(Integer.class))).thenReturn(material);
+        when(entityService.getSupplierById(any(Integer.class))).thenReturn(supplier);
+        when(entityService.getDefectById(any(Integer.class))).thenReturn(defect);
 
-        Defect defect = new Defect();
-        defect.setId(1);
-
-        when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.of(material));
-        when(supplierRepository.findById(any(Integer.class))).thenReturn(Optional.of(supplier));
-        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
-
-        Lot lot = new Lot();
-        Lot mappedLot = lotMapper.map(lotDto, lot);
+        Lot mappedLot = lotMapper.map(lotDto, new Lot());
 
         assertEquals(lotDto.getMaterial().getId(), mappedLot.getMaterial().getId());
         assertEquals(lotDto.getSupplier().getId(), mappedLot.getSupplier().getId());
         assertEquals(lotDto.getDefects().size(), mappedLot.getDefects().size());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenMaterialNotFound() {
-        when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> lotMapper.map(lotDto, new Lot()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenSupplierNotFound() {
-        when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Material()));
-        when(supplierRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> lotMapper.map(lotDto, new Lot()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDefectNotFound() {
-        when(materialRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Material()));
-        when(supplierRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Supplier()));
-        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> lotMapper.map(lotDto, new Lot()));
     }
 
     @Test

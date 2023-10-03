@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.lot.material;
 
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -18,11 +19,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MaterialMapper {
     private final UserMapper userMapper;
-    private final UserRepository userRepository;
+    private final EntityService entityService;
 
     public Material map(MaterialDto materialDto, Material material ){
         Set<User> responsibleUsers = materialDto.getResponsibleUsers().stream()
-                        .map(user -> findUserById(user.getId()))
+                        .map(user -> entityService.getUserById(user.getId()))
                                 .collect(Collectors.toSet());
 
         material.setName(materialDto.getName());
@@ -30,12 +31,6 @@ public class MaterialMapper {
         material.setResponsibleUsers(responsibleUsers);
 
         return  material;
-    }
-
-    private User findUserById(Integer id){
-        return userRepository.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException("User not found with id: " + id)
-        );
     }
 
     public MaterialDto mapToDto(Material material) {
