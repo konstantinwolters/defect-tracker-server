@@ -164,4 +164,18 @@ class EntityServiceTest {
 
         assertThrows(EntityNotFoundException.class, () -> entityService.getRoleByName("testRole"));
     }
+
+    @Test
+    void shouldThrowExceptionWhenMaterialNotFoundById() {
+        when(materialRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> entityService.getMaterialById(1));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSupplierNotFoundById() {
+        when(supplierRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> entityService.getSupplierById(1));
+    }
 }

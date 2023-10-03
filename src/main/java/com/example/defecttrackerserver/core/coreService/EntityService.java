@@ -20,6 +20,10 @@ import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
+import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
+import com.example.defecttrackerserver.core.lot.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -28,6 +32,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for fetching entities from repository layer.
+ */
 @Service
 @RequiredArgsConstructor
 public class EntityService {
@@ -44,6 +51,8 @@ public class EntityService {
     private final LocationRepository locationRepository;
     private final DefectRepository defectRepository;
     private final RoleRepository roleRepository;
+    private final MaterialRepository materialRepository;
+    private final SupplierRepository supplierRepository;
 
     public User getUserById(Integer id) {
         return userRepository.findById(id)
@@ -72,43 +81,54 @@ public class EntityService {
                         + name));
     }
 
-    public DefectStatus getDefectStatusByName (String name){
+    public DefectStatus getDefectStatusByName(String name) {
         return defectStatusRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Defect status not found with name: "
                         + name));
     }
 
-    public CausationCategory getCausationCategoryByName (String name){
+    public CausationCategory getCausationCategoryByName(String name) {
         return causationCategoryRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Causation category not found with name: "
                         + name));
     }
 
-    public DefectComment getDefectCommentById(Integer id){
+    public DefectComment getDefectCommentById(Integer id) {
         return defectCommentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Defect comment not found with id: " + id));
     }
 
-    public Lot getLotByLotNumber(String lotNumber){
+    public Lot getLotByLotNumber(String lotNumber) {
         return lotRepository.findByLotNumber(lotNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Lot not found with number: "
                         + lotNumber));
     }
 
-    public Location getLocationByName(String name){
+    public Location getLocationByName(String name) {
         return locationRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Location not found with name: "
                         + name));
     }
 
-    public Defect getDefectById(Integer id){
+    public Defect getDefectById(Integer id) {
         return defectRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Defect not found with id: " + id));
     }
 
     public Role getRoleByName(String roleName) {
         return roleRepository.findByName(roleName)
-                .orElseThrow(()-> new EntityNotFoundException("Role not found with name: "
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with name: "
                         + roleName));
     }
+
+    public Material getMaterialById(Integer id) {
+        return materialRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Material not found with id:" + id));
+    }
+
+    public Supplier getSupplierById(Integer id) {
+        return supplierRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Supplier not found with id: " + id));
+    }
 }
+
