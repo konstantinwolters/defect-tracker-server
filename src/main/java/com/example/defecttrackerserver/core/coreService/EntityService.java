@@ -4,6 +4,8 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
+import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
@@ -38,6 +40,7 @@ public class EntityService {
     private final DefectCommentRepository defectCommentRepository;
     private final LotRepository lotRepository;
     private final LocationRepository locationRepository;
+    private final DefectRepository defectRepository;
 
     public User getUserById(Integer id) {
         return userRepository.findById(id)
@@ -93,5 +96,10 @@ public class EntityService {
         return locationRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Location not found with name: "
                         + name));
+    }
+
+    public Defect getDefectById(Integer id){
+        return defectRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
     }
 }

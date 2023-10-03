@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.TestHelper;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -25,10 +26,7 @@ import static org.mockito.Mockito.when;
 
 class ActionMapperTest {
     @Mock
-    private DefectRepository defectRepository;
-
-    @Mock
-    private UserRepository userRepository;
+    private EntityService entityService;
 
     @Mock
     private UserMapper userMapper;
@@ -55,8 +53,8 @@ class ActionMapperTest {
         User user = TestHelper.setUpUser();
         Defect defect = TestHelper.setUpDefect();
 
-        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(defect));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(user));
+        when(entityService.getDefectById(any(Integer.class))).thenReturn(defect);
+        when(entityService.getUserById(any(Integer.class))).thenReturn(user);
 
         Action mappedAction = actionMapper.map(actionDto, new Action());
 
@@ -66,21 +64,6 @@ class ActionMapperTest {
         assertEquals(actionDto.getDueDate(), mappedAction.getDueDate());
         assertEquals(actionDto.getCreatedBy().getId(), (mappedAction.getCreatedBy().getId()));
         assertEquals(actionDto.getAssignedUsers().size(), mappedAction.getAssignedUsers().size());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDefectNotFound() {
-        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> actionMapper.map(actionDto, new Action()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenUserNotFound() {
-        when(defectRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Defect()));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> actionMapper.map(actionDto, new Action()));
     }
 
     @Test

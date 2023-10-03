@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -21,14 +22,13 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class ActionMapper {
-    private final UserRepository userRepository;
-    private final DefectRepository defectRepository;
+    private final EntityService entityService;
     private final UserMapper userMapper;
 
     private Map<Integer, User> userCache = new HashMap<>();
 
     public Action map(ActionDto actionDto, Action action){
-        Defect defect = getDefectById(actionDto.getDefect());
+        Defect defect = entityService.getDefectById(actionDto.getDefect());
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
         User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
@@ -54,8 +54,6 @@ public class ActionMapper {
     }
 
     public ActionDto mapToDto(Action action){
-        long start = System.currentTimeMillis();
-
         Set<UserDto> assignedUsers = action.getAssignedUsers().stream()
                 .map(userMapper::mapToDto)
                 .collect(Collectors.toSet());
@@ -79,13 +77,7 @@ public class ActionMapper {
 
     private User getUserById(Integer id){
         return userCache.computeIfAbsent(id,
-                key -> userRepository.findById(id)
-                        .orElseThrow(()-> new EntityNotFoundException("User not found with id: " + id))
+                key -> entityService.getUserById(id)
         );
-    }
-
-    private Defect getDefectById(Integer id){
-        return defectRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
     }
 }
