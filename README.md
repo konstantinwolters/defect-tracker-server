@@ -31,6 +31,9 @@ sender.mail-address=
 spring.mail.host=
 spring.mail.username=
 spring.mail.password=
+
+## File service configuration
+IMAGE.UPLOAD-PATH=
 ```
 ### API Reference 
 ___
