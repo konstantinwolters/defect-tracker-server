@@ -1,55 +1,41 @@
 # Defect Tracker Server
 
-> ...
+> This is a prototype of a REST API that can be used for tracking raw material defects
+> and deriving corrective actions.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
 
-## 🏠 Homepage
-
-**Demo**: [soon...](https://demo.yourproject.com)
-
-## ✨ Features
-
+### Feature
+___
 - Authentication/Authorization (Spring Security)
-- Rate Limiting (Token Bucket + Concurrent Requests limiting)
-- Feature 3
-
-## 🚀 Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+  - JWT authentication 
+  - Rate Limiting (Token Bucket with Bucket4J & Concurrent Requests Limiting)
+- Logging (Logback)
+- E-Mail notification
 
 ### Prerequisites
+___
+- Docker service must be running.
+- Provide the following values as ```secrets.properties```:
+```
+## Database configuration
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
 
-- Environment variables needed:
-- 
+##JWT configuration
+JWT.SECRET-KEY=
 
-### Installation
+##Email configuration
+sender.mail-address=
+spring.mail.host=
+spring.mail.username=
+spring.mail.password=
 
-...
-
-#### Clone the repository
-git clone https://github.com/konstantinwolters/defect-tracker-server.git
-
-#### Navigate into the project directory
-...
-
-#### Install dependencies
-...
-
-#### Start the application
-...
-
-## 🛠 Usage & Examples
-
-Some basic examples of what you can do with the project or how to use it.
-
-## 📝 API Reference
-
-You can find the API documentation [here](link-to-your-api-documentation).
-
-## 📚 Acknowledgments
-
-- Laurentiu Spilca
-- ...
-
+## File service configuration
+IMAGE.UPLOAD-PATH=
+```
+### API Reference 
+___
+- Enter ```/swagger-ui.html``` after startup for Swagger API documentation.
 ---

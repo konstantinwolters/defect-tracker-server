@@ -1,12 +1,10 @@
 package com.example.defecttrackerserver.core.action;
 
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
-import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +19,13 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class ActionMapper {
-    private final UserRepository userRepository;
-    private final DefectRepository defectRepository;
+    private final EntityService entityService;
     private final UserMapper userMapper;
 
     private final Map<Integer, User> userCache = new HashMap<>();
 
     public Action map(ActionDto actionDto, Action action){
-        Defect defect = actionDto.getDefect() != null ? getDefectById(actionDto.getDefect()) : null;
+        Defect defect = actionDto.getDefect() != null ? entityService.getDefectById(actionDto.getDefect()): null;
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
         User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
@@ -56,7 +53,6 @@ public class ActionMapper {
     }
 
     public ActionDto mapToDto(Action action){
-
         Set<UserDto> assignedUsers = action.getAssignedUsers().stream()
                 .map(userMapper::mapToDto)
                 .collect(Collectors.toSet());
@@ -81,13 +77,7 @@ public class ActionMapper {
 
     private User getUserById(Integer id){
         return userCache.computeIfAbsent(id,
-                key -> userRepository.findById(id)
-                        .orElseThrow(()-> new EntityNotFoundException("User not found with id: " + id))
+                key -> entityService.getUserById(id)
         );
-    }
-
-    private Defect getDefectById(Integer id){
-        return defectRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
     }
 }

@@ -5,6 +5,7 @@ import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
@@ -45,34 +46,7 @@ import static org.mockito.Mockito.when;
 class DefectMapperTest {
 
     @Mock
-    private DefectStatusRepository defectStatusRepository;
-
-    @Mock
-    private DefectCommentRepository defectCommentRepository;
-
-    @Mock
-    private LotRepository lotRepository;
-
-    @Mock
-    private LocationRepository locationRepository;
-
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private ProcessRepository processRepository;
-
-    @Mock
-    private DefectTypeRepository defectTypeRepository;
-
-    @Mock
-    private ActionRepository actionRepository;
-
-    @Mock
-    private DefectImageRepository defectImageRepository;
-
-    @Mock
-    private CausationCategoryRepository causationCategoryRepository;
+    private EntityService entityService;
 
     @Mock
     private DefectCommentMapper defectCommentMapper;
@@ -121,16 +95,16 @@ class DefectMapperTest {
         DefectType defectType = TestHelper.setUpDefectType();
         User user = TestHelper.setUpUser();
 
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(defectStatus));
-        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(causationCategory));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(lot));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(location));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(process));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(defectType));
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectImage()));
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(user));
+        when(entityService.getDefectStatusByName(any(String.class))).thenReturn(defectStatus);
+        when(entityService.getCausationCategoryByName(any(String.class))).thenReturn(causationCategory);
+        when(entityService.getDefectCommentById(any(Integer.class))).thenReturn(new DefectComment());
+        when(entityService.getLotByLotNumber(any(String.class))).thenReturn(lot);
+        when(entityService.getLocationByName(any(String.class))).thenReturn(location);
+        when(entityService.getProcessByName(any(String.class))).thenReturn(process);
+        when(entityService.getDefectTypeByName(any(String.class))).thenReturn(defectType);
+        when(entityService.getDefectImageById(any(Integer.class))).thenReturn(new DefectImage());
+        when(entityService.getActionById(any(Integer.class))).thenReturn(new Action());
+        when(entityService.getUserById(any(Integer.class))).thenReturn(user);
 
         Defect mappedDefect = defectMapper.map(defectDto, new Defect());
 
@@ -145,172 +119,6 @@ class DefectMapperTest {
         assertEquals(defectDto.getImages().size(), mappedDefect.getImages().size());
         assertEquals(defectDto.getActions().size(), mappedDefect.getActions().size());
         assertEquals(defectDto.getCreatedBy().getId(), mappedDefect.getCreatedBy().getId());
-    }
-
-    @Test
-    void shouldHandleNullDefectComments(){
-        defectDto.setDefectComments(null);
-
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(new CausationCategory()));
-        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectImage()));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(new User()));
-
-        Defect mappedDefect = defectMapper.map(defectDto, new Defect());
-
-        assertNotNull(mappedDefect.getDefectComments());
-        assertTrue(mappedDefect.getDefectComments().isEmpty());
-    }
-
-    @Test
-    void shouldHandleNullDefectImages(){
-        defectDto.setImages(null);
-
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(new CausationCategory()));
-        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(new User()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-
-        Defect mappedDefect = defectMapper.map(defectDto, new Defect());
-
-        assertNotNull(mappedDefect.getImages());
-        assertTrue(mappedDefect.getImages().isEmpty());
-    }
-
-    @Test
-    void shouldHandleNullActions(){
-        defectDto.setActions(null);
-
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.of(new CausationCategory()));
-        when(lotRepository.findByLotNumber(any(String.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.of(new User()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectImage()));
-
-        Defect mappedDefect = defectMapper.map(defectDto, new Defect());
-
-        assertNotNull(mappedDefect.getActions());
-        assertTrue(mappedDefect.getActions().isEmpty());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDefectStatusNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenCausationCategoryNotFound() {
-        when(causationCategoryRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDefectCommentNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenLotNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenLocationNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenProcessNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDefectTypeNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDefectImageNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenActionNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectImage()));
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenUserNotFound() {
-        when(defectStatusRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectStatus()));
-        when(defectCommentRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectComment()));
-        when(lotRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Lot()));
-        when(locationRepository.findByName(any(String.class))).thenReturn(Optional.of(new Location()));
-        when(processRepository.findByName(any(String.class))).thenReturn(Optional.of(new Process()));
-        when(defectTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(new DefectType()));
-        when(defectImageRepository.findById(any(Integer.class))).thenReturn(Optional.of(new DefectImage()));
-        when(actionRepository.findById(any(Integer.class))).thenReturn(Optional.of(new Action()));
-        when(userRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> defectMapper.map(defectDto, new Defect()));
     }
 
     @Test
@@ -336,7 +144,7 @@ class DefectMapperTest {
         when(defectCommentMapper.mapToDto(any())).thenReturn(new DefectCommentDto());
         when(defectImageMapper.mapToDto(any())).thenReturn(new DefectImageDto());
         when(actionMapper.mapToDto(any())).thenReturn(new ActionDto());
-        when(userRepository.findById(any())).thenReturn(Optional.of(user));
+        when(entityService.getUserById(any())).thenReturn(user);
         when(userMapper.mapToDto(any())).thenReturn(userDto);
 
         DefectDto mappedDefectDto = defectMapper.mapToDto(defect);

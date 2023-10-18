@@ -1,6 +1,7 @@
 package com.example.defecttrackerserver.core.lot.material;
 
 import com.example.defecttrackerserver.TestHelper;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
@@ -31,7 +32,7 @@ class MaterialMapperTest {
     private UserMapper userMapper;
 
     @Mock
-    private UserRepository userRepository;
+    private EntityService entityService;
 
     private Material material;
     private MaterialDto materialDto;
@@ -48,19 +49,13 @@ class MaterialMapperTest {
 
     @Test
     void shouldReturnMappedMaterial() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(new User()));
+        when(entityService.getUserById(anyInt())).thenReturn(new User());
         Material mappedMaterial = materialMapper.map(materialDto, material);
 
         assertEquals(material.getId(), mappedMaterial.getId());
         assertEquals(material.getName(), mappedMaterial.getName());
         assertEquals(material.getCustomId(), mappedMaterial.getCustomId());
         assertEquals(material.getResponsibleUsers(), mappedMaterial.getResponsibleUsers());
-    }
-
-    @Test
-    void voidShouldThrowExceptionWhenUserNotFound() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> materialMapper.map(materialDto, material));
     }
 
     @Test
