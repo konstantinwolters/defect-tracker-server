@@ -2,12 +2,9 @@ package com.example.defecttrackerserver.core.action;
 
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
-import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +22,10 @@ public class ActionMapper {
     private final EntityService entityService;
     private final UserMapper userMapper;
 
-    private Map<Integer, User> userCache = new HashMap<>();
+    private final Map<Integer, User> userCache = new HashMap<>();
 
     public Action map(ActionDto actionDto, Action action){
-        Defect defect = entityService.getDefectById(actionDto.getDefect());
+        Defect defect = actionDto.getDefect() != null ? entityService.getDefectById(actionDto.getDefect()): null;
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
         User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
@@ -46,8 +43,10 @@ public class ActionMapper {
         action.setDefect(defect);
         action.setAssignedUsers(assignedUsers);
 
-        //Maintain relationships
-        defect.addAction(action);
+        //Set up relationships
+        if (defect != null)
+            defect.addAction(action);
+
         assignedUsers.forEach(user -> user.addAssignedAction(action));
 
         return action;
@@ -58,6 +57,7 @@ public class ActionMapper {
                 .map(userMapper::mapToDto)
                 .collect(Collectors.toSet());
 
+        Integer defectId = action.getDefect() != null ? action.getDefect().getId() : null;
         UserDto changedBy = action.getChangedBy() != null ? userMapper.mapToDto(action.getChangedBy()) : null;
 
         ActionDto actionDto = new ActionDto();
@@ -66,7 +66,7 @@ public class ActionMapper {
         actionDto.setIsCompleted(action.getIsCompleted());
         actionDto.setDueDate(action.getDueDate());
         actionDto.setAssignedUsers(assignedUsers);
-        actionDto.setDefect(action.getDefect().getId());
+        actionDto.setDefect(defectId);
         actionDto.setCreatedAt(action.getCreatedAt());
         actionDto.setChangedAt(action.getChangedAt());
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));

@@ -1,7 +1,9 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
+import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
@@ -23,13 +25,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
 public class DefectIntegrationTest extends BaseIntegrationTest {
 
     Role roleQA;
@@ -56,7 +58,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         supplier = setUpSupplier("testSupplier");
         lot = setUpLot("testLotNumber", material, supplier);
         process = setUpProcess("testProcess");
-        defectType = setUpDefectType("testDefectType");
+        defectType = setUpDefectType("Undefined");
         causationCategory = setUpCausationCategory("testCausationCategory");
         defectStatus = setUpDefectStatus("New");
 
@@ -67,12 +69,6 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
     @Transactional
     void shouldSaveDefect() throws Exception {
         UserDto userDto = userMapper.mapToDto(user);
-
-        ActionDto actionDto = new ActionDto();
-        actionDto.setDescription("description");
-        actionDto.setDueDate(LocalDate.now());
-        actionDto.setAssignedUsers(Set.of(userDto));
-        actionDto.setCreatedBy(userDto);
 
         DefectDto defectDto = new DefectDto();
         defectDto.setDefectStatus(defectStatus.getName());
@@ -85,15 +81,17 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         Path path = Paths.get("src/test/resources/testimage.jpg");
         byte[] content = Files.readAllBytes(path);
-        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg", "image/jpeg", content);
-        MockMultipartFile jsonFile = new MockMultipartFile("defect", "", "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
+        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg",
+                "image/jpeg", content);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
+                "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
          mockMvc.perform(multipart("/defects")
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isOk())
                 .andReturn();
-
 
         Defect defect = defectRepository.findAll().get(0);
 

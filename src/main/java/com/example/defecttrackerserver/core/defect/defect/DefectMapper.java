@@ -3,33 +3,22 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionMapper;
-import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
-import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentMapper;
-import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageMapper;
-import com.example.defecttrackerserver.core.defect.defectImage.DefectImageRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
-import com.example.defecttrackerserver.core.defect.defectType.DefectTypeRepository;
 import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
 import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -56,8 +45,7 @@ public class DefectMapper {
                 entityService.getDefectStatusByName(defectDto.getDefectStatus()) : null;
 
         CausationCategory causationCategory = defectDto.getCausationCategory() != null ?
-                entityService.getCausationCategoryByName(defectDto.getCausationCategory()) :
-                null;
+                entityService.getCausationCategoryByName(defectDto.getCausationCategory()) : null;
 
         DefectType defectType = defectDto.getDefectType() != null ?
                 entityService.getDefectTypeByName(defectDto.getDefectType()) : null;
