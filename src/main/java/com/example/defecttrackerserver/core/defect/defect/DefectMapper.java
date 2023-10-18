@@ -63,11 +63,13 @@ public class DefectMapper {
     public Defect map (DefectDto defectDto, Defect defect){
         DefectStatus defectStatus = defectDto.getDefectStatus() != null ?
                 getDefectStatusByName(defectDto.getDefectStatus()) : null;
+
         CausationCategory causationCategory = defectDto.getCausationCategory() != null ?
-                getCausationCategoryByName(defectDto.getCausationCategory()) :
-                null;
+                getCausationCategoryByName(defectDto.getCausationCategory()) : null;
+
         DefectType defectType = defectDto.getDefectType() != null ?
                 getDefectTypeByName(defectDto.getDefectType()) : null;
+
         Location location = getLocationByName(defectDto.getLocation());
         Process process = getProcessByName(defectDto.getProcess());
         User createdBy = getUserById(defectDto.getCreatedBy().getId());

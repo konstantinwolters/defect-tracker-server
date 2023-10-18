@@ -25,16 +25,10 @@ public class ActionMapper {
     private final DefectRepository defectRepository;
     private final UserMapper userMapper;
 
-    private Map<Integer, User> userCache = new HashMap<>();
+    private final Map<Integer, User> userCache = new HashMap<>();
 
     public Action map(ActionDto actionDto, Action action){
-        long start = System.currentTimeMillis();
-        System.out.println("Starting action map method.");
-        Defect defect = getDefectById(actionDto.getDefect());
-
-        long timeDefect = System.currentTimeMillis();
-        System.out.println("Time taken to get defect: " + (timeDefect - start) + " ms");
-
+        Defect defect = actionDto.getDefect() != null ? getDefectById(actionDto.getDefect()) : null;
         User createdBy = getUserById(actionDto.getCreatedBy().getId());
         User changedBy = actionDto.getChangedBy() != null ? getUserById(actionDto.getChangedBy().getId()) : null;
 
@@ -53,22 +47,21 @@ public class ActionMapper {
         action.setAssignedUsers(assignedUsers);
 
         //Set up relationships
-        defect.addAction(action);
-        assignedUsers.forEach(user -> user.addAssignedAction(action));
+        if (defect != null)
+            defect.addAction(action);
 
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken in map method: " + (end - start) + " ms");
+        assignedUsers.forEach(user -> user.addAssignedAction(action));
 
         return action;
     }
 
     public ActionDto mapToDto(Action action){
-        long start = System.currentTimeMillis();
 
         Set<UserDto> assignedUsers = action.getAssignedUsers().stream()
                 .map(userMapper::mapToDto)
                 .collect(Collectors.toSet());
 
+        Integer defectId = action.getDefect() != null ? action.getDefect().getId() : null;
         UserDto changedBy = action.getChangedBy() != null ? userMapper.mapToDto(action.getChangedBy()) : null;
 
         ActionDto actionDto = new ActionDto();
@@ -77,14 +70,11 @@ public class ActionMapper {
         actionDto.setIsCompleted(action.getIsCompleted());
         actionDto.setDueDate(action.getDueDate());
         actionDto.setAssignedUsers(assignedUsers);
-        actionDto.setDefect(action.getDefect().getId());
+        actionDto.setDefect(defectId);
         actionDto.setCreatedAt(action.getCreatedAt());
         actionDto.setChangedAt(action.getChangedAt());
         actionDto.setCreatedBy(userMapper.mapToDto(action.getCreatedBy()));
         actionDto.setChangedBy(changedBy);
-
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken in mapToDto method: " + (end - start) + " ms");
 
         return actionDto;
     }
@@ -100,5 +90,4 @@ public class ActionMapper {
         return defectRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + id));
     }
-
 }

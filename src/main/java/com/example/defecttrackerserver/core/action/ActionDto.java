@@ -21,6 +21,7 @@ public class ActionDto {
     private LocalDateTime createdAt;
     private LocalDateTime changedAt;
     private UserDto changedBy;
+    private Integer defect;
 
     @NotNull(message = "Action description must not be null.")
     @NotEmpty(message = "Action description must not be empty.")
@@ -32,9 +33,6 @@ public class ActionDto {
     @NotNull(message = "Action assignedUsers must not be null.")
     @NotEmpty(message = "Action assignedUsers must not be empty.")
     private Set<UserDto> assignedUsers;
-
-    @NotNull(message = "Action defect must not be null.")
-    private Integer defect;
 
     @NotNull(message = "Action createdBy must not be null.")
     private UserDto createdBy;

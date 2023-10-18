@@ -73,7 +73,7 @@ public class Defect {
     private List<DefectImage> images = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private Set<Action> actions = new HashSet<>();
