@@ -19,6 +19,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.nio.file.Files;
@@ -29,7 +30,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DefectIntegrationTest extends BaseIntegrationTest {
@@ -139,17 +142,18 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 //                .andExpect(status().isForbidden());
 //    }
 //
-//    @Test
-//    @Transactional
-//    void shouldGetActionById() throws Exception{
-//        Action action = setUpAction("testDescription", user, defect);
-//        ActionDto actionDto = actionMapper.mapToDto(action);
-//
-//        mockMvc.perform(get("/actions/" + action.getId())
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(actionDto)));
-//    }
+    @Test
+    @Transactional
+    void shouldGetDefectById() throws Exception{
+        Defect defect = setUpDefect("testDescription",lot, defectType, defectStatus,
+                causationCategory, process, location, user);
+        DefectDto defectDto = defectMapper.mapToDto(defect);
+
+        mockMvc.perform(get("/defects/" + defect.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(defectDto)));
+    }
 //
 //    @Test
 //    @Transactional
