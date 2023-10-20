@@ -1,9 +1,6 @@
 package com.example.defecttrackerserver.core.defect.defect;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
-import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionMapper;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
@@ -17,7 +14,6 @@ import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -25,15 +21,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class DefectIntegrationTest extends BaseIntegrationTest {
 
@@ -154,18 +146,19 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(defectDto)));
     }
-//
-//    @Test
-//    @Transactional
-//    void shouldGetAllActions() throws Exception{
-//        setUpAction("testDescription", user, defect);
-//
-//        mockMvc.perform(get("/actions"))
-//                .andExpect(status().isOk()).andExpect(jsonPath("$.totalPages").value(1))
-//                .andExpect(jsonPath("$.totalElements").value(1))
-//                .andExpect(jsonPath("$.currentPage").value(0));
-//    }
-//
+
+    @Test
+    @Transactional
+    void shouldGetAllDefects() throws Exception{
+        setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory,
+                process, location, user);
+
+        mockMvc.perform(get("/defects"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.currentPage").value(0));
+    }
+
 //    @Test
 //    @Transactional
 //    void shouldGetActionsFilteredByAssignedUsers() throws Exception{
