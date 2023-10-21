@@ -159,26 +159,26 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.currentPage").value(0));
     }
 
-//    @Test
-//    @Transactional
-//    void shouldGetActionsFilteredByAssignedUsers() throws Exception{
-//        User user2 = setUpUser("Wolfgang", "mail2", roleQA, location);
-//
-//        setUpAction("testDescription", user, defect);
-//        setUpAction("testDescription2", user2, defect);
-//
-//        String jsonPathExpression = String.format("$.content[0].assignedUsers[?(@.id==%d)].id", user2.getId());
-//
-//        mockMvc.perform(get("/actions")
-//                        .param("assignedUserIds", String.valueOf(user2.getId())))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.totalPages").value(1))
-//                .andExpect(jsonPath("$.totalElements").value(1))
-//                .andExpect(jsonPath("$.currentPage").value(0))
-//                // Check if the first element of content has an assignedUsers array that contains an object with the given id
-//                .andExpect(jsonPath(jsonPathExpression).exists());
-//    }
-//
+    @Test
+    @Transactional
+    void shouldGetDefectsFilteredByCreatedByUser() throws Exception{
+        User user2 = setUpUser("Wolfgang", "mail2", roleQA, location);
+
+        setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
+        setUpDefect("testDescription2", lot, defectType, defectStatus, causationCategory, process, location, user2);
+
+        String jsonPathExpression = String.format("$.content[0].createdBy.id", user2.getId());
+
+        mockMvc.perform(get("/defects")
+                        .param("createdByIds", String.valueOf(user2.getId())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.currentPage").value(0))
+                // Check if the first element of content has an assignedUsers array that contains an object with the given id
+                .andExpect(jsonPath(jsonPathExpression).exists());
+    }
+
 //    @Test
 //    @Transactional
 //    void shouldGetActionsFilteredBySearchTerm() throws Exception{
