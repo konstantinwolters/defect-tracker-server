@@ -179,24 +179,24 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath(jsonPathExpression).exists());
     }
 
-//    @Test
-//    @Transactional
-//    void shouldGetActionsFilteredBySearchTerm() throws Exception{
-//        User user2 = setUpUser("Wolfgang", "mail2", roleQA, location);
-//
-//        setUpAction("testDescription", user, defect);
-//        Action action2 = setUpAction("testDescription2", user2, defect);
-//
-//        mockMvc.perform(get("/actions")
-//                        .param("search", action2.getDescription()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.totalPages").value(1))
-//                .andExpect(jsonPath("$.totalElements").value(1))
-//                .andExpect(jsonPath("$.currentPage").value(0))
-//                // Check if the first elements description content contains the searchterm
-//                .andExpect(jsonPath("$.content[0].description").value(action2.getDescription()));
-//    }
-//
+    @Test
+    @Transactional
+    void shouldGetDefectsFilteredBySearchTerm() throws Exception{
+        User user2 = setUpUser("Wolfgang", "mail2", roleQA, location);
+
+        setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
+        Defect defect = setUpDefect("testDescription2", lot, defectType, defectStatus, causationCategory, process, location, user2);
+
+        mockMvc.perform(get("/defects")
+                        .param("search", defect.getDescription()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.currentPage").value(0))
+                // Check if the first elements description content contains the searchterm
+                .andExpect(jsonPath("$.content[0].description").value(defect.getDescription()));
+    }
+
 //    @Test
 //    @Transactional
 //    void shouldUpdateAction() throws Exception{
