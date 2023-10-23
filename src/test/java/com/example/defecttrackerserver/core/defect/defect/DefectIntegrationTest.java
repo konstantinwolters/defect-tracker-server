@@ -21,10 +21,10 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class DefectIntegrationTest extends BaseIntegrationTest {
@@ -218,14 +218,15 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 //        assertEquals(actionDto.getDescription(), updatedAction.get().getDescription());
 //    }
 //
-//    @Test
-//    @Transactional
-//    void shouldDeleteActionById() throws Exception{
-//        user.setRoles(Set.of(roleADMIN));
-//        setAuthentication(user);
-//        Action action = setUpAction("testDescription", user, defect);
-//
-//        mockMvc.perform(delete("/actions/" + action.getId()))
-//                .andExpect(status().isNoContent());
-//    }
+    @Test
+    @Transactional
+    void shouldDeleteDefectById() throws Exception{
+        user.setRoles(Set.of(roleADMIN));
+        setAuthentication(user);
+        Defect defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
+
+
+        mockMvc.perform(delete("/defects/" + defect.getId()))
+                .andExpect(status().isNoContent());
+    }
 }
