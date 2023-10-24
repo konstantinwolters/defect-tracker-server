@@ -98,23 +98,34 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         assertEquals(defectDto.getLot(), defect.getLot().getLotNumber());
     }
 
-//    @Test
-//    @Transactional
-//    void shouldReturnBadRequestWhenNoAssignedUsers() throws Exception{
-//        UserDto userDto = userMapper.mapToDto(user);
-//        ActionDto actionDto = new ActionDto();
-//        actionDto.setDescription("description");
-//        actionDto.setDueDate(LocalDate.now());
-//        actionDto.setCreatedBy(userDto);
-//        actionDto.setDefect(defect.getId());
-//        actionDto.setAssignedUsers(null);
-//
-//        mockMvc.perform(post("/actions")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(actionDto)))
-//                .andExpect(status().isBadRequest());
-//    }
-//
+    @Test
+    @Transactional
+    void shouldReturnBadRequestWhenLotIsNull() throws Exception{
+        UserDto userDto = userMapper.mapToDto(user);
+
+        DefectDto defectDto = new DefectDto();
+        defectDto.setDefectStatus(defectStatus.getName());
+        defectDto.setDefectType(defectType.getName());
+        defectDto.setProcess(process.getName());
+        defectDto.setCausationCategory(causationCategory.getName());
+        defectDto.setLot(lot.getLotNumber());
+        defectDto.setCreatedBy(userDto);
+        defectDto.setDescription("testDescription");
+
+        Path path = Paths.get("src/test/resources/testimage.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg",
+                "image/jpeg", content);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
+                "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
+
+        mockMvc.perform(multipart("/defects")
+                        .file(file)
+                        .file(jsonFile))
+                .andExpect(status().isBadRequest());
+    }
+
 //    @Test
 //    @Transactional
 //    void shouldReturn403WhenNotAuthenticated() throws Exception{
