@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -108,7 +109,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         defectDto.setDefectType(defectType.getName());
         defectDto.setProcess(process.getName());
         defectDto.setCausationCategory(causationCategory.getName());
-        defectDto.setLot(lot.getLotNumber());
+        defectDto.setLot(null);
         defectDto.setCreatedBy(userDto);
         defectDto.setDescription("testDescription");
 
@@ -126,25 +127,35 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-//    @Test
-//    @Transactional
-//    void shouldReturn403WhenNotAuthenticated() throws Exception{
-//        SecurityContextHolder.clearContext();
-//
-//        UserDto userDto = userMapper.mapToDto(user);
-//        ActionDto actionDto = new ActionDto();
-//        actionDto.setDescription("description");
-//        actionDto.setDueDate(LocalDate.now());
-//        actionDto.setCreatedBy(userDto);
-//        actionDto.setDefect(defect.getId());
-//        actionDto.setAssignedUsers(Set.of(userDto));
-//
-//        mockMvc.perform(post("/actions")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(actionDto)))
-//                .andExpect(status().isForbidden());
-//    }
-//
+    @Test
+    @Transactional
+    void shouldReturn403WhenNotAuthenticated() throws Exception{
+        SecurityContextHolder.clearContext();
+
+        UserDto userDto = userMapper.mapToDto(user);
+        DefectDto defectDto = new DefectDto();
+        defectDto.setDefectStatus(defectStatus.getName());
+        defectDto.setDefectType(defectType.getName());
+        defectDto.setProcess(process.getName());
+        defectDto.setCausationCategory(causationCategory.getName());
+        defectDto.setLot(lot.getLotNumber());
+        defectDto.setCreatedBy(userDto);
+        defectDto.setDescription("testDescription");
+
+        Path path = Paths.get("src/test/resources/testimage.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg",
+                "image/jpeg", content);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
+                "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
+
+        mockMvc.perform(multipart("/defects")
+                        .file(file)
+                        .file(jsonFile))
+                .andExpect(status().isForbidden());
+    }
+
     @Test
     @Transactional
     void shouldGetDefectById() throws Exception{
