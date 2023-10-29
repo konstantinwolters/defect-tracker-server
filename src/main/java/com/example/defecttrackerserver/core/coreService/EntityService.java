@@ -59,6 +59,11 @@ public class EntityService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with name: " + username));
+    }
+
     public Action getActionById(Integer id) {
         return actionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Action not found with id: " + id));
