@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.auth;
 
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,5 @@ import lombok.NoArgsConstructor;
 public class AuthenticationResponse {
     private String accessToken;
     private String refreshToken;
+    private UserDto user;
 }

@@ -1,5 +1,9 @@
 package com.example.defecttrackerserver.auth;
 
+import com.example.defecttrackerserver.core.coreService.EntityService;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
+import com.example.defecttrackerserver.core.user.user.UserRepository;
+import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.security.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserMapper userMapper;
+    private final EntityService entityService;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -32,13 +38,15 @@ public class AuthenticationService {
                 )
         );
 
-        var user = userDetailsService.loadUserByUsername(request.getUsername());
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        var userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        var user = userMapper.mapToDto(entityService.getUserByUsername(userDetails.getUsername()));
+        var jwtToken = jwtService.generateToken(userDetails);
+        var refreshToken = jwtService.generateRefreshToken(userDetails);
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .user(user)
                 .build();
     }
 

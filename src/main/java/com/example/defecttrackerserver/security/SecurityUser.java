@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.security;
 
 import com.example.defecttrackerserver.core.user.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  * Implementation of Spring Security {@link UserDetails}
  */
 @AllArgsConstructor
+@Getter
 public class SecurityUser implements UserDetails {
 
     private final User user;
