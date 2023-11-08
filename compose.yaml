@@ -2,8 +2,8 @@ services:
   postgres:
     image: 'postgres:16.0'
     environment:
-      - 'POSTGRES-DB=test'
+      - 'POSTGRES_DB=test'
       - 'POSTGRES_PASSWORD=test'
-      - 'POSTGRES-USER=test'
+      - 'POSTGRES_USER=test'
     ports:
       - '5432'
