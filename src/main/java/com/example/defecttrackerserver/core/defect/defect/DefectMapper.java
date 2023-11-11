@@ -92,7 +92,7 @@ public class DefectMapper {
         defect.setChangedBy(changedBy);
 
         //Maintain relationships
-        Lot lot = entityService.getLotByLotNumber(defectDto.getLot());
+        Lot lot = entityService.getLotById(defectDto.getLot());
         lot.addDefect(defect);
 
         return defect;
@@ -128,7 +128,7 @@ public class DefectMapper {
         defectDto.setDefectStatus(defect.getDefectStatus().getName());
         defectDto.setCausationCategory(defect.getCausationCategory().getName());
         defectDto.setDefectComments(defectComments);
-        defectDto.setLot(defect.getLot().getLotNumber());
+        defectDto.setLot(defect.getLot().getId());
         defectDto.setLocation(defect.getLocation().getName());
         defectDto.setProcess(defect.getProcess().getName());
         defectDto.setDefectType(defect.getDefectType().getName());

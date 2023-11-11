@@ -32,14 +32,12 @@ public class DefectDto {
     private String defectType;
     private UserDto createdBy;
 
-
     @NotNull(message = "Defect description must not be null.")
     @NotEmpty(message = "Defect description must not be empty.")
     private String description;
 
     @NotNull(message = "Lot must not be null.")
-    @NotEmpty(message = "Lot must not be empty.")
-    private String lot;
+    private Integer lot;
 
     @NotNull(message = "Process must not be null.")
     @NotEmpty(message = "Process must not be empty.")

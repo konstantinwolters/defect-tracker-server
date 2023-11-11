@@ -135,5 +135,10 @@ public class EntityService {
         return supplierRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Supplier not found with id: " + id));
     }
+
+    public Lot getLotById(Integer id) {
+        return lotRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Lot not found with id: " + id));
+    }
 }
 
