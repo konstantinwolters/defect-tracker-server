@@ -71,7 +71,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         defectDto.setDefectType(defectType.getName());
         defectDto.setProcess(process.getName());
         defectDto.setCausationCategory(causationCategory.getName());
-        defectDto.setLot(lot.getLotNumber());
+        defectDto.setLot(lot.getId());
         defectDto.setCreatedBy(userDto);
         defectDto.setDescription("testDescription");
 
@@ -96,7 +96,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         assertEquals(defectDto.getDefectStatus(), defect.getDefectStatus().getName());
         assertEquals(defectDto.getDefectType(), defect.getDefectType().getName());
         assertEquals(defectDto.getProcess(), defect.getProcess().getName());
-        assertEquals(defectDto.getLot(), defect.getLot().getLotNumber());
+        assertEquals(defectDto.getLot(), defect.getLot().getId());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         defectDto.setDefectType(defectType.getName());
         defectDto.setProcess(process.getName());
         defectDto.setCausationCategory(causationCategory.getName());
-        defectDto.setLot(lot.getLotNumber());
+        defectDto.setLot(lot.getId());
         defectDto.setCreatedBy(userDto);
         defectDto.setDescription("testDescription");
 

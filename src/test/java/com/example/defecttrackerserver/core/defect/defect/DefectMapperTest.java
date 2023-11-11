@@ -98,7 +98,7 @@ class DefectMapperTest {
         when(entityService.getDefectStatusByName(any(String.class))).thenReturn(defectStatus);
         when(entityService.getCausationCategoryByName(any(String.class))).thenReturn(causationCategory);
         when(entityService.getDefectCommentById(any(Integer.class))).thenReturn(new DefectComment());
-        when(entityService.getLotByLotNumber(any(String.class))).thenReturn(lot);
+        when(entityService.getLotById(any(Integer.class))).thenReturn(lot);
         when(entityService.getLocationByName(any(String.class))).thenReturn(location);
         when(entityService.getProcessByName(any(String.class))).thenReturn(process);
         when(entityService.getDefectTypeByName(any(String.class))).thenReturn(defectType);
@@ -112,7 +112,7 @@ class DefectMapperTest {
         assertEquals(defectDto.getCausationCategory(), mappedDefect.getCausationCategory().getName());
         assertEquals(defectDto.getDescription(), mappedDefect.getDescription());
         assertEquals(defectDto.getDefectComments().size(), mappedDefect.getDefectComments().size());
-        assertEquals(defectDto.getLot(), mappedDefect.getLot().getLotNumber());
+        assertEquals(defectDto.getLot(), mappedDefect.getLot().getId());
         assertEquals(defectDto.getLocation(), mappedDefect.getLocation().getName());
         assertEquals(defectDto.getProcess(), mappedDefect.getProcess().getName());
         assertEquals(defectDto.getDefectType(), mappedDefect.getDefectType().getName());
@@ -154,7 +154,7 @@ class DefectMapperTest {
         assertEquals(defect.getChangedAt(), mappedDefectDto.getChangedAt());
         assertEquals(defect.getDefectStatus().getName(), mappedDefectDto.getDefectStatus());
         assertEquals(defect.getDefectComments().size(), mappedDefectDto.getDefectComments().size());
-        assertEquals(defect.getLot().getLotNumber(), mappedDefectDto.getLot());
+        assertEquals(defect.getLot().getId(), mappedDefectDto.getLot());
         assertEquals(defect.getLocation().getName(), mappedDefectDto.getLocation());
         assertEquals(defect.getProcess().getName(), mappedDefectDto.getProcess());
         assertEquals(defect.getDefectType().getName(), mappedDefectDto.getDefectType());

@@ -4,6 +4,7 @@ import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.action.ActionRepository;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.DefectDto;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
@@ -34,10 +35,7 @@ class NotificationAspectTest {
     MessageSource messageSource;
 
     @Mock
-    LotRepository lotRepository;
-
-    @Mock
-    ActionRepository actionRepository;
+    EntityService entityService;
 
     @InjectMocks
     NotificationAspect notificationAspect;
@@ -56,7 +54,7 @@ class NotificationAspectTest {
         material.setResponsibleUsers(Set.of(user));
         lot.setMaterial(material);
 
-        when(lotRepository.findByLotNumber(anyString())).thenReturn(Optional.of(lot));
+        when(entityService.getLotById(anyInt())).thenReturn(lot);
         when(messageSource.getMessage(anyString(), any(), any(Locale.class))).thenReturn("subject template %s", "body template %s %s %s");
 
         notificationAspect.handleDefectNotification(defectDto);
@@ -71,7 +69,7 @@ class NotificationAspectTest {
         Action action = TestHelper.setUpAction();
         action.setAssignedUsers(Set.of(user));
 
-        when(actionRepository.findById(anyInt())).thenReturn(Optional.of(action));
+        when(entityService.getActionById(anyInt())).thenReturn(action);
         when(messageSource.getMessage(anyString(), any(), any(Locale.class))).thenReturn("subject template %s", "body template %s %s %s");
 
         notificationAspect.handleActionNotification(actionDto);
@@ -118,25 +116,5 @@ class NotificationAspectTest {
         notificationAspect.sendEmails(recipients, "subject", "body");
 
         verify(emailService, times(2)).sendSimpleEmail(anyString(), anyString(), anyString());
-    }
-
-    @Test
-    void findLotByLotNumber() {
-        Lot lot = new Lot();
-        when(lotRepository.findByLotNumber(anyString())).thenReturn(Optional.of(lot));
-
-        Lot result = notificationAspect.findLotByLotNumber("lotNumber");
-
-        assertEquals(lot, result);
-    }
-
-    @Test
-    void findActionById() {
-        Action action = new Action();
-        when(actionRepository.findById(anyInt())).thenReturn(Optional.of(action));
-
-        Action result = notificationAspect.findActionById(1);
-
-        assertEquals(action, result);
     }
 }

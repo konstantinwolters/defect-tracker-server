@@ -2,14 +2,10 @@ package com.example.defecttrackerserver.notification;
 
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionRepository;
-import com.example.defecttrackerserver.core.defect.defect.Defect;
+import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.DefectDto;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.user.user.User;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.SecondaryTable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -35,8 +31,7 @@ import java.util.Set;
 public class NotificationAspect {
     private final EmailService emailService;
     private final MessageSource messageSource;
-    private final LotRepository lotRepository;
-    private final ActionRepository actionRepository;
+    private final EntityService entityService;
 
     @AfterReturning(value = "@annotation(com.example.defecttrackerserver.notification.NotifyUsers)", returning = "result")
     public void afterNotificationTriggered(JoinPoint joinPoint, Object result) {
@@ -49,7 +44,7 @@ public class NotificationAspect {
 
     void handleDefectNotification(DefectDto defect){
         Locale currentLocale = LocaleContextHolder.getLocale();
-        Lot lot = findLotByLotNumber(defect.getLot());
+        Lot lot = entityService.getLotById(defect.getLot());
         String[] recipients = fetchRecipientsEmailAddresses(lot.getMaterial().getResponsibleUsers());
         String subject = prepareSubject("email.subject.newDefect", defect.getId(), currentLocale);
 
@@ -62,7 +57,7 @@ public class NotificationAspect {
 
     void handleActionNotification(ActionDto action){
         Locale currentLocale = LocaleContextHolder.getLocale();
-        Action newAction = findActionById(action.getId());
+        Action newAction = entityService.getActionById(action.getId());
         String[] recipients = fetchRecipientsEmailAddresses(newAction.getAssignedUsers());
         String subject = prepareSubject("email.subject.newAction", action.getId(), currentLocale);
 
@@ -101,15 +96,5 @@ public class NotificationAspect {
         if (!failedRecipients.isEmpty()){
             log.error("Failed to send emails to recipients: {}", String.join(", ", failedRecipients));
         }
-    }
-
-    Lot findLotByLotNumber(String lotNumber){
-        return lotRepository.findByLotNumber(lotNumber).orElseThrow(
-                () -> new EntityNotFoundException("Lot does not exist with LotNumber:" + lotNumber));
-    }
-
-    Action findActionById(Integer id) {
-        return actionRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Action does not exist with id: " + id));
     }
 }

@@ -1,5 +1,8 @@
 package com.example.defecttrackerserver.auth;
 
+import com.example.defecttrackerserver.core.coreService.EntityService;
+import com.example.defecttrackerserver.core.user.user.UserMapper;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.example.defecttrackerserver.security.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +35,12 @@ public class AuthenticationServiceImplTest {
 
     @Mock
     private JwtService jwtService;
+
+    @Mock
+    private EntityService entityService;
+
+    @Mock
+    private UserMapper userMapper;
 
     @Mock
     private HttpServletRequest request;
@@ -59,6 +70,8 @@ public class AuthenticationServiceImplTest {
         when(userDetailsService.loadUserByUsername(request.getUsername())).thenReturn(userDetails);
         when(jwtService.generateToken(userDetails)).thenReturn(jwtToken);
         when(jwtService.generateRefreshToken(userDetails)).thenReturn(refreshToken);
+        when(entityService.getUserByUsername(anyString())).thenReturn(new com.example.defecttrackerserver.core.user.user.User());
+        when(userMapper.mapToDto(any(com.example.defecttrackerserver.core.user.user.User.class))).thenReturn(new UserDto());
 
         AuthenticationResponse response = authenticationService.authenticate(request);
 

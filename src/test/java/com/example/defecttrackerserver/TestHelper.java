@@ -147,7 +147,7 @@ public class TestHelper {
         DefectDto defectDto = new DefectDto();
         defectDto.setId(1);
         defectDto.setDescription("testDescription");
-        defectDto.setLot("testNumber");
+        defectDto.setLot(1);
         defectDto.setDefectStatus("testDefectStatus");
         defectDto.setDefectType("testDefectType");
         defectDto.setProcess("testProcess");
