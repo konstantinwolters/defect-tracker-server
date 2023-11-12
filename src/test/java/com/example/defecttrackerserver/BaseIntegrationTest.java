@@ -68,7 +68,7 @@ public abstract class BaseIntegrationTest {
     protected Integer port;
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            "postgres:15-alpine"
+            "postgres:16.0-alpine"
     );
 
     @BeforeAll
