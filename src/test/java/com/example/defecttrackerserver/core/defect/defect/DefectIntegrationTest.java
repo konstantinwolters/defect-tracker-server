@@ -15,22 +15,30 @@ import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DirtiesContext
 public class DefectIntegrationTest extends BaseIntegrationTest {
+
+    @Value("${IMAGE.UPLOAD-PATH}")
+    String imageFolderPath;
 
     Role roleQA;
     Role roleADMIN;
@@ -92,6 +100,14 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andReturn();
 
         Defect defect = defectRepository.findAll().get(0);
+
+        defect.getImages().forEach(image -> {
+            try {
+                Files.deleteIfExists(Path.of(image.getPath()));
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to delete image: " + image.getPath(), e);
+            }
+        });
 
         assertEquals(defectDto.getDescription(), defect.getDescription());
         assertEquals(defectDto.getCreatedBy().getUsername(), defect.getCreatedBy().getUsername());
@@ -221,27 +237,49 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.content[0].description").value(defect.getDescription()));
     }
 
-//    @Test
-//    @Transactional
-//    void shouldUpdateAction() throws Exception{
-//        user.setRoles(Set.of(roleADMIN));
-//        setAuthentication(user);
-//        Action action = setUpAction("testDescription", user, defect);
-//
-//        ActionDto actionDto = actionMapper.mapToDto(action);
-//        actionDto.setDescription("updatedDescription");
-//
-//        mockMvc.perform(put("/actions/" + action.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(actionDto)))
-//                .andExpect(status().isOk());
-//
-//        Optional<Action> updatedAction = actionRepository.findById(action.getId());
-//
-//        assertTrue(updatedAction.isPresent());
-//        assertEquals(actionDto.getDescription(), updatedAction.get().getDescription());
-//    }
-//
+    @Test
+    @Transactional
+    void shouldUpdateDefect() throws Exception{
+        user.setRoles(Set.of(roleADMIN));
+        setAuthentication(user);
+        Defect defect = setUpDefect("testDescription", lot, defectType,
+                defectStatus, causationCategory, process, location, user);
+
+        DefectDto defectDto = defectMapper.mapToDto(defect);
+        defectDto.setDescription("updatedDescription");
+
+        Path path = Paths.get("src/test/resources/testimage.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg",
+                "image/jpeg", content);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
+                "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/defects/" + defect.getId())
+                        .file(file)
+                        .file(jsonFile)
+                        .with(request -> {
+                            request.setMethod("PUT");
+                            return request;
+                        }))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Optional<Defect> updatedDefect = defectRepository.findById(defect.getId());
+
+        defect.getImages().forEach(image -> {
+            try {
+                Files.deleteIfExists(Path.of(image.getPath()));
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to delete image: " + image.getPath(), e);
+            }
+        });
+
+        assertTrue(updatedDefect.isPresent());
+        assertEquals(defectDto.getDescription(), updatedDefect.get().getDescription());
+    }
+
     @Test
     @Transactional
     void shouldDeleteDefectById() throws Exception{
