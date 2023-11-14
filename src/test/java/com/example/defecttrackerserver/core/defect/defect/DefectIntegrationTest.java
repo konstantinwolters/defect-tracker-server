@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DirtiesContext
 public class DefectIntegrationTest extends BaseIntegrationTest {
+    String URL = "/defects";
 
     @Value("${IMAGE.UPLOAD-PATH}")
     String imageFolderPath;
@@ -65,7 +66,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         lot = setUpLot("testLotNumber", material, supplier);
         process = setUpProcess("testProcess");
         defectType = setUpDefectType("Undefined");
-        causationCategory = setUpCausationCategory("testCausationCategory");
+        causationCategory = setUpCausationCategory("Undefined");
         defectStatus = setUpDefectStatus("New");
 
         setAuthentication(user);
@@ -93,7 +94,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-         mockMvc.perform(multipart("/defects")
+         mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isOk())
@@ -139,7 +140,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-        mockMvc.perform(multipart("/defects")
+        mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isBadRequest());
@@ -168,7 +169,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-        mockMvc.perform(multipart("/defects")
+        mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isForbidden());
@@ -181,7 +182,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 causationCategory, process, location, user);
         DefectDto defectDto = defectMapper.mapToDto(defect);
 
-        mockMvc.perform(get("/defects/" + defect.getId())
+        mockMvc.perform(get(URL + "/" + defect.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(defectDto)));
@@ -193,7 +194,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory,
                 process, location, user);
 
-        mockMvc.perform(get("/defects"))
+        mockMvc.perform(get(URL))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.totalPages").value(1))
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.currentPage").value(0));
@@ -209,7 +210,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         String jsonPathExpression = String.format("$.content[0].createdBy.id", user2.getId());
 
-        mockMvc.perform(get("/defects")
+        mockMvc.perform(get(URL)
                         .param("createdByIds", String.valueOf(user2.getId())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalPages").value(1))
@@ -227,7 +228,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
         Defect defect = setUpDefect("testDescription2", lot, defectType, defectStatus, causationCategory, process, location, user2);
 
-        mockMvc.perform(get("/defects")
+        mockMvc.perform(get(URL)
                         .param("search", defect.getDescription()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalPages").value(1))
@@ -256,7 +257,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/defects/" + defect.getId())
+        mockMvc.perform(MockMvcRequestBuilders.multipart(URL + "/" + defect.getId())
                         .file(file)
                         .file(jsonFile)
                         .with(request -> {
@@ -288,7 +289,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         Defect defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
 
 
-        mockMvc.perform(delete("/defects/" + defect.getId()))
+        mockMvc.perform(delete(URL + "/" + defect.getId()))
                 .andExpect(status().isNoContent());
     }
 }

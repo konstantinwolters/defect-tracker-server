@@ -3,27 +3,20 @@ package com.example.defecttrackerserver.core.lot.lot;
 import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
-import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
-import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierDto;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
-import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 

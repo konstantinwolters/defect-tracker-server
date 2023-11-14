@@ -15,7 +15,6 @@ import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DirtiesContext
 public class ActionIntegrationTest extends BaseIntegrationTest {
+    String URL = "/actions";
 
     Role roleQA;
     Role roleADMIN;
@@ -61,7 +61,8 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         defectType = setUpDefectType("testDefectType");
         causationCategory = setUpCausationCategory("testCausationCategory");
         defectStatus = setUpDefectStatus("testDefectStatus");
-        defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
+        defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory,
+                process, location, user);
 
         setAuthentication(user);
     }
@@ -77,7 +78,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         actionDto.setCreatedBy(userDto);
         actionDto.setDefect(defect.getId());
 
-        mockMvc.perform(post("/actions")
+        mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(actionDto)))
                 .andExpect(status().isOk());
@@ -102,7 +103,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         actionDto.setDefect(defect.getId());
         actionDto.setAssignedUsers(null);
 
-        mockMvc.perform(post("/actions")
+        mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(actionDto)))
                 .andExpect(status().isBadRequest());
@@ -121,7 +122,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         actionDto.setDefect(defect.getId());
         actionDto.setAssignedUsers(Set.of(userDto));
 
-        mockMvc.perform(post("/actions")
+        mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(actionDto)))
                 .andExpect(status().isForbidden());
@@ -133,7 +134,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         Action action = setUpAction("testDescription", user, defect);
         ActionDto actionDto = actionMapper.mapToDto(action);
 
-        mockMvc.perform(get("/actions/" + action.getId())
+        mockMvc.perform(get(URL + "/" + action.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(actionDto)));
@@ -144,7 +145,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
     void shouldGetAllActions() throws Exception{
         setUpAction("testDescription", user, defect);
 
-        mockMvc.perform(get("/actions"))
+        mockMvc.perform(get(URL))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.totalPages").value(1))
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.currentPage").value(0));
@@ -160,7 +161,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
 
         String jsonPathExpression = String.format("$.content[0].assignedUsers[?(@.id==%d)].id", user2.getId());
 
-        mockMvc.perform(get("/actions")
+        mockMvc.perform(get(URL)
                         .param("assignedUserIds", String.valueOf(user2.getId())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalPages").value(1))
@@ -178,7 +179,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         setUpAction("testDescription", user, defect);
         Action action2 = setUpAction("testDescription2", user2, defect);
 
-        mockMvc.perform(get("/actions")
+        mockMvc.perform(get(URL)
                         .param("search", action2.getDescription()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalPages").value(1))
@@ -198,7 +199,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         ActionDto actionDto = actionMapper.mapToDto(action);
         actionDto.setDescription("updatedDescription");
 
-        mockMvc.perform(put("/actions/" + action.getId())
+        mockMvc.perform(put(URL+ "/" + action.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(actionDto)))
                 .andExpect(status().isOk());
@@ -216,7 +217,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         setAuthentication(user);
         Action action = setUpAction("testDescription", user, defect);
 
-        mockMvc.perform(delete("/actions/" + action.getId()))
+        mockMvc.perform(delete(URL + "/" + action.getId()))
                 .andExpect(status().isNoContent());
     }
 }

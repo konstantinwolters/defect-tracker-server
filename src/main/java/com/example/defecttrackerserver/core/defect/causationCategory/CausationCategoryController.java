@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/causationcategory")
+@RequestMapping("/causationcategories")
 @Tag(name = "CausationCategory")
 public class CausationCategoryController {
     private final CausationCategoryService causationCategoryService;

@@ -1,14 +1,10 @@
 package com.example.defecttrackerserver.core.user.user;
 
 import com.example.defecttrackerserver.core.action.Action;
-import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.location.LocationRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
-import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;

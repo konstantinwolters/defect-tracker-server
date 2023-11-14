@@ -3,11 +3,9 @@ package com.example.defecttrackerserver.notification;
 import com.example.defecttrackerserver.TestHelper;
 import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.action.ActionDto;
-import com.example.defecttrackerserver.core.action.ActionRepository;
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.DefectDto;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.user.user.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;

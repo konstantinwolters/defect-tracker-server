@@ -3,9 +3,7 @@ package com.example.defecttrackerserver.core.lot.material;
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

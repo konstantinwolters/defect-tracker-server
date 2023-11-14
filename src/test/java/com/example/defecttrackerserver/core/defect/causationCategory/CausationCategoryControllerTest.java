@@ -46,7 +46,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
         when(causationCategoryService.saveCausationCategory(any(CausationCategoryDto.class)))
                 .thenReturn(testCausationCategoryDto);
 
-        mockMvc.perform(post("/causationcategory")
+        mockMvc.perform(post("/causationcategories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testCausationCategoryDto)))
                 .andExpect(status().isOk())
@@ -60,7 +60,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
         when(causationCategoryService.getCausationCategoryById(any(Integer.class)))
                 .thenReturn(testCausationCategoryDto);
 
-        mockMvc.perform(get("/causationcategory/1"))
+        mockMvc.perform(get("/causationcategories/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("testCausationCategory"));
@@ -72,7 +72,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
         when(causationCategoryService.getAllCausationCategories())
                 .thenReturn(Arrays.asList(testCausationCategoryDto));
 
-        mockMvc.perform(get("/causationcategory"))
+        mockMvc.perform(get("/causationcategories"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].name").value("testCausationCategory"));
@@ -84,7 +84,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
         when(causationCategoryService.updateCausationCategory(any(Integer.class), any(CausationCategoryDto.class)))
                 .thenReturn(testCausationCategoryDto);
 
-        mockMvc.perform(put("/causationcategory/1")
+        mockMvc.perform(put("/causationcategories/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testCausationCategoryDto)))
                 .andExpect(status().isOk())
@@ -97,7 +97,7 @@ public class CausationCategoryControllerTest extends BaseControllerTest {
     public void shouldDeleteCausationCategory() throws Exception {
         doNothing().when(causationCategoryService).deleteCausationCategory(any(Integer.class));
 
-        mockMvc.perform(delete("/causationcategory/1"))
+        mockMvc.perform(delete("/causationcategories/1"))
                 .andExpect(status().isNoContent());
     }
 }

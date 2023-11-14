@@ -2,8 +2,6 @@ package com.example.defecttrackerserver.auth;
 
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
-import com.example.defecttrackerserver.core.user.user.UserRepository;
-import com.example.defecttrackerserver.security.SecurityService;
 import com.example.defecttrackerserver.security.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
