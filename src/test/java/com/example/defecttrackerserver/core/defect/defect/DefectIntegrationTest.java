@@ -15,22 +15,31 @@ import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DirtiesContext
 public class DefectIntegrationTest extends BaseIntegrationTest {
+    String URL = "/defects";
+
+    @Value("${IMAGE.UPLOAD-PATH}")
+    String imageFolderPath;
 
     Role roleQA;
     Role roleADMIN;
@@ -57,7 +66,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         lot = setUpLot("testLotNumber", material, supplier);
         process = setUpProcess("testProcess");
         defectType = setUpDefectType("Undefined");
-        causationCategory = setUpCausationCategory("testCausationCategory");
+        causationCategory = setUpCausationCategory("Undefined");
         defectStatus = setUpDefectStatus("New");
 
         setAuthentication(user);
@@ -85,13 +94,21 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-         mockMvc.perform(multipart("/defects")
+         mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isOk())
                 .andReturn();
 
         Defect defect = defectRepository.findAll().get(0);
+
+        defect.getImages().forEach(image -> {
+            try {
+                Files.deleteIfExists(Path.of(image.getPath()));
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to delete image: " + image.getPath(), e);
+            }
+        });
 
         assertEquals(defectDto.getDescription(), defect.getDescription());
         assertEquals(defectDto.getCreatedBy().getUsername(), defect.getCreatedBy().getUsername());
@@ -123,7 +140,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-        mockMvc.perform(multipart("/defects")
+        mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isBadRequest());
@@ -152,7 +169,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-        mockMvc.perform(multipart("/defects")
+        mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isForbidden());
@@ -165,7 +182,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 causationCategory, process, location, user);
         DefectDto defectDto = defectMapper.mapToDto(defect);
 
-        mockMvc.perform(get("/defects/" + defect.getId())
+        mockMvc.perform(get(URL + "/" + defect.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(defectDto)));
@@ -177,7 +194,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory,
                 process, location, user);
 
-        mockMvc.perform(get("/defects"))
+        mockMvc.perform(get(URL))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.totalPages").value(1))
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.currentPage").value(0));
@@ -193,7 +210,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         String jsonPathExpression = String.format("$.content[0].createdBy.id", user2.getId());
 
-        mockMvc.perform(get("/defects")
+        mockMvc.perform(get(URL)
                         .param("createdByIds", String.valueOf(user2.getId())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalPages").value(1))
@@ -211,7 +228,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
         Defect defect = setUpDefect("testDescription2", lot, defectType, defectStatus, causationCategory, process, location, user2);
 
-        mockMvc.perform(get("/defects")
+        mockMvc.perform(get(URL)
                         .param("search", defect.getDescription()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalPages").value(1))
@@ -221,27 +238,49 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.content[0].description").value(defect.getDescription()));
     }
 
-//    @Test
-//    @Transactional
-//    void shouldUpdateAction() throws Exception{
-//        user.setRoles(Set.of(roleADMIN));
-//        setAuthentication(user);
-//        Action action = setUpAction("testDescription", user, defect);
-//
-//        ActionDto actionDto = actionMapper.mapToDto(action);
-//        actionDto.setDescription("updatedDescription");
-//
-//        mockMvc.perform(put("/actions/" + action.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(actionDto)))
-//                .andExpect(status().isOk());
-//
-//        Optional<Action> updatedAction = actionRepository.findById(action.getId());
-//
-//        assertTrue(updatedAction.isPresent());
-//        assertEquals(actionDto.getDescription(), updatedAction.get().getDescription());
-//    }
-//
+    @Test
+    @Transactional
+    void shouldUpdateDefect() throws Exception{
+        user.setRoles(Set.of(roleADMIN));
+        setAuthentication(user);
+        Defect defect = setUpDefect("testDescription", lot, defectType,
+                defectStatus, causationCategory, process, location, user);
+
+        DefectDto defectDto = defectMapper.mapToDto(defect);
+        defectDto.setDescription("updatedDescription");
+
+        Path path = Paths.get("src/test/resources/testimage.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile file = new MockMultipartFile("images", "testimage.jpg",
+                "image/jpeg", content);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
+                "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart(URL + "/" + defect.getId())
+                        .file(file)
+                        .file(jsonFile)
+                        .with(request -> {
+                            request.setMethod("PUT");
+                            return request;
+                        }))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Optional<Defect> updatedDefect = defectRepository.findById(defect.getId());
+
+        defect.getImages().forEach(image -> {
+            try {
+                Files.deleteIfExists(Path.of(image.getPath()));
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to delete image: " + image.getPath(), e);
+            }
+        });
+
+        assertTrue(updatedDefect.isPresent());
+        assertEquals(defectDto.getDescription(), updatedDefect.get().getDescription());
+    }
+
     @Test
     @Transactional
     void shouldDeleteDefectById() throws Exception{
@@ -250,7 +289,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         Defect defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
 
 
-        mockMvc.perform(delete("/defects/" + defect.getId()))
+        mockMvc.perform(delete(URL + "/" + defect.getId()))
                 .andExpect(status().isNoContent());
     }
 }

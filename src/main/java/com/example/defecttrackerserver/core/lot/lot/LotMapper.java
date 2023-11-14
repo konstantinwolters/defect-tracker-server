@@ -2,13 +2,9 @@ package com.example.defecttrackerserver.core.lot.lot;
 
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
-import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
 import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
-import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
-import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

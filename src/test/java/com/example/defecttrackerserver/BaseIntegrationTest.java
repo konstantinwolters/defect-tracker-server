@@ -157,17 +157,18 @@ public abstract class BaseIntegrationTest {
 
     @BeforeEach
     public void commonSetup() {
-        actionRepository.deleteAll();
-        defectRepository.deleteAll();
-        lotRepository.deleteAll();
-        materialRepository.deleteAll();
-        supplierRepository.deleteAll();
-        processRepository.deleteAll();
-        locationRepository.deleteAll();
-        roleRepository.deleteAll();
-        userRepository.deleteAll();
-        defectTypeRepository.deleteAll();
-        defectStatusRepository.deleteAll();
+//        actionRepository.deleteAll();
+//        defectRepository.deleteAll();
+//        lotRepository.deleteAll();
+//        materialRepository.deleteAll();
+//        supplierRepository.deleteAll();
+//        processRepository.deleteAll();
+//        locationRepository.deleteAll();
+//        roleRepository.deleteAll();
+//        userRepository.deleteAll();
+//        defectTypeRepository.deleteAll();
+//        defectStatusRepository.deleteAll();
+//        causationCategoryRepository.deleteAll();
     }
 
     protected void setAuthentication(User user){
