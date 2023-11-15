@@ -10,6 +10,12 @@ import com.example.defecttrackerserver.core.defect.causationCategory.CausationCa
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defect.DefectMapper;
 import com.example.defecttrackerserver.core.defect.defect.DefectRepository;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectComment;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentMapper;
+import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentRepository;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImage;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImageMapper;
+import com.example.defecttrackerserver.core.defect.defectImage.DefectImageRepository;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusMapper;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
@@ -117,6 +123,12 @@ public abstract class BaseIntegrationTest {
     protected LotMapper lotMapper;
 
     @Autowired
+    protected DefectCommentMapper defectCommentMapper;
+
+    @Autowired
+    protected DefectImageMapper defectImageMapper;
+
+    @Autowired
     protected ObjectMapper objectMapper;
 
     @Autowired
@@ -139,6 +151,12 @@ public abstract class BaseIntegrationTest {
 
     @Autowired
     protected DefectStatusRepository defectStatusRepository;
+
+    @Autowired
+    protected DefectImageRepository defectImageRepository;
+
+    @Autowired
+    protected DefectCommentRepository defectCommentRepository;
 
     @Autowired
     protected LocationRepository locationRepository;
@@ -282,5 +300,21 @@ public abstract class BaseIntegrationTest {
         action.setCreatedBy(user);
         action.setChangedBy(user);
         return actionRepository.save(action);
+    }
+
+    protected DefectComment setUpDefectComment(String content, User user){
+        DefectComment defectComment = new DefectComment();
+        defectComment.setContent(content);
+        defectComment.setCreatedBy(user);
+        defectComment.setCreatedAt(LocalDateTime.now());
+
+        return defectCommentRepository.save(defectComment);
+    }
+
+    protected DefectImage setUpDefectImage(String path){
+        DefectImage defectImage = new DefectImage();
+        defectImage.setPath(path);
+
+        return defectImageRepository.save(defectImage);
     }
 }
