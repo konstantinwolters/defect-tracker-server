@@ -13,6 +13,7 @@ import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@RequiredArgsConstructor
 @DirtiesContext
 public class DefectIntegrationTest extends BaseIntegrationTest {
     String URL = "/defects";
