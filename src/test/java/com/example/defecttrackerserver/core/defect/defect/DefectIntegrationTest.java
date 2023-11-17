@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RequiredArgsConstructor
-@DirtiesContext
 public class DefectIntegrationTest extends BaseIntegrationTest {
     String URL = "/defects";
 
