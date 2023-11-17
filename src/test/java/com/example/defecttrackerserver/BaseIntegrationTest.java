@@ -70,23 +70,13 @@ import java.util.Set;
 @AutoConfigureMockMvc
 public abstract class BaseIntegrationTest {
 
-    @LocalServerPort
-    protected Integer port;
-
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
             "postgres:16.0-alpine"
     );
 
-    @BeforeAll
-    static void start() {postgres.start();}
-
-    @AfterAll
-    static void stop() {
-        postgres.stop();
-    }
-
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
+        postgres.start();
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
@@ -175,18 +165,6 @@ public abstract class BaseIntegrationTest {
 
     @BeforeEach
     public void commonSetup() {
-//        actionRepository.deleteAll();
-//        defectRepository.deleteAll();
-//        lotRepository.deleteAll();
-//        materialRepository.deleteAll();
-//        supplierRepository.deleteAll();
-//        processRepository.deleteAll();
-//        locationRepository.deleteAll();
-//        roleRepository.deleteAll();
-//        userRepository.deleteAll();
-//        defectTypeRepository.deleteAll();
-//        defectStatusRepository.deleteAll();
-//        causationCategoryRepository.deleteAll();
     }
 
     protected void setAuthentication(User user){
