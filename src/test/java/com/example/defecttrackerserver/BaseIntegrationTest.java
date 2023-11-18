@@ -38,6 +38,7 @@ import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
+import com.example.defecttrackerserver.core.user.role.RoleMapper;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
@@ -85,6 +86,9 @@ public abstract class BaseIntegrationTest {
 
     @Autowired
     protected UserMapper userMapper;
+
+    @Autowired
+    protected RoleMapper roleMapper;
 
     @Autowired
     protected DefectMapper defectMapper;
