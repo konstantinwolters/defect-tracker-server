@@ -32,8 +32,10 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.lot.LotMapper;
 import com.example.defecttrackerserver.core.lot.lot.LotRepository;
 import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialMapper;
 import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
+import com.example.defecttrackerserver.core.lot.supplier.SupplierMapper;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.role.RoleRepository;
@@ -107,6 +109,12 @@ public abstract class BaseIntegrationTest {
 
     @Autowired
     protected LotMapper lotMapper;
+
+    @Autowired
+    protected MaterialMapper materialMapper;
+
+    @Autowired
+    protected SupplierMapper supplierMapper;
 
     @Autowired
     protected DefectCommentMapper defectCommentMapper;
