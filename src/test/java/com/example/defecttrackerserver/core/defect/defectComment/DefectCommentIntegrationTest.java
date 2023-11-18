@@ -6,18 +6,14 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.user.role.Role;
-import com.example.defecttrackerserver.core.user.user.User;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Optional;
 import java.util.Set;
@@ -30,11 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class DefectCommentIntegrationTest extends BaseIntegrationTest {
     String URL = "/defects";
-
-    Role roleQA;
-    Role roleADMIN;
-    User user;
-    Location location;
     DefectType defectType;
     DefectStatus defectStatus;
     CausationCategory causationCategory;
@@ -46,20 +37,15 @@ public class DefectCommentIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        super.commonSetup();
+        commonSetup();
 
-        roleQA = setUpRole("ROLE_QA");
-        roleADMIN = setUpRole("ROLE_ADMIN");
         defectType = setUpDefectType("testDefectType");
         defectStatus = setUpDefectStatus("testDefectStatus");
         causationCategory = setUpCausationCategory("testCausationCategory");
         process = setUpProcess("testProcess");
-        location = setUpLocation("testLocation");
-        user = setUpUser("frank", "email", roleQA, location);
         material = setUpMaterial("testMaterial");
         supplier = setUpSupplier("testSupplier");
         lot = setUpLot("testLotNumber", material, supplier);
-
         defect = setUpDefect(
                 "testDescription",
                 lot,
@@ -70,9 +56,6 @@ public class DefectCommentIntegrationTest extends BaseIntegrationTest {
                 location,
                 user
         );
-
-
-        setAuthentication(user);
     }
 
     @Test

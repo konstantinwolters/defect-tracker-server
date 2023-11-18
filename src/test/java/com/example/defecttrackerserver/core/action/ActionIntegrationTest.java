@@ -6,11 +6,9 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
@@ -18,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -31,11 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ActionIntegrationTest extends BaseIntegrationTest {
     String URL = "/actions";
-
-    Role roleQA;
-    Role roleADMIN;
-    Location location;
-    User user;
     Material material;
     Supplier supplier;
     Lot lot;
@@ -47,12 +39,8 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        super.commonSetup();
+        commonSetup();
 
-        roleQA = setUpRole("ROLE_QA");
-        roleADMIN = setUpRole("ROLE_ADMIN");
-        location = setUpLocation("testLocation");
-        user = setUpUser("frank", "email", roleQA, location);
         material = setUpMaterial("testMaterial");
         supplier = setUpSupplier("testSupplier");
         lot = setUpLot("testLotNumber", material, supplier);
@@ -63,7 +51,6 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory,
                 process, location, user);
 
-        setAuthentication(user);
     }
 
     @Test

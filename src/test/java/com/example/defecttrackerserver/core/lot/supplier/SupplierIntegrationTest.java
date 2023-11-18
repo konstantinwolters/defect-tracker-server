@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.defectStatus;
+package com.example.defecttrackerserver.core.lot.supplier;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DefectStatusIntegrationTest extends BaseIntegrationTest {
-    String URL = "/defectstatus";
+public class SupplierIntegrationTest extends BaseIntegrationTest {
+    String URL = "/suppliers";
 
     @BeforeEach
     void setUp() {
@@ -28,29 +28,30 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldSaveDefectStatus() throws Exception {
-
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
-        defectStatusDto.setName("testDefectStatus");
+    void shouldSaveSupplier() throws Exception {
+        SupplierDto supplierDto = new SupplierDto();
+        supplierDto.setName("testSupplier");
+        supplierDto.setCustomId("testCustomId");
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto)))
                 .andExpect(status().isOk());
 
-        DefectStatus savedDefectStatus = defectStatusRepository.findAll().get(0);
+        Supplier savedSupplier = supplierRepository.findAll().get(0);
 
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.getName());
+        assertEquals(supplierDto.getName(), savedSupplier.getName());
+        assertEquals(supplierDto.getCustomId(), savedSupplier.getCustomId());
     }
 
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        SupplierDto supplierDto = new SupplierDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -59,32 +60,32 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        SupplierDto supplierDto = new SupplierDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
-    void shouldGetDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldGetSupplierId() throws Exception{
+        Supplier supplier = setUpSupplier("testSupplier");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
+        SupplierDto supplierDto = supplierMapper.mapToDto(supplier);
 
-        mockMvc.perform(get(URL + "/" + defectStatus.getId())
+        mockMvc.perform(get(URL + "/" + supplier.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(defectStatusDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(supplierDto)));
     }
 
     @Test
     @Transactional
-    void shouldGetAllDefectStatuses() throws Exception{
-        setUpDefectStatus("testDefectStatus1");
-        setUpDefectStatus("testDefectStatus2");
+    void shouldGetAllSuppliers() throws Exception{
+        setUpSupplier("testSupplier1");
+        setUpSupplier("testSupplier2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -99,30 +100,30 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateDefectStatus() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldUpdateSupplier() throws Exception{
+        Supplier supplier = setUpSupplier("testSupplier");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
-        defectStatusDto.setName("UpdatedTestDefectStatus");
+        SupplierDto supplierDto = supplierMapper.mapToDto(supplier);
+        supplierDto.setName("UpdatedTestSupplier");
 
-        mockMvc.perform(put(URL + "/" + defectStatus.getId())
+        mockMvc.perform(put(URL + "/" + supplier.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto)))
                 .andExpect(status().isOk());
 
-        Optional<DefectStatus> savedDefectStatus =
-                defectStatusRepository.findById(defectStatus.getId());
+        Optional<Supplier> savedSupplier =
+                supplierRepository.findById(supplier.getId());
 
-        assertTrue(savedDefectStatus.isPresent());
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.get().getName());
+        assertTrue(savedSupplier.isPresent());
+        assertEquals(supplierDto.getName(), savedSupplier.get().getName());
     }
 
     @Test
     @Transactional
-    void shouldDeleteDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldDeleteSupplierById() throws Exception{
+        Supplier supplier = setUpSupplier("testSupplier");
 
-        mockMvc.perform(delete(URL + "/" + defectStatus.getId()))
+        mockMvc.perform(delete(URL + "/" + supplier.getId()))
                 .andExpect(status().isNoContent());
     }
 }

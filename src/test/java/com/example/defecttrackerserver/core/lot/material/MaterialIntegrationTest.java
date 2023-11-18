@@ -1,6 +1,7 @@
-package com.example.defecttrackerserver.core.defect.defectStatus;
+package com.example.defecttrackerserver.core.lot.material;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
+import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,8 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DefectStatusIntegrationTest extends BaseIntegrationTest {
-    String URL = "/defectstatus";
+public class MaterialIntegrationTest extends BaseIntegrationTest {
+    String URL = "/materials";
 
     @BeforeEach
     void setUp() {
@@ -28,29 +30,32 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldSaveDefectStatus() throws Exception {
+    void shouldSaveMaterial() throws Exception {
+        UserDto userDto = userMapper.mapToDto(user);
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
-        defectStatusDto.setName("testDefectStatus");
+        MaterialDto materialDto = new MaterialDto();
+        materialDto.setName("testMaterial");
+        materialDto.setResponsibleUsers(Set.of(userDto));
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(materialDto)))
                 .andExpect(status().isOk());
 
-        DefectStatus savedDefectStatus = defectStatusRepository.findAll().get(0);
+        Material savedMaterial = materialRepository.findAll().get(0);
 
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.getName());
+        assertEquals(materialDto.getName(), savedMaterial.getName());
+        assertEquals(materialDto.getResponsibleUsers().size(), savedMaterial.getResponsibleUsers().size());
     }
 
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        MaterialDto materialDto = new MaterialDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(materialDto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -59,32 +64,32 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        MaterialDto materialDto = new MaterialDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(materialDto)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
-    void shouldGetDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldGetMaterialId() throws Exception{
+        Material material = setUpMaterial("testMaterial");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
+        MaterialDto materialDto = materialMapper.mapToDto(material);
 
-        mockMvc.perform(get(URL + "/" + defectStatus.getId())
+        mockMvc.perform(get(URL + "/" + material.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(defectStatusDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(materialDto)));
     }
 
     @Test
     @Transactional
-    void shouldGetAllDefectStatuses() throws Exception{
-        setUpDefectStatus("testDefectStatus1");
-        setUpDefectStatus("testDefectStatus2");
+    void shouldGetAllMaterials() throws Exception{
+        setUpMaterial("testMaterial1");
+        setUpMaterial("testMaterial2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -99,30 +104,31 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateDefectStatus() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldUpdateMaterial() throws Exception{
+        Material material = setUpMaterial("testMaterial");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
-        defectStatusDto.setName("UpdatedTestDefectStatus");
+        MaterialDto materialDto = materialMapper.mapToDto(material);
+        materialDto.setName("UpdatedTestMaterial");
+        materialDto.setResponsibleUsers(Set.of(userMapper.mapToDto(user)));
 
-        mockMvc.perform(put(URL + "/" + defectStatus.getId())
+        mockMvc.perform(put(URL + "/" + material.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(materialDto)))
                 .andExpect(status().isOk());
 
-        Optional<DefectStatus> savedDefectStatus =
-                defectStatusRepository.findById(defectStatus.getId());
+        Optional<Material> savedMaterial =
+                materialRepository.findById(material.getId());
 
-        assertTrue(savedDefectStatus.isPresent());
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.get().getName());
+        assertTrue(savedMaterial.isPresent());
+        assertEquals(materialDto.getName(), savedMaterial.get().getName());
     }
 
     @Test
     @Transactional
-    void shouldDeleteDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldDeleteMaterialById() throws Exception{
+        Material material = setUpMaterial("testMaterial");
 
-        mockMvc.perform(delete(URL + "/" + defectStatus.getId()))
+        mockMvc.perform(delete(URL + "/" + material.getId()))
                 .andExpect(status().isNoContent());
     }
 }

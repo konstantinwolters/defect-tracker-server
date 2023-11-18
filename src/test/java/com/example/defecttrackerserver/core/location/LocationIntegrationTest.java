@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.defectStatus;
+package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DefectStatusIntegrationTest extends BaseIntegrationTest {
-    String URL = "/defectstatus";
+public class LocationIntegrationTest extends BaseIntegrationTest {
+    String URL = "/locations";
 
     @BeforeEach
     void setUp() {
@@ -28,29 +28,30 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldSaveDefectStatus() throws Exception {
-
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
-        defectStatusDto.setName("testDefectStatus");
+    void shouldSaveLocation() throws Exception {
+        LocationDto locationDto = new LocationDto();
+        locationDto.setName("testLocation2");
+        locationDto.setCustomId("testCustomId");
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isOk());
 
-        DefectStatus savedDefectStatus = defectStatusRepository.findAll().get(0);
+        Location savedLocation = locationRepository.findAll().get(1); // get(1), because BaseIntegrationTest already inserts a location
 
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.getName());
+        assertEquals(locationDto.getName(), savedLocation.getName());
+        assertEquals(locationDto.getCustomId(), savedLocation.getCustomId());
     }
 
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        LocationDto locationDto = new LocationDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -59,32 +60,31 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        LocationDto locationDto = new LocationDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
-    void shouldGetDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldGetLocationById() throws Exception{
+        Location location = setUpLocation("testLocation2");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
+        LocationDto locationDto = locationMapper.mapToDto(location);
 
-        mockMvc.perform(get(URL + "/" + defectStatus.getId())
+        mockMvc.perform(get(URL + "/" + location.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(defectStatusDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(locationDto)));
     }
 
     @Test
     @Transactional
-    void shouldGetAllDefectStatuses() throws Exception{
-        setUpDefectStatus("testDefectStatus1");
-        setUpDefectStatus("testDefectStatus2");
+    void shouldGetAllLocations() throws Exception{
+        setUpLocation("testLocation2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -99,30 +99,30 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateDefectStatus() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldUpdateLocation() throws Exception{
+        Location location = setUpLocation("testLocation2");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
-        defectStatusDto.setName("UpdatedTestDefectStatus");
+        LocationDto locationDto = locationMapper.mapToDto(location);
+        locationDto.setName("UpdatedTestLocation");
 
-        mockMvc.perform(put(URL + "/" + defectStatus.getId())
+        mockMvc.perform(put(URL + "/" + location.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isOk());
 
-        Optional<DefectStatus> savedDefectStatus =
-                defectStatusRepository.findById(defectStatus.getId());
+        Optional<Location> savedLocation =
+                locationRepository.findById(location.getId());
 
-        assertTrue(savedDefectStatus.isPresent());
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.get().getName());
+        assertTrue(savedLocation.isPresent());
+        assertEquals(locationDto.getName(), savedLocation.get().getName());
     }
 
     @Test
     @Transactional
-    void shouldDeleteDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldDeleteLocationById() throws Exception{
+        Location location = setUpLocation("testLocation2");
 
-        mockMvc.perform(delete(URL + "/" + defectStatus.getId()))
+        mockMvc.perform(delete(URL + "/" + location.getId()))
                 .andExpect(status().isNoContent());
     }
 }

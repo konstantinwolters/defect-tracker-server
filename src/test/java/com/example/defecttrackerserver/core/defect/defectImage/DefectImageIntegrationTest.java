@@ -6,12 +6,9 @@ import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.user.role.Role;
-import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.utils.DefaultFileSystemOperations;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,10 +39,6 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
     String imagePath;
 
     String URL = "/defects";
-    Role roleQA;
-    Role roleADMIN;
-    User user;
-    Location location;
     DefectType defectType;
     DefectStatus defectStatus;
     CausationCategory causationCategory;
@@ -61,21 +53,17 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        super.commonSetup();
+        commonSetup();
 
         path = Paths.get("src/test/resources/testimage.jpg");
         content = Files.readAllBytes(path);
         file = new MockMultipartFile("image", "testimage.jpg",
                 "image/jpeg", content);
 
-        roleQA = setUpRole("ROLE_QA");
-        roleADMIN = setUpRole("ROLE_ADMIN");
         defectType = setUpDefectType("testDefectType");
         defectStatus = setUpDefectStatus("testDefectStatus");
         causationCategory = setUpCausationCategory("testCausationCategory");
         process = setUpProcess("testProcess");
-        location = setUpLocation("testLocation");
-        user = setUpUser("frank", "email", roleQA, location);
         material = setUpMaterial("testMaterial");
         supplier = setUpSupplier("testSupplier");
         lot = setUpLot("testLotNumber", material, supplier);
@@ -90,7 +78,6 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
                 location,
                 user
         );
-        setAuthentication(user);
     }
 
     @Test

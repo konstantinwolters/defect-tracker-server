@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -32,14 +31,7 @@ public class CausationCategoryIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        super.commonSetup();
-
-        roleQA = setUpRole("ROLE_QA");
-        roleADMIN = setUpRole("ROLE_ADMIN");
-        location = setUpLocation("testLocation");
-        user = setUpUser("frank", "email", roleADMIN, location);
-
-        setAuthentication(user);
+        commonSetup();
     }
 
     @Test
