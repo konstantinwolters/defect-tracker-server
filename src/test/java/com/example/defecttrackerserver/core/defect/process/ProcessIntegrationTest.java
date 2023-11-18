@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.defectStatus;
+package com.example.defecttrackerserver.core.defect.process;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DefectStatusIntegrationTest extends BaseIntegrationTest {
-    String URL = "/defectstatus";
+public class ProcessIntegrationTest extends BaseIntegrationTest {
+    String URL = "/processes";
 
     @BeforeEach
     void setUp() {
@@ -28,29 +28,28 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldSaveDefectStatus() throws Exception {
-
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
-        defectStatusDto.setName("testDefectStatus");
+    void shouldSaveProcess() throws Exception {
+        ProcessDto processDto = new ProcessDto();
+        processDto.setName("testProcess");
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(processDto)))
                 .andExpect(status().isOk());
 
-        DefectStatus savedDefectStatus = defectStatusRepository.findAll().get(0);
+        Process savedProcess = processRepository.findAll().get(0);
 
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.getName());
+        assertEquals(processDto.getName(), savedProcess.getName());
     }
 
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        ProcessDto processDto = new ProcessDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(processDto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -59,32 +58,32 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        ProcessDto processDto = new ProcessDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(processDto)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
-    void shouldGetDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldGetProcessId() throws Exception{
+        Process process = setUpProcess("testProcess");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
+        ProcessDto processDto = processMapper.mapToDto(process);
 
-        mockMvc.perform(get(URL + "/" + defectStatus.getId())
+        mockMvc.perform(get(URL + "/" + process.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(defectStatusDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(processDto)));
     }
 
     @Test
     @Transactional
-    void shouldGetAllDefectStatuses() throws Exception{
-        setUpDefectStatus("testDefectStatus1");
-        setUpDefectStatus("testDefectStatus2");
+    void shouldGetAllProcesses() throws Exception{
+        setUpProcess("testProcess1");
+        setUpProcess("testProcess2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -99,30 +98,30 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateDefectStatus() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldUpdateProcess() throws Exception{
+        Process process = setUpProcess("testProcess");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
-        defectStatusDto.setName("UpdatedTestDefectStatus");
+        ProcessDto processDto = processMapper.mapToDto(process);
+        processDto.setName("UpdatedTestDefectStatus");
 
-        mockMvc.perform(put(URL + "/" + defectStatus.getId())
+        mockMvc.perform(put(URL + "/" + process.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(processDto)))
                 .andExpect(status().isOk());
 
-        Optional<DefectStatus> savedDefectStatus =
-                defectStatusRepository.findById(defectStatus.getId());
+        Optional<Process> savedProcess =
+                processRepository.findById(process.getId());
 
-        assertTrue(savedDefectStatus.isPresent());
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.get().getName());
+        assertTrue(savedProcess.isPresent());
+        assertEquals(processDto.getName(), savedProcess.get().getName());
     }
 
     @Test
     @Transactional
-    void shouldDeleteDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+    void shouldDeleteProcessById() throws Exception{
+        Process process = setUpProcess("testProcess");
 
-        mockMvc.perform(delete(URL + "/" + defectStatus.getId()))
+        mockMvc.perform(delete(URL + "/" + process.getId()))
                 .andExpect(status().isNoContent());
     }
 }

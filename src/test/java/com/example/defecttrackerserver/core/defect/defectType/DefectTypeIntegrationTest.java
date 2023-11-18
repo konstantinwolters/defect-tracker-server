@@ -28,9 +28,9 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldSaveDefectStatus() throws Exception {
+    void shouldSaveDefectType() throws Exception {
 
-        DefectType defectTypeDto = new DefectType();
+        DefectTypeDto defectTypeDto = new DefectTypeDto();
         defectTypeDto.setName("testDefectType");
 
         mockMvc.perform(post(URL)
@@ -46,7 +46,7 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        DefectType defectTypeDto = new DefectType();
+        DefectTypeDto defectTypeDto = new DefectTypeDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        DefectType defectTypeDto = new DefectType();
+        DefectTypeDto defectTypeDto = new DefectTypeDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldGetCausationCategoryById() throws Exception{
+    void shouldGetDefectTypeById() throws Exception{
         DefectType defectType = setUpDefectType("testDefectType");
 
         DefectTypeDto defectTypeDto = defectTypeMapper.mapToDto(defectType);
@@ -82,9 +82,9 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldGetAllDefectStatuses() throws Exception{
-        setUpDefectType("testDefectStatus1");
-        setUpDefectType("testDefectStatus2");
+    void shouldGetAllDefectTypes() throws Exception{
+        setUpDefectType("testDefectType1");
+        setUpDefectType("testDefectType2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -99,7 +99,7 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateDefectStatus() throws Exception{
+    void shouldUpdateDefectType() throws Exception{
         DefectType defectType = setUpDefectType("testDefectType");
 
         DefectTypeDto defectTypeDto = defectTypeMapper.mapToDto(defectType);
@@ -119,7 +119,7 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldDeleteDefectStatusById() throws Exception{
+    void shouldDeleteDefectTypeById() throws Exception{
         DefectType defectType = setUpDefectType("testDefectType");
 
         mockMvc.perform(delete(URL + "/" + defectType.getId()))
