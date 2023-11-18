@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.defectStatus;
+package com.example.defecttrackerserver.core.defect.defectType;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DefectStatusIntegrationTest extends BaseIntegrationTest {
-    String URL = "/defectstatus";
+public class DefectTypeIntegrationTest extends BaseIntegrationTest {
+    String URL = "/defecttypes";
 
     @BeforeEach
     void setUp() {
@@ -30,27 +30,27 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     @Transactional
     void shouldSaveDefectStatus() throws Exception {
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
-        defectStatusDto.setName("testDefectStatus");
+        DefectType defectTypeDto = new DefectType();
+        defectTypeDto.setName("testDefectType");
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto)))
                 .andExpect(status().isOk());
 
-        DefectStatus savedDefectStatus = defectStatusRepository.findAll().get(0);
+        DefectType savedDefectType = defectTypeRepository.findAll().get(0);
 
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.getName());
+        assertEquals(defectTypeDto.getName(), savedDefectType.getName());
     }
 
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        DefectType defectTypeDto = new DefectType();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -59,32 +59,32 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        DefectStatusDto defectStatusDto = new DefectStatusDto();
+        DefectType defectTypeDto = new DefectType();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
     void shouldGetCausationCategoryById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+        DefectType defectType = setUpDefectType("testDefectType");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
+        DefectTypeDto defectTypeDto = defectTypeMapper.mapToDto(defectType);
 
-        mockMvc.perform(get(URL + "/" + defectStatus.getId())
+        mockMvc.perform(get(URL + "/" + defectType.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(defectStatusDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(defectTypeDto)));
     }
 
     @Test
     @Transactional
     void shouldGetAllDefectStatuses() throws Exception{
-        setUpDefectStatus("testDefectStatus1");
-        setUpDefectStatus("testDefectStatus2");
+        setUpDefectType("testDefectStatus1");
+        setUpDefectType("testDefectStatus2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -100,29 +100,29 @@ public class DefectStatusIntegrationTest extends BaseIntegrationTest {
     @Test
     @Transactional
     void shouldUpdateDefectStatus() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+        DefectType defectType = setUpDefectType("testDefectType");
 
-        DefectStatusDto defectStatusDto = defectStatusMapper.mapToDto(defectStatus);
-        defectStatusDto.setName("UpdatedTestDefectStatus");
+        DefectTypeDto defectTypeDto = defectTypeMapper.mapToDto(defectType);
+        defectTypeDto.setName("UpdatedTestDefectStatus");
 
-        mockMvc.perform(put(URL + "/" + defectStatus.getId())
+        mockMvc.perform(put(URL + "/" + defectType.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectStatusDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto)))
                 .andExpect(status().isOk());
 
-        Optional<DefectStatus> savedDefectStatus =
-                defectStatusRepository.findById(defectStatus.getId());
+        Optional<DefectType> savedDefectType =
+                defectTypeRepository.findById(defectType.getId());
 
-        assertTrue(savedDefectStatus.isPresent());
-        assertEquals(defectStatusDto.getName(), savedDefectStatus.get().getName());
+        assertTrue(savedDefectType.isPresent());
+        assertEquals(defectTypeDto.getName(), savedDefectType.get().getName());
     }
 
     @Test
     @Transactional
     void shouldDeleteDefectStatusById() throws Exception{
-        DefectStatus defectStatus = setUpDefectStatus("testDefectStatus");
+        DefectType defectType = setUpDefectType("testDefectType");
 
-        mockMvc.perform(delete(URL + "/" + defectStatus.getId()))
+        mockMvc.perform(delete(URL + "/" + defectType.getId()))
                 .andExpect(status().isNoContent());
     }
 }

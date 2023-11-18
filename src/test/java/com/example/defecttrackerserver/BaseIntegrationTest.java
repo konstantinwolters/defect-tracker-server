@@ -42,13 +42,9 @@ import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.UserRepository;
 import com.example.defecttrackerserver.security.SecurityUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -163,8 +159,18 @@ public abstract class BaseIntegrationTest {
     @Autowired
     protected DefectRepository defectRepository;
 
-    @BeforeEach
-    public void commonSetup() {
+    protected Role roleQA;
+    protected Role roleADMIN;
+    protected User user;
+    protected Location location;
+
+    protected void commonSetup() {
+        roleQA = setUpRole("ROLE_QA");
+        roleADMIN = setUpRole("ROLE_ADMIN");
+        location = setUpLocation("testLocation");
+        user = setUpUser("authUser", "email", roleADMIN, location);
+
+        setAuthentication(user);
     }
 
     protected void setAuthentication(User user){

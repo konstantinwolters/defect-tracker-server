@@ -5,11 +5,9 @@ import com.example.defecttrackerserver.core.defect.causationCategory.CausationCa
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.user.role.Role;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.transaction.Transactional;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
@@ -41,11 +38,6 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Value("${IMAGE.UPLOAD-PATH}")
     String imageFolderPath;
-
-    Role roleQA;
-    Role roleADMIN;
-    Location location;
-    User user;
     Material material;
     Supplier supplier;
     Lot lot;
@@ -56,12 +48,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        super.commonSetup();
-
-        roleQA = setUpRole("ROLE_QA");
-        roleADMIN = setUpRole("ROLE_ADMIN");
-        location = setUpLocation("testLocation");
-        user = setUpUser("frank", "email", roleQA, location);
+        commonSetup();
         material = setUpMaterial("testMaterial");
         supplier = setUpSupplier("testSupplier");
         lot = setUpLot("testLotNumber", material, supplier);
@@ -69,8 +56,6 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         defectType = setUpDefectType("Undefined");
         causationCategory = setUpCausationCategory("Undefined");
         defectStatus = setUpDefectStatus("New");
-
-        setAuthentication(user);
     }
 
     @Test
