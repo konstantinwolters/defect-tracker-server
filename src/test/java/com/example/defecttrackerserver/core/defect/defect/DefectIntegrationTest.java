@@ -194,8 +194,6 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
         setUpDefect("testDescription2", lot, defectType, defectStatus, causationCategory, process, location, user2);
 
-        String jsonPathExpression = String.format("$.content[0].createdBy.id", user2.getId());
-
         mockMvc.perform(get(URL)
                         .param("createdByIds", String.valueOf(user2.getId())))
                 .andExpect(status().isOk())
@@ -203,7 +201,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.currentPage").value(0))
                 // Check if the first element of content has an assignedUsers array that contains an object with the given id
-                .andExpect(jsonPath(jsonPathExpression).exists());
+                .andExpect(jsonPath("$.content[0].createdBy.id").value(user2.getId()));
     }
 
     @Test
