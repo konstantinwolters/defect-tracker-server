@@ -1,4 +1,4 @@
-package com.example.defecttrackerserver.core.defect.process;
+package com.example.defecttrackerserver.core.location;
 
 import com.example.defecttrackerserver.BaseIntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ProcessIntegrationTest extends BaseIntegrationTest {
-    String URL = "/processes";
+public class LocationIntegrationTest extends BaseIntegrationTest {
+    String URL = "/locations";
 
     @BeforeEach
     void setUp() {
@@ -28,28 +28,30 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldSaveProcess() throws Exception {
-        ProcessDto processDto = new ProcessDto();
-        processDto.setName("testProcess");
+    void shouldSaveLocation() throws Exception {
+        LocationDto locationDto = new LocationDto();
+        locationDto.setName("testLocation2");
+        locationDto.setCustomId("testCustomId");
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isOk());
 
-        Process savedProcess = processRepository.findAll().get(0);
+        Location savedLocation = locationRepository.findAll().get(1); // get(1), because BaseIntegrationTest already inserts a location
 
-        assertEquals(processDto.getName(), savedProcess.getName());
+        assertEquals(locationDto.getName(), savedLocation.getName());
+        assertEquals(locationDto.getCustomId(), savedLocation.getCustomId());
     }
 
     @Test
     @Transactional
     void shouldReturnBadRequestWhenNameIsNull() throws Exception{
-        ProcessDto processDto = new ProcessDto();
+        LocationDto locationDto = new LocationDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -58,32 +60,31 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
     void shouldReturn403WhenNotAuthenticated() throws Exception{
         SecurityContextHolder.clearContext();
 
-        ProcessDto processDto = new ProcessDto();
+        LocationDto locationDto = new LocationDto();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
-    void shouldGetProcessId() throws Exception{
-        Process process = setUpProcess("testProcess");
+    void shouldGetLocationById() throws Exception{
+        Location location = setUpLocation("testLocation2");
 
-        ProcessDto processDto = processMapper.mapToDto(process);
+        LocationDto locationDto = locationMapper.mapToDto(location);
 
-        mockMvc.perform(get(URL + "/" + process.getId())
+        mockMvc.perform(get(URL + "/" + location.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(processDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(locationDto)));
     }
 
     @Test
     @Transactional
-    void shouldGetAllProcesses() throws Exception{
-        setUpProcess("testProcess1");
-        setUpProcess("testProcess2");
+    void shouldGetAllLocations() throws Exception{
+        setUpLocation("testLocation2");
 
         MvcResult result = mockMvc.perform(get(URL))
                 .andExpect(status().isOk())
@@ -98,30 +99,30 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateProcess() throws Exception{
-        Process process = setUpProcess("testProcess");
+    void shouldUpdateLocation() throws Exception{
+        Location location = setUpLocation("testLocation2");
 
-        ProcessDto processDto = processMapper.mapToDto(process);
-        processDto.setName("UpdatedTestDefectStatus");
+        LocationDto locationDto = locationMapper.mapToDto(location);
+        locationDto.setName("UpdatedTestLocation");
 
-        mockMvc.perform(put(URL + "/" + process.getId())
+        mockMvc.perform(put(URL + "/" + location.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(locationDto)))
                 .andExpect(status().isOk());
 
-        Optional<Process> savedProcess =
-                processRepository.findById(process.getId());
+        Optional<Location> savedLocation =
+                locationRepository.findById(location.getId());
 
-        assertTrue(savedProcess.isPresent());
-        assertEquals(processDto.getName(), savedProcess.get().getName());
+        assertTrue(savedLocation.isPresent());
+        assertEquals(locationDto.getName(), savedLocation.get().getName());
     }
 
     @Test
     @Transactional
-    void shouldDeleteProcessById() throws Exception{
-        Process process = setUpProcess("testProcess");
+    void shouldDeleteLocationById() throws Exception{
+        Location location = setUpLocation("testLocation2");
 
-        mockMvc.perform(delete(URL + "/" + process.getId()))
+        mockMvc.perform(delete(URL + "/" + location.getId()))
                 .andExpect(status().isNoContent());
     }
 }

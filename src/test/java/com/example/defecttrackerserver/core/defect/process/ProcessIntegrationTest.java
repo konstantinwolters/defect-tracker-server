@@ -102,7 +102,7 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
         Process process = setUpProcess("testProcess");
 
         ProcessDto processDto = processMapper.mapToDto(process);
-        processDto.setName("UpdatedTestDefectStatus");
+        processDto.setName("UpdatedTestProcess");
 
         mockMvc.perform(put(URL + "/" + process.getId())
                         .contentType(MediaType.APPLICATION_JSON)

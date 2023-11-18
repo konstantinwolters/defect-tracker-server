@@ -103,7 +103,7 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
         DefectType defectType = setUpDefectType("testDefectType");
 
         DefectTypeDto defectTypeDto = defectTypeMapper.mapToDto(defectType);
-        defectTypeDto.setName("UpdatedTestDefectStatus");
+        defectTypeDto.setName("UpdatedTestDefectType");
 
         mockMvc.perform(put(URL + "/" + defectType.getId())
                         .contentType(MediaType.APPLICATION_JSON)
