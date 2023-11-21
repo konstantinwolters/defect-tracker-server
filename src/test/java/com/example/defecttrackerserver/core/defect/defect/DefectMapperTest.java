@@ -17,6 +17,8 @@ import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotMapper;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
@@ -52,6 +54,9 @@ class DefectMapperTest {
     @Mock
     private UserMapper userMapper;
 
+    @Mock
+    private LotMapper lotMapper;
+
     @InjectMocks
     private DefectMapper defectMapper;
 
@@ -60,6 +65,7 @@ class DefectMapperTest {
     DefectCommentDto defectCommentDto;
     DefectImageDto defectImageDto;
     ActionDto actionDto;
+    LotDto lotDto;
 
     @BeforeEach
     public void init() {
@@ -69,12 +75,14 @@ class DefectMapperTest {
         defectImageDto = TestHelper.setUpDefectImageDto();
         actionDto = TestHelper.setUpActionDto();
         userDto = TestHelper.setUpUserDto();
+        lotDto = TestHelper.setUpLotDto();
         defectDto = TestHelper.setUpDefectDto();
         defectDto.setCreatedBy(userDto);
         defectDto.setChangedBy(userDto);
         defectDto.setActions(new HashSet<>(Set.of(actionDto)));
         defectDto.setImages(new ArrayList<>(List.of(defectImageDto)));
         defectDto.setDefectComments(new HashSet<>(Set.of(defectCommentDto)));
+        defectDto.setLot(lotDto);
     }
 
     @Test
@@ -104,7 +112,7 @@ class DefectMapperTest {
         assertEquals(defectDto.getCausationCategory(), mappedDefect.getCausationCategory().getName());
         assertEquals(defectDto.getDescription(), mappedDefect.getDescription());
         assertEquals(defectDto.getDefectComments().size(), mappedDefect.getDefectComments().size());
-        assertEquals(defectDto.getLot(), mappedDefect.getLot().getId());
+        assertEquals(defectDto.getLot().getId(), mappedDefect.getLot().getId());
         assertEquals(defectDto.getLocation(), mappedDefect.getLocation().getName());
         assertEquals(defectDto.getProcess(), mappedDefect.getProcess().getName());
         assertEquals(defectDto.getDefectType(), mappedDefect.getDefectType().getName());
@@ -138,6 +146,7 @@ class DefectMapperTest {
         when(actionMapper.mapToDto(any())).thenReturn(new ActionDto());
         when(entityService.getUserById(any())).thenReturn(user);
         when(userMapper.mapToDto(any())).thenReturn(userDto);
+        when(lotMapper.mapToDto(any())).thenReturn(lotDto);
 
         DefectDto mappedDefectDto = defectMapper.mapToDto(defect);
         assertEquals(defect.getId(), mappedDefectDto.getId());
@@ -146,7 +155,7 @@ class DefectMapperTest {
         assertEquals(defect.getChangedAt(), mappedDefectDto.getChangedAt());
         assertEquals(defect.getDefectStatus().getName(), mappedDefectDto.getDefectStatus());
         assertEquals(defect.getDefectComments().size(), mappedDefectDto.getDefectComments().size());
-        assertEquals(defect.getLot().getId(), mappedDefectDto.getLot());
+        assertEquals(defect.getLot().getId(), mappedDefectDto.getLot().getId());
         assertEquals(defect.getLocation().getName(), mappedDefectDto.getLocation());
         assertEquals(defect.getProcess().getName(), mappedDefectDto.getProcess());
         assertEquals(defect.getDefectType().getName(), mappedDefectDto.getDefectType());

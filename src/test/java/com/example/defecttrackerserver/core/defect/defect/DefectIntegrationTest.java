@@ -6,6 +6,7 @@ import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
 import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.user.user.User;
@@ -62,13 +63,14 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
     @Transactional
     void shouldSaveDefect() throws Exception {
         UserDto userDto = userMapper.mapToDto(user);
+        LotDto lotDto = lotMapper.mapToDto(lot);
 
         DefectDto defectDto = new DefectDto();
         defectDto.setDefectStatus(defectStatus.getName());
         defectDto.setDefectType(defectType.getName());
         defectDto.setProcess(process.getName());
         defectDto.setCausationCategory(causationCategory.getName());
-        defectDto.setLot(lot.getId());
+        defectDto.setLot(lotDto);
         defectDto.setCreatedBy(userDto);
         defectDto.setDescription("testDescription");
 
@@ -101,7 +103,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         assertEquals(defectDto.getDefectStatus(), defect.getDefectStatus().getName());
         assertEquals(defectDto.getDefectType(), defect.getDefectType().getName());
         assertEquals(defectDto.getProcess(), defect.getProcess().getName());
-        assertEquals(defectDto.getLot(), defect.getLot().getId());
+        assertEquals(defectDto.getLot().getId(), defect.getLot().getId());
     }
 
     @Test
@@ -138,12 +140,13 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         SecurityContextHolder.clearContext();
 
         UserDto userDto = userMapper.mapToDto(user);
+        LotDto lotDto = lotMapper.mapToDto(lot);
         DefectDto defectDto = new DefectDto();
         defectDto.setDefectStatus(defectStatus.getName());
         defectDto.setDefectType(defectType.getName());
         defectDto.setProcess(process.getName());
         defectDto.setCausationCategory(causationCategory.getName());
-        defectDto.setLot(lot.getId());
+        defectDto.setLot(lotDto);
         defectDto.setCreatedBy(userDto);
         defectDto.setDescription("testDescription");
 

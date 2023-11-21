@@ -6,7 +6,9 @@ import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.coreService.EntityService;
 import com.example.defecttrackerserver.core.defect.defect.DefectDto;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.lot.material.Material;
+import com.example.defecttrackerserver.core.lot.material.MaterialDto;
 import com.example.defecttrackerserver.core.user.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,10 +52,12 @@ class NotificationAspectTest {
     void handleDefectNotification() {
         DefectDto defectDto = TestHelper.setUpDefectDto();
         Lot lot = TestHelper.setUpLot();
+        LotDto lotDto = TestHelper.setUpLotDto();
         User user = TestHelper.setUpUser();
         Material material = TestHelper.setUpMaterial();
         material.setResponsibleUsers(Set.of(user));
         lot.setMaterial(material);
+        defectDto.setLot(lotDto);
 
         when(entityService.getLotById(anyInt())).thenReturn(lot);
         when(messageSource.getMessage(anyString(), any(), any(Locale.class))).thenReturn("subject template %s", "body template %s %s %s");

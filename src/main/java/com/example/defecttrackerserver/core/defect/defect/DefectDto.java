@@ -3,6 +3,7 @@ package com.example.defecttrackerserver.core.defect.defect;
 import com.example.defecttrackerserver.core.action.ActionDto;
 import com.example.defecttrackerserver.core.defect.defectComment.DefectCommentDto;
 import com.example.defecttrackerserver.core.defect.defectImage.DefectImageDto;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -37,7 +38,7 @@ public class DefectDto {
     private String description;
 
     @NotNull(message = "Lot must not be null.")
-    private Integer lot;
+    private LotDto lot;
 
     @NotNull(message = "Process must not be null.")
     @NotEmpty(message = "Process must not be empty.")
