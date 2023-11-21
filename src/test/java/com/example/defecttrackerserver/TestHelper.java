@@ -147,7 +147,7 @@ public class TestHelper {
         DefectDto defectDto = new DefectDto();
         defectDto.setId(1);
         defectDto.setDescription("testDescription");
-        defectDto.setLot(1);
+        defectDto.setLot(new LotDto());
         defectDto.setDefectStatus("testDefectStatus");
         defectDto.setDefectType("testDefectType");
         defectDto.setProcess("testProcess");
@@ -275,13 +275,13 @@ public class TestHelper {
     }
 
     public static Lot setUpLot(){
-        Lot lotDto = new Lot();
-        lotDto.setId(1);
-        lotDto.setLotNumber("testNumber");
-        lotDto.setMaterial(new Material());
-        lotDto.setSupplier(new Supplier());
-        lotDto.setDefects(new HashSet<>(Set.of(new Defect())));
-        return lotDto;
+        Lot lot = new Lot();
+        lot.setId(1);
+        lot.setLotNumber("testNumber");
+        lot.setMaterial(new Material());
+        lot.setSupplier(new Supplier());
+        lot.setDefects(new HashSet<>(Set.of(new Defect())));
+        return lot;
     }
 
     public static Defect setUpDefect(){

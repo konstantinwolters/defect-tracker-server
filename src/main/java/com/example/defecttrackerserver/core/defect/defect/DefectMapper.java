@@ -16,6 +16,8 @@ import com.example.defecttrackerserver.core.defect.defectType.DefectType;
 import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.location.Location;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
+import com.example.defecttrackerserver.core.lot.lot.LotMapper;
+import com.example.defecttrackerserver.core.lot.lot.dto.LotDto;
 import com.example.defecttrackerserver.core.user.user.User;
 import com.example.defecttrackerserver.core.user.user.UserMapper;
 import com.example.defecttrackerserver.core.user.user.userDtos.UserDto;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 public class DefectMapper {
     private final EntityService entityService;
     private final UserMapper userMapper;
+    private final LotMapper lotMapper;
     private final DefectCommentMapper defectCommentMapper;
     private final DefectImageMapper defectImageMapper;
     private final ActionMapper actionMapper;
@@ -92,7 +95,7 @@ public class DefectMapper {
         defect.setChangedBy(changedBy);
 
         //Maintain relationships
-        Lot lot = entityService.getLotById(defectDto.getLot());
+        Lot lot = entityService.getLotById(defectDto.getLot().getId());
         lot.addDefect(defect);
 
         return defect;
@@ -101,6 +104,7 @@ public class DefectMapper {
     public DefectDto mapToDto(Defect defect){
         UserDto createdBy = userMapper.mapToDto(defect.getCreatedBy());
         UserDto changedBy = defect.getChangedBy() != null ? userMapper.mapToDto(defect.getChangedBy()) : null;
+        LotDto lot = lotMapper.mapToDto(defect.getLot());
 
         Set<DefectCommentDto> defectComments = Optional.ofNullable(defect.getDefectComments())
                 .orElse(Collections.emptySet())
@@ -128,7 +132,7 @@ public class DefectMapper {
         defectDto.setDefectStatus(defect.getDefectStatus().getName());
         defectDto.setCausationCategory(defect.getCausationCategory().getName());
         defectDto.setDefectComments(defectComments);
-        defectDto.setLot(defect.getLot().getId());
+        defectDto.setLot(lot);
         defectDto.setLocation(defect.getLocation().getName());
         defectDto.setProcess(defect.getProcess().getName());
         defectDto.setDefectType(defect.getDefectType().getName());

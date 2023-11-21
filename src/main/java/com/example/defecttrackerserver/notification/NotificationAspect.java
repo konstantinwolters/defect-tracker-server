@@ -44,7 +44,7 @@ public class NotificationAspect {
 
     void handleDefectNotification(DefectDto defect){
         Locale currentLocale = LocaleContextHolder.getLocale();
-        Lot lot = entityService.getLotById(defect.getLot());
+        Lot lot = entityService.getLotById(defect.getLot().getId());
         String[] recipients = fetchRecipientsEmailAddresses(lot.getMaterial().getResponsibleUsers());
         String subject = prepareSubject("email.subject.newDefect", defect.getId(), currentLocale);
 
