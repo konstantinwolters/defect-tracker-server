@@ -1,6 +1,6 @@
 package com.example.defecttrackerserver.statistics.defectStatistics;
 
-import com.example.defecttrackerwebclient.statistics.*;
+import com.example.defecttrackerserver.statistics.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public class DefectStatisticsDto {
     private List<MaterialCount> materialCounts;
     private List<LocationCount> locationCounts;
     private List<SupplierCount> supplierCounts;
-    private List<MonthCount> monthCounts;
+    private List<MonthAndYearCount> monthAndYearCounts;
     private List<YearCount> yearCounts;
     private List<ProcessCount> processCounts;
 }
