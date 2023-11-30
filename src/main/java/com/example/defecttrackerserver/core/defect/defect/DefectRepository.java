@@ -9,6 +9,7 @@ import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.user.user.User;
+import com.example.defecttrackerserver.statistics.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
