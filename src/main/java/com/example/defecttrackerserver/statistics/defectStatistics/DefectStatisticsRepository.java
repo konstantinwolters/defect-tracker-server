@@ -26,10 +26,10 @@ public interface DefectStatisticsRepository extends JpaRepository<Defect, Intege
     Long countByLocation(Location location);
     Long countByProcess(Process process);
 
-    @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdBy) = :year AND MONTH(d.createdBy) = :month")
+    @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdAt) = :year AND MONTH(d.createdAt) = :month")
     Long countByYearAndMonth(@Param("year") int year, @Param("month") int month);
 
-    @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdBy) = :year")
+    @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdAt) = :year")
     Long countByYear(@Param("year") int year);
 
     @Query("SELECT COUNT(d) FROM Defect d JOIN d.lot l WHERE l.material = :material")
@@ -38,10 +38,10 @@ public interface DefectStatisticsRepository extends JpaRepository<Defect, Intege
     @Query("SELECT COUNT(d) FROM Defect d JOIN d.lot l WHERE l.supplier = :supplier")
     Long countBySupplier(@Param("supplier") Supplier supplier);
 
-    @Query("SELECT DISTINCT YEAR(d.createdBy) FROM Defect d ORDER BY YEAR(d.createdBy)")
+    @Query("SELECT DISTINCT YEAR(d.createdAt) FROM Defect d ORDER BY YEAR(d.createdAt)")
     List<Integer> findDistinctYears();
 
-    @Query("SELECT DISTINCT new com.example.defecttrackerserver.statistics.YearMonthPair(YEAR(d.createdBy), " +
-            "MONTH(d.createdBy)) FROM Defect d ORDER BY YEAR(d.createdBy), MONTH(d.createdBy)")
+    @Query("SELECT DISTINCT new com.example.defecttrackerserver.statistics.YearMonthPair(YEAR(d.createdAt), " +
+            "MONTH(d.createdAt)) FROM Defect d ORDER BY YEAR(d.createdAt), MONTH(d.createdAt)")
     List<YearMonthPair> findDistinctYearAndMonth();
 }
