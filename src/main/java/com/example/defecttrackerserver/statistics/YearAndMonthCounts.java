@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MonthAndYearCount {
-    String name;
-    Integer count;
+public class YearAndMonthCounts {
+    private int year;
+    private int month;
+    private Long count;
 }

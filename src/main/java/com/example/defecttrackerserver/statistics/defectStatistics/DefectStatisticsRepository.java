@@ -27,7 +27,7 @@ public interface DefectStatisticsRepository extends JpaRepository<Defect, Intege
     Long countByProcess(Process process);
 
     @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdBy) = :year AND MONTH(d.createdBy) = :month")
-    Long countByMonthAndYear(@Param("year") int year, @Param("month") int month);
+    Long countByYearAndMonth(@Param("year") int year, @Param("month") int month);
 
     @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdBy) = :year")
     Long countByYear(@Param("year") int year);
@@ -36,7 +36,7 @@ public interface DefectStatisticsRepository extends JpaRepository<Defect, Intege
     Long countByMaterial(@Param("material") Material material);
 
     @Query("SELECT COUNT(d) FROM Defect d JOIN d.lot l WHERE l.supplier = :supplier")
-    Long supplierCount(@Param("supplier") Supplier supplier);
+    Long countBySupplier(@Param("supplier") Supplier supplier);
 
     @Query("SELECT DISTINCT YEAR(d.createdBy) FROM Defect d ORDER BY YEAR(d.createdBy)")
     List<Integer> findDistinctYears();

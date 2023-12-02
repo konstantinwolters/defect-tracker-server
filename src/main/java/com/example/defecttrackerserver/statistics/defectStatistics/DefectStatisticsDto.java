@@ -16,7 +16,7 @@ public class DefectStatisticsDto {
     private List<MaterialCount> materialCounts;
     private List<LocationCount> locationCounts;
     private List<SupplierCount> supplierCounts;
-    private List<MonthAndYearCount> monthAndYearCounts;
+    private List<YearAndMonthCounts> monthAndYearCounts;
     private List<YearCount> yearCounts;
     private List<ProcessCount> processCounts;
 }

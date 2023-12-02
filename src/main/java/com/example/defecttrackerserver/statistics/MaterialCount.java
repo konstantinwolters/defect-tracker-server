@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MaterialCount {
-    String name;
-    Integer count;
+    private String name;
+    private Long count;
 }
