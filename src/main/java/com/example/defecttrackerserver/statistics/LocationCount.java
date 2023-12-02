@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LocationCount {
-    String name;
-    Integer count;
+    private String name;
+    private Long count;
 }

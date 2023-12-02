@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class YearCount {
-    String name;
-    Integer count;
+    private int year;
+    private Long count;
 }

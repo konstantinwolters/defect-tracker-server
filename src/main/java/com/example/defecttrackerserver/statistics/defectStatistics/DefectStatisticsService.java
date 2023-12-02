@@ -14,15 +14,12 @@ import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
-import com.example.defecttrackerserver.statistics.CausationCategoryCount;
-import com.example.defecttrackerserver.statistics.MonthAndYearCount;
-import com.example.defecttrackerserver.statistics.YearCount;
-import com.example.defecttrackerserver.statistics.YearMonthPair;
+import com.example.defecttrackerserver.statistics.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -35,10 +32,6 @@ public class DefectStatisticsService {
     private final LocationRepository locationRepository;
     private final SupplierRepository supplierRepository;
     private final ProcessRepository processRepository;
-
-    private List<MonthAndYearCount> monthAndYearCounts;
-    private List<YearCount> yearCounts;
-
 
     public DefectStatisticsDto getDefectStatistics(){
         List<CausationCategory> causationCategories = causationCategoryRepository.findAll();
@@ -55,12 +48,85 @@ public class DefectStatisticsService {
             Long count = defectStatisticsRepository.countByCausationCategory(category);
             CausationCategoryCount categoryCount = new CausationCategoryCount();
             categoryCount.setName(category.getName());
-            categoryCount.setCount(count.intValue());
+            categoryCount.setCount(count);
             return categoryCount;
+        }).toList();
+
+        List<DefectStatusCount> defectStatusCounts = defectStatuses.stream().map(defectStatus -> {
+            Long count = defectStatisticsRepository.countByDefectStatus(defectStatus);
+            DefectStatusCount defectStatusCount = new DefectStatusCount();
+            defectStatusCount.setName(defectStatus.getName());
+            defectStatusCount.setCount(count);
+            return defectStatusCount;
+        }).toList();
+
+        List<LotCount> lotCounts = lots.stream().map(lot -> {
+            Long count = defectStatisticsRepository.countByLot(lot);
+            LotCount lotCount = new LotCount();
+            lotCount.setName(lot.getLotNumber());
+            lotCount.setCount(count);
+            return lotCount;
+        }).toList();
+
+        List<MaterialCount> materialCounts = materials.stream().map(material -> {
+            Long count = defectStatisticsRepository.countByMaterial(material);
+            MaterialCount materialCount = new MaterialCount();
+            materialCount.setName(material.getName());
+            materialCount.setCount(count);
+            return materialCount;
+        }).toList();
+
+        List<LocationCount> locationCounts = locations.stream().map(location -> {
+            Long count = defectStatisticsRepository.countByLocation(location);
+            LocationCount locationCount = new LocationCount();
+            locationCount.setName(location.getName());
+            locationCount.setCount(count);
+            return locationCount;
+        }).toList();
+
+        List<SupplierCount> supplierCounts = suppliers.stream().map(supplier -> {
+            Long count = defectStatisticsRepository.countBySupplier(supplier);
+            SupplierCount supplierCount = new SupplierCount();
+            supplierCount.setName(supplier.getName());
+            supplierCount.setCount(count);
+            return supplierCount;
+        }).toList();
+
+        List<ProcessCount> processCounts = processes.stream().map(process -> {
+            Long count = defectStatisticsRepository.countByProcess(process);
+            ProcessCount processCount = new ProcessCount();
+            processCount.setName(process.getName());
+            processCount.setCount(count);
+            return processCount;
+        }).toList();
+
+        List<YearAndMonthCounts> monthAndYearCounts = yearMonthPairs.stream().map(pair -> {
+            Long count = defectStatisticsRepository.countByYearAndMonth(pair.getYear(), pair.getMonth());
+            YearAndMonthCounts monthAndYearCount = new YearAndMonthCounts();
+            monthAndYearCount.setYear(pair.getYear());
+            monthAndYearCount.setMonth(pair.getMonth());
+            monthAndYearCount.setCount(count);
+            return monthAndYearCount;
+        }).toList();
+
+        List<YearCount> yearCounts = years.stream().map(year -> {
+            Long count = defectStatisticsRepository.countByYear(year);
+            YearCount yearCount = new YearCount();
+            yearCount.setYear(year);
+            yearCount.setCount(count);
+            return yearCount;
         }).toList();
 
         DefectStatisticsDto defectStatistics = new DefectStatisticsDto();
         defectStatistics.setCausationCategoryCounts(causationCategoryCounts);
+        defectStatistics.setDefectStatusCounts(defectStatusCounts);
+        defectStatistics.setLotCounts(lotCounts);
+        defectStatistics.setMaterialCounts(materialCounts);
+        defectStatistics.setLocationCounts(locationCounts);
+        defectStatistics.setSupplierCounts(supplierCounts);
+        defectStatistics.setProcessCounts(processCounts);
+        defectStatistics.setMonthAndYearCounts(monthAndYearCounts);
+        defectStatistics.setYearCounts(yearCounts);
 
         return defectStatistics;
     }

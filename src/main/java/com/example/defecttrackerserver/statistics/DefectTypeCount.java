@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DefectTypeCount {
-    String name;
-    Integer count;
+    private String name;
+    private Long count;
 }
