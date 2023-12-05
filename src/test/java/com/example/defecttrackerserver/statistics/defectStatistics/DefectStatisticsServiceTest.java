@@ -103,6 +103,5 @@ public class DefectStatisticsServiceTest {
         assertEquals(defectStatisticsDto.getProcessCounts().size(), 1);
         assertEquals(defectStatisticsDto.getMonthAndYearCounts().size(), 1);
         assertEquals(defectStatisticsDto.getYearCounts().size(), 1);
-
     }
 }
