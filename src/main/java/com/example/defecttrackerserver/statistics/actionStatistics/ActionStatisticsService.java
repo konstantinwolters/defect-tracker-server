@@ -1,74 +1,81 @@
 package com.example.defecttrackerserver.statistics.actionStatistics;
 
-import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
-import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryRepository;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
-import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusRepository;
-import com.example.defecttrackerserver.core.defect.process.Process;
-import com.example.defecttrackerserver.core.defect.process.ProcessRepository;
-import com.example.defecttrackerserver.core.location.Location;
-import com.example.defecttrackerserver.core.location.LocationRepository;
-import com.example.defecttrackerserver.core.lot.lot.Lot;
-import com.example.defecttrackerserver.core.lot.lot.LotRepository;
-import com.example.defecttrackerserver.core.lot.material.Material;
-import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
-import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
-import com.example.defecttrackerserver.statistics.*;
-import com.example.defecttrackerserver.statistics.defectStatistics.DefectStatisticsDto;
-import com.example.defecttrackerserver.statistics.defectStatistics.DefectStatisticsRepository;
+import com.example.defecttrackerserver.statistics.IsCompletedCount;
+import com.example.defecttrackerserver.statistics.YearAndMonthCounts;
+import com.example.defecttrackerserver.statistics.YearCount;
+import com.example.defecttrackerserver.statistics.YearMonthPair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 public class ActionStatisticsService {
-    private final DefectStatisticsRepository defectStatisticsRepository;
-    private final CausationCategoryRepository causationCategoryRepository;
+    private final ActionStatisticsRepository actionStatisticsRepository;
 
-    public ActionStatisticsDto getActionStatistics(){
-        List<CausationCategory> causationCategories = causationCategoryRepository.findAll();
-        List<YearMonthPair> yearMonthPairs = defectStatisticsRepository.findDistinctYearAndMonth();
-        List<Integer> years = defectStatisticsRepository.findDistinctYears();
+    /**
+     * This method is responsible for gathering and calculating various statistics related to actions.
+     * It fetches distinct year and month pairs for both created and due dates, as well as distinct years for both.
+     * It then calculates counts for each year and month pair, and for each year, for both created and due dates.
+     * These counts are then set in an ActionStatisticsDto object, which is returned.
+     *
+     * @return ActionStatisticsDto object containing various calculated statistics.
+     */
+    public ActionStatisticsDto getActionStatistics() {
+        // Fetch distinct year and month pairs for created and due dates
+        List<YearMonthPair> createdAtYearMonthPairs = actionStatisticsRepository.findCreatedAtDistinctYearAndMonth();
+        List<YearMonthPair> dueDateYearMonthPairs = actionStatisticsRepository.findDueDateDistinctYearAndMonth();
 
-        List<CausationCategoryCount> causationCategoryCounts = calculateCausationCategoryCounts(causationCategories);
-        List<YearAndMonthCounts> monthAndYearCounts = calculateMonthAndYearCounts(yearMonthPairs);
-        List<YearCount> yearCounts = calculateYearCounts(years);
+        // Fetch distinct years for created and due dates
+        List<Integer> createdAtYears = actionStatisticsRepository.findCreatedAtDistinctYears();
+        List<Integer> dueDateYears = actionStatisticsRepository.findDueDateDistinctYears();
+
+        // Calculate counts for each year and month pair for created and due dates
+        List<YearAndMonthCounts> createdYearAndMonthAtCounts =
+                calculateMonthAndYearCounts(createdAtYearMonthPairs, actionStatisticsRepository::countCreatedAtByYearAndMonth);
+        List<YearAndMonthCounts> dueDateYearAndMonthCounts =
+                calculateMonthAndYearCounts(dueDateYearMonthPairs, actionStatisticsRepository::countDueDateByYearAndMonth);
+
+        // Calculate counts for each year for created and due dates
+        List<YearCount> createdAtYearCounts = calculateYearCounts(createdAtYears, actionStatisticsRepository::countCreatedAtByYear);
+        List<YearCount> dueDateYearCounts = calculateYearCounts(dueDateYears, actionStatisticsRepository::countDueDateByYear);
 
         ActionStatisticsDto actionStatistics = new ActionStatisticsDto();
-        actionStatistics.setCausationCategoryCounts(causationCategoryCounts);
-        actionStatistics.setMonthAndYearCounts(monthAndYearCounts);
-        actionStatistics.setYearCounts(yearCounts);
+        actionStatistics.setIsCompletedCounts(calculateIsCompletedCounts());
+        actionStatistics.setCreatedAtYearAndMonthCounts(createdYearAndMonthAtCounts);
+        actionStatistics.setCreatedAtYearCounts(createdAtYearCounts);
+        actionStatistics.setDueDateYearAndMonthCounts(dueDateYearAndMonthCounts);
+        actionStatistics.setDueDateYearCounts(dueDateYearCounts);
 
         return actionStatistics;
     }
 
-    private List<CausationCategoryCount> calculateCausationCategoryCounts(List<CausationCategory> causationCategories){
-        return causationCategories.stream().map(category -> {
-            Long count = defectStatisticsRepository.countByCausationCategory(category);
-            CausationCategoryCount categoryCount = new CausationCategoryCount();
-            categoryCount.setName(category.getName());
-            categoryCount.setCount(count);
-            return categoryCount;
+    private IsCompletedCount calculateIsCompletedCounts() {
+        Long completedCount = actionStatisticsRepository.countByIsCompleted(true);
+        Long notCompletedCount = actionStatisticsRepository.countByIsCompleted(false);
+        IsCompletedCount isCompletedCount = new IsCompletedCount();
+        isCompletedCount.setCompletedCount(completedCount);
+        isCompletedCount.setNotCompletedCount(notCompletedCount);
+        return isCompletedCount;
+    }
+
+    private List<YearAndMonthCounts> calculateMonthAndYearCounts(List<YearMonthPair> yearMonthPairs, BiFunction<Integer, Integer, Long> countFunction) {
+        return yearMonthPairs.stream().map(yearMonthPair -> {
+            Long count = countFunction.apply(yearMonthPair.getYear(), yearMonthPair.getMonth());
+            YearAndMonthCounts yearAndMonthCounts = new YearAndMonthCounts();
+            yearAndMonthCounts.setYear(yearMonthPair.getYear());
+            yearAndMonthCounts.setMonth(yearMonthPair.getMonth());
+            yearAndMonthCounts.setCount(count);
+            return yearAndMonthCounts;
         }).toList();
     }
 
-    private List<YearAndMonthCounts> calculateMonthAndYearCounts(List<YearMonthPair> yearMonthPairs){
-        return yearMonthPairs.stream().map(pair -> {
-            Long count = defectStatisticsRepository.countByYearAndMonth(pair.getYear(), pair.getMonth());
-            YearAndMonthCounts monthAndYearCount = new YearAndMonthCounts();
-            monthAndYearCount.setYear(pair.getYear());
-            monthAndYearCount.setMonth(pair.getMonth());
-            monthAndYearCount.setCount(count);
-            return monthAndYearCount;
-        }).toList();
-    }
-
-    private List<YearCount> calculateYearCounts(List<Integer> years){
+    private List<YearCount> calculateYearCounts(List<Integer> years, Function<Integer, Long> countFunction) {
         return years.stream().map(year -> {
-            Long count = defectStatisticsRepository.countByYear(year);
+            Long count = countFunction.apply(year);
             YearCount yearCount = new YearCount();
             yearCount.setYear(year);
             yearCount.setCount(count);

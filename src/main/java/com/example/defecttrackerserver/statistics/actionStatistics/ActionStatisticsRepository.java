@@ -1,5 +1,6 @@
 package com.example.defecttrackerserver.statistics.actionStatistics;
 
+import com.example.defecttrackerserver.core.action.Action;
 import com.example.defecttrackerserver.core.defect.causationCategory.CausationCategory;
 import com.example.defecttrackerserver.core.defect.defect.Defect;
 import com.example.defecttrackerserver.core.defect.defectStatus.DefectStatus;
@@ -17,20 +18,33 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ActionStatisticsRepository extends JpaRepository<Defect, Integer>, JpaSpecificationExecutor<Defect> {
+public interface ActionStatisticsRepository extends JpaRepository<Action, Integer>, JpaSpecificationExecutor<Defect> {
 
-    Long countByCausationCategory(CausationCategory causationCategory);
+    Long countByIsCompleted(Boolean isCompleted);
 
-    @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdAt) = :year AND MONTH(d.createdAt) = :month")
-    Long countByYearAndMonth(@Param("year") int year, @Param("month") int month);
+    @Query("SELECT COUNT(d) FROM Action d WHERE YEAR(d.createdAt) = :year AND MONTH(d.createdAt) = :month")
+    Long countCreatedAtByYearAndMonth(@Param("year") int year, @Param("month") int month);
 
-    @Query("SELECT COUNT(d) FROM Defect d WHERE YEAR(d.createdAt) = :year")
-    Long countByYear(@Param("year") int year);
+    @Query("SELECT COUNT(d) FROM Action d WHERE YEAR(d.dueDate) = :year AND MONTH(d.dueDate) = :month")
+    Long countDueDateByYearAndMonth(@Param("year") int year, @Param("month") int month);
 
-    @Query("SELECT DISTINCT YEAR(d.createdAt) FROM Defect d ORDER BY YEAR(d.createdAt)")
-    List<Integer> findDistinctYears();
+    @Query("SELECT COUNT(d) FROM Action d WHERE YEAR(d.createdAt) = :year")
+    Long countCreatedAtByYear(@Param("year") int year);
+
+    @Query("SELECT COUNT(d) FROM Action d WHERE YEAR(d.dueDate) = :year")
+    Long countDueDateByYear(@Param("year") int year);
+
+    @Query("SELECT DISTINCT YEAR(d.createdAt) FROM Action d ORDER BY YEAR(d.createdAt)")
+    List<Integer> findCreatedAtDistinctYears();
 
     @Query("SELECT DISTINCT new com.example.defecttrackerserver.statistics.YearMonthPair(YEAR(d.createdAt), " +
-            "MONTH(d.createdAt)) FROM Defect d ORDER BY YEAR(d.createdAt), MONTH(d.createdAt)")
-    List<YearMonthPair> findDistinctYearAndMonth();
+            "MONTH(d.createdAt)) FROM Action d ORDER BY YEAR(d.createdAt), MONTH(d.createdAt)")
+    List<YearMonthPair> findCreatedAtDistinctYearAndMonth();
+
+    @Query("SELECT DISTINCT YEAR(d.dueDate) FROM Action d ORDER BY YEAR(d.dueDate)")
+    List<Integer> findDueDateDistinctYears();
+
+    @Query("SELECT DISTINCT new com.example.defecttrackerserver.statistics.YearMonthPair(YEAR(d.dueDate), " +
+            "MONTH(d.dueDate)) FROM Action d ORDER BY YEAR(d.dueDate), MONTH(d.dueDate)")
+    List<YearMonthPair> findDueDateDistinctYearAndMonth();
 }
