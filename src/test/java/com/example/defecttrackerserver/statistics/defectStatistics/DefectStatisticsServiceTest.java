@@ -15,14 +15,12 @@ import com.example.defecttrackerserver.core.lot.material.MaterialRepository;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
 import com.example.defecttrackerserver.core.lot.supplier.SupplierRepository;
 import com.example.defecttrackerserver.statistics.YearMonthPair;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,15 +60,15 @@ public class DefectStatisticsServiceTest {
 
     @Test
     void shouldReturnDefectStatistics() {
-        List<CausationCategory> causationCategories = new ArrayList<>(List.of(new CausationCategory()));
-        List<DefectStatus> defectStatuses = new ArrayList<>(List.of(new DefectStatus()));
-        List<Lot> lots = new ArrayList<>(List.of(new Lot()));
-        List<Material> materials = new ArrayList<>(List.of(new Material()));
-        List<Location> locations = new ArrayList<>(List.of(new Location()));
-        List<Supplier> suppliers = new ArrayList<>(List.of(new Supplier()));
-        List<Process> processes = new ArrayList<>(List.of(new Process()));
-        List<YearMonthPair> yearMonthPairs = new ArrayList<>(List.of(new YearMonthPair()));
-        List<Integer> years = new ArrayList<>(List.of(2023));
+        List<CausationCategory> causationCategories = List.of(new CausationCategory());
+        List<DefectStatus> defectStatuses = List.of(new DefectStatus());
+        List<Lot> lots = List.of(new Lot());
+        List<Material> materials = List.of(new Material());
+        List<Location> locations = List.of(new Location());
+        List<Supplier> suppliers = List.of(new Supplier());
+        List<Process> processes = List.of(new Process());
+        List<YearMonthPair> yearMonthPairs = List.of(new YearMonthPair());
+        List<Integer> years = List.of(2023);
 
         when(causationCategoryRepository.findAll()).thenReturn(causationCategories);
         when(defectStatusRepository.findAll()).thenReturn(defectStatuses);
