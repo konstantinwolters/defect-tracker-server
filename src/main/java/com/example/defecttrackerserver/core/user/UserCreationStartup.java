@@ -76,7 +76,7 @@
 //        action.setDescription("Test Action");
 //        action.setIsCompleted(false);
 //        action.setDueDate(LocalDate.now());
-//        action.setCreatedOn(LocalDateTime.now());
+//        action.setCreatedAt(LocalDateTime.now());
 //        action.setCreatedBy(user);
 //
 //        DefectStatus defectStatus = new DefectStatus();
@@ -107,7 +107,7 @@
 //
 //        DefectComment defectComment = new DefectComment();
 //        defectComment.setContent("Test Comment");
-//        defectComment.setCreatedOn(LocalDateTime.now());
+//        defectComment.setCreatedAt(LocalDateTime.now());
 //        defectComment.setCreatedBy(user);
 //
 //        Defect defect = new Defect();
@@ -116,7 +116,7 @@
 //        defect.setDefectType(defectType);
 //        defect.setLot(lot);
 //        defect.setLocation(location);
-//        defect.setCreatedOn(LocalDateTime.now());
+//        defect.setCreatedAt(LocalDateTime.now());
 //        defect.setCreatedBy(user);
 //        defect.setProcess(process);
 //
