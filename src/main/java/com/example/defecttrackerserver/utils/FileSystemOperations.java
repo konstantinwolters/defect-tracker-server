@@ -8,5 +8,4 @@ public interface FileSystemOperations {
     boolean exists(Path path);
     boolean delete(Path path) throws IOException;
     boolean createDirectories(Path path) throws IOException;
-
 }
