@@ -20,6 +20,7 @@ public class DefectImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String uuid;
 
     @Override

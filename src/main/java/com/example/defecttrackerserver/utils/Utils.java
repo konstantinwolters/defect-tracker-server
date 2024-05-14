@@ -81,17 +81,17 @@ public class Utils {
     }
 
     public String uploadImage(MultipartFile image) {
-        String filename = UUID.randomUUID() + ".jpg";
+        String uuid = UUID.randomUUID().toString();
         try {
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucketName)
-                            .object(UUID.randomUUID() + ".jpg")
+                            .object(uuid)
                             .stream(image.getInputStream(), image.getSize(), -1)
                             .contentType("image/jpeg")
                             .build()
             );
-            return filename;
+            return uuid;
         } catch (Exception e) {
             throw new RuntimeException("Failed to upload image", e);
         }
@@ -117,10 +117,9 @@ public class Utils {
                             .method(Method.GET)
                             .bucket(bucketName)
                             .object(imageUuid)
-                            .expiry(60)
+                            .expiry(60 * 60)
                             .build()
             );
-
         } catch (Exception e) {
             throw new RuntimeException("Failed to get presigned image url", e);
         }

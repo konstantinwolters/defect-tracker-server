@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link DefectImageService}.
@@ -47,6 +49,20 @@ public class DefectImageServiceImpl implements DefectImageService{
     }
 
     @Override
+    public String getDefectImageUrl(String uuid) {
+        return utils.getPresignedImageUrl(uuid);
+    }
+
+    @Override
+    public List<String> getDefectImageUrls(Integer defectId) {
+        Defect defect = defectRepository.findById(defectId)
+                .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
+
+        return defect.getImages().stream()
+                .map(defectImage -> utils.getPresignedImageUrl(defectImage.getUuid())).toList();
+    }
+
+    @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteDefectImage(Integer defectId, Integer defectImageId) {
@@ -59,4 +75,8 @@ public class DefectImageServiceImpl implements DefectImageService{
         utils.removeImage(defectImage.getUuid());
         defect.deleteDefectImage(defectImage);
     }
+
+
+
+
 }
