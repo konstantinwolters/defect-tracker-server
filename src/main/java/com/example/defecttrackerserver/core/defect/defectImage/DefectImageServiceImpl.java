@@ -24,22 +24,16 @@ public class DefectImageServiceImpl implements DefectImageService{
     private final Utils utils;
     private final DefectImageMapper defectImageMapper;
 
-    @Value("${IMAGE.UPLOAD-PATH}")
-    String imageFolderPath;
-
     @Override
     @Transactional
     public DefectImageDto saveDefectImageToDefect(Integer defectId, MultipartFile image) {
         Defect defect = defectRepository.findById(defectId)
                 .orElseThrow(()-> new EntityNotFoundException("Defect not found with id: " + defectId));
 
-        String folderPath = imageFolderPath + File.separator + defect.getId();
-
-        utils.createDirectory(folderPath);
-        String imagePath = utils.saveImageToFileSystem(image, folderPath);
+        String imageUuid = utils.uploadImage(image);
 
         DefectImage defectImage = new DefectImage();
-        defectImage.setPath(imagePath);
+        defectImage.setUuid(imageUuid);
         defect.addDefectImage(defectImage);
 
         return defectImageMapper.mapToDto(defectImage);
@@ -62,7 +56,7 @@ public class DefectImageServiceImpl implements DefectImageService{
         DefectImage defectImage = defectImageRepository.findById(defectImageId)
                 .orElseThrow(()-> new EntityNotFoundException("DefectImage not found with id: " + defectImageId));
 
-        utils.removeFileFromFileSystem(defectImage.getPath());
+        utils.removeImage(defectImage.getUuid());
         defect.deleteDefectImage(defectImage);
     }
 }

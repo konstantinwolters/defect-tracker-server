@@ -92,9 +92,9 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         defect.getImages().forEach(image -> {
             try {
-                Files.deleteIfExists(Path.of(image.getPath()));
+                Files.deleteIfExists(Path.of(image.getUuid()));
             } catch (IOException e) {
-                throw new RuntimeException("Failed to delete image: " + image.getPath(), e);
+                throw new RuntimeException("Failed to delete image: " + image.getUuid(), e);
             }
         });
 
@@ -258,9 +258,9 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         defect.getImages().forEach(image -> {
             try {
-                Files.deleteIfExists(Path.of(image.getPath()));
+                Files.deleteIfExists(Path.of(image.getUuid()));
             } catch (IOException e) {
-                throw new RuntimeException("Failed to delete image: " + image.getPath(), e);
+                throw new RuntimeException("Failed to delete image: " + image.getUuid(), e);
             }
         });
 

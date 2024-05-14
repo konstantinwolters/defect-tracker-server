@@ -11,7 +11,7 @@ public class DefectImageMapper {
     public DefectImageDto mapToDto(DefectImage defectImage) {
         DefectImageDto defectImageDto = new DefectImageDto();
         defectImageDto.setId(defectImage.getId());
-        defectImageDto.setPath(defectImage.getPath());
+        defectImageDto.setUuid(defectImage.getUuid());
         return defectImageDto;
     }
 }

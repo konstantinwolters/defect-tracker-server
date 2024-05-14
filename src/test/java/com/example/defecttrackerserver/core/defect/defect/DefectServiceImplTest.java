@@ -113,7 +113,7 @@ public class DefectServiceImplTest {
         when(defectMapper.map(any(DefectDto.class), any(Defect.class))).thenReturn(defect);
         when(defectMapper.mapToDto(defect)).thenReturn(defectDto);
         when(securityService.getUser()).thenReturn(user);
-        when(utils.saveImageToFileSystem(any(MultipartFile.class), anyString())).thenReturn("randomString");
+        when(utils.uploadImage(any(MultipartFile.class))).thenReturn("randomString");
 
         MockMultipartFile[] mockFiles = {
                 new MockMultipartFile("image1", "image1.jpg", "image/jpg", "some-image-data".getBytes()),
@@ -207,7 +207,7 @@ public class DefectServiceImplTest {
         assertNotNull(result);
         assertEquals(defect.getId(), result.getId());
         verify(defectRepository, times(1)).save(defect);
-        verify(utils, times(1)).removeFileFromFileSystem(testImage.getPath());
+        verify(utils, times(1)).removeImage(testImage.getUuid());
     }
 
     @Test

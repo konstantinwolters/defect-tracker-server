@@ -59,7 +59,7 @@ public class DefectImageServiceImplTest {
         DefectImageDto result = defectImageService.saveDefectImageToDefect(1, image);
 
         assertNotNull(result);
-        assertEquals(defectImage.getPath(), result.getPath());
+        assertEquals(defectImage.getUuid(), result.getUuid());
         assertEquals(2, defect.getImages().size());
     }
 
@@ -72,7 +72,7 @@ public class DefectImageServiceImplTest {
 
         assertNotNull(result);
         assertEquals(defectImage.getId(), result.getId());
-        assertEquals(defectImage.getPath(), result.getPath());
+        assertEquals(defectImage.getUuid(), result.getUuid());
     }
 
     @Test

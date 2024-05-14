@@ -95,40 +95,4 @@ class UtilsTest {
                 LocalDate.of(2023, 9, 16)
         )), result);
     }
-
-    @Test
-    public void shouldSaveImageToFileSystem() throws IOException {
-        when(mockFile.getBytes()).thenReturn(new byte[]{1, 2, 3, 4});
-
-        String folderPath = "/images";
-        String filePath = utils.saveImageToFileSystem(mockFile, folderPath);
-
-        Path expectedPath = Paths.get(filePath.replace("/", File.separator));
-        verify(fileSystemOperations).write(eq(expectedPath), eq(new byte[]{1, 2, 3, 4}));
-    }
-
-    @Test
-    public void shouldRemoveFileFromFileSystem() {
-        String filePathString = "/images/file.jpg";
-        Path filePath = Paths.get(filePathString);
-        when(fileSystemOperations.exists(filePath)).thenReturn(true);
-        when(fileSystemOperations.delete(filePath)).thenReturn(true);
-
-        utils.removeFileFromFileSystem(filePathString);
-        verify(fileSystemOperations).exists(filePath);
-        verify(fileSystemOperations).delete(filePath);
-    }
-
-
-    @Test
-    public void shouldCreateDirectory() {
-        String directoryPathString = "/images";
-        Path directoryPath = Paths.get(directoryPathString);
-
-        when(fileSystemOperations.createDirectories(directoryPath)).thenReturn(true);
-
-        utils.createDirectory(directoryPathString);
-
-        verify(fileSystemOperations).createDirectories(directoryPath);
-    }
 }

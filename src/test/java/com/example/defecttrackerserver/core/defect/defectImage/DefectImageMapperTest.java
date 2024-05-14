@@ -26,7 +26,7 @@ class DefectImageMapperTest {
         DefectImageDto mappedDefectImage = defectImageMapper.mapToDto(defectImage);
 
         assertEquals(defectImage.getId(), mappedDefectImage.getId());
-        assertEquals(defectImage.getPath(), mappedDefectImage.getPath());
+        assertEquals(defectImage.getUuid(), mappedDefectImage.getUuid());
     }
 }
 

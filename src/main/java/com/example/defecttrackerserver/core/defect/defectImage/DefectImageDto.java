@@ -13,7 +13,7 @@ import lombok.Setter;
 public class DefectImageDto {
     private Integer id;
 
-    @NotNull(message = "Image path must not be null")
-    @NotEmpty(message = "Image path must not be empty")
-    private String path;
+    @NotNull(message = "Image uuid must not be null")
+    @NotEmpty(message = "Image uuid must not be empty")
+    private String uuid;
 }

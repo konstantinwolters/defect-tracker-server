@@ -92,9 +92,9 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
         DefectImage savedDefectImage = defectImageRepository.findAll().get(0);
 
         try {
-            Files.deleteIfExists(Path.of(savedDefectImage.getPath()));
+            Files.deleteIfExists(Path.of(savedDefectImage.getUuid()));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to delete image: " + savedDefectImage.getPath(), e);
+            throw new RuntimeException("Failed to delete image: " + savedDefectImage.getUuid(), e);
         }
 
         assertEquals(defect.getImages().get(0).getId(), savedDefectImage.getId());

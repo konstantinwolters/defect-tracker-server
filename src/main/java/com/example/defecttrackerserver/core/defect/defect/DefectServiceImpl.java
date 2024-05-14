@@ -28,7 +28,6 @@ import com.example.defecttrackerserver.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +37,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -67,9 +65,6 @@ public class DefectServiceImpl implements DefectService{
     private final DefectTypeMapper defectTypeMapper;
     private final DefectStatusMapper defectStatusMapper;
     private final Utils utils;
-
-    @Value("${IMAGE.UPLOAD-PATH}")
-    String imageFolderPath;
 
     @Override
     @Transactional
@@ -238,7 +233,7 @@ public class DefectServiceImpl implements DefectService{
 
         //If yes, remove from filesystem:
         for(DefectImage image : imagesToRemove){
-            utils.removeFileFromFileSystem(image.getPath());
+            utils.removeImage(image.getUuid());
         }
 
         //Map and update Defect
@@ -247,7 +242,7 @@ public class DefectServiceImpl implements DefectService{
         updatedDefect.setChangedBy(securityService.getUser());
         updatedDefect.setChangedAt(LocalDateTime.now());
 
-        // If images have been added, save to filesystem and associate with Defect:
+        // If images have been added, upload and associate with Defect:
         if(images != null){
             addImages(updatedDefect, images);
         }
@@ -257,16 +252,13 @@ public class DefectServiceImpl implements DefectService{
     }
 
     private void addImages(Defect defect, MultipartFile[] images) {
-        // 1. Create a folder with the defect's ID as name
-        String folderPath = imageFolderPath + File.separator + defect.getId();
-        utils.createDirectory(folderPath);
 
         // 2. Save images to filesystem and associate with Defect
         for (MultipartFile image : images) {
             utils.validateImage(image);
-            String path = utils.saveImageToFileSystem(image, folderPath);
+            String uuid = utils.uploadImage(image);
             DefectImage defectImage = new DefectImage();
-            defectImage.setPath(path);
+            defectImage.setUuid(uuid);
             defect.addDefectImage(defectImage);
         }
     }
