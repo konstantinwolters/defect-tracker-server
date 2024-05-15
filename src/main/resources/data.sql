@@ -99,7 +99,7 @@ VALUES
     (11, 14, 15, '2023-07-09 17:17:49.450168', 'Test Comment5'),
     (12, 15, 16, '2023-07-09 17:17:49.450168', 'Test Comment6');
 
-INSERT INTO DEFECT_IMAGE (DEFECT_ID, ID, PATH)
+INSERT INTO DEFECT_IMAGE (DEFECT_ID, ID, UUID)
 VALUES
     (11, 11, 'testpath1'),
     (11, 12, 'testpath2'),

@@ -45,6 +45,20 @@ public class DefectImageController {
         return defectImageService.getDefectImageById(id);
     }
 
+
+    @Operation(
+            summary = "Get DefectImage URL by UUID",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "DefectImage URL found"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input"),
+                    @ApiResponse(responseCode = "404", description = "DefectImage not found"),
+            }
+    )
+    @GetMapping("/images/{uuid}/url")
+    public String getDefectImageUrl(@PathVariable String uuid) {
+        return defectImageService.getDefectImageUrl(uuid);
+    }
+
     @Operation(
             summary = "Delete DefectImage",
             responses = {

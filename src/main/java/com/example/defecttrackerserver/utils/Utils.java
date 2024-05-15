@@ -1,5 +1,9 @@
 package com.example.defecttrackerserver.utils;
 
+import io.minio.*;
+import io.minio.errors.MinioException;
+import io.minio.http.Method;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,10 +27,30 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Utils {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final DefaultFileSystemOperations fileSystemOperations;
+    private final MinioClient minioClient;
 
     @Value("${IMAGE.UPLOAD.MAX-FILE-SIZE}")
     Integer MAX_FILE_SIZE;
+
+    @Value("${MINIO.BUCKET-NAME}")
+    private String bucketName;
+
+    @PostConstruct
+    public void ensureBucketExists() {
+        try {
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+            if (!found) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+                System.out.println("Bucket '" + bucketName + "' created successfully.");
+            } else {
+                System.out.println("Bucket '" + bucketName + "' already exists.");
+            }
+        } catch (MinioException e) {
+            System.err.println("Error occurred: " + e);
+        } catch (Exception e) {
+            System.err.println("Error occurred: " + e.getMessage());
+        }
+    }
 
     public LocalDateTime convertToDateTime(String date) {
         LocalDate dateObj = LocalDate.parse(date, FORMATTER);
@@ -56,40 +80,48 @@ public class Utils {
                 .collect(Collectors.toSet());
     }
 
-    public String saveImageToFileSystem(MultipartFile image, String folderPath) {
-
-        String filename = UUID.randomUUID().toString() + ".jpg";
-        String filePath = folderPath + File.separator + filename;
-
+    public String uploadImage(MultipartFile image) {
+        String uuid = UUID.randomUUID().toString();
         try {
-            byte[] bytes = image.getBytes();
-            Path path = Paths.get(filePath);
-            fileSystemOperations.write(path,bytes);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to store image " + filename, e);
-        }
-        return filePath;
-    }
-
-    public void removeFileFromFileSystem(String path) {
-        Path filePath = Paths.get(path);
-        if (!fileSystemOperations.exists(filePath)) {
-            throw new RuntimeException("File not found at path: " + path);
-        }
-
-        boolean deleted = fileSystemOperations.delete(filePath);
-        if (!deleted) {
-            throw new RuntimeException("Failed to delete file at path: " + path);
+            minioClient.putObject(
+                    PutObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(uuid)
+                            .stream(image.getInputStream(), image.getSize(), -1)
+                            .contentType("image/jpeg")
+                            .build()
+            );
+            return uuid;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload image", e);
         }
     }
 
-    public void createDirectory(String folderPath) {
-        Path directoryPath = Paths.get(folderPath);
-        if (!fileSystemOperations.exists(directoryPath)) {
-                boolean success = fileSystemOperations.createDirectories(directoryPath);
-                if (!success) {
-                    throw new RuntimeException("Failed to create image directory: " + directoryPath.toAbsolutePath());
-                }
+    public void removeImage(String imageUuid) {
+        try {
+            minioClient.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(imageUuid)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to remove image", e);
+        }
+    }
+
+    public String getPresignedImageUrl(String imageUuid) {
+        try {
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(imageUuid)
+                            .expiry(60 * 60)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get presigned image url", e);
         }
     }
 }

@@ -91,7 +91,7 @@ public class TestHelper {
     public static DefectImageDto setUpDefectImageDto(){
         DefectImageDto defectImageDto = new DefectImageDto();
         defectImageDto.setId(1);
-        defectImageDto.setPath("testPath");
+        defectImageDto.setUuid("testPath");
         return defectImageDto;
     }
 
@@ -232,7 +232,7 @@ public class TestHelper {
     public static DefectImage setUpDefectImage(){
         DefectImage defectImage = new DefectImage();
         defectImage.setId(1);
-        defectImage.setPath("testPath");
+        defectImage.setUuid("testPath");
         return defectImage;
     }
 

@@ -309,7 +309,7 @@ public abstract class BaseIntegrationTest {
 
     protected DefectImage setUpDefectImage(String path){
         DefectImage defectImage = new DefectImage();
-        defectImage.setPath(path);
+        defectImage.setUuid(path);
 
         return defectImageRepository.save(defectImage);
     }

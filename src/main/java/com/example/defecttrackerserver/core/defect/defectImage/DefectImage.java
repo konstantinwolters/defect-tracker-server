@@ -20,7 +20,8 @@ public class DefectImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String path;
+
+    private String uuid;
 
     @Override
     public boolean equals(Object o) {
