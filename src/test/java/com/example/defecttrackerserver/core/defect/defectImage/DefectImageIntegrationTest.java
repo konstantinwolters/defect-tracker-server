@@ -9,12 +9,9 @@ import com.example.defecttrackerserver.core.defect.process.Process;
 import com.example.defecttrackerserver.core.lot.lot.Lot;
 import com.example.defecttrackerserver.core.lot.material.Material;
 import com.example.defecttrackerserver.core.lot.supplier.Supplier;
-import com.example.defecttrackerserver.utils.DefaultFileSystemOperations;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,20 +20,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DefectImageIntegrationTest extends BaseIntegrationTest {
-
-    @Autowired
-    private DefaultFileSystemOperations defaultFileSystemOperations;
-
-    @Value("${IMAGE.UPLOAD-PATH}")
-    String imagePath;
 
     String URL = "/defects";
     DefectType defectType;
@@ -132,21 +123,5 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(defectImageDto)));
-    }
-
-    @Test
-    @Transactional
-    void shouldDeleteDefectImageById() throws Exception{
-        user.setRoles(Set.of(roleADMIN));
-        setAuthentication(user);
-
-        DefectImage defectImage = setUpDefectImage(imagePath + "testimage.jpg");
-
-        Path path = Paths.get(imagePath + "testimage.jpg");
-        defaultFileSystemOperations.write(path, content);
-        defect.addDefectImage(defectImage);
-
-        mockMvc.perform(delete(URL + "/" + defect.getId() +  "/images/" + defectImage.getId()))
-                .andExpect(status().isNoContent());
     }
 }

@@ -2,6 +2,7 @@ package com.example.defecttrackerserver.config;
 
 import com.example.defecttrackerserver.security.jwt.JwtAuthenticationFilter;
 import com.example.defecttrackerserver.security.rateLimiting.RateLimitingFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 
 /**
@@ -42,6 +44,7 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
+                        .requestMatchers(new SwaggerDemoRequestMatcher()).permitAll() //Only for demo purposes
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)// only for testing
@@ -51,5 +54,15 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(rateLimitingFilter, JwtAuthenticationFilter.class)
                 .build();
+    }
+
+    //Enable endpoints calls from Swagger UI without authentication for demo purposes
+    private static class SwaggerDemoRequestMatcher implements RequestMatcher {
+
+        @Override
+        public boolean matches(HttpServletRequest request) {
+            String referer = request.getHeader("Referer");
+            return referer != null && referer.contains("swagger-ui");
+        }
     }
 }

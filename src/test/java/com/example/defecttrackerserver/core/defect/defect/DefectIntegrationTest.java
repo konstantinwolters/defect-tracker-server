@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,8 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DefectIntegrationTest extends BaseIntegrationTest {
     String URL = "/defects";
 
-    @Value("${IMAGE.UPLOAD-PATH}")
-    String imageFolderPath;
     Material material;
     Supplier supplier;
     Lot lot;
@@ -82,7 +79,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         MockMultipartFile jsonFile = new MockMultipartFile("defect", "",
                 "application/json", objectMapper.writeValueAsString(defectDto).getBytes());
 
-         mockMvc.perform(multipart(URL)
+        mockMvc.perform(multipart(URL)
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isOk())
@@ -108,7 +105,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldReturnBadRequestWhenLotIsNull() throws Exception{
+    void shouldReturnBadRequestWhenLotIsNull() throws Exception {
         UserDto userDto = userMapper.mapToDto(user);
 
         DefectDto defectDto = new DefectDto();
@@ -136,7 +133,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldReturn403WhenNotAuthenticated() throws Exception{
+    void shouldReturn403WhenNotAuthenticated() throws Exception {
         SecurityContextHolder.clearContext();
 
         UserDto userDto = userMapper.mapToDto(user);
@@ -166,8 +163,8 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldGetDefectById() throws Exception{
-        Defect defect = setUpDefect("testDescription",lot, defectType, defectStatus,
+    void shouldGetDefectById() throws Exception {
+        Defect defect = setUpDefect("testDescription", lot, defectType, defectStatus,
                 causationCategory, process, location, user);
         DefectDto defectDto = defectMapper.mapToDto(defect);
 
@@ -179,7 +176,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldGetAllDefects() throws Exception{
+    void shouldGetAllDefects() throws Exception {
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory,
                 process, location, user);
 
@@ -191,7 +188,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldGetDefectsFilteredByCreatedByUser() throws Exception{
+    void shouldGetDefectsFilteredByCreatedByUser() throws Exception {
         User user2 = setUpUser("Wolfgang", "mail2", roleQA, location);
 
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
@@ -209,7 +206,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldGetDefectsFilteredBySearchTerm() throws Exception{
+    void shouldGetDefectsFilteredBySearchTerm() throws Exception {
         User user2 = setUpUser("Wolfgang", "mail2", roleQA, location);
 
         setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
@@ -227,7 +224,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldUpdateDefect() throws Exception{
+    void shouldUpdateDefect() throws Exception {
         user.setRoles(Set.of(roleADMIN));
         setAuthentication(user);
         Defect defect = setUpDefect("testDescription", lot, defectType,
@@ -270,7 +267,7 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    void shouldDeleteDefectById() throws Exception{
+    void shouldDeleteDefectById() throws Exception {
         user.setRoles(Set.of(roleADMIN));
         setAuthentication(user);
         Defect defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
