@@ -14,17 +14,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Defect Tracker API",
-                version = "1.0",
-                description = "Defect Tracker API"),//TODO: Give better description
-        servers = {@Server(
-                        url = "http://localhost:8080",
-                        description = "Local server"
-                ),
-                @Server(
-                        url="https://defect-tracker-server.herokuapp.com",
-                        description="Heroku server"
-                )
-        },
+                version = "0.8",
+                description = "Authentication has been disabled for demonstration purposes. Feel free to try out the endpoints."),
         security = @SecurityRequirement(
                 name = "bearerAuth"
         )

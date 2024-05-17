@@ -75,8 +75,4 @@ public class DefectImageServiceImpl implements DefectImageService{
         utils.removeImage(defectImage.getUuid());
         defect.deleteDefectImage(defectImage);
     }
-
-
-
-
 }
