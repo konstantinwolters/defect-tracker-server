@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -49,7 +50,8 @@ public class LotIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(lotDto)))
+                        .content(objectMapper.writeValueAsString(lotDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Lot savedLot = lotRepository.findAll().get(0);
@@ -66,7 +68,8 @@ public class LotIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(lotDto)))
+                        .content(objectMapper.writeValueAsString(lotDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -123,7 +126,8 @@ public class LotIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + lot.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(lotDto)))
+                        .content(objectMapper.writeValueAsString(lotDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<Lot> savedLot =
@@ -138,7 +142,8 @@ public class LotIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteLotById() throws Exception{
         Lot lot = setUpLot("testLot2",material, supplier);
 
-        mockMvc.perform(delete(URL + "/" + lot.getId()))
+        mockMvc.perform(delete(URL + "/" + lot.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }
