@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -66,7 +67,8 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(actionDto)))
+                        .content(objectMapper.writeValueAsString(actionDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Action action = actionRepository.findAll().get(0);
@@ -91,7 +93,8 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(actionDto)))
+                        .content(objectMapper.writeValueAsString(actionDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -187,7 +190,8 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL+ "/" + action.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(actionDto)))
+                        .content(objectMapper.writeValueAsString(actionDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<Action> updatedAction = actionRepository.findById(action.getId());
@@ -203,7 +207,8 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
         setAuthentication(user);
         Action action = setUpAction("testDescription", user, defect);
 
-        mockMvc.perform(delete(URL + "/" + action.getId()))
+        mockMvc.perform(delete(URL + "/" + action.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }
