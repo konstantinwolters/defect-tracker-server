@@ -1,41 +1,50 @@
 # Defect Tracker Server
 
-> This is a prototype of a REST API that can be used for tracking raw material defects
+> This is a prototype of a REST API for tracking raw material defects
 > and deriving corrective actions.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-0.8.0-blue.svg?cacheSeconds=2592000)
 
-### Feature
-___
-- Authentication/Authorization (Spring Security)
-  - JWT authentication 
-  - Rate Limiting (Token Bucket with Bucket4J & Concurrent Requests Limiting)
-- Logging (Logback)
-- E-Mail notification
 
-### Prerequisites
-___
-- Docker service must be running.
-- Provide the following values as ```secrets.properties```:
+## Features / Technologies
+| Feature                                                                      | Technology                                                                                    |
+|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| Authentication/Authorization <br/> - JWT authentication <br/>- Rate Limiting | Spring Security<br/>- jwt.io <br/>- Token Bucket with Bucket4J & Concurrent Requests Limiting |
+| Logging                                                                      | Logback                                                                                       |
+| File upload/download                                                         | Minio                                                                                         |
+| Database                                                                     | PostgreSQL                                                                                    |
+| API Documentation                                                            | Swagger                                                                                       |
+| Unit Testing                                                                 | JUnit 5                                                                                       |
+| Integration Testing                                                          | Spring Boot Test                                                                              |
+| Containerization                                                             | Docker                                                                                        |
+
+
+## Prerequisites
+- Docker
+- Provide the following values as environment variables:
+
+```env
+## PostgreSQL configuration
+DATABASE_URL
+DATABASE_USERNAME
+DATABASE_PASSWORD
+
+### JWT configuration
+JWT_SECRET_KEY
+
+### E-Mail configuration
+SENDER_MAIL_ADDRESS
+SPRING_MAIL_HOST
+SPRING_MAIL_USERNAME
+SPRING_MAIL_PASSWORD
+
+### Minio configuration
+MINIO_ENDPOINT
+MINIO_ACCESS-KEY
+MINIO_SECRET-KEY
+MINIO_BUCKET-NAME
 ```
-## Database configuration
-spring.datasource.url=
-spring.datasource.username=
-spring.datasource.password=
 
-##JWT configuration
-JWT.SECRET-KEY=
 
-##Email configuration
-sender.mail-address=
-spring.mail.host=
-spring.mail.username=
-spring.mail.password=
-
-## File service configuration
-IMAGE.UPLOAD-PATH=
-```
-### API Reference 
-___
-- Enter ```/swagger-ui.html``` after startup for Swagger API documentation.
----
+## API Reference
+- Enter ```http://localhost:8080``` after startup for Swagger API documentation.
