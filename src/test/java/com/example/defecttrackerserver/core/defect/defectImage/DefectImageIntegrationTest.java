@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -76,7 +77,8 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
     void shouldSaveDefectImage() throws Exception {
 
         mockMvc.perform(multipart(URL + "/" + defect.getId() + "/images")
-                        .file(file))
+                        .file(file)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -96,7 +98,8 @@ public class DefectImageIntegrationTest extends BaseIntegrationTest {
     void shouldReturnNotFoundWhenDefectIsNotFound() throws Exception{
 
         mockMvc.perform(multipart(URL + "/2" + "/images")
-                        .file(file))
+                        .file(file)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
