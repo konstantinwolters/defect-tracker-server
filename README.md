@@ -15,7 +15,7 @@
 | Database                                                                     | PostgreSQL                                                                                    |
 | API Documentation                                                            | Swagger                                                                                       |
 | Unit Testing                                                                 | JUnit 5                                                                                       |
-| Integration Testing                                                          | Spring Boot Test                                                                              |
+| Integration Testing                                                          | Spring Boot Test, Testcontainers                                                              |
 | Containerization                                                             | Docker                                                                                        |
 
 
@@ -48,3 +48,4 @@ MINIO_BUCKET-NAME
 
 ## API Reference
 - Enter ```http://localhost:8080``` after startup for Swagger API documentation.
+- or visit life demo at [https://dtapi.konstantinwolters.com](https://dtapi.konstantinwolters.com/)
