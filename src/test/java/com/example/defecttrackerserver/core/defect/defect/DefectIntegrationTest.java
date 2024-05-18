@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
@@ -81,7 +82,8 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(multipart(URL)
                         .file(file)
-                        .file(jsonFile))
+                        .file(jsonFile)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -127,7 +129,8 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(multipart(URL)
                         .file(file)
-                        .file(jsonFile))
+                        .file(jsonFile)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -247,7 +250,8 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
                         .with(request -> {
                             request.setMethod("PUT");
                             return request;
-                        }))
+                        })
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -273,7 +277,8 @@ public class DefectIntegrationTest extends BaseIntegrationTest {
         Defect defect = setUpDefect("testDescription", lot, defectType, defectStatus, causationCategory, process, location, user);
 
 
-        mockMvc.perform(delete(URL + "/" + defect.getId()))
+        mockMvc.perform(delete(URL + "/" + defect.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }
