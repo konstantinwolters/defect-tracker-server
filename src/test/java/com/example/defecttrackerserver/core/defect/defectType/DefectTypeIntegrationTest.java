@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectTypeDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         DefectType savedDefectType = defectTypeRepository.findAll().get(0);
@@ -50,7 +52,8 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectTypeDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -107,7 +110,8 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + defectType.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectTypeDto)))
+                        .content(objectMapper.writeValueAsString(defectTypeDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<DefectType> savedDefectType =
@@ -122,7 +126,8 @@ public class DefectTypeIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteDefectTypeById() throws Exception{
         DefectType defectType = setUpDefectType("testDefectType");
 
-        mockMvc.perform(delete(URL + "/" + defectType.getId()))
+        mockMvc.perform(delete(URL + "/" + defectType.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }
