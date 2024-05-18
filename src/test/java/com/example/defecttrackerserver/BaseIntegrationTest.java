@@ -56,6 +56,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.MinIOContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.LocalDate;
@@ -64,7 +65,7 @@ import java.util.Set;
 
 @Import({SecurityConfig.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations="classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 public abstract class BaseIntegrationTest {
@@ -73,12 +74,24 @@ public abstract class BaseIntegrationTest {
             "postgres:16.0-alpine"
     );
 
+    static MinIOContainer minio = new MinIOContainer(
+            "minio/minio:RELEASE.2023-09-04T19-57-37Z")
+            .withEnv("MINIO_ROOT_USER", "mintest")
+            .withEnv("MINIO_ROOT_PASSWORD", "testpassword")
+            .withExposedPorts(9000);
+
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         postgres.start();
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
+
+        minio.start();
+        registry.add("MINIO.ENDPOINT", () -> "http://" + minio.getHost() + ":" + minio.getMappedPort(9000));
+        registry.add("MINIO.ACCESS-KEY", () -> "mintest");
+        registry.add("MINIO.SECRET-KEY", () -> "testpassword");
+        registry.add("MINIO.BUCKET-NAME", () -> "testbucket");
     }
 
     @Autowired
@@ -185,7 +198,7 @@ public abstract class BaseIntegrationTest {
         setAuthentication(user);
     }
 
-    protected void setAuthentication(User user){
+    protected void setAuthentication(User user) {
         SecurityUser securityUser = new SecurityUser(user);
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
@@ -196,19 +209,19 @@ public abstract class BaseIntegrationTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    protected Role setUpRole(String name){
+    protected Role setUpRole(String name) {
         Role role = new Role();
         role.setName(name);
         return roleRepository.save(role);
     }
 
-    protected Location setUpLocation(String name){
+    protected Location setUpLocation(String name) {
         Location location = new Location();
         location.setName(name);
         return locationRepository.save(location);
     }
 
-    protected User setUpUser(String username, String mail, Role role, Location location){
+    protected User setUpUser(String username, String mail, Role role, Location location) {
         User user = new User();
         user.setUsername(username);
         user.setMail(mail);
@@ -219,19 +232,19 @@ public abstract class BaseIntegrationTest {
         return userRepository.save(user);
     }
 
-    protected Material setUpMaterial(String name){
+    protected Material setUpMaterial(String name) {
         Material material = new Material();
         material.setName(name);
         return materialRepository.save(material);
     }
 
-    protected Supplier setUpSupplier(String name){
+    protected Supplier setUpSupplier(String name) {
         Supplier supplier = new Supplier();
         supplier.setName(name);
         return supplierRepository.save(supplier);
     }
 
-    protected Lot setUpLot(String lotNumber, Material material, Supplier supplier){
+    protected Lot setUpLot(String lotNumber, Material material, Supplier supplier) {
         Lot lot = new Lot();
         lot.setLotNumber(lotNumber);
         lot.setMaterial(material);
@@ -239,7 +252,7 @@ public abstract class BaseIntegrationTest {
         return lotRepository.save(lot);
     }
 
-    protected Process setUpProcess(String name){
+    protected Process setUpProcess(String name) {
         Process process = new Process();
         process.setName(name);
         return processRepository.save(process);
@@ -270,7 +283,7 @@ public abstract class BaseIntegrationTest {
                                  CausationCategory causationCategory,
                                  Process process,
                                  Location location,
-                                 User user){
+                                 User user) {
         Defect defect = new Defect();
         defect.setDescription(description);
         defect.setLot(lot);
@@ -284,7 +297,7 @@ public abstract class BaseIntegrationTest {
         return defectRepository.save(defect);
     }
 
-    protected Action setUpAction(String description, User user, Defect defect){
+    protected Action setUpAction(String description, User user, Defect defect) {
         Action action = new Action();
         action.setDescription(description);
         action.setDueDate(LocalDate.now());
@@ -298,7 +311,7 @@ public abstract class BaseIntegrationTest {
         return actionRepository.save(action);
     }
 
-    protected DefectComment setUpDefectComment(String content, User user){
+    protected DefectComment setUpDefectComment(String content, User user) {
         DefectComment defectComment = new DefectComment();
         defectComment.setContent(content);
         defectComment.setCreatedBy(user);
@@ -307,7 +320,7 @@ public abstract class BaseIntegrationTest {
         return defectCommentRepository.save(defectComment);
     }
 
-    protected DefectImage setUpDefectImage(String path){
+    protected DefectImage setUpDefectImage(String path) {
         DefectImage defectImage = new DefectImage();
         defectImage.setUuid(path);
 
