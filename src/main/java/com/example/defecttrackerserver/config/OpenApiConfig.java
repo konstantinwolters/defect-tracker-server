@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 
 /**
  * Swagger configuration.
@@ -15,6 +16,12 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
                 title = "Defect Tracker API",
                 version = "0.8",
                 description = "Authentication has been disabled for demonstration purposes. Feel free to try out the endpoints."),
+        servers = {
+                @Server(
+                        url = "https://dtapi.konstantinwolters.com",
+                        description = "Production server"
+                )
+        },
         security = @SecurityRequirement(
                 name = "bearerAuth"
         )
