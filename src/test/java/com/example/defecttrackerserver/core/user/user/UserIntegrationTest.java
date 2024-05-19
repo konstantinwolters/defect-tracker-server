@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.util.Optional;
 import java.util.Set;
@@ -43,7 +45,8 @@ public class UserIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userDto)))
+                        .content(objectMapper.writeValueAsString(userDto))
+                .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         User savedUser = userRepository.findAll().get(1); // get(1) because BaseIntegrationTest already inserts a user
@@ -63,7 +66,8 @@ public class UserIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userDto)))
+                        .content(objectMapper.writeValueAsString(userDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -149,7 +153,8 @@ public class UserIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + user.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userDto)))
+                        .content(objectMapper.writeValueAsString(userDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<User> savedUser =
@@ -164,7 +169,8 @@ public class UserIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteUserById() throws Exception{
         User user = setUpUser("testUser", "email2", roleADMIN, location);
 
-        mockMvc.perform(delete(URL + "/" + user.getId()))
+        mockMvc.perform(delete(URL + "/" + user.getId())
+                .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }

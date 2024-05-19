@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>defect-tracker-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.8</version>
     <name>defect-tracker-server</name>
     <description>defect-tracker-server</description>
     <properties>
@@ -96,6 +96,11 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>minio</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

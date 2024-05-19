@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -34,7 +35,8 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(processDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Process savedProcess = processRepository.findAll().get(0);
@@ -49,7 +51,8 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(processDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -106,7 +109,8 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + process.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(processDto)))
+                        .content(objectMapper.writeValueAsString(processDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<Process> savedProcess =
@@ -121,7 +125,8 @@ public class ProcessIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteProcessById() throws Exception{
         Process process = setUpProcess("testProcess");
 
-        mockMvc.perform(delete(URL + "/" + process.getId()))
+        mockMvc.perform(delete(URL + "/" + process.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }

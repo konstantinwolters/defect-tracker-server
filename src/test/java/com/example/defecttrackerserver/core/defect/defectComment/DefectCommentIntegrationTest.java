@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.util.Optional;
 import java.util.Set;
@@ -67,7 +68,8 @@ public class DefectCommentIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL + "/" + defect.getId()  + "/comments")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectCommentDto)))
+                        .content(objectMapper.writeValueAsString(defectCommentDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         DefectComment savedDefectComment = defectCommentRepository.findAll().get(0);
@@ -83,7 +85,8 @@ public class DefectCommentIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL + "/" + defect.getId()  + "/comments")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectCommentDto)))
+                        .content(objectMapper.writeValueAsString(defectCommentDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -125,7 +128,8 @@ public class DefectCommentIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/comments/" + defectComment.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(defectCommentDto)))
+                        .content(objectMapper.writeValueAsString(defectCommentDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<DefectComment> savedDefectComment =
@@ -144,7 +148,8 @@ public class DefectCommentIntegrationTest extends BaseIntegrationTest {
         DefectComment defectComment = setUpDefectComment("testContent", user);
         defect.addDefectComment(defectComment);
 
-        mockMvc.perform(delete(URL + "/" + defect.getId() +  "/comments/" + defectComment.getId()))
+        mockMvc.perform(delete(URL + "/" + defect.getId() +  "/comments/" + defectComment.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }

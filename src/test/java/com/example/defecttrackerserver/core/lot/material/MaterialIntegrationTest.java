@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -39,7 +40,8 @@ public class MaterialIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(materialDto)))
+                        .content(objectMapper.writeValueAsString(materialDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Material savedMaterial = materialRepository.findAll().get(0);
@@ -55,7 +57,8 @@ public class MaterialIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(materialDto)))
+                        .content(objectMapper.writeValueAsString(materialDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -113,7 +116,8 @@ public class MaterialIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + material.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(materialDto)))
+                        .content(objectMapper.writeValueAsString(materialDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<Material> savedMaterial =
@@ -128,7 +132,8 @@ public class MaterialIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteMaterialById() throws Exception{
         Material material = setUpMaterial("testMaterial");
 
-        mockMvc.perform(delete(URL + "/" + material.getId()))
+        mockMvc.perform(delete(URL + "/" + material.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }

@@ -16,6 +16,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 title = "Defect Tracker API",
                 version = "0.8",
                 description = "Authentication has been disabled for demonstration purposes. Feel free to try out the endpoints."),
+        servers = {
+                @Server(
+                        url = "https://dtapi.konstantinwolters.com",
+                        description = "Production server"
+                )
+        },
         security = @SecurityRequirement(
                 name = "bearerAuth"
         )

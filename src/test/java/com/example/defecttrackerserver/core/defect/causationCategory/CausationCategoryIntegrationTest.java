@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -43,7 +44,8 @@ public class CausationCategoryIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(causationCategoryDto)))
+                        .content(objectMapper.writeValueAsString(causationCategoryDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         CausationCategory savedCausationCategory = causationCategoryRepository.findAll().get(0);
@@ -58,7 +60,8 @@ public class CausationCategoryIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(causationCategoryDto)))
+                        .content(objectMapper.writeValueAsString(causationCategoryDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -115,7 +118,8 @@ public class CausationCategoryIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + causationCategory.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(causationCategoryDto)))
+                        .content(objectMapper.writeValueAsString(causationCategoryDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<CausationCategory> savedCausationCategory =
@@ -131,7 +135,8 @@ public class CausationCategoryIntegrationTest extends BaseIntegrationTest {
 
         CausationCategory causationCategory = setUpCausationCategory("testCausationCategory");
 
-        mockMvc.perform(delete(URL + "/" + causationCategory.getId()))
+        mockMvc.perform(delete(URL + "/" + causationCategory.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }

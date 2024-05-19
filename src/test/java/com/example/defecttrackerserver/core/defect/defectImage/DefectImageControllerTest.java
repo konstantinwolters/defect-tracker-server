@@ -52,7 +52,7 @@ public class DefectImageControllerTest extends BaseControllerTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.path").value("testPath"));
+                .andExpect(jsonPath("$.uuid").value("testUuid"));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class DefectImageControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/defects/images/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.path").value("testPath"));
+                .andExpect(jsonPath("$.uuid").value("testUuid"));
     }
 
     @Test

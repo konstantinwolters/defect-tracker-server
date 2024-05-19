@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class SupplierIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(supplierDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Supplier savedSupplier = supplierRepository.findAll().get(0);
@@ -51,7 +53,8 @@ public class SupplierIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(supplierDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -108,7 +111,8 @@ public class SupplierIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + supplier.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(supplierDto)))
+                        .content(objectMapper.writeValueAsString(supplierDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<Supplier> savedSupplier =
@@ -123,7 +127,8 @@ public class SupplierIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteSupplierById() throws Exception{
         Supplier supplier = setUpSupplier("testSupplier");
 
-        mockMvc.perform(delete(URL + "/" + supplier.getId()))
+        mockMvc.perform(delete(URL + "/" + supplier.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }

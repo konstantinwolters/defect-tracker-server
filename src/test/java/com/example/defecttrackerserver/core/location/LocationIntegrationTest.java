@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class LocationIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(locationDto)))
+                        .content(objectMapper.writeValueAsString(locationDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Location savedLocation = locationRepository.findAll().get(1); // get(1), because BaseIntegrationTest already inserts a location
@@ -51,7 +53,8 @@ public class LocationIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(locationDto)))
+                        .content(objectMapper.writeValueAsString(locationDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -107,7 +110,8 @@ public class LocationIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(put(URL + "/" + location.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(locationDto)))
+                        .content(objectMapper.writeValueAsString(locationDto))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk());
 
         Optional<Location> savedLocation =
@@ -122,7 +126,8 @@ public class LocationIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteLocationById() throws Exception{
         Location location = setUpLocation("testLocation2");
 
-        mockMvc.perform(delete(URL + "/" + location.getId()))
+        mockMvc.perform(delete(URL + "/" + location.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isNoContent());
     }
 }
