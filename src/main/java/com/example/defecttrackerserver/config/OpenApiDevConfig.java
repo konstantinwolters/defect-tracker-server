@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Profile;
                 description = "Authentication has been disabled for demonstration purposes. Feel free to try out the endpoints."),
         servers = {
                 @Server(
-                        url = "https://dtapi.konstantinwolters.com",
-                        description = "Production server"
+                        url = "http://localhost:8080",
+                        description = "Development server"
                 )
         },
         security = @SecurityRequirement(
@@ -35,6 +35,6 @@ import org.springframework.context.annotation.Profile;
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER
 )
-@Profile("!dev")
-public class OpenApiConfig {
+@Profile("dev")
+public class OpenApiDevConfig {
 }
