@@ -174,7 +174,7 @@ public class ActionIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.totalPages").value(1))
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.currentPage").value(0))
-                // Check if the first elements description content contains the searchterm
+                // Check if the first elements description content contains the search term
                 .andExpect(jsonPath("$.content[0].description").value(action2.getDescription()));
     }
 

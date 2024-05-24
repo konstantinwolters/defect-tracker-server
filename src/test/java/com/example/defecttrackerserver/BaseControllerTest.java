@@ -22,7 +22,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @Import({SecurityConfig.class})
-@WebMvcTest
 public abstract class BaseControllerTest {
 
     protected MockMvc mockMvc;
