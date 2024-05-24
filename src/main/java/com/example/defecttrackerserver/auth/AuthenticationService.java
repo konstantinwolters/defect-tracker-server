@@ -48,7 +48,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public Optional<AuthenticationResponse> refreshToken(HttpServletRequest request) throws IOException {
+    public Optional<AuthenticationResponse> refreshToken(HttpServletRequest request) {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken;
         final String username;
