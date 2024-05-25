@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
         info = @Info(
                 title = "Defect Tracker API",
                 version = "0.8",
-                description = "Authentication has been disabled for demonstration purposes. Feel free to try out the endpoints."),
+                description = "Authentication has been bypassed for demonstration purposes. Feel free to try out the endpoints."),
         servers = {
                 @Server(
                         url = "https://dtapi.konstantinwolters.com",
