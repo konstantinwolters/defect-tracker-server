@@ -34,8 +34,9 @@ public class DefectController {
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public DefectDto saveDefect(@Valid @RequestPart("defect") DefectDto defectDto,
-                                @RequestPart("images")MultipartFile[] images) {
-        return defectService.saveDefect(defectDto, images);}
+                                @RequestPart("images") MultipartFile[] images) {
+        return defectService.saveDefect(defectDto, images);
+    }
 
     @Operation(
             summary = "Get Defect by Id",
@@ -46,7 +47,9 @@ public class DefectController {
             }
     )
     @GetMapping("/{id}")
-    public DefectDto getDefectById(@PathVariable Integer id) { return defectService.getDefectById(id);}
+    public DefectDto getDefectById(@PathVariable Integer id) {
+        return defectService.getDefectById(id);
+    }
 
     @Operation(
             summary = "Get all Defects with search, filter and sort values",
@@ -90,7 +93,7 @@ public class DefectController {
     )
     @PutMapping(path = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public DefectDto updateDefect(@PathVariable Integer id, @Valid @RequestPart("defect") DefectDto defectDto,
-                                  @RequestPart(name = "images", required = false)MultipartFile[] images) {
+                                  @RequestPart(name = "images", required = false) MultipartFile[] images) {
 
         return defectService.updateDefect(id, defectDto, images);
     }
@@ -104,6 +107,8 @@ public class DefectController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDefect(@PathVariable Integer id) { defectService.deleteDefect(id);
-        return ResponseEntity.noContent().build();}
+    public ResponseEntity<Void> deleteDefect(@PathVariable Integer id) {
+        defectService.deleteDefect(id);
+        return ResponseEntity.noContent().build();
+    }
 }
