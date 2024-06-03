@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link Process}.
  */
-public interface ProcessService {
+interface ProcessService {
     ProcessDto saveProcess(ProcessDto processDto);
     ProcessDto getProcessById(Integer id);
     List<ProcessDto> getAllProcesses();

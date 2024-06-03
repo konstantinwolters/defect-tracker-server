@@ -3,7 +3,7 @@ package com.example.defecttrackerserver.core.defect.defectComment;
 /**
  * Service for managing {@link DefectComment}.
  */
-public interface DefectCommentService {
+interface DefectCommentService {
     DefectCommentDto addDefectCommentToDefect(Integer defectId, DefectCommentDto defectComment);
     DefectCommentDto getDefectCommentById(Integer id);
 

@@ -11,7 +11,7 @@ import java.util.List;
  * Service for creating JPA Specifications for filtering Defect entities.
  */
 @Service
-public class DefectSpecification {
+class DefectSpecification {
 
     /**
      * Creates a JPA Specification based on various filter criteria.

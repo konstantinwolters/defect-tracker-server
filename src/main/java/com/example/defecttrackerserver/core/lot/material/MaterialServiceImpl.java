@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class MaterialServiceImpl implements MaterialService {
+class MaterialServiceImpl implements MaterialService {
     private final MaterialRepository materialRepository;
     private final MaterialMapper materialMapper;
 

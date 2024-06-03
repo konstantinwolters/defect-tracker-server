@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link Material}.
  */
-public interface MaterialService {
+interface MaterialService {
     MaterialDto saveMaterial(MaterialDto materialDto);
     MaterialDto getMaterialById(Integer id);
     List<MaterialDto> getAllMaterials();

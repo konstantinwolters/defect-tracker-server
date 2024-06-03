@@ -17,7 +17,7 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ActionLoggingAspect {
+class ActionLoggingAspect {
     private final SecurityService securityService;
 
     @Around("execution(* com.example.defecttrackerserver.core.action.ActionService.saveAction(..))")

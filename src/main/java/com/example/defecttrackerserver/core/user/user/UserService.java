@@ -8,7 +8,7 @@ import java.time.LocalDate;
 /**
  * Service interface for managing {@link User}.
  */
-public interface UserService {
+interface UserService {
     UserDto saveUser(UserDto userDto);
     UserDto getUserById(Integer id);
     PaginatedResponse<UserDto> getUsers(

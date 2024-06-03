@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class ActionFilterValues {
+class ActionFilterValues {
 
     /**
      * Distinct due dates for all filtered actions.

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link Role}.
  */
-public interface RoleService {
+interface RoleService {
     RoleDto getRoleById(Integer i);
     List<RoleDto> getRoles();
 }

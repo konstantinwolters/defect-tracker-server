@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link DefectType}.
  */
-public interface DefectTypeService {
+interface DefectTypeService {
     DefectTypeDto saveDefectType(DefectTypeDto defectTypeDto);
     DefectTypeDto getDefectTypeById(Integer id);
     List<DefectTypeDto> getAllDefectTypes();

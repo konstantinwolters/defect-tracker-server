@@ -17,7 +17,7 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CausationCategoryLoggingAspect {
+class CausationCategoryLoggingAspect {
     private final SecurityService securityService;
 
     @Around("execution(* com.example.defecttrackerserver.core.defect.causationCategory.CausationCategoryService.saveCausationCategory(..))")

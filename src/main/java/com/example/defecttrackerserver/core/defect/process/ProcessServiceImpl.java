@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class ProcessServiceImpl implements ProcessService {
+class ProcessServiceImpl implements ProcessService {
     private final ProcessRepository processRepository;
     private final DefectRepository defectRepository;
     private final ProcessMapper processMapper;

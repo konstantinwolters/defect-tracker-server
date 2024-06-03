@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class LotServiceImpl implements LotService{
+class LotServiceImpl implements LotService{
     private final LotRepository lotRepository;
     private final LotMapper lotMapper;
 

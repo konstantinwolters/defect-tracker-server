@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  */
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements RoleService{
+class RoleServiceImpl implements RoleService{
 
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;

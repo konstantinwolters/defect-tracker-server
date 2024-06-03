@@ -19,7 +19,7 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DefectStatusLoggingAspect {
+class DefectStatusLoggingAspect {
     private final SecurityService securityService;
 
     @Around("execution(* com.example.defecttrackerserver.core.defect.defectStatus.DefectStatusService.saveDefectStatus(..))")

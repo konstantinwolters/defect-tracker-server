@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link Action} entities.
  */
-public interface ActionService {
+interface ActionService {
     ActionDto saveAction(ActionDto action);
     ActionDto getActionById(Integer id);
     PaginatedResponse<ActionDto> getActions(

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Service for managing {@link DefectImage}.
  */
-public interface DefectImageService {
+interface DefectImageService {
     DefectImageDto saveDefectImageToDefect(Integer defectId, MultipartFile image);
     DefectImageDto getDefectImageById(Integer id);
     String getDefectImageUrl(String uuid);
