@@ -48,7 +48,7 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class DefectServiceImpl implements DefectService{
+class DefectServiceImpl implements DefectService{
     private final DefectRepository defectRepository;
     private final DefectStatusRepository defectStatusRepository;
     private final CausationCategoryRepository causationCategoryRepository;

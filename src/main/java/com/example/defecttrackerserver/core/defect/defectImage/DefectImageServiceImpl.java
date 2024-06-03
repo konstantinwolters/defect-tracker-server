@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class DefectImageServiceImpl implements DefectImageService{
+class DefectImageServiceImpl implements DefectImageService{
     private final DefectRepository defectRepository;
     private final DefectImageRepository defectImageRepository;
     private final Utils utils;

@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class DefectFilterValues {
+class DefectFilterValues {
     private Set<DefectStatusDto> defectStatuses;
     private Set<CausationCategoryDto> causationCategories;
     private Set<LotInfo> lots;

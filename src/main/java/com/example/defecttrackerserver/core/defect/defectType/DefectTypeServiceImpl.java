@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class DefectTypeServiceImpl implements DefectTypeService {
+class DefectTypeServiceImpl implements DefectTypeService {
     private final DefectTypeRepository defectTypeRepository;
     private final DefectRepository defectRepository;
     private final DefectTypeMapper defectTypeMapper;

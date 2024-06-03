@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class UserFilterValues {
+class UserFilterValues {
     private Set<Boolean> isActive;
     private Set<LocationDto> locations;
     private Set<RoleDto> roles;

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class CausationCategoryServiceImpl implements CausationCategoryService {
+class CausationCategoryServiceImpl implements CausationCategoryService {
     private final CausationCategoryRepository causationCategoryRepository;
     private final DefectRepository defectRepository;
     private final CausationCategoryMapper causationCategoryMapper;

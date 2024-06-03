@@ -11,7 +11,7 @@ import java.util.List;
  * Service for creating JPA Specifications for filtering Action entities.
  */
 @Service
-public class UserSpecification {
+class UserSpecification {
 
     /**
      * Creates a JPA Specification based on various filter criteria.

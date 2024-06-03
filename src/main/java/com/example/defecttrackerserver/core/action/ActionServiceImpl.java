@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class ActionServiceImpl implements ActionService{
+class ActionServiceImpl implements ActionService{
 
     private final ActionRepository actionRepository;
     private final ActionMapper actionMapper;

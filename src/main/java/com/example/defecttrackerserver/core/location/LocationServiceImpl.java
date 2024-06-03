@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class LocationServiceImpl implements LocationService {
+class LocationServiceImpl implements LocationService {
     private final LocationRepository  locationRepository;
     private final UserRepository userRepository;
     private final DefectRepository defectRepository;

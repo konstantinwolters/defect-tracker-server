@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link Location}.
  */
-public interface LocationService {
+interface LocationService {
     LocationDto saveLocation(LocationDto locationDto);
     LocationDto getLocationById(Integer id);
     List<LocationDto> getAllLocations();

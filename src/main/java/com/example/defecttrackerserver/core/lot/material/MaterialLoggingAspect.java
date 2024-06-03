@@ -18,7 +18,7 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class MaterialLoggingAspect {
+class MaterialLoggingAspect {
     private final SecurityService securityService;
 
     @Around("execution(* com.example.defecttrackerserver.core.lot.material.MaterialService.saveMaterial(..))")

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+class AuthenticationResponse {
     private String accessToken;
     private String refreshToken;
     private UserDto user;

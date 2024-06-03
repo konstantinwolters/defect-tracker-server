@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Service interface for managing {@link DefectStatus}.
  */
-public interface DefectStatusService {
+interface DefectStatusService {
     DefectStatusDto saveDefectStatus(DefectStatusDto defectStatusDto);
     DefectStatusDto getDefectStatusById(Integer id);
     List<DefectStatusDto> getAllDefectStatus();

@@ -48,7 +48,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                //.csrf(AbstractHttpConfigurer::disable)// only for testing
+                .csrf(AbstractHttpConfigurer::disable)// only for testing
                 //.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // only for testing
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

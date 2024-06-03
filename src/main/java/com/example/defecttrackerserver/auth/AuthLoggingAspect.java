@@ -18,7 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthLoggingAspect {
+class AuthLoggingAspect {
 
     @AfterReturning(
             pointcut = "execution(* com.example.defecttrackerserver.auth.AuthenticationService.authenticate(..))",
