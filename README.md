@@ -11,10 +11,10 @@
 |------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | Authentication/Authorization <br/> - JWT authentication <br/>- Rate Limiting | Spring Security<br/>- jwt.io <br/>- Token Bucket with Bucket4J & Concurrent Requests Limiting |
 | Logging                                                                      | Logback                                                                                       |
-| File upload/download                                                         | Minio                                                                                         |
+| File upload/download                                                         | [MinIO](https://min.io/)                                                                      |
 | Database                                                                     | PostgreSQL                                                                                    |
 | API Documentation                                                            | Swagger                                                                                       |
-| Unit Testing                                                                 | JUnit 5                                                                                       |
+| Unit Testing                                                                 | JUnit 5, Mockito                                                                              |
 | Integration Testing                                                          | Spring Boot Test, Testcontainers                                                              |
 | Containerization                                                             | Docker                                                                                        |
 

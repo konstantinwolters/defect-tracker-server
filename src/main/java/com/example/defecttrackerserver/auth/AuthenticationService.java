@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * Service for managing authentication.
+ * Service for authentication management.
  * Provides authentication functionality and generates authentication response with JWT token and refresh token.
  */
 @Service

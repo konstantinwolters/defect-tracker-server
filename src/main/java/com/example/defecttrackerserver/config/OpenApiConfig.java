@@ -16,7 +16,12 @@ import org.springframework.context.annotation.Profile;
         info = @Info(
                 title = "Defect Tracker API",
                 version = "0.8",
-                description = "Authentication has been bypassed for demonstration purposes. Feel free to try out the endpoints."),
+                description = """ 
+                        This is a prototype of a REST API for tracking raw material defects and deriving corrective actions.
+                        
+                        Visit [GitHub repository](https://github.com/konstantinwolters/defect-tracker-server) for more details.
+                        
+                        Authentication has been bypassed for demonstration purposes. Feel free to try out the endpoints."""),
         servers = {
                 @Server(
                         url = "https://dtapi.konstantinwolters.com",
