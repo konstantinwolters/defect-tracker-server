@@ -57,7 +57,7 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_actions",
             joinColumns = @JoinColumn(name = "user_id"),

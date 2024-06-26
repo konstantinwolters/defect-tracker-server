@@ -33,8 +33,7 @@ public class Action {
     @Column(nullable = false)
     private Boolean isCompleted;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            mappedBy = "assignedActions")
+    @ManyToMany(mappedBy = "assignedActions")
     private Set<User> assignedUsers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

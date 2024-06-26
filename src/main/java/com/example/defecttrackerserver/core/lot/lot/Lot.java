@@ -28,15 +28,15 @@ public class Lot {
     @Column(unique = true)
     private String lotNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Material material;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Supplier supplier;
 
     @OneToMany(mappedBy = "lot",
             cascade = CascadeType.REMOVE,
-            orphanRemoval = true, fetch = FetchType.EAGER)
+            orphanRemoval = true)
     private Set<Defect> defects = new HashSet<>();
 
     @Override
