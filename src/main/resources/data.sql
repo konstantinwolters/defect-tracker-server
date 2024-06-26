@@ -7,9 +7,13 @@ VALUES
 
 INSERT INTO LOCATION (ID, NAME)
 VALUES
-    (11, 'Texas'),
-    (12, 'San Jose'),
-    (13, 'Duesseldorf');
+    (11, 'Shanghai'),
+    (12, 'Paderborn'),
+    (13, 'Salzburg'),
+    (14, 'Vienna'),
+    (15, 'Cologne'),
+    (16, 'Rio'),
+    (17, 'Trier');
 
 INSERT INTO USERS (ID, LOCATION_ID, FIRST_NAME, LAST_NAME, MAIL, PASSWORD, USERNAME, IS_ACTIVE, CREATED_BY_ID, CREATED_AT)
 VALUES
@@ -33,7 +37,8 @@ VALUES
     (11, 'Foreign Body'),
     (12, 'Pest'),
     (13, 'Quality Issue'),
-    (14, 'Undefined');
+    (14, 'Mold'),
+    (15, 'Undefined');
 
 INSERT INTO CAUSATION_CATEGORY (ID, NAME)
 VALUES
@@ -44,24 +49,138 @@ VALUES
 
 INSERT INTO PROCESS (ID, NAME)
 VALUES
-    (11, 'Test Process'),
-    (12, 'Test Process 2');
+    (11, 'Production'),
+    (12, 'Logistics'),
+    (13, 'Maintenance'),
+    (14, 'Warehousing');
 
 INSERT INTO MATERIAL (ID, NAME)
 VALUES
-    (11, 'Chocolate'),
-    (12, 'Beer');
+    (11, 'Sage'),
+    (12, 'Strawberries'),
+    (13, 'Peppermint'),
+    (14, 'Chamomile'),
+    (15, 'Cinnamon'),
+    (16, 'Lavender'),
+    (17, 'Rosemary'),
+    (18, 'Basil'),
+    (19, 'Mint'),
+    (20, 'Oregano'),
+    (21, 'Thyme'),
+    (22, 'Garlic'),
+    (23, 'Ginger'),
+    (24, 'Turmeric'),
+    (25, 'Paprika'),
+    (26, 'Clove'),
+    (27, 'Nutmeg'),
+    (28, 'Cardamom'),
+    (29, 'Saffron'),
+    (30, 'Vanilla'),
+    (31, 'Parsley'),
+    (32, 'Dill'),
+    (33, 'Chives'),
+    (34, 'Bay Leaves'),
+    (35, 'Cilantro'),
+    (36, 'Fennel'),
+    (37, 'Lemongrass'),
+    (38, 'Kale'),
+    (39, 'Spinach'),
+    (40, 'Carrots'),
+    (41, 'Tomatoes'),
+    (42, 'Cucumbers'),
+    (43, 'Bell Peppers'),
+    (44, 'Onions'),
+    (45, 'Leeks'),
+    (46, 'Scallions'),
+    (47, 'Radishes'),
+    (48, 'Beets'),
+    (49, 'Pumpkin'),
+    (50, 'Zucchini'),
+    (51, 'Eggplant'),
+    (52, 'Mushrooms'),
+    (53, 'Lentils'),
+    (54, 'Chickpeas'),
+    (55, 'Black Beans'),
+    (56, 'Kidney Beans'),
+    (57, 'Quinoa'),
+    (58, 'Oats'),
+    (59, 'Barley'),
+    (60, 'Brown Rice'),
+    (61, 'Corn'),
+    (62, 'Wheat'),
+    (63, 'Rye'),
+    (64, 'Almonds'),
+    (65, 'Walnuts'),
+    (66, 'Pecans');
+
 
 INSERT INTO MATERIAL_RESPONSIBLE_USERS (MATERIAL_ID, USER_ID)
 VALUES
-    (12, 11),
+    (13, 11),
     (12, 12),
-    (11, 12);
+    (11, 11),
+    (14, 12),
+    (15, 12),
+    (16, 11),
+    (17, 11),
+    (18, 11),
+    (19, 11),
+    (20, 11),
+    (21, 11),
+    (22, 11),
+    (23, 11),
+    (24, 11),
+    (25, 11),
+    (26, 11),
+    (27, 11),
+    (28, 11),
+    (29, 11),
+    (30, 11),
+    (31, 11),
+    (32, 11),
+    (33, 11),
+    (34, 12),
+    (35, 12),
+    (36, 11),
+    (37, 11),
+    (38, 11),
+    (39, 11),
+    (40, 11),
+    (41, 11),
+    (42, 11),
+    (43, 12),
+    (44, 12),
+    (45, 11),
+    (46, 11),
+    (47, 11),
+    (48, 11),
+    (49, 11),
+    (50, 11),
+    (51, 11),
+    (52, 11),
+    (53, 11),
+    (54, 11),
+    (55, 12),
+    (56, 12),
+    (57, 11),
+    (58, 11),
+    (59, 11),
+    (60, 12),
+    (61, 12),
+    (62, 11),
+    (63, 11),
+    (64, 11),
+    (65, 11),
+    (66, 11);
 
 INSERT INTO SUPPLIER (ID, NAME)
 VALUES
-    (11, 'Lindt'),
-    (12, 'Oettinger');
+    (11, 'Acme Supply Co.'),
+    (12, 'Global Trade Ltd.'),
+    (13, 'Prime Wholesale Inc.'),
+    (14, 'Oceanic Enterprises'),
+    (15, 'Summit Logistics'),
+    (16, 'Pinnacle Distributors');
 
 INSERT INTO LOT (ID, MATERIAL_ID, SUPPLIER_ID, LOT_NUMBER)
 VALUES
@@ -78,16 +197,16 @@ VALUES
     (12,'Test Description4', 14, 12, 11, 14, 11, 14, 12, '2023-02-09 17:17:49.45026', 11,'2023-07-13 17:17:49.45023'),
     (12,'Test Description5', 11, 13, 12, 15, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
     (12,'Test Description5', 11, 13, 12, 16, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
-    (12,'Test Description5', 11, 13, 12, 17, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
-    (12,'Test Description5', 11, 13, 12, 18, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
-    (12,'Test Description5', 11, 13, 12, 19, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
+    (12,'Test Description5', 11, 13, 12, 17, 16, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
+    (12,'Test Description5', 11, 13, 12, 18, 16, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
+    (12,'Test Description5', 11, 13, 12, 19, 16, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
     (12,'Test Description5', 11, 13, 12, 20, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
     (12,'Test Description5', 11, 13, 12, 21, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
     (12,'Test Description5', 11, 13, 12, 22, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
-    (12,'Test Description5', 11, 13, 12, 23, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
+    (12,'Test Description5', 11, 13, 12, 23, 16, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
     (12,'Test Description5', 11, 13, 12, 24, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
-    (12,'Test Description5', 11, 13, 12, 25, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
-    (12,'Test Description5', 11, 13, 12, 26, 12, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
+    (12,'Test Description5', 11, 13, 12, 25, 14, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
+    (12,'Test Description5', 11, 13, 12, 26, 14, 11, 11, '2023-07-09 17:17:49.45025', 11,'2023-07-14 17:17:49.45023'),
     (12,'Test Description6', 12, 13, 13, 27, 13, 12, 12, '2023-07-01 17:17:49.45028', 11,'2023-07-15 17:17:49.45023');
 
 INSERT INTO DEFECT_COMMENT (CREATED_BY_ID, DEFECT_ID, ID, CREATED_AT, CONTENT)
@@ -97,18 +216,36 @@ VALUES
     (11, 12, 13, '2023-07-09 17:17:49.450168', 'Test Comment3'),
     (11, 13, 14, '2023-07-09 17:17:49.450168', 'Test Comment4'),
     (11, 14, 15, '2023-07-09 17:17:49.450168', 'Test Comment5'),
-    (12, 15, 16, '2023-07-09 17:17:49.450168', 'Test Comment6');
+    (11, 14, 16, '2023-07-09 17:17:49.450168', 'Test Comment6'),
+    (11, 14, 17, '2023-07-09 17:17:49.450168', 'Test Comment7'),
+    (11, 14, 18, '2023-07-09 17:17:49.450168', 'Test Comment8'),
+    (11, 14, 19, '2023-07-09 17:17:49.450168', 'Test Comment9'),
+    (11, 14, 20, '2023-07-09 17:17:49.450168', 'Test Comment10'),
+    (11, 14, 21, '2023-07-09 17:17:49.450168', 'Test Comment11'),
+    (11, 14, 22, '2023-07-09 17:17:49.450168', 'Test Comment12'),
+    (11, 14, 23, '2023-07-09 17:17:49.450168', 'Test Comment13'),
+    (11, 14, 24, '2023-07-09 17:17:49.450168', 'Test Comment14'),
+    (11, 14, 25, '2023-07-09 17:17:49.450168', 'Test Comment15'),
+    (11, 14, 26, '2023-07-09 17:17:49.450168', 'Test Comment16'),
+    (11, 14, 27, '2023-07-09 17:17:49.450168', 'Test Comment17'),
+    (11, 14, 28, '2023-07-09 17:17:49.450168', 'Test Comment18'),
+    (11, 14, 29, '2023-07-09 17:17:49.450168', 'Test Comment19'),
+    (11, 14, 30, '2023-07-09 17:17:49.450168', 'Test Comment20'),
+    (11, 14, 31, '2023-07-09 17:17:49.450168', 'Test Comment21'),
+    (11, 14, 32, '2023-07-09 17:17:49.450168', 'Test Comment22'),
+    (11, 14, 33, '2023-07-09 17:17:49.450168', 'Test Comment23'),
+    (12, 15, 34, '2023-07-09 17:17:49.450168', 'Test Comment24');
 
 INSERT INTO DEFECT_IMAGE (DEFECT_ID, ID, UUID)
 VALUES
-    (11, 11, 'testpath1'),
-    (11, 12, 'testpath2'),
-    (12, 13, 'testpath3'),
-    (13, 14, 'testpath4'),
-    (14, 15, 'testpath5'),
-    (14, 16, 'testpath6'),
-    (15, 17, 'testpath7'),
-    (16, 18, 'testpath8');
+    (11, 11, 'we41fwe564f1645wefwe6531f65we1fwe1f32q1d3qw51dq6wdq'),
+    (11, 12, '14w6ef65we65f4wegf465w64rweg65wef3515wef16we5f16we'),
+    (12, 13, '31wef51we6f51we65f1w65eq654w1f65we1f651we65f16f1wef6'),
+    (13, 14, '1w6f156wef651wef651we65f1we6q554g65reg4165we16g16e'),
+    (14, 15, '64t4h1rt5nj1gwk61z65tz1jh3r1tkth2r6gs4fa15665wgfa'),
+    (14, 16, '46jhzq6r5w4efrek496e4htgf1DFT4J1+HR15TG30f6f1rg16'),
+    (15, 17, 'b2er6g654wef464ew4fg6h1tw325g14fe6gt1hwqrf321bgh6rz5'),
+    (16, 18, '456fewq465qwef6ewfwe6ffrqwr5f1we1f3wefew156e4e412rheh');
 
 INSERT INTO ACTION (CREATED_BY_ID, DEFECT_ID, DUE_DATE, ID, IS_COMPLETED, CREATED_AT, DESCRIPTION, CHANGED_BY_ID, CHANGED_AT)
 VALUES

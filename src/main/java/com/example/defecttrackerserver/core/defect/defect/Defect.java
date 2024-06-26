@@ -40,8 +40,7 @@ public class Defect {
     @JoinColumn(name = "defect_status_id", nullable = false)
     private DefectStatus defectStatus;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+    @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private Set<DefectComment> defectComments = new HashSet<>();
@@ -66,14 +65,12 @@ public class Defect {
     @JoinColumn(name = "causation_category_id", nullable = false)
     private CausationCategory causationCategory;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+    @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private List<DefectImage> images = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.REMOVE,
+    @OneToMany(cascade = CascadeType.REMOVE,
             orphanRemoval = true)
     @JoinColumn(name = "defect_id")
     private Set<Action> actions = new HashSet<>();
@@ -99,28 +96,30 @@ public class Defect {
         return Objects.hash(id);
     }
 
-    public void addDefectComment(DefectComment defectComment) { defectComments.add(defectComment); }
+    public void addDefectComment(DefectComment defectComment) {
+        defectComments.add(defectComment);
+    }
 
-     public void deleteDefectComment(DefectComment defectComment) {
-         defectComments.remove(defectComment);
-     }
+    public void deleteDefectComment(DefectComment defectComment) {
+        defectComments.remove(defectComment);
+    }
 
-     public void addDefectImage(DefectImage image) {
-         images.add(image);
-     }
+    public void addDefectImage(DefectImage image) {
+        images.add(image);
+    }
 
-     public void deleteDefectImage(DefectImage image) {
-         images.remove(image);
-     }
+    public void deleteDefectImage(DefectImage image) {
+        images.remove(image);
+    }
 
-     public void addAction(Action action) {
-         actions.add(action);
-         action.setDefect(this);
-     }
+    public void addAction(Action action) {
+        actions.add(action);
+        action.setDefect(this);
+    }
 
-     public void deleteAction(Action action) {
+    public void deleteAction(Action action) {
         action.getAssignedUsers().forEach(user -> user.removeAssignedAction(action));
         actions.remove(action);
         action.setDefect(null);
-     }
+    }
 }
